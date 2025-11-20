@@ -1323,57 +1323,63 @@
               </p>
             </aside>
 
-            <!-- FORMULAIRE -->
-            <form id="contact-form"method="POST"action="https://formsubmit.co/158fdfce871538a8f15d44d4342b2cb2">
-              <input type="hidden" name="_next" value="https://thinkup-vers.github.io/thinkup-site/#contact">
-              <input type="hidden" name="_subject" value="Nouveau message depuis le site Think'UP">
-              <input type="hidden" name="_template" value="table">
+<!-- FORMULAIRE -->
+<form id="contact-form" method="POST" action="https://formsubmit.co/158fdfce871538a8f15d44d4342b2cb2">
+  <!-- URL de retour APRÈS envoi -->
+  <input type="hidden" name="_next" value="https://thinkup-vers.github.io/thinkup-site/#contact">
 
-              <div class="form-row">
-                <div class="field">
-                  <label for="name">Nom / Prénom</label>
-                  <input type="text" id="name" name="name" placeholder="Ex. : Marie Dupont" required />
-                </div>
-                <div class="field">
-                  <label for="company">Société</label>
-                  <input type="text" id="company" name="company" placeholder="Ex. : PME B2B, cabinet, ETI..." />
-                </div>
-              </div>
+  <!-- Sujet de l’email reçu -->
+  <input type="hidden" name="_subject" value="Nouveau message depuis le site Think'UP">
 
-              <div class="form-row">
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input type="email" id="email" name="email" placeholder="vous@exemple.fr" required />
-                </div>
-                <div class="field">
-                  <label for="phone">Téléphone (facultatif)</label>
-                  <input type="text" id="phone" name="phone" placeholder="06 xx xx xx xx" />
-                </div>
-              </div>
+  <!-- Mise en forme en tableau dans l’email -->
+  <input type="hidden" name="_template" value="table">
 
-              <div class="field">
-                <label for="subject">Vos enjeux principaux</label>
-                <input type="text" id="subject" name="subject"
-                  placeholder="Ex. : automatiser la relance, fiabiliser le reporting..." />
-              </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="name">Nom / Prénom</label>
+      <input type="text" id="name" name="name" placeholder="Ex. : Marie Dupont" required />
+    </div>
+    <div class="field">
+      <label for="company">Société</label>
+      <input type="text" id="company" name="company" placeholder="Ex. : PME B2B, cabinet, ETI..." />
+    </div>
+  </div>
 
-              <div class="field">
-                <label for="message">Décrivez votre contexte</label>
-                <span class="helper">Secteur, taille, processus clés, enjeux court/moyen terme…</span>
-                <textarea id="message" name="message"
-                  placeholder="Parlez de vos irritants, projets en cours, attentes vis-à-vis de l’IA."></textarea>
-              </div>
+  <div class="form-row">
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="vous@exemple.fr" required />
+    </div>
+    <div class="field">
+      <label for="phone">Téléphone (facultatif)</label>
+      <input type="text" id="phone" name="phone" placeholder="06 xx xx xx xx" />
+    </div>
+  </div>
 
-              <div class="form-footer">
-                <button type="submit" class="btn-primary">
-                  Envoyer ma demande
-                  <span>↗</span>
-                </button>
-                <div class="form-status" id="form-status">
-                  Vos informations ne seront utilisées que pour vous répondre. Aucun envoi automatique de newsletter.
-                </div>
-              </div>
-            </form>
+  <div class="field">
+    <label for="subject">Vos enjeux principaux</label>
+    <input type="text" id="subject" name="subject"
+           placeholder="Ex. : automatiser la relance, fiabiliser le reporting..." />
+  </div>
+
+  <div class="field">
+    <label for="message">Décrivez votre contexte</label>
+    <span class="helper">Secteur, taille, processus clés, enjeux court/moyen terme…</span>
+    <textarea id="message" name="message"
+              placeholder="Parlez de vos irritants, projets en cours, attentes vis-à-vis de l’IA."></textarea>
+  </div>
+
+  <div class="form-footer">
+    <button type="submit" class="btn-primary">
+      Envoyer ma demande
+      <span>↗</span>
+    </button>
+    <div class="form-status" id="form-status">
+      Vos informations ne seront utilisées que pour vous répondre. Aucun envoi automatique de newsletter.
+    </div>
+  </div>
+</form>
+
 
           </div>
         </div>
@@ -1435,3 +1441,4 @@
   </script>
 </body>
 </html>
+Fix formsubmit
