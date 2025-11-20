@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!-- Déclencheur GitHub Pages -->
-<!DOCTYPE html>
-<html lang="fr">
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -1293,90 +1290,79 @@
         </div>
       </section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-badge">Contact</div>
-      <h2 class="section-title">Parlons de vos premiers cas d’usage IA.</h2>
-      <p class="section-subtitle">
-        Décrivez en quelques lignes votre activité et vos enjeux. Vous serez recontacté pour un échange de
-        30&nbsp;minutes, sans engagement, pour identifier ensemble les pistes les plus pertinentes.
-      </p>
-    </div>
-
-    <div class="contact-grid">
-
-      <!-- ✔ RECTANGLE NOIR — Think'UP -->
-      <aside class="contact-card">
-        <h3>Coordonnées Think'UP</h3>
-        <p>
-          Contact direct avec la direction de Think'UP pour cadrer vos besoins et évaluer si une collaboration a
-          du sens à court terme.
-        </p>
-        <div class="contact-infos">
-          <div><span class="label">Email :</span> patrick@thinkupcom.com</div>
-          <div><span class="label">Téléphone :</span> 07&nbsp;82&nbsp;48&nbsp;43&nbsp;54</div>
-          <div><span class="label">Localisation :</span> Versailles, France</div>
-          <div><span class="label">Intervention :</span> France entière + distanciel</div>
-        </div>
-        <p style="margin-top:0.9rem;font-size:0.8rem;color:#9ca3af;">
-          Exemple de ROI : un assistant IA qui fait gagner 1&nbsp;heure par semaine à 10 collaborateurs,
-          valorisée à 60&nbsp;€/h charges comprises, représente près de 30&nbsp;000&nbsp;€ par an.
-        </p>
-      </aside>
-
-      <!-- FORMULAIRE -->
-      <form id="contact-form">
-        <div class="form-row">
-          <div class="field">
-            <label for="name">Nom / Prénom</label>
-            <input type="text" id="name" name="name" placeholder="Ex. : Marie Dupont" required />
+      <!-- CONTACT -->
+      <section id="contact">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Contact</div>
+            <h2 class="section-title">Parlons de vos premiers cas d’usage IA.</h2>
+            <p class="section-subtitle">
+              Décrivez en quelques lignes votre activité et vos enjeux. Vous serez recontacté pour un échange de
+              30&nbsp;minutes, sans engagement, pour identifier ensemble les pistes les plus pertinentes.
+            </p>
           </div>
-          <div class="field">
-            <label for="company">Société</label>
-            <input type="text" id="company" name="company" placeholder="Ex. : PME B2B, cabinet, ETI..." />
-          </div>
-        </div>
 
-        <div class="form-row">
-          <div class="field">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="vous@exemple.fr" required />
-          </div>
-          <div class="field">
-            <label for="phone">Téléphone (facultatif)</label>
-            <input type="text" id="phone" name="phone" placeholder="06 xx xx xx xx" />
-          </div>
-        </div>
+          <div class="contact-grid">
 
-        <div class="field">
-          <label for="subject">Vos enjeux principaux</label>
-          <input type="text" id="subject" name="subject"
-            placeholder="Ex. : automatiser la relance, fiabiliser le reporting..." />
-        </div>
+            <!-- Carte noire Think'UP -->
+            <aside class="contact-card">
+              <h3>Coordonnées Think'UP</h3>
+              <p>
+                Contact direct avec la direction de Think'UP pour cadrer vos besoins et évaluer si une collaboration a
+                du sens à court terme.
+              </p>
+              <div class="contact-infos">
+                <div><span class="label">Email :</span> patrick@thinkupcom.com</div>
+                <div><span class="label">Téléphone :</span> 07&nbsp;82&nbsp;48&nbsp;43&nbsp;54</div>
+                <div><span class="label">Localisation :</span> Versailles, France</div>
+                <div><span class="label">Intervention :</span> France entière + distanciel</div>
+              </div>
+              <p style="margin-top:0.9rem;font-size:0.8rem;color:#9ca3af;">
+                Exemple de ROI : un assistant IA qui fait gagner 1&nbsp;heure par semaine à 10 collaborateurs,
+                valorisée à 60&nbsp;€/h charges comprises, représente près de 30&nbsp;000&nbsp;€ par an.
+              </p>
+            </aside>
 
-        <div class="field">
-          <label for="message">Décrivez votre contexte</label>
-          <span class="helper">Secteur, taille, processus clés, enjeux court/moyen terme…</span>
-          <textarea id="message" name="message"
-            placeholder="Parlez de vos irritants, projets en cours, attentes vis-à-vis de l’IA."></textarea>
-        </div>
+            <!-- FORMULAIRE -->
+            <form id="contact-form" method="POST" action="https://formsubmit.co/patrick@thinkupcom.com">
+              <input type="hidden" name="_next" value="https://thinkup-vers.github.io/thinkup-site/#contact">
+              <input type="hidden" name="_subject" value="Nouveau message depuis le site Think'UP">
+              <input type="hidden" name="_template" value="table">
 
-        <div class="form-footer">
-          <button type="submit" class="btn-primary">
-            Envoyer ma demande
-            <span>↗</span>
-          </button>
-          <div class="form-status" id="form-status">
-            Vos informations ne seront utilisées que pour vous répondre.
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
+              <div class="form-row">
+                <div class="field">
+                  <label for="name">Nom / Prénom</label>
+                  <input type="text" id="name" name="name" placeholder="Ex. : Marie Dupont" required />
+                </div>
+                <div class="field">
+                  <label for="company">Société</label>
+                  <input type="text" id="company" name="company" placeholder="Ex. : PME B2B, cabinet, ETI..." />
+                </div>
+              </div>
 
+              <div class="form-row">
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" placeholder="vous@exemple.fr" required />
+                </div>
+                <div class="field">
+                  <label for="phone">Téléphone (facultatif)</label>
+                  <input type="text" id="phone" name="phone" placeholder="06 xx xx xx xx" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="subject">Vos enjeux principaux</label>
+                <input type="text" id="subject" name="subject"
+                  placeholder="Ex. : automatiser la relance, fiabiliser le reporting..." />
+              </div>
+
+              <div class="field">
+                <label for="message">Décrivez votre contexte</label>
+                <span class="helper">Secteur, taille, processus clés, enjeux court/moyen terme…</span>
+                <textarea id="message" name="message"
+                  placeholder="Parlez de vos irritants, projets en cours, attentes vis-à-vis de l’IA."></textarea>
+              </div>
 
               <div class="form-footer">
                 <button type="submit" class="btn-primary">
@@ -1388,6 +1374,7 @@
                 </div>
               </div>
             </form>
+
           </div>
         </div>
       </section>
@@ -1444,17 +1431,7 @@
       });
     });
 
-    // faux envoi formulaire (front uniquement)
-    const form = document.getElementById("contact-form");
-    const status = document.getElementById("form-status");
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      status.textContent =
-        "Merci, votre message a bien été simulé côté site. Connectez ce formulaire à votre outil d’email ou de CRM (par exemple : formulaire vers votre boîte mail).";
-      status.style.color = "#16a34a";
-    });
+    // Aucun script sur le formulaire : l'envoi est géré directement par FormSubmit
   </script>
 </body>
 </html>
-
