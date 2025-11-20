@@ -18,6 +18,33 @@
 
   <!-- CSS commun -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Ajustements visuels spécifiques à la page Offres -->
+  <style>
+    /* Hero card plus claire et plus consulting sur cette page uniquement */
+    .hero-card.hero-card-soft {
+      background: radial-gradient(circle at top left, #e0f2fe 0, #ffffff 35%, #eef2ff 100%);
+      color: #0f172a;
+      border-radius: 28px;
+      border: 1px solid rgba(191, 219, 254, 0.9);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    .hero-card.hero-card-soft p,
+    .hero-card.hero-card-soft span {
+      color: #4b5563;
+    }
+
+    .hero-card.hero-card-soft .hero-metric strong {
+      color: #0f172a;
+    }
+
+    .hero-card.hero-card-soft .hero-tag {
+      background: rgba(239, 246, 255, 0.9);
+      border-color: rgba(191, 219, 254, 0.9);
+      color: #1d4ed8;
+    }
+  </style>
 </head>
 <body>
   <div class="page">
@@ -53,28 +80,28 @@
     </header>
 
     <main>
-      <!-- HERO OFFRES -->
+      <!-- HERO OFFRES – VERSION PREMIUM -->
       <section class="hero" id="offres-hero">
         <div class="container">
           <div class="hero-grid">
+            <!-- Colonne gauche -->
             <div>
               <div class="eyebrow">
                 <span class="eyebrow-dot"></span>
-                <span>Offres IA Think'UP – de l’idée à l’impact</span>
+                <span>Offres IA Think'UP – pour dirigeants & équipes métier</span>
               </div>
               <h1>
                 Trois piliers pour
-                <span class="highlight">transformer l’IA en résultats</span>
+                <span class="highlight">structurer, déployer et mesurer l’IA</span>
                 dans votre entreprise.
               </h1>
               <p class="hero-subtitle">
-                Les offres Think'UP sont conçues pour les PME, ETI et TPE qui veulent des projets IA concrets,
-                mesurables et acceptés par les équipes : diagnostics, assistants IA, automatisations et formations
-                sur-mesure.
+                Think'UP accompagne PME, ETI et TPE dans des projets IA pragmatiques, centrés sur les processus métier :
+                diagnostics, assistants IA sur-mesure, automatisations ciblées et formations concrètes pour les équipes.
               </p>
               <div class="hero-actions">
                 <a href="contact.html" class="btn-primary">
-                  Discuter d’un premier cas d’usage
+                  Planifier un échange de 30 minutes
                   <span>→</span>
                 </a>
                 <a href="#offres-detail" class="btn-secondary">
@@ -82,31 +109,29 @@
                 </a>
               </div>
               <div class="hero-meta">
-                <span>✓ Approche pragmatique & business</span>
+                <span>✓ Approche 100&nbsp;% métier & ROI</span>
                 <span>✓ Co-construction avec les équipes</span>
-                <span>✓ Focus ROI & adoption</span>
+                <span>✓ Gains mesurables dès les premières semaines</span>
               </div>
             </div>
 
-            <aside class="hero-card">
+            <!-- Colonne droite : carte valeur -->
+            <aside class="hero-card hero-card-soft">
               <div class="hero-card-inner">
                 <div class="hero-pill">
                   <span>Think'UP accompagne votre IA de bout en bout</span>
                 </div>
-                <div class="hero-metric">
-                  <strong>3</strong>
-                  <span>piliers complémentaires : diagnostiquer, construire, transmettre.</span>
-                </div>
-                <p>
-                  Vous pouvez activer un seul pilier ou un parcours complet. L’objectif est toujours le même :
-                  sécuriser les décisions, délivrer des gains visibles et embarquer les équipes.
+                <p style="margin-bottom:0.8rem;">
+                  La démarche est volontairement simple :
                 </p>
-                <div class="hero-taglist">
-                  <div class="hero-tag">Audits & diagnostics IA</div>
-                  <div class="hero-tag">Assistants IA sur-mesure</div>
-                  <div class="hero-tag">Automatisations ciblées</div>
-                  <div class="hero-tag">Formations IA pratiques</div>
-                </div>
+                <ul class="about-bullets">
+                  <li><strong>Diagnostiquer</strong> vos processus, vos irritants et la maturité de vos données.</li>
+                  <li><strong>Construire</strong> les assistants IA et automatisations adaptés à vos flux existants.</li>
+                  <li><strong>Diffuser</strong> les bons réflexes IA via la formation et l’accompagnement.</li>
+                </ul>
+                <p style="font-size:0.86rem;margin-top:0.8rem;">
+                  Objectif : des gains visibles (temps, qualité, risques) et suivis dans le temps, sans “projet gadget”.
+                </p>
               </div>
             </aside>
           </div>
@@ -121,7 +146,7 @@
             <h2 class="section-title">Les trois piliers de l’accompagnement Think'UP.</h2>
             <p class="section-subtitle">
               Audits, développements et formations ne sont pas des silos, mais un continuum. On commence par clarifier
-              les enjeux, puis on construit des outils adaptés, et on s’assure qu’ils sont compris et adoptés.
+              les enjeux, puis on construit des outils adaptés et on s’assure qu’ils sont compris et adoptés par les équipes.
             </p>
           </div>
 
@@ -138,11 +163,11 @@
                 <li>Cartographie de vos processus clés (relance, reporting, support, production…).</li>
                 <li>Analyse de vos données disponibles et de leur exploitabilité.</li>
                 <li>Identification de 2 à 3 cas d’usage IA à fort potentiel.</li>
-                <li>Estimation simple des gains : temps, qualité, risque.</li>
+                <li>Estimation simple des gains : temps, qualité, réduction du risque.</li>
               </ul>
               <div class="service-meta">
                 <span>Format : ateliers + entretiens</span>
-                <span>Durée : 2 à 4 semaines</span>
+                <span>Durée typique : 2 à 4 semaines</span>
               </div>
             </article>
 
@@ -151,14 +176,14 @@
               <div class="service-chip">02 – Assistants & agents IA sur-mesure</div>
               <h3>Construire des outils IA qui travaillent vraiment pour vous.</h3>
               <p>
-                Développement d’assistants IA intégrés à vos flux existants : CRM, mails, fichiers, outils métier,
-                pour automatiser le répétitif et augmenter la qualité.
+                Développement d’assistants IA intégrés à vos flux existants (CRM, mails, fichiers, outils métier) pour
+                automatiser le répétitif et augmenter la qualité.
               </p>
               <ul class="about-bullets">
                 <li>Co-conception avec les équipes utilisatrices.</li>
-                <li>Choix des briques IA adaptées (modèles, API, connecteurs).</li>
+                <li>Choix des briques IA adaptées (modèles, API, connecteurs, cloud européen possible).</li>
                 <li>Prototype, pilote, puis déploiement progressif.</li>
-                <li>Suivi des gains, retours d’usage, ajustements.</li>
+                <li>Suivi des gains, retours d’usage, ajustements continus.</li>
               </ul>
               <div class="service-meta">
                 <span>Format : projet sur-mesure</span>
@@ -175,8 +200,8 @@
                 rendre les équipes autonomes sur leurs cas d’usage.
               </p>
               <ul class="about-bullets">
-                <li>Modules pour dirigeants, managers, fonctions support, métiers opérationnels.</li>
-                <li>Ateliers autour de vos documents, vos process, vos outils.</li>
+                <li>Modules pour dirigeants, managers, fonctions support et métiers opérationnels.</li>
+                <li>Ateliers autour de vos documents, vos process et vos outils.</li>
                 <li>Supports clairs, réutilisables, sans jargon superflu.</li>
                 <li>Possibilité d’accompagnement post-formation.</li>
               </ul>
