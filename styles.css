@@ -289,15 +289,19 @@
       gap: 0.4rem;
     }
 
-    .hero-card {
-      background: radial-gradient(circle at top left, #1d4ed8 0, #020617 38%, #020617 100%);
-      color: var(--white);
-      border-radius: 32px;
-      padding: 1.9rem 1.5rem;
-      box-shadow: var(--shadow-soft);
-      position: relative;
-      overflow: hidden;
-    }
+.hero-card {
+  background: radial-gradient(circle at top left, #0b1120 0, #020617 50%, #020617 100%);
+  color: #e5e7eb;
+  border-radius: 28px;
+  padding: 1.6rem 1.4rem;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(129, 140, 248, 0.7); /* liseré bleu-violet pour mieux détacher le bloc */
+  max-width: 430px;            /* évite un bloc trop massif sur écran moyen */
+  margin-left: auto;           /* plaque la carte proprement à droite */
+}
+
 
     .hero-card::before {
       content: "";
@@ -342,11 +346,13 @@
       color: rgba(209, 213, 219, 0.9);
     }
 
-    .hero-card p {
-      font-size: 0.86rem;
-      color: rgba(209, 213, 219, 0.92);
-      margin-bottom: 1rem;
-    }
+   .hero-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #d1d5db;
+  margin-bottom: 1rem;
+}
+
 
     .hero-taglist {
       display: flex;
@@ -368,8 +374,8 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      font-size: 0.76rem;
-      color: rgba(209, 213, 219, 0.88);
+      font-size: 0.78rem;
+      color: #9ca3af;
       margin-top: 0.4rem;
       flex-wrap: wrap;
     }
@@ -838,3 +844,4 @@
       }
     }
   </style>
+Amélioration lisibilité carte hero
