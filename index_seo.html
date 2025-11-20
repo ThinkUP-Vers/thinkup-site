@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Think'UP – IA sur-mesure, pragmatique & humaine pour PME, ETI et TPE</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Think'UP conçoit des solutions d’IA sur-mesure, pragmatiques et orientées ROI pour PME, ETI et TPE : audits, assistants IA, automatisations et formations opérationnelles." />
+  <meta name="keywords" content="intelligence artificielle, IA, IA sur-mesure, assistants IA, automatisation, audit IA, formation IA, PME, ETI, TPE, ThinkUP, Think'UP, Patrick Langlais" />
+  <link rel="canonical" href="https://thinkup-vers.github.io/thinkup-site/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Think'UP – IA sur-mesure pour vos processus métier" />
+  <meta property="og:description" content="Des projets IA concrets, mesurables et humains : audits, assistants IA, automatisations et formations pour dirigeants et équipes métier." />
+  <meta property="og:url" content="https://thinkup-vers.github.io/thinkup-site/" />
+  <meta property="og:image" content="https://thinkup-vers.github.io/thinkup-site/logo-thinkup.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Think'UP – IA sur-mesure & humaine pour les entreprises" />
+  <meta name="twitter:description" content="Think'UP aide les entreprises à transformer l’IA en valeur mesurable." />
+  <meta name="twitter:image" content="https://thinkup-vers.github.io/thinkup-site/logo-thinkup.png" />
+
+  <meta name="author" content="Think'UP – Patrick Langlais" />
+  <link rel="icon" type="image/png" href="logo-thinkup.png" />
+
+<style>
+    :root {
+      /* Couleurs Think'UP */
+      --primary: #020617;          /* Texte principal */
+      --primary-light: #111827;    /* Sous-titres */
+      --accent-blue: #34D1FF;      /* Bleu néon */
+      --accent-pink: #FF4B8F;      /* Rose néon */
+      --accent-violet: #7B61FF;    /* Violet intermédiaire */
+
+      --bg: #F4F6FB;               /* Fond général */
+      --bg-soft: #FFFFFF;          /* Cartes / blocs */
+      --white: #FFFFFF;
+      --muted: #6B7280;
+      --border: #E5E7EB;
+
+      --radius-lg: 18px;
+      --radius-xl: 26px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
+
+    /* compat avec ancien code */
+    :root {
+      --accent: var(--accent-blue);
+      --accent-soft: var(--accent-pink);
+      --accent-alt: var(--accent-violet);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top right, #E0F2FE 0, var(--bg) 40%, #FFFFFF 100%);
+      color: var(--primary);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(248, 250, 252, 0.96), rgba(248, 250, 252, 0.8));
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .brand-logo-img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      padding-bottom: 0.15rem;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(to right, var(--accent), var(--accent-alt));
+      transition: width 0.2s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.96), rgba(59, 130, 246, 0.08));
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .nav-cta span.icon {
+      font-size: 0.9rem;
+      color: #22c55e;
+    }
+
+    /* bouton burger */
+    .nav-toggle {
+      display: none; /* visible seulement en mobile */
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: #ffffff;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .nav-toggle-line {
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: #0f172a;
+      transition: transform 0.18s ease, opacity 0.18s ease;
+    }
+
+    .nav-toggle.open .nav-toggle-line:nth-child(1) {
+      transform: translateY(4px) rotate(45deg);
+    }
+    .nav-toggle.open .nav-toggle-line:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-toggle.open .nav-toggle-line:nth-child(3) {
+      transform: translateY(-4px) rotate(-45deg);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 4rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: rgba(248, 250, 252, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      margin-bottom: 1.2rem;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #bbf7d0 0, #22c55e 40%, #16a34a 100%);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .hero h1 {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(2.2rem, 2.8vw + 1.7rem, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span.highlight {
+      background: linear-gradient(to right, #0ea5e9, #6366f1);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 580px;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.6rem;
+    }
+
+    .btn-primary {
+      padding: 0.9rem 1.8rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #FF4B8F 0%, #7B61FF 40%, #34D1FF 100%);
+      color: #FFFFFF;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 22px 50px rgba(30, 64, 175, 0.5);
+    }
+
+    .btn-secondary {
+      padding: 0.85rem 1.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.9);
+      background: #FFFFFF;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      color: #111827;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, #1d4ed8 0, #020617 38%, #020617 100%);
+      color: var(--white);
+      border-radius: 32px;
+      padding: 1.9rem 1.5rem;
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -50px;
+      background: radial-gradient(circle at top right, rgba(191, 219, 254, 0.12), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.22rem 0.7rem;
+      border-radius: 999px;
+      border: 1px solid rgba(191, 219, 254, 0.5);
+      font-size: 0.75rem;
+      margin-bottom: 1.1rem;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .hero-metric {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-metric strong {
+      font-size: 1.95rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-metric span {
+      font-size: 0.9rem;
+      color: rgba(209, 213, 219, 0.9);
+    }
+
+    .hero-card p {
+      font-size: 0.86rem;
+      color: rgba(209, 213, 219, 0.92);
+      margin-bottom: 1rem;
+    }
+
+    .hero-taglist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-tag {
+      padding: 0.16rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.8);
+      font-size: 0.72rem;
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    .hero-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.76rem;
+      color: rgba(209, 213, 219, 0.88);
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+    }
+
+    /* Sections générales */
+    section {
+      padding: 3rem 0;
+    }
+
+    section:nth-of-type(even) {
+      background: rgba(248, 250, 252, 0.85);
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 2rem;
+      max-width: 680px;
+    }
+
+    .section-badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1.65rem;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* À propos / Vision */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .about-bullets {
+      margin-top: 0.8rem;
+      padding-left: 1.1rem;
+      font-size: 0.92rem;
+    }
+
+    .about-bullets li {
+      margin-bottom: 0.25rem;
+    }
+
+    .about-points {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+
+    .about-point {
+      padding: 0.95rem;
+      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      font-size: 0.86rem;
+    }
+
+    .about-point strong {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.9rem;
+    }
+
+    .about-card {
+      padding: 1.5rem 1.35rem;
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at top left, #e0f2fe 0, #ffffff 35%, #eef2ff 100%);
+      border: 1px solid rgba(191, 219, 254, 0.9);
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+      font-size: 0.9rem;
+    }
+
+    .about-card h3 {
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    /* Offres IA */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.1rem;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      font-size: 0.9rem;
+    }
+
+    .service-chip {
+      font-size: 0.75rem;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(239, 246, 255, 0.9);
+      border: 1px solid rgba(191, 219, 254, 0.9);
+      align-self: flex-start;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .service-card h3 {
+      font-size: 1rem;
+    }
+
+    .service-meta {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      padding-top: 0.4rem;
+      border-top: 1px dashed rgba(209, 213, 219, 0.9);
+    }
+
+    /* Cas d’usage */
+    .usecases-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .usecase {
+      background: var(--white);
+      border-radius: 18px;
+      border: 1px dashed rgba(191, 219, 254, 0.9);
+      padding: 0.9rem 0.85rem;
+      font-size: 0.86rem;
+    }
+
+    .usecase-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    .usecase-tag {
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    /* Méthode */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .step {
+      background: var(--white);
+      border-radius: 18px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      padding: 0.9rem 0.85rem;
+      font-size: 0.86rem;
+    }
+
+    .step-number {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+
+    /* Témoignages */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .testimonial {
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 20px;
+      padding: 1.1rem 1rem;
+      font-size: 0.85rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(30, 64, 175, 0.9);
+    }
+
+    .testimonial::before {
+      content: "“";
+      position: absolute;
+      top: -24px;
+      right: 18px;
+      font-size: 4rem;
+      color: rgba(30, 64, 175, 0.5);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .testimonial-footer {
+      margin-top: 0.7rem;
+      font-size: 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #9ca3af;
+    }
+
+    /* FAQ */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .faq-item {
+      padding: 1rem 0.9rem;
+      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .faq-item h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.35rem;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .contact-card {
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 26px;
+      padding: 1.6rem 1.4rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(30, 64, 175, 0.9);
+      font-size: 0.9rem;
+    }
+
+    .contact-infos {
+      margin-top: 0.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+
+    .contact-infos span.label {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    form {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 1.5rem 1.35rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+      font-size: 0.9rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.85rem;
+    }
+
+    .field {
+      margin-bottom: 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-light);
+    }
+
+    .field span.helper {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      border-radius: 0.8rem;
+      border: 1px solid var(--border);
+      padding: 0.65rem 0.75rem;
+      font-size: 0.9rem;
+      outline: none;
+      background: #f9fafb;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      border-color: rgba(37, 99, 235, 0.7);
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.3);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-footer {
+      margin-top: 0.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      flex-wrap: wrap;
+    }
+
+    .form-status {
+      font-size: 0.8rem;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.6rem 0 1.2rem;
+      background: #f9fafb;
+      font-size: 0.8rem;
+      color: #6b7280;
+      margin-top: 2rem;
+    }
+
+    .footer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* ——————————————— */
+    /* VERSION MOBILE (max 960px) */
+    /* ——————————————— */
+    @media (max-width: 960px) {
+      .hero-grid,
+      .about-grid,
+      .services-grid,
+      .testimonials-grid,
+      .steps,
+      .usecases-grid,
+      .faq-grid,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero {
+        padding-top: 2.4rem;
+      }
+
+      .nav {
+        padding: 0.7rem 0;
+      }
+
+      .nav-toggle {
+        display: inline-flex !important;
+      }
+
+      .nav-links {
+        position: absolute;
+        right: 1.5rem;
+        top: 60px;
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+        padding: 0.8rem 1rem;
+        display: none;
+        flex-direction: column;
+        gap: 0.6rem;
+        font-size: 0.9rem;
+        min-width: 210px;
+        z-index: 50;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-cta {
+        justify-content: center;
+        width: 100%;
+      }
+
+      section {
+        padding: 2.4rem 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .about-points {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .services-grid,
+      .testimonials-grid,
+      .steps,
+      .usecases-grid,
+      .faq-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .nav {
+        padding: 0.7rem 0;
+      }
+
+      section {
+        padding: 2.4rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <header>
+      <div class="container">
+        <div class="nav">
+          <div class="brand">
+            <img src="thinkup-logo.png" alt="Think'UP Logo" class="brand-logo-img" />
+            <div>Think'UP</div>
+          </div>
+
+          <!-- Bouton burger (mobile) -->
+          <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu">
+            <span class="nav-toggle-line"></span>
+            <span class="nav-toggle-line"></span>
+            <span class="nav-toggle-line"></span>
+          </button>
+
+          <!-- Menu de navigation -->
+          <nav class="nav-links" id="nav-links">
+            <a href="#apropos">Vision</a>
+            <a href="#offres">Offres IA</a>
+            <a href="#usecases">Cas d’usage</a>
+            <a href="#methodologie">Méthode</a>
+            <a href="#temoignages">Clients</a>
+            <a href="#contact" class="nav-cta">
+              <span class="icon">●</span>
+              Contact
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" id="accueil">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                <span>Think'UP – L’IA sur-mesure & humaine pour les entreprises</span>
+              </div>
+              <h1>
+                Transformez l’IA en
+                <span class="highlight">valeur mesurable</span>
+                pour votre entreprise.
+              </h1>
+              <p class="hero-subtitle">
+                Think'UP conçoit des solutions d’Intelligence Artificielle pragmatiques et orientées ROI : audits,
+                assistants IA, automatisations et formations opérationnelles, pour dirigeants et équipes métier.
+              </p>
+              <div class="hero-actions">
+                <a href="#contact" class="btn-primary">
+                  Planifier un échange de 30 minutes
+                  <span>→</span>
+                </a>
+                <a href="#offres" class="btn-secondary">
+                  Découvrir les offres IA
+                </a>
+              </div>
+              <div class="hero-meta">
+                <span>✓ Focalisé PME, ETI, TPE</span>
+                <span>✓ IA sur-mesure adaptée à vos métiers</span>
+                <span>✓ Approche humaine, loin de la “gadgetisation”</span>
+              </div>
+            </div>
+
+            <aside class="hero-card">
+              <div class="hero-card-inner">
+                <div class="hero-pill">
+                  <span>35 ans d’expérience marchés financiers & pilotage de la performance</span>
+                </div>
+                <div class="hero-metric">
+                  <strong>+15&nbsp;%</strong>
+                  <span>de productivité moyenne sur les processus ciblés*</span>
+                </div>
+                <p>
+                  L’objectif n’est pas “d’avoir de l’IA”, mais d’obtenir
+                  des gains concrets : temps gagné, erreurs réduites, vision plus claire pour décider.
+                  Chaque projet Think'UP est conçu avec un business case en tête.
+                </p>
+                <div class="hero-taglist">
+                  <div class="hero-tag">Audits & diagnostics IA</div>
+                  <div class="hero-tag">Assistants & agents IA sur-mesure</div>
+                  <div class="hero-tag">Formations IA pratiques</div>
+                  <div class="hero-tag">ROI & adoption humaine</div>
+                </div>
+                <div class="hero-footer">
+                  <div>
+                    <div style="display:flex;align-items:center;gap:0.4rem;">
+                      <span class="status-dot"></span>
+                      <span>Accompagnement de bout en bout</span>
+                    </div>
+                    <div style="font-size:0.75rem;margin-top:0.1rem;">
+                      Du diagnostic à la formation des équipes, en passant par le déploiement et les premiers
+                      ajustements.
+                    </div>
+                  </div>
+                  <div style="text-align:right;">
+                    <div style="font-weight:600;">ROI indicatif</div>
+                    <div>Exemple : 2&nbsp;h gagnées / semaine / collaborateur sur un process clé → plusieurs dizaines de k€ / an.</div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- A PROPOS / VISION -->
+      <section id="apropos">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Vision</div>
+            <h2 class="section-title">Une IA qui augmente l’humain, pas qui le remplace.</h2>
+            <p class="section-subtitle">
+              L’IA n’a d’intérêt que si elle s’inscrit dans votre réalité métier : contraintes, réglementations,
+              clients, équipes. Think'UP construit des solutions IA à hauteur d’humains, avec une exigence de clarté et de retour sur investissement.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div>
+              <p>
+                La promesse de Think'UP est simple : transformer les discours abstraits sur l’IA en résultats visibles
+                dans vos opérations. Concrètement, cela veut dire :
+              </p>
+              <ul class="about-bullets">
+                <li>Partir de vos irritants réels, pas de la technologie pour la technologie.</li>
+                <li>Co-construire avec les équipes, pour limiter les peurs et maximiser l’adoption.</li>
+                <li>Mesurer les gains, même de manière simple, dès les premières semaines.</li>
+                <li>Prévoir une montée en compétence progressive via des formations adaptées.</li>
+              </ul>
+              <div class="about-points">
+                <div class="about-point">
+                  <strong>Clarifier avant de déployer</strong>
+                  On commence par comprendre vos flux, vos données, vos décisions clés. Pas de solution standard plaquée.
+                </div>
+                <div class="about-point">
+                  <strong>Aller vite, mais proprement</strong>
+                  Prototypes, preuves de concept, pilotes : l’IA est testée sur des cas concrets avant d’être généralisée.
+                </div>
+                <div class="about-point">
+                  <strong>Rester compréhensible</strong>
+                  Pas de jargon inutile. Les équipes doivent comprendre ce que fait l’outil et ce qu’il ne fait pas.
+                </div>
+                <div class="about-point">
+                  <strong>Respecter vos contraintes</strong>
+                  Sécurité, RGPD, souveraineté des données, contraintes internes : les choix technologiques s’adaptent à votre environnement.
+                </div>
+              </div>
+            </div>
+
+            <aside class="about-card">
+              <h3>Think'UP en bref</h3>
+              <p>
+                Think'UP est une structure indépendante qui accompagne dirigeants, équipes opérationnelles et fonctions
+                support dans l’adoption de l’IA, avec une forte culture business et terrain.
+              </p>
+              <ul class="about-bullets">
+                <li>+35 ans d’expérience sur les marchés financiers et le pilotage des risques.</li>
+                <li>Spécialisation actuelle : IA appliquée aux processus métier (B2B, services, industrie légère).</li>
+                <li>Approche centrée sur la valeur : chaque projet fait l’objet d’un cadrage ROI.</li>
+                <li>Interventions possibles : France entière (présentiel) + distanciel pour certaines missions.</li>
+              </ul>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- OFFRES IA -->
+      <section id="offres">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Offres IA</div>
+            <h2 class="section-title">Trois piliers pour passer de l’idée à l’impact.</h2>
+            <p class="section-subtitle">
+              Audits, développements et formations sont pensés comme un ensemble cohérent : diagnostiquer, construire,
+              transmettre. Vous pouvez activer un seul pilier ou l’ensemble, selon votre maturité IA.
+            </p>
+          </div>
+
+          <div class="services-grid">
+            <article class="service-card">
+              <div class="service-chip">01 – Audits & diagnostics IA</div>
+              <h3>Faire le tri entre fantasme et opportunités réelles.</h3>
+              <p>
+                Un diagnostic structuré pour comprendre où l’IA peut créer de la valeur chez vous : processus, données,
+                outils existants, risques. L’objectif : prioriser 2 à 3 chantiers IA concrets.
+              </p>
+              <ul class="about-bullets">
+                <li>Cartographie de vos processus clés et irritants du quotidien.</li>
+                <li>Analyse de vos données disponibles (qualité, accessibilité, volume).</li>
+                <li>Identification de quick wins IA et de chantiers plus structurants.</li>
+                <li>Restitution claire avec scénarios d’investissement et ROI estimatif.</li>
+              </ul>
+              <div class="service-meta">
+                <span>Durée typique : 2 à 4 semaines</span>
+                <span>Livrable : feuille de route IA priorisée</span>
+              </div>
+            </article>
+
+            <article class="service-card">
+              <div class="service-chip">02 – Assistants & agents IA sur-mesure</div>
+              <h3>Construire des outils IA utiles, utilisés et utiles encore.</h3>
+              <p>
+                Conception et développement d’outils IA adaptés à votre métier : assistants de relance, copilotes de
+                reporting, agents de veille, chatbots métiers, automatisations de tâches répétitives.
+              </p>
+              <ul class="about-bullets">
+                <li>Design fonctionnel : quel problème, pour qui, dans quel workflow.</li>
+                <li>Choix technologiques adaptés (API, modèles, connecteurs, cloud européen possible).</li>
+                <li>Développement, tests et ajustements avec un groupe pilote.</li>
+                <li>Accompagnement au déploiement et à la montée en charge.</li>
+              </ul>
+              <div class="service-meta">
+                <span>Approche “prototypes rapides”</span>
+                <span>Mesure des gains dès les premiers mois</span>
+              </div>
+            </article>
+
+            <article class="service-card">
+              <div class="service-chip">03 – Formations IA pratiques</div>
+              <h3>Monter en compétence sans perdre les équipes.</h3>
+              <p>
+                Formations IA conçues pour les non-spécialistes : dirigeants, managers, fonctions support, métiers
+                opérationnels. Objectif : comprendre, tester, adopter.
+              </p>
+              <ul class="about-bullets">
+                <li>Sessions sur-mesure, 100&nbsp;% ancrées dans vos cas d’usage.</li>
+                <li>Ateliers pratiques : prompts, assistants IA, automatisations simples.</li>
+                <li>Parcours de sensibilisation pour rassurer et embarquer les équipes.</li>
+                <li>Supports clairs et réutilisables, sans jargon technique inutile.</li>
+              </ul>
+              <div class="service-meta">
+                <span>Présentiel + distanciel possible</span>
+                <span>Éligible à des financements formation (OPCO, selon cas)</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CAS D'USAGE -->
+      <section id="usecases">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Cas d’usage</div>
+            <h2 class="section-title">Des exemples concrets de valeur créée avec l’IA.</h2>
+            <p class="section-subtitle">
+              Chaque projet est différent, mais les besoins se ressemblent : gagner du temps, sécuriser la qualité,
+              rendre l’information plus utilisable. Voici quelques cas typiques sur lesquels Think'UP intervient.
+            </p>
+          </div>
+
+          <div class="usecases-grid">
+            <article class="usecase">
+              <div class="usecase-tag">Relance client</div>
+              <div class="usecase-title">Assistant IA de relance B2B</div>
+              <p>
+                Génération de relances personnalisées à partir du CRM et de l’historique d’échanges. Ton calibré,
+                validation humaine avant envoi, scénarios adaptés selon le niveau d’avancement.
+              </p>
+            </article>
+            <article class="usecase">
+              <div class="usecase-tag">Pilotage & reporting</div>
+              <div class="usecase-title">Reporting automatique & synthèses IA</div>
+              <p>
+                Production de synthèses claires à partir de données financières, opérationnelles ou CRM. Moins de
+                copier-coller, plus de temps pour l’analyse et la décision.
+              </p>
+            </article>
+            <article class="usecase">
+              <div class="usecase-tag">Support interne</div>
+              <div class="usecase-title">Copilote pour fonctions support</div>
+              <p>
+                Assistance IA pour RH, finance, juridique, qualité : génération de premières versions de documents,
+                réponses aux questions fréquentes, veille réglementaire ciblée.
+              </p>
+            </article>
+            <article class="usecase">
+              <div class="usecase-tag">Veille & risques</div>
+              <div class="usecase-title">Veille IA sur mesure</div>
+              <p>
+                Collecte et synthèse automatisée de sources (marché, réglementaire, technologique) pour garder une vision
+                claire sans y passer des heures chaque semaine.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- METHODOLOGIE -->
+      <section id="methodologie">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Méthode</div>
+            <h2 class="section-title">Une approche en quatre temps pour sécuriser votre projet IA.</h2>
+            <p class="section-subtitle">
+              L’IA n’est pas un “big bang”, mais une série de décisions pragmatiques. La méthode Think'UP
+              structure ces décisions pour éviter les projets gadgets et les déceptions.
+            </p>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">Étape 1 – Découvrir</div>
+              <div class="step-title">Diagnostic métier & données</div>
+              <p>
+                Entretiens, cartographie de vos processus, inventaire rapide de vos données. On identifie les zones
+                de friction, les risques et les potentiels d’automatisation ou d’assistance.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number">Étape 2 – Designer</div>
+              <div class="step-title">Scénarios IA & business case</div>
+              <p>
+                Définition de 2 à 3 scénarios IA prioritaires, estimation des gains, coûts et risques. Vous avez une
+                vision claire des options, sans promesses irréalistes.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number">Étape 3 – Déployer</div>
+              <div class="step-title">Prototype, pilote, ajustements</div>
+              <p>
+                Construction de prototypes, tests avec un groupe pilote, ajustements sur la base des retours. L’outil
+                s’intègre dans le quotidien des équipes, progressivement, sans rupture.
+              </p>
+            </div>
+            <div class="step">
+              <div class="step-number">Étape 4 – Diffuser</div>
+              <div class="step-title">Formation & adoption</div>
+              <p>
+                Formations sur-mesure, guides d’usage, accompagnement des managers. L’enjeu : faire de l’IA un réflexe
+                utile, pas une contrainte subie ou contournée.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TEMOIGNAGES -->
+      <section id="temoignages">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Clients</div>
+            <h2 class="section-title">Ce que les clients apprécient dans l’approche Think'UP.</h2>
+            <p class="section-subtitle">
+              Remplace ces exemples par tes témoignages réels. L’objectif : montrer que l’IA peut être à la fois
+              concrète, mesurable et humaine.
+            </p>
+          </div>
+
+          <div class="testimonials-grid">
+            <article class="testimonial">
+              <p>
+                “Nous avions beaucoup entendu parler d’IA, sans jamais savoir par où commencer. En quelques ateliers,
+                nous avons identifié deux processus à fort potentiel, et un pilote a été lancé très vite, sur un périmètre maîtrisé.”
+              </p>
+              <div class="testimonial-footer">
+                <span>DG – PME B2B</span>
+                <span>Diagnostic IA & feuille de route</span>
+              </div>
+            </article>
+            <article class="testimonial">
+              <p>
+                “L’assistant IA de relance a professionnalisé notre suivi client, sans déshumaniser la relation. Les
+                messages restent personnalisés, les équipes gardent la main, mais le rythme est beaucoup plus régulier.”
+              </p>
+              <div class="testimonial-footer">
+                <span>Directeur commercial – Services</span>
+                <span>Assistant IA sur-mesure</span>
+              </div>
+            </article>
+            <article class="testimonial">
+              <p>
+                “Les formations ont rassuré les équipes. On a arrêté de parler d’IA comme d’un danger abstrait, pour la
+                voir comme un outil d’aide. Les cas pratiques étaient vraiment alignés sur notre quotidien.”
+              </p>
+              <div class="testimonial-footer">
+                <span>DRH – Groupe multi-sites</span>
+                <span>Formations IA pratiques</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">FAQ</div>
+            <h2 class="section-title">Questions fréquentes sur l’IA en entreprise.</h2>
+            <p class="section-subtitle">
+              Ces questions-réponses permettent de lever les principaux freins : budget, complexité, charge interne,
+              risques juridiques et sécuritaires.
+            </p>
+          </div>
+
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h3>L’IA est-elle réservée aux grands groupes ?</h3>
+              <p>
+                Non. La majorité des gains se trouvent dans des processus très concrets, aussi présents dans les PME :
+                relance, reporting, contrôle, support interne, rédaction de documents. L’important est de viser des
+                périmètres ciblés, pas des “projets mastodontes”.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>Combien faut-il investir pour un premier projet IA ?</h3>
+              <p>
+                L’objectif est justement de limiter le risque avec un diagnostic puis un premier pilote. Selon le
+                périmètre, un projet peut commencer à un budget contenu, à condition d’être bien cadré et aligné sur un
+                ROI réaliste.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>Quid de la confidentialité et des données ?</h3>
+              <p>
+                Les choix d’outils et d’architectures prennent en compte vos contraintes RGPD, vos politiques internes
+                et, si nécessaire, l’usage de solutions IA hébergées en Europe ou sur vos propres environnements.
+              </p>
+            </div>
+            <div class="faq-item">
+              <h3>Les équipes vont-elles adhérer ou se sentir menacées ?</h3>
+              <p>
+                Tout dépend de la manière dont le sujet est présenté. L’approche Think'UP consiste à associer les équipes dès le
+                départ, à montrer clairement ce que l’IA fait (et ne fait pas), et à l’utiliser comme un outil
+                d’allègement des tâches les plus pénibles.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-badge">Contact</div>
+      <h2 class="section-title">Parlons de vos premiers cas d’usage IA.</h2>
+      <p class="section-subtitle">
+        Décrivez en quelques lignes votre activité et vos enjeux. Vous serez recontacté pour un échange de
+        30&nbsp;minutes, sans engagement, pour identifier ensemble les pistes les plus pertinentes.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- ✔ RECTANGLE NOIR — Think'UP -->
+      <aside class="contact-card">
+        <h3>Coordonnées Think'UP</h3>
+        <p>
+          Contact direct avec la direction de Think'UP pour cadrer vos besoins et évaluer si une collaboration a
+          du sens à court terme.
+        </p>
+        <div class="contact-infos">
+          <div><span class="label">Email :</span> patrick@thinkupcom.com</div>
+          <div><span class="label">Téléphone :</span> 07&nbsp;82&nbsp;48&nbsp;43&nbsp;54</div>
+          <div><span class="label">Localisation :</span> Versailles, France</div>
+          <div><span class="label">Intervention :</span> France entière + distanciel</div>
+        </div>
+        <p style="margin-top:0.9rem;font-size:0.8rem;color:#9ca3af;">
+          Exemple de ROI : un assistant IA qui fait gagner 1&nbsp;heure par semaine à 10 collaborateurs,
+          valorisée à 60&nbsp;€/h charges comprises, représente près de 30&nbsp;000&nbsp;€ par an.
+        </p>
+      </aside>
+
+      <!-- FORMULAIRE -->
+      <form id="contact-form" method="POST" action="https://formsubmit.co/patrick@thinkupcom.com">
+       <input type="hidden" name="_next" value="https://thinkup-vers.github.io/thinkup-site/#contact">
+      <input type="hidden" name="_subject" value="Nouveau message depuis le site Think'UP">
+       <input type="hidden" name="_template" value="table">
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Nom / Prénom</label>
+            <input type="text" id="name" name="name" placeholder="Ex. : Marie Dupont" required />
+          </div>
+          <div class="field">
+            <label for="company">Société</label>
+            <input type="text" id="company" name="company" placeholder="Ex. : PME B2B, cabinet, ETI..." />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="vous@exemple.fr" required />
+          </div>
+          <div class="field">
+            <label for="phone">Téléphone (facultatif)</label>
+            <input type="text" id="phone" name="phone" placeholder="06 xx xx xx xx" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject">Vos enjeux principaux</label>
+          <input type="text" id="subject" name="subject"
+            placeholder="Ex. : automatiser la relance, fiabiliser le reporting..." />
+        </div>
+
+        <div class="field">
+          <label for="message">Décrivez votre contexte</label>
+          <span class="helper">Secteur, taille, processus clés, enjeux court/moyen terme…</span>
+          <textarea id="message" name="message"
+            placeholder="Parlez de vos irritants, projets en cours, attentes vis-à-vis de l’IA."></textarea>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="btn-primary">
+            Envoyer ma demande
+            <span>↗</span>
+          </button>
+          <div class="form-status" id="form-status">
+            Vos informations ne seront utilisées que pour vous répondre.
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+              <div class="form-footer">
+                <button type="submit" class="btn-primary">
+                  Envoyer ma demande
+                  <span>↗</span>
+                </button>
+                <div class="form-status" id="form-status">
+                  Vos informations ne seront utilisées que pour vous répondre. Aucun envoi automatique de newsletter.
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>© <span id="year"></span> Think'UP – Expertise IA | Développements & Formations.</div>
+          <div class="footer-links">
+            <a href="#accueil">Accueil</a>
+            <a href="#contact">Contact</a>
+            <a href="#mentions">Mentions légales</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MENTIONS (à adapter avec ton juriste / expert-comptable) -->
+    <section id="mentions" style="padding:2rem 0 3rem;">
+      <div class="container" style="font-size:0.8rem;color:#6b7280;">
+        <h3 style="font-size:1rem;margin-bottom:0.6rem;">Mentions légales (exemple, à adapter)</h3>
+        <p>
+          Éditeur du site : Think'UP – Entrepreneur individuel / ou forme juridique à préciser – Adresse complète.<br />
+          Responsable de la publication : Patrick Langlais.<br />
+          Hébergeur : à compléter (nom, adresse, téléphone).<br />
+          Données personnelles : les informations collectées via le formulaire de contact sont utilisées uniquement pour
+          répondre aux demandes et ne sont pas revendues à des tiers. Vous disposez d’un droit d’accès, de rectification
+          et de suppression de vos données sur simple demande.<br />
+          Cookies : préciser la politique de cookies en fonction de l’outil de mesure d’audience utilisé.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // année automatique
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // menu burger
+    const navToggle = document.getElementById("nav-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    navToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+      navToggle.classList.toggle("open");
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        navToggle.classList.remove("open");
+      });
+    });
+
+   <!-- Formulaire : version réelle (FormSubmit) -->
+<script>
+  // Désactivation du faux système de simulation
+  // Le formulaire enverra maintenant directement vers FormSubmit
+</script>
+</body>
+</html>
+
