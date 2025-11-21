@@ -913,4 +913,16 @@
   font-size: 0.72rem;
   background: rgba(15, 23, 42, 0.7);
 }
+/* --- Animations de scroll (fade-in) --- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
