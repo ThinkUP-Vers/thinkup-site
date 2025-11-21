@@ -597,13 +597,15 @@
   </div>
 
   <script>
-    // année automatique
-    document.getElementById("year").textContent = new Date().getFullYear();
+  // année automatique
+  const yearSpan = document.getElementById("year");
+  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-    // menu burger
-    const navToggle = document.getElementById("nav-toggle");
-    const navLinks = document.getElementById("nav-links");
+  // menu burger
+  const navToggle = document.getElementById("nav-toggle");
+  const navLinks = document.getElementById("nav-links");
 
+  if (navToggle && navLinks) {
     navToggle.addEventListener("click", () => {
       navLinks.classList.toggle("open");
       navToggle.classList.toggle("open");
@@ -615,11 +617,28 @@
         navToggle.classList.remove("open");
       });
     });
+  }
 
-   <!-- Formulaire : version réelle (FormSubmit) -->
-<script>
-  // Désactivation du faux système de simulation
-  // Le formulaire enverra maintenant directement vers FormSubmit
+  // Animations de scroll (fade-in)
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-visible");
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  // Élément à animer
+  document.querySelectorAll(
+    "section, .hero-card, .service-card, .usecase, .testimonial, .about-card"
+  ).forEach(el => {
+    el.classList.add("reveal");
+    observer.observe(el);
+  });
 </script>
 </body>
 </html>
