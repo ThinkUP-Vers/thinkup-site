@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://thinkup-vers.github.io/thinkup-site/sitemap.xml
+Add robots.txt
