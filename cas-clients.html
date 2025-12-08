@@ -1,86 +1,423 @@
-<main class="page-cas-clients">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cas clients & exemples de projets IA – Think'UP</title>
 
-  <section class="hero hero-cas">
-    <h1>Cas clients : ce que l’IA change concrètement en TPE/PME</h1>
-    <p>
-      Les exemples ci-dessous sont inspirés de situations réelles de dirigeants qui 
-      voulaient des résultats mesurables, sans se perdre dans le jargon technique.
-    </p>
-  </section>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Exemples de projets IA accompagnés par Think'UP : relance client, reporting automatisé, copilote IA pour fonctions support, veille IA. Tous basés sur l’Index Iceberg et des solutions IA sur-mesure orientées ROI." />
+  <link rel="canonical" href="https://thinkup-vers.github.io/thinkup-site/cas-clients.html" />
 
-  <section class="cas-list">
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Cas clients & exemples de projets IA – Think'UP" />
+  <meta property="og:description" content="Des scénarios concrets de projets IA pour dirigeants de TPE/PME : de l’Index Iceberg aux solutions IA sur-mesure et aux premiers gains." />
+  <meta property="og:url" content="https://thinkup-vers.github.io/thinkup-site/cas-clients.html" />
+  <meta property="og:image" content="https://thinkup-vers.github.io/thinkup-site/logo-thinkup.png" />
 
-    <article class="cas-card">
-      <h2>1. PME de services B2B — Gagner du temps sur les tâches commerciales</h2>
-      <h3>Problème</h3>
-      <p>
-        Les équipes commerciales passaient trop de temps à préparer des emails, 
-        relances et comptes-rendus, au détriment des rendez-vous clients.
-      </p>
-      <h3>Intervention Think’UP</h3>
-      <ul>
-        <li>Atelier “IA utile” pour identifier les tâches vraiment automatisables.</li>
-        <li>Mise en place d’un assistant IA pour préparer les relances à partir du CRM.</li>
-        <li>Création d’un guide interne d’usage de l’IA pour les commerciaux.</li>
-      </ul>
-      <h3>Résultats</h3>
-      <ul>
-        <li>Temps de préparation des relances divisé par 2.</li>
-        <li>Pipeline mieux suivi, moins d’opportunités “oubliées”.</li>
-        <li>Équipe plus à l’aise avec l’IA, sans changement d’outil majeur.</li>
-      </ul>
-    </article>
+  <meta name="author" content="Think'UP – Patrick Langlais" />
+  <link rel="icon" type="image/png" href="logo-thinkup.png" />
 
-    <article class="cas-card">
-      <h2>2. Entreprise industrielle — Clarifier une stratégie IA réaliste</h2>
-      <h3>Problème</h3>
-      <p>
-        Le dirigeant voulait “lancer l’IA dans toute l’usine”, sans vision claire 
-        des priorités ni des données réellement exploitables.
-      </p>
-      <h3>Intervention Think’UP</h3>
-      <ul>
-        <li>Diagnostic IA : cartographie des processus et des données disponibles.</li>
-        <li>Identification de 4 cas d’usage critiques (qualité, SAV, reporting).</li>
-        <li>Feuille de route IA sur 12 mois, avec chiffrage et séquencement.</li>
-      </ul>
-      <h3>Résultats</h3>
-      <ul>
-        <li>Focalisation sur 2 projets à fort ROI au lieu de 10 idées dispersées.</li>
-        <li>Décision d’investir d’abord sur un POC limité mais mesurable.</li>
-        <li>Meilleure collaboration entre direction, production et IT.</li>
-      </ul>
-    </article>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <header>
+      <div class="container">
+        <div class="nav">
+          <div class="brand">
+            <img
+              src="https://thinkup-vers.github.io/thinkup-site/logo-thinkup.png"
+              alt="THINK'UP LOGO"
+              class="brand-logo-img"
+            />
+            <div>THINK'UP</div>
+          </div>
 
-    <article class="cas-card">
-      <h2>3. Cabinet de conseil — Structurer une offre IA pour ses propres clients</h2>
-      <h3>Problème</h3>
-      <p>
-        Le cabinet était sollicité sur l’IA mais n’avait ni méthode claire ni réseau d’experts IA.
-      </p>
-      <h3>Intervention Think’UP</h3>
-      <ul>
-        <li>Atelier de cadrage avec les associés pour définir le positionnement IA.</li>
-        <li>Conception d’une offre “diagnostic IA” clé en main pour leurs clients.</li>
-        <li>Activation du réseau de freelances IA pour les projets complexes.</li>
-      </ul>
-      <h3>Résultats</h3>
-      <ul>
-        <li>Une offre IA claire et vendable en quelques slides.</li>
-        <li>Premier projet vendu en moins de 2 mois.</li>
-        <li>Montée en compétence de l’équipe sans recrutement massif.</li>
-      </ul>
-    </article>
+          <!-- Bouton burger (mobile) -->
+          <button class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu">
+            <span class="nav-toggle-line"></span>
+            <span class="nav-toggle-line"></span>
+            <span class="nav-toggle-line"></span>
+          </button>
 
-  </section>
+          <!-- Menu de navigation -->
+          <nav class="nav-links" id="nav-links">
+            <a href="/thinkup-site/index.html#apropos">Vision</a>
+            <a href="/thinkup-site/offres.html">Offres IA</a>
+            <a href="/thinkup-site/cas-clients.html">Cas clients</a>
+            <a href="/thinkup-site/a-propos.html">À propos</a>
+            <a href="/thinkup-site/contact.html" class="nav-cta">
+              <span class="icon">●</span> Contact
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
 
-  <section class="cta-section">
-    <h2>Vous voulez un retour d’expérience adapté à votre secteur&nbsp;?</h2>
-    <p>
-      Lors d’un échange de 30 minutes, nous pouvons vous présenter des exemples proches de votre réalité 
-      (industrie, services, conseil, etc.) et évaluer ce qui est transposable chez vous.
-    </p>
-    <a href="contact.html" class="btn btn-primary">Parler de votre contexte</a>
-  </section>
+    <main>
+      <!-- HERO CAS CLIENTS -->
+      <section class="hero" id="cas-hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                <span>Cas clients & scénarios IA</span>
+              </div>
+              <h1>
+                De l’Index Iceberg à des
+                <span class="highlight">solutions IA sur-mesure</span>
+                qui délivrent des résultats.
+              </h1>
+              <p class="hero-subtitle">
+                Les exemples ci-dessous illustrent la façon dont Think'UP accompagne les dirigeants : partir d’un irritant
+                métier, lire la situation avec l’Index Iceberg, puis concevoir et piloter des solutions IA sur-mesure
+                orientées ROI.
+              </p>
+              <div class="hero-actions">
+                <a href="/thinkup-site/contact.html" class="btn-primary">
+                  Discuter d’un cas similaire au vôtre
+                  <span>→</span>
+                </a>
+                <a href="#scenarios" class="btn-secondary">
+                  Voir les scénarios détaillés
+                </a>
+              </div>
+              <div class="hero-meta">
+                <span>✓ Situations réalistes de TPE/PME</span>
+                <span>✓ Focus sur les irritants métier</span>
+                <span>✓ Logique : Iceberg → IA → ROI</span>
+              </div>
+            </div>
 
-</main>
+            <aside class="hero-card">
+              <div class="hero-card-inner">
+                <div class="hero-pill">
+                  <span>Cas d’usage inspirés de situations réelles</span>
+                </div>
+                <div class="hero-metric">
+                  <strong>4</strong>
+                  <span>scénarios types pour se projeter.</span>
+                </div>
+                <p>
+                  Chaque cas suit le même chemin : situation de départ, lecture avec l’Index Iceberg, solution IA
+                  sur-mesure et premiers gains observés. L’objectif : vous aider à vous projeter dans votre propre
+                  contexte.
+                </p>
+                <div class="hero-taglist">
+                  <div class="hero-tag">Relance & suivi client</div>
+                  <div class="hero-tag">Reporting dirigeant</div>
+                  <div class="hero-tag">Fonctions support</div>
+                  <div class="hero-tag">Veille & risques</div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- APERÇU DES SITUATIONS DE DÉPART -->
+      <section id="aperçu">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Situations de départ</div>
+            <h2 class="section-title">Ce que les dirigeants expriment souvent en premier.</h2>
+            <p class="section-subtitle">
+              Avant de parler d’IA, les conversations commencent presque toujours par des irritants très concrets :
+              temps perdu, manque de visibilité, complexité croissante. C’est la partie émergée de l’Iceberg.
+            </p>
+          </div>
+
+          <div class="usecases-grid">
+            <article class="usecase">
+              <div class="usecase-tag">Relance client</div>
+              <div class="usecase-title">“Nos relances sont irrégulières et chronophages.”</div>
+              <p>
+                L’équipe commerciale relance à la main, selon les disponibilités de chacun. Certaines opportunités
+                tombent entre les mailles du filet, sans qu’on sache vraiment lesquelles ni pourquoi.
+              </p>
+            </article>
+            <article class="usecase">
+              <div class="usecase-tag">Pilotage dirigeant</div>
+              <div class="usecase-title">“Je manque de synthèse simple pour décider.”</div>
+              <p>
+                Les chiffres existent (CRM, Excel, outils internes), mais le dirigeant reçoit surtout des tableaux
+                détaillés, peu adaptés à une prise de décision rapide.
+              </p>
+            </article>
+            <article class="usecase">
+              <div class="usecase-tag">Fonctions support</div>
+              <div class="usecase-title">“Nos équipes font beaucoup de copier-coller.”</div>
+              <p>
+                RH, finance, juridique, qualité… tous passent du temps à reformuler, rechercher, consolider,
+                alors qu’une partie pourrait être assistée et sécurisée.
+              </p>
+            </article>
+            <article class="usecase">
+              <div class="usecase-tag">Veille & risques</div>
+              <div class="usecase-title">“Je ne parviens pas à suivre l’essentiel.”</div>
+              <p>
+                Le dirigeant consulte de nombreuses sources (marché, réglementaire, technologique) mais sans
+                cadre structuré. Résultat : surcharge d’information, peu d’arbitrages clairs.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCÉNARIOS DÉTAILLÉS -->
+      <section id="scenarios">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Scénarios détaillés</div>
+            <h2 class="section-title">Quatre scénarios types, de l’Index Iceberg aux gains observés.</h2>
+            <p class="section-subtitle">
+              Les scénarios ci-dessous sont volontairement synthétiques. Ils montrent comment l’Index Iceberg oriente les
+              décisions, puis comment une solution IA sur-mesure est définie et pilotée.
+            </p>
+          </div>
+
+          <!-- SCÉNARIO 1 -->
+          <article class="service-card" style="margin-bottom:1.4rem;">
+            <div class="service-chip">Scénario 1 – Assistant IA de relance client</div>
+            <h3>Stabiliser la relance commerciale sans industrialiser à outrance.</h3>
+            <p><strong>Situation de départ</strong></p>
+            <p>
+              Une PME B2B constate que de nombreuses propositions restent sans suivi. Les commerciaux relancent “quand
+              ils peuvent”. Le dirigeant a le sentiment de “laisser de l’argent sur la table”.
+            </p>
+            <p style="margin-top:0.6rem;"><strong>Lecture avec l’Index Iceberg</strong></p>
+            <ul class="about-bullets">
+              <li>Visible : relances irrégulières, disparités entre commerciaux, manque de traçabilité.</li>
+              <li>Processus : chacun a sa méthode, pas de séquence standard, peu d’appuis dans le CRM.</li>
+              <li>Données : historique des échanges, devis, échéances présents dans le CRM mais peu exploités.</li>
+              <li>ROI : manque à gagner estimé sur les opportunités “oubliées” et sur les délais de relance.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Solution IA sur-mesure</strong></p>
+            <ul class="about-bullets">
+              <li>Conception d’un assistant IA connecté au CRM pour proposer des relances prêtes à relire.</li>
+              <li>Scénarios adaptés selon le stade de l’opportunité (relance douce, relance de relance, clôture).</li>
+              <li>Validation humaine systématique avant envoi, pour garder le ton propre à l’entreprise.</li>
+              <li>Suivi simple des relances effectuées, par commercial et par portefeuille.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Rôle de Think'UP</strong></p>
+            <ul class="about-bullets">
+              <li>Atelier “IA & Iceberg” avec direction et équipe commerciale.</li>
+              <li>Cadrage des scénarios, des messages et des règles d’usage.</li>
+              <li>Design de la solution IA sur-mesure et pilotage des experts techniques impliqués.</li>
+              <li>Accompagnement à la prise en main et ajustements après les premières semaines.</li>
+            </ul>
+          </article>
+
+          <!-- SCÉNARIO 2 -->
+          <article class="service-card" style="margin-bottom:1.4rem;">
+            <div class="service-chip">Scénario 2 – Reporting dirigeant automatisé</div>
+            <h3>Passer d’Excel dispersés à une synthèse exploitable en quelques minutes.</h3>
+            <p><strong>Situation de départ</strong></p>
+            <p>
+              Le dirigeant reçoit chaque semaine plusieurs fichiers chiffrés (ventes, production, trésorerie).
+              Il passe du temps à reconstituer une vision d’ensemble, sans toujours être certain de regarder la bonne
+              version.
+            </p>
+            <p style="margin-top:0.6rem;"><strong>Lecture avec l’Index Iceberg</strong></p>
+            <ul class="about-bullets">
+              <li>Visible : temps passé à manipuler des tableaux, sensation de “pilotage à la main”.</li>
+              <li>Processus : collecte manuelle, formats variables, peu de standardisation.</li>
+              <li>Données : informations pertinentes mais éparpillées dans plusieurs fichiers et outils.</li>
+              <li>ROI : gain potentiel en temps dirigeant et en qualité des décisions hebdomadaires.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Solution IA sur-mesure</strong></p>
+            <ul class="about-bullets">
+              <li>Définition d’un format de synthèse adapté au dirigeant (1 page + quelques indicateurs clés).</li>
+              <li>Mise en place d’un flux automatisé pour rassembler les données nécessaires.</li>
+              <li>Copilote IA générant une synthèse commentée à partir des chiffres consolidés.</li>
+              <li>Possibilité de poser des questions complémentaires au copilote (“et sur tel client ?”).</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Rôle de Think'UP</strong></p>
+            <ul class="about-bullets">
+              <li>Travail de cadrage avec le dirigeant sur les vrais indicateurs utiles.</li>
+              <li>Lecture Iceberg pour comprendre les habitudes de reporting et les blocages actuels.</li>
+              <li>Design de la solution IA et pilotage des freelances pour l’intégration technique.</li>
+              <li>Accompagnement sur les premiers mois pour stabiliser les usages.</li>
+            </ul>
+          </article>
+
+          <!-- SCÉNARIO 3 -->
+          <article class="service-card" style="margin-bottom:1.4rem;">
+            <div class="service-chip">Scénario 3 – Copilote IA pour fonctions support</div>
+            <h3>Donner un premier niveau d’appui aux équipes, sans démultiplier les outils.</h3>
+            <p><strong>Situation de départ</strong></p>
+            <p>
+              Les équipes RH, administrative ou qualité répondent à de nombreuses demandes récurrentes :
+              questions internes, modèles de documents, reformulations de mails… avec un fort sentiment de répétition.
+            </p>
+            <p style="margin-top:0.6rem;"><strong>Lecture avec l’Index Iceberg</strong></p>
+            <ul class="about-bullets">
+              <li>Visible : impression de faire “toujours les mêmes choses” avec peu de valeur ajoutée perçue.</li>
+              <li>Processus : peu de FAQ structurée, réponses souvent réécrites à partir de zéro.</li>
+              <li>Données : bases de documents existantes, procédures, modèles, mais peu centralisés.</li>
+              <li>ROI : gain potentiel en temps, en homogénéité des réponses et en qualité perçue du service interne.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Solution IA sur-mesure</strong></p>
+            <ul class="about-bullets">
+              <li>Mise en place d’un copilote IA interne alimenté par les documents et procédures de l’entreprise.</li>
+              <li>Génération de premières réponses, modèles ou synthèses, toujours relus par les équipes.</li>
+              <li>Définition claire des limites : ce que l’IA peut proposer, ce qui reste du ressort de l’humain.</li>
+              <li>Suivi des questions fréquentes pour enrichir progressivement le corpus.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Rôle de Think'UP</strong></p>
+            <ul class="about-bullets">
+              <li>Atelier d’identification des cas d’usage à plus forte valeur support.</li>
+              <li>Lecture Iceberg pour lier les demandes visibles aux processus et données nécessaires.</li>
+              <li>Cadrage et pilotage de la solution IA sur-mesure avec les experts techniques.</li>
+              <li>Accompagnement à l’adoption et ajustements à partir des retours d’équipe.</li>
+            </ul>
+          </article>
+
+          <!-- SCÉNARIO 4 -->
+          <article class="service-card">
+            <div class="service-chip">Scénario 4 – Veille IA ciblée pour dirigeant</div>
+            <h3>Rester informé sans se noyer dans l’information.</h3>
+            <p><strong>Situation de départ</strong></p>
+            <p>
+              Le dirigeant suit l’actualité de son secteur, des réglementations et de la technologie,
+              mais avec une impression de “trop plein” : beaucoup de sources, peu de temps pour trier.
+            </p>
+            <p style="margin-top:0.6rem;"><strong>Lecture avec l’Index Iceberg</strong></p>
+            <ul class="about-bullets">
+              <li>Visible : temps passé à scanner des newsletters, articles, réseaux sociaux.</li>
+              <li>Processus : veille personnelle peu structurée, dépendante de l’agenda du dirigeant.</li>
+              <li>Données : sources intéressantes mais dispersées, peu exploitées de façon régulière.</li>
+              <li>ROI : gain potentiel en temps et en qualité des arbitrages stratégiques.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Solution IA sur-mesure</strong></p>
+            <ul class="about-bullets">
+              <li>Définition d’un périmètre de veille clair (thèmes, sources, fréquence).</li>
+              <li>Automatisation de la collecte d’articles, rapports, signaux faibles.</li>
+              <li>Synthèse IA régulière (hebdo / bi-mensuelle) avec mise en avant de l’essentiel.</li>
+              <li>Possibilité de creuser certains sujets via un copilote IA dédié.</li>
+            </ul>
+            <p style="margin-top:0.6rem;"><strong>Rôle de Think'UP</strong></p>
+            <ul class="about-bullets">
+              <li>Travail amont sur les priorités stratégiques et les questions clés du dirigeant.</li>
+              <li>Construction de la grille Iceberg spécifique à la veille (visible / processus / données / décisions).</li>
+              <li>Cadrage de la solution IA et pilotage des intervenants techniques.</li>
+              <li>Ajustement de la synthèse en fonction des retours du dirigeant.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- CE QUE LES DIRIGEANTS APPRÉCIENT -->
+      <section id="temoignages">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Retour terrain</div>
+            <h2 class="section-title">Ce qui compte réellement pour les dirigeants accompagnés.</h2>
+            <p class="section-subtitle">
+              Au-delà des outils, les retours se concentrent sur quelques éléments : clarté, sécurité, simplicité
+              d’échange et capacité à garder la main sur les décisions.
+            </p>
+          </div>
+
+          <div class="testimonials-grid">
+            <article class="testimonial">
+              <p>
+                “L’approche Index Iceberg nous a permis de comprendre pourquoi certains projets patinaient. On a enfin
+                relié nos irritants visibles aux vrais blocages de fond, avant de parler technologie.”
+              </p>
+              <div class="testimonial-footer">
+                <span>Dirigeant – PME B2B</span>
+                <span>Cadrage IA & feuille de route</span>
+              </div>
+            </article>
+            <article class="testimonial">
+              <p>
+                “Nous avons apprécié d’avoir un interlocuteur qui parle à la fois le langage métier et le langage des
+                experts IA. Les projets ont été posés sereinement, avec une vision claire des étapes et des risques.”
+              </p>
+              <div class="testimonial-footer">
+                <span>Direction générale – Services</span>
+                <span>Index Iceberg & pilotage de projets</span>
+              </div>
+            </article>
+            <article class="testimonial">
+              <p>
+                “L’IA n’était plus un sujet flou ou anxiogène, mais un outil que l’on pouvait tester sur des périmètres
+                précis. Les équipes se sont senties associées et non pas remplacées.”
+              </p>
+              <div class="testimonial-footer">
+                <span>DG – Groupe multi-sites</span>
+                <span>Ateliers IA & solutions IA sur-mesure</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA FINALE -->
+      <section>
+        <div class="container">
+          <div class="section-header">
+            <div class="section-badge">Prochaine étape</div>
+            <h2 class="section-title">Envie de tester l’Index Iceberg sur votre propre situation&nbsp;?</h2>
+            <p class="section-subtitle">
+              Un simple échange de 30 minutes permet déjà de poser les premières briques : irritant prioritaire,
+              premiers éléments d’Iceberg, pistes de solutions IA sur-mesure et ordre de grandeur du ROI.
+            </p>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
+            <a href="/thinkup-site/contact.html" class="btn-primary">
+              Planifier un échange de 30 minutes
+              <span>→</span>
+            </a>
+            <p style="font-size:0.9rem;color:#6b7280;margin:0;">
+              Objectif : vérifier rapidement si un accompagnement Think'UP est pertinent pour votre entreprise
+              et sur quel type de projet commencer.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>© <span id="year"></span> Think'UP – Accompagnement IA | Index Iceberg & solutions IA sur-mesure.</div>
+          <div class="footer-links">
+            <a href="/thinkup-site/index.html">Accueil</a>
+            <a href="/thinkup-site/offres.html">Offres</a>
+            <a href="/thinkup-site/cas-clients.html">Cas clients</a>
+            <a href="/thinkup-site/a-propos.html">À propos</a>
+            <a href="/thinkup-site/contact.html">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // année automatique
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // menu burger
+    const navToggle = document.getElementById("nav-toggle");
+    const navLinks = document.getElementById("nav-links");
+
+    navToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+      navToggle.classList.toggle("open");
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        navToggle.classList.remove("open");
+      });
+    });
+  </script>
+</body>
+</html>
