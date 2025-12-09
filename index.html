@@ -34,23 +34,33 @@
 
 <body>
 
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo">
-        <!-- Remplace par ton logo si besoin -->
-        <a href="index.html">Think’UP</a>
+    <!-- HEADER -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <!-- Mets ton image de logo si tu veux -->
+        <!-- <img src="logo-thinkup.png" alt="Think'UP" class="brand-logo-img"> -->
+        <span>Think'UP</span>
       </div>
-      <nav class="main-nav">
-        <ul>
-          <li><a href="index.html" class="active">Accueil</a></li>
-          <li><a href="offres.html">Offres</a></li>
-          <li><a href="cas-clients.html">Cas clients</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+
+      <button class="nav-toggle" aria-label="Ouvrir le menu">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
+
+      <nav class="nav-links">
+        <a href="index.html">Accueil</a>
+        <a href="offres.html">Offres</a>
+        <a href="cas-clients.html">Cas clients</a>
+        <a href="contact.html" class="nav-cta">
+          <span class="icon">●</span>
+          Parler d’un projet IA
+        </a>
       </nav>
     </div>
   </header>
+
 
   <!-- CONTENU PRINCIPAL -->
   <main>
