@@ -31,244 +31,220 @@
   </script>
 </head>
 
-<script>
-  const toggle = document.querySelector('.nav-toggle');
-  const links = document.querySelector('.nav-links');
-
-  if (toggle && links) {
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('open');
-      links.classList.toggle('open');
-    });
-  }
-</script>
-
 <body>
+  <div class="page">
 
     <!-- HEADER -->
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <!-- Mets ton image de logo si tu veux -->
-        <!-- <img src="logo-thinkup.png" alt="Think'UP" class="brand-logo-img"> -->
-        <span>Think'UP</span>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <!-- Mets ton logo image ici si tu veux -->
+          <!-- <img src="logo-thinkup.png" alt="Think'UP" class="brand-logo-img"> -->
+          <span>Think'UP</span>
+        </div>
+
+        <button class="nav-toggle" aria-label="Ouvrir le menu">
+          <span class="nav-toggle-line"></span>
+          <span class="nav-toggle-line"></span>
+          <span class="nav-toggle-line"></span>
+        </button>
+
+        <nav class="nav-links">
+          <a href="index.html">Accueil</a>
+          <a href="offres.html">Offres</a>
+          <a href="cas-clients.html">Cas clients</a>
+          <a href="contact.html" class="nav-cta">
+            <span class="icon">●</span>
+            Parler d’un projet IA
+          </a>
+        </nav>
       </div>
+    </header>
 
-      <button class="nav-toggle" aria-label="Ouvrir le menu">
-        <span class="nav-toggle-line"></span>
-        <span class="nav-toggle-line"></span>
-        <span class="nav-toggle-line"></span>
-      </button>
+    <!-- CONTENU PRINCIPAL -->
+    <main>
 
-      <nav class="nav-links">
-        <a href="index.html">Accueil</a>
-        <a href="offres.html">Offres</a>
-        <a href="cas-clients.html">Cas clients</a>
-        <a href="contact.html" class="nav-cta">
-          <span class="icon">●</span>
-          Parler d’un projet IA
-        </a>
-      </nav>
-    </div>
-  </header>
+      <!-- HERO -->
+      <section class="hero">
+        <div class="container hero-content">
+          <h1>Accompagnement IA pour dirigeants qui veulent des résultats concrets, sans jargon inutile</h1>
 
+          <p>
+            Think’UP aide les dirigeants de TPE/PME à comprendre ce que l’intelligence artificielle peut réellement apporter à leur activité :
+            identifier des usages concrets, cadrer les priorités, sélectionner les bons prestataires et piloter des projets IA mesurables.
+          </p>
 
-  <!-- CONTENU PRINCIPAL -->
-  <main>
+          <a href="offres.html" class="btn-primary">Découvrir les offres</a>
+        </div>
+      </section>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-content">
-        <h1>Accompagnement IA pour dirigeants qui veulent des résultats concrets, sans jargon inutile</h1>
+      <!-- NOTRE APPROCHE -->
+      <section class="approche section">
+        <div class="container">
+          <h2>Notre approche : partir du métier, pas de la technologie</h2>
+          <p>
+            La plupart des projets IA échouent parce qu’ils mettent la technologie au centre au lieu des usages métiers.
+            Chez Think’UP, la logique est volontairement simple :
+          </p>
+          <ul>
+            <li>Comprendre votre activité, vos contraintes et vos objectifs business.</li>
+            <li>Identifier des cas d’usage IA concrets, utiles et réalistes.</li>
+            <li>Prioriser ce qui apporte rapidement de la valeur, sans complexité inutile.</li>
+            <li>Mobiliser, si besoin, un réseau de freelances IA spécialisés pour exécuter les projets.</li>
+          </ul>
+          <p>
+            L’intelligence artificielle n’est pas un but en soi : c’est un levier au service de votre stratégie, de vos équipes
+            et de votre rentabilité.
+          </p>
+        </div>
+      </section>
 
-        <p>
-          Think’UP aide les dirigeants de TPE/PME à comprendre ce que l’intelligence artificielle peut réellement apporter à leur activité :
-          identifier des usages concrets, cadrer les priorités, sélectionner les bons prestataires et piloter des projets IA mesurables.
-        </p>
-
-        <a href="offres.html" class="btn btn-primary">Découvrir les offres</a>
-      </div>
-    </section>
-
-    <!-- NOTRE APPROCHE -->
-    <section class="approche section">
-      <div class="container">
-        <h2>Notre approche : partir du métier, pas de la technologie</h2>
-        <p>
-          La plupart des projets IA échouent parce qu’ils mettent la technologie au centre au lieu des usages métiers.
-          Chez Think’UP, la logique est volontairement simple :
-        </p>
-        <ul>
-          <li>Comprendre votre activité, vos contraintes et vos objectifs business.</li>
-          <li>Identifier des cas d’usage IA concrets, utiles et réalistes.</li>
-          <li>Prioriser ce qui apporte rapidement de la valeur, sans complexité inutile.</li>
-          <li>Mobiliser, si besoin, un réseau de freelances IA spécialisés pour exécuter les projets.</li>
-        </ul>
-        <p>
-          L’intelligence artificielle n’est pas un but en soi : c’est un levier au service de votre stratégie, de vos équipes
-          et de votre rentabilité.
-        </p>
-      </div>
-    </section>
-
-    <!-- POUR QUI ? -->
-    <section class="pour-qui section section-alt">
-      <div class="container">
-        <h2>Pour quels dirigeants et quelles entreprises&nbsp;?</h2>
-        <div class="grid-2">
-          <div>
-            <h3>Vous êtes concerné si…</h3>
-            <ul>
-              <li>Vous dirigez une TPE/PME, un cabinet de conseil ou une structure de services.</li>
-              <li>Vous entendez parler d’IA partout, mais vous manquez de visibilité sur les usages vraiment utiles.</li>
-              <li>Vous avez des idées de projets IA ou d’automatisation, mais rien de clairement structuré.</li>
-              <li>Vous voulez des résultats concrets, pas un énième “POC” qui ne débouche sur rien.</li>
-            </ul>
+      <!-- POUR QUI ? -->
+      <section class="pour-qui section section-alt">
+        <div class="container">
+          <h2>Pour quels dirigeants et quelles entreprises&nbsp;?</h2>
+          <div class="grid-2">
+            <div>
+              <h3>Vous êtes concerné si…</h3>
+              <ul>
+                <li>Vous dirigez une TPE/PME, un cabinet de conseil ou une structure de services.</li>
+                <li>Vous entendez parler d’IA partout, mais vous manquez de visibilité sur les usages vraiment utiles.</li>
+                <li>Vous avez des idées de projets IA ou d’automatisation, mais rien de clairement structuré.</li>
+                <li>Vous voulez des résultats concrets, pas un énième “POC” qui ne débouche sur rien.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Ce que Think’UP fait</h3>
+              <ul>
+                <li><strong>Cadrage & diagnostic :</strong> clarifier vos enjeux, vos contraintes et vos priorités.</li>
+                <li><strong>Identification des bons cas d’usage :</strong> automatisation, copilotes IA, suivi de performance…</li>
+                <li><strong>Pilotage et suivi du ROI :</strong> mettre en place des indicateurs simples, lisibles, suivis.</li>
+                <li><strong>Coordination d’experts :</strong> activer un réseau de freelances IA si nécessaire, sans complexifier votre organisation.</li>
+              </ul>
+            </div>
           </div>
-          <div>
-            <h3>Ce que Think’UP fait / ne fait pas</h3>
-            <ul>
-              <li><strong>Fait :</strong> cadrage, diagnostic, priorisation, choix d’usages, pilotage de projet et suivi du ROI.</li>
-              <li><strong>Fait :</strong> coordination avec des freelances IA spécialisés si nécessaire.</li>
-              <li><strong>Ne fait pas :</strong> vendre une technologie unique ou imposer un stack outil figé.</li>
-              <li><strong>Ne fait pas :</strong> promettre une “IA magique” qui résout tout sans travail métier.</li>
-            </ul>
+        </div>
+      </section>
+
+      <!-- OUTILS (INDEX ICEBERG) -->
+      <section class="outils section">
+        <div class="container">
+          <h2>Des outils concrets pour clarifier vos priorités IA</h2>
+          <p>
+            Pour analyser vos besoins et structurer vos projets IA, Think’UP s’appuie sur plusieurs outils internes,
+            utilisés en fonction de votre contexte :
+          </p>
+          <ul>
+            <li><strong>Grilles de cadrage métier</strong> pour cartographier vos processus, irritants et opportunités IA.</li>
+            <li><strong>Matrice de priorisation</strong> pour arbitrer entre impact business, complexité et risques.</li>
+            <li>
+              <strong>Index Iceberg</strong>, un outil interne qui permet de visualiser les tâches visibles et invisibles dans vos métiers
+              et d’identifier celles qui peuvent être assistées ou automatisées par l’IA.
+            </li>
+            <li><strong>Tableaux de bord de suivi</strong> pour piloter vos projets IA et mesurer concrètement les gains.</li>
+          </ul>
+          <p>
+            L’Index Iceberg est un outil au service d’une approche pragmatique&nbsp;: partir du métier, quantifier le ROI,
+            puis seulement choisir les solutions IA sur-mesure adaptées.
+          </p>
+        </div>
+      </section>
+
+      <!-- EXTRAIT OFFRES -->
+      <section class="offres-extrait section section-alt">
+        <div class="container">
+          <h2>Trois offres IA pour passer de l’idée au résultat concret</h2>
+          <div class="cards-3">
+            <article class="card">
+              <h3>Ateliers “IA utile” pour dirigeants</h3>
+              <p>Clarifier les usages possibles de l’IA dans votre activité, en langage métier, et identifier 3 à 5 cas d’usage concrets.</p>
+              <a href="offres.html#atelier-ia-utile" class="link-more">Voir le détail</a>
+            </article>
+            <article class="card">
+              <h3>Diagnostic & cadrage IA</h3>
+              <p>Transformer vos idées en plan de projet IA clair, chiffré et priorisé, aligné sur vos objectifs business.</p>
+              <a href="offres.html#cadrage-ia" class="link-more">Voir le détail</a>
+            </article>
+            <article class="card">
+              <h3>Pilotage IA & réseau de freelances</h3>
+              <p>Faire aboutir vos projets IA avec les bons experts, au bon moment, sans créer une équipe interne dédiée.</p>
+              <a href="offres.html#pilotage-ia-freelances" class="link-more">Voir le détail</a>
+            </article>
+          </div>
+          <div class="section-cta-center">
+            <a href="offres.html" class="btn-secondary">Explorer toutes les offres</a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- OUTILS (INDEX ICEBERG = UN OUTIL PARMI D’AUTRES) -->
-    <section class="outils section">
-      <div class="container">
-        <h2>Des outils concrets pour clarifier vos priorités IA</h2>
-        <p>
-          Pour analyser vos besoins et structurer vos projets IA, Think’UP s’appuie sur plusieurs outils internes,
-          utilisés en fonction de votre contexte :
-        </p>
-        <ul>
-          <li>
-            <strong>Grilles de cadrage métier</strong> pour cartographier vos processus, irritants et opportunités IA.
-          </li>
-          <li>
-            <strong>Matrice de priorisation</strong> pour arbitrer entre impact business, complexité et risques.
-          </li>
-          <li>
-            <strong>Index Iceberg</strong>, un outil interne qui permet de visualiser
-            les tâches visibles et invisibles dans vos métiers et d’identifier celles
-            qui peuvent être assistées ou automatisées par l’IA.
-          </li>
-          <li>
-            <strong>Tableaux de bord de suivi</strong> pour piloter vos projets IA et mesurer concrètement les gains.
-          </li>
-        </ul>
-        <p>
-          L’Index Iceberg n’est pas une méthode unique ni la base de la stratégie Think’UP&nbsp;: c’est un outil parmi d’autres,
-          au service d’une approche pragmatique centrée sur vos enjeux métiers.
-        </p>
-      </div>
-    </section>
-
-    <!-- EXTRAIT OFFRES -->
-    <section class="offres-extrait section section-alt">
-      <div class="container">
-        <h2>Trois offres IA pour passer de l’idée au résultat concret</h2>
-        <div class="cards-3">
-          <article class="card">
-            <h3>Ateliers “IA utile” pour dirigeants</h3>
-            <p>
-              Clarifier les usages possibles de l’IA dans votre activité, en langage métier,
-              et identifier 3 à 5 cas d’usage concrets.
-            </p>
-            <a href="offres.html#atelier-ia-utile" class="link-more">Voir le détail</a>
-          </article>
-          <article class="card">
-            <h3>Diagnostic & cadrage IA</h3>
-            <p>
-              Transformer vos idées en plan de projet IA clair, chiffré et priorisé,
-              aligné sur vos objectifs business.
-            </p>
-            <a href="offres.html#cadrage-ia" class="link-more">Voir le détail</a>
-          </article>
-          <article class="card">
-            <h3>Pilotage IA & réseau de freelances</h3>
-            <p>
-              Faire aboutir vos projets IA avec les bons experts, au bon moment,
-              sans créer une équipe interne dédiée.
-            </p>
-            <a href="offres.html#pilotage-ia-freelances" class="link-more">Voir le détail</a>
-          </article>
+      <!-- EXTRAIT CAS CLIENTS -->
+      <section class="cas-extrait section">
+        <div class="container">
+          <h2>Exemples de transformations IA en TPE/PME</h2>
+          <div class="cards-3">
+            <article class="card">
+              <h3>PME de services B2B</h3>
+              <p>Automatisation partielle des relances commerciales, temps de préparation divisé par deux et pipeline mieux suivi à partir du CRM existant.</p>
+            </article>
+            <article class="card">
+              <h3>Entreprise industrielle</h3>
+              <p>Diagnostic IA, focalisation sur deux projets à fort ROI, feuille de route 12&nbsp;mois au lieu d’une multitude d’initiatives dispersées.</p>
+            </article>
+            <article class="card">
+              <h3>Cabinet de conseil</h3>
+              <p>Conception d’une offre “diagnostic IA” pour leurs propres clients et activation d’un réseau de freelances IA spécialisés.</p>
+            </article>
+          </div>
+          <div class="section-cta-center">
+            <a href="cas-clients.html" class="btn-secondary">Voir les cas clients détaillés</a>
+          </div>
         </div>
-        <div class="section-cta-center">
-          <a href="offres.html" class="btn btn-secondary">Explorer toutes les offres</a>
+      </section>
+
+      <!-- CTA FINALE -->
+      <section class="cta-final section section-alt">
+        <div class="container">
+          <h2>Parlons de votre contexte IA, sans jargon</h2>
+          <p>
+            En 30 minutes, il est possible de clarifier vos enjeux, de vérifier si l’IA peut vous aider réellement
+            et d’identifier les premières actions à mettre en place.
+          </p>
+          <a href="contact.html" class="btn-primary">Planifier un échange</a>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container footer-grid">
+        <div>
+          <strong>Think’UP</strong><br>
+          Accompagnement IA pour dirigeants de TPE/PME<br>
+          Versailles – France
+        </div>
+        <div>
+          <a href="mailto:patlang78@yahoo.fr">patlang78@yahoo.fr</a><br>
+          <a href="tel:+33782484354">+33 7 82 48 43 54</a>
+        </div>
+        <div class="footer-links">
+          <a href="mentions-legales.html">Mentions légales</a>
         </div>
       </div>
-    </section>
+    </footer>
 
-    <!-- EXTRAIT CAS CLIENTS -->
-    <section class="cas-extrait section">
-      <div class="container">
-        <h2>Exemples de transformations IA en TPE/PME</h2>
-        <div class="cards-3">
-          <article class="card">
-            <h3>PME de services B2B</h3>
-            <p>
-              Automatisation partielle des relances commerciales, temps de préparation divisé par deux
-              et pipeline mieux suivi à partir du CRM existant.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Entreprise industrielle</h3>
-            <p>
-              Diagnostic IA, focalisation sur deux projets à fort ROI,
-              feuille de route 12 mois au lieu d’une multitude d’initiatives dispersées.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Cabinet de conseil</h3>
-            <p>
-              Conception d’une offre “diagnostic IA” pour leurs propres clients
-              et activation d’un réseau de freelances IA spécialisés.
-            </p>
-          </article>
-        </div>
-        <div class="section-cta-center">
-          <a href="cas-clients.html" class="btn btn-secondary">Voir les cas clients détaillés</a>
-        </div>
-      </div>
-    </section>
+  </div>
 
-    <!-- CTA FINALE -->
-    <section class="cta-final section section-alt">
-      <div class="container">
-        <h2>Parlons de votre contexte IA, sans jargon</h2>
-        <p>
-          En 30 minutes, il est possible de clarifier vos enjeux, de vérifier si l’IA peut vous aider réellement
-          et d’identifier les premières actions à mettre en place.
-        </p>
-        <a href="contact.html" class="btn btn-primary">Planifier un échange</a>
-      </div>
-    </section>
+  <script>
+    const toggle = document.querySelector('.nav-toggle');
+    const links = document.querySelector('.nav-links');
 
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <strong>Think’UP</strong><br>
-        Accompagnement IA pour dirigeants de TPE/PME<br>
-        Versailles – France
-      </div>
-      <div>
-        <a href="mailto:patlang78@yahoo.fr">patlang78@yahoo.fr</a><br>
-        <a href="tel:+33782484354">+33 7 82 48 43 54</a>
-      </div>
-      <div>
-        <a href="mentions-legales.html">Mentions légales</a>
-      </div>
-    </div>
-  </footer>
-
+    if (toggle && links) {
+      toggle.addEventListener('click', () => {
+        toggle.classList.toggle('open');
+        links.classList.toggle('open');
+      });
+    }
+  </script>
 </body>
 </html>
