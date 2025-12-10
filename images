@@ -1,1 +1,6 @@
 
+thinkup-site/
+   ├── index.html
+   ├── styles.css
+   ├── images/
+         └── logo-thinkup.png
