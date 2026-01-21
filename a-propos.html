@@ -20,14 +20,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <head>
     <meta charset="UTF-8">
     <title>À Propos - Think'UP</title>
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "AboutPage",
-      ... le reste du code ...
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Patrick",
+    "jobTitle": "Fondateur de Think'UP",
+    "description": "Expert en stratégie IA et efficacité opérationnelle, créateur de la méthode Index Iceberg.",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Think'UP",
+      "url": "https://thinkup-vers.github.io/thinkup-site/"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Versailles",
+      "addressCountry": "FR"
     }
-    </script>
+  }
+}
+</script>
 
 </head>
 <body>
