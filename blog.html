@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blog Think'UP | IA concrète, sans jargon – Pour dirigeants PME/ETI</title>
+<meta name="description" content="Le blog Think'UP : analyses, guides et retours terrain sur l'IA appliquée aux PME et ETI. Méthode Index Iceberg, ROI IA, automatisation concrète. Par Patrick Langlais.">
+<link rel="canonical" href="https://thinkup-vers.github.io/thinkup-site/blog.html">
+<meta property="og:image" content="og-thinkup.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.blog-hero-lead{font-size:1rem;max-width:55ch}
+.blog-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin:2rem 0 3rem}
+.filt-btn{
+  padding:.4rem 1rem;border:1.5px solid var(--border-l);border-radius:999px;
+  font-family:var(--ff-m);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;background:none;color:var(--text-dim);transition:all .2s;
+}
+.filt-btn:hover,.filt-btn.active{border-color:var(--purple);background:var(--purple-dim);color:var(--purple)}
+.blog-hero-card{
+  grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rl);
+  box-shadow:var(--sh-l);overflow:hidden;margin-bottom:1.5rem;
+}
+.blog-hero-card-img{
+  background:var(--grad-bg);display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;min-height:280px;
+}
+.blog-hero-card-img::before{content:'';position:absolute;inset:0;background:var(--grad);opacity:.1}
+.blog-hero-card-ico{font-size:4rem;position:relative;z-index:1}
+.blog-hero-card-body{padding:2.5rem}
+.blog-hero-card-body .blog-card-cat{display:inline-block;margin-bottom:.85rem}
+.blog-hero-card-body h2{font-family:var(--ff-d);font-size:clamp(1.4rem,2.5vw,2rem);color:var(--text);margin-bottom:.75rem;font-weight:400}
+.blog-hero-card-body p{font-size:.9rem;max-width:none;margin-bottom:1.25rem}
+@media(max-width:768px){.blog-hero-card{grid-template-columns:1fr}.blog-hero-card-img{min-height:180px}}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="container"><div class="nav-in">
+  <a href="index.html" class="nav-logo"><img src="logo-thinkup.png" alt="Think'UP"></a>
+  <ul class="nav-links"><li><a href="methode.html">Méthode</a></li><li><a href="offres.html">Offres</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="blog.html" class="active">Blog</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul>
+  <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
+</div></div></nav>
+<main>
+
+<section class="page-hero"><div class="container"><div class="page-hero-in reveal">
+  <span class="label">Le blog</span>
+  <h1>IA concrète,<br><span class="grad-text">sans jargon</span></h1>
+  <p class="blog-hero-lead">Des analyses, guides et retours terrain pour les dirigeants qui veulent comprendre avant d'investir. Par Patrick Langlais, Top 20 IA France 2025.</p>
+</div></div></section>
+
+<section class="section-gap"><div class="container">
+  <!-- Filtres catégories -->
+  <div class="blog-filter reveal">
+    <button class="filt-btn active">Tous les articles</button>
+    <button class="filt-btn">Stratégie</button>
+    <button class="filt-btn">ROI & Finance</button>
+    <button class="filt-btn">Méthode</button>
+    <button class="filt-btn">Comparatifs</button>
+    <button class="filt-btn">Retours terrain</button>
+  </div>
+
+  <!-- ARTICLE HERO (featured) -->
+  <div class="blog-hero-card reveal">
+    <div class="blog-hero-card-img"><div class="blog-hero-card-ico">⚠️</div></div>
+    <div class="blog-hero-card-body">
+      <span class="blog-card-cat article-tag">Stratégie</span>
+      <h2>7 erreurs qui font échouer les projets IA en PME — et comment les éviter</h2>
+      <p>Les projets IA ne ratent pas par manque de technologie. Ils ratent parce que 7 erreurs systématiques se répètent dans presque toutes les PME qui se lancent sans méthode. Un guide direct pour ne pas les reproduire.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem">
+        <span style="font-family:var(--ff-m);font-size:.7rem;color:var(--text-mu)">6 min de lecture · Stratégie IA</span>
+        <a href="article-1.html" class="btn-p" style="padding:.65rem 1.3rem;font-size:.875rem">Lire l'article →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRILLE ARTICLES -->
+  <div class="blog-grid reveal">
+    <a href="article-2.html" class="blog-card" style="text-decoration:none">
+      <div class="blog-card-img"><div class="blog-card-ico">📊</div><span class="blog-card-cat">ROI &amp; Finance</span></div>
+      <div class="blog-card-body">
+        <h3>Comment calculer le ROI de l'IA avant d'investir (avec exemple chiffré)</h3>
+        <p>La méthode en 4 étapes pour quantifier vos gains potentiels — avant de signer quoi que ce soit.</p>
+        <div class="blog-card-meta"><span>7 min</span><span class="blog-read-link">Lire →</span></div>
+      </div>
+    </a>
+    <a href="article-3.html" class="blog-card" style="text-decoration:none">
+      <div class="blog-card-img"><div class="blog-card-ico">🧊</div><span class="blog-card-cat">Méthode</span></div>
+      <div class="blog-card-body">
+        <h3>Tâches invisibles : ce que votre entreprise ne voit pas — et qui lui coûte cher</h3>
+        <p>Le concept qui change tout pour votre productivité. Comprendre l'Iceberg en 5 minutes.</p>
+        <div class="blog-card-meta"><span>5 min</span><span class="blog-read-link">Lire →</span></div>
+      </div>
+    </a>
+    <a href="article-4.html" class="blog-card" style="text-decoration:none">
+      <div class="blog-card-img"><div class="blog-card-ico">🔍</div><span class="blog-card-cat">Comparatifs</span></div>
+      <div class="blog-card-body">
+        <h3>Comment choisir son consultant IA ? Les 5 questions à poser avant de signer</h3>
+        <p>Un guide pour évaluer n'importe quelle proposition de conseil IA — y compris la nôtre.</p>
+        <div class="blog-card-meta"><span>6 min</span><span class="blog-read-link">Lire →</span></div>
+      </div>
+    </a>
+    <a href="article-5.html" class="blog-card" style="text-decoration:none">
+      <div class="blog-card-img"><div class="blog-card-ico">🏭</div><span class="blog-card-cat">Retours terrain</span></div>
+      <div class="blog-card-body">
+        <h3>IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas</h3>
+        <p>Retours concrets de terrain — sans optimisme commercial ni catastrophisme technophobe.</p>
+        <div class="blog-card-meta"><span>8 min</span><span class="blog-read-link">Lire →</span></div>
+      </div>
+    </a>
+  </div>
+</div></section>
+
+<!-- NEWSLETTER / CTA -->
+<section style="padding:0 0 6rem"><div class="container">
+  <div class="cta-strip reveal">
+    <span class="label">Rester informé</span>
+    <h2>Un article utile, pas de spam</h2>
+    <p>Chaque article de ce blog est écrit pour un dirigeant qui n'a pas le temps de lire des généralités. Planifiez un échange direct si vous avez une question spécifique.</p>
+    <div class="btn-row" style="justify-content:center">
+      <a href="contact.html" class="btn-p">Planifier 30 minutes →</a>
+      <a href="methode.html" class="btn-g">Découvrir la méthode</a>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer role="contentinfo"><div class="container">
+  <div class="foot-grid">
+    <div class="foot-brand"><a href="index.html" class="foot-logo"><img src="logo-thinkup.png" alt="Think'UP"></a><p>IA utile et rentable pour PME/ETI.<br>Index Iceberg. Versailles, France.</p></div>
+    <div class="foot-col"><h5>Pages</h5><ul class="foot-links"><li><a href="methode.html">La méthode</a></li><li><a href="offres.html">Les offres</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="blog.html">Blog</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul></div>
+    <div class="foot-col"><h5>Blog</h5><ul class="foot-links"><li><a href="article-1.html">7 erreurs projets IA PME</a></li><li><a href="article-2.html">Calculer le ROI IA</a></li><li><a href="article-3.html">Tâches invisibles</a></li><li><a href="article-4.html">Choisir son consultant IA</a></li><li><a href="article-5.html">IA PME 2025</a></li></ul></div>
+    <div class="foot-col"><h5>Contact</h5><ul class="foot-links"><li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li><li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li><li><a href="contact.html">Formulaire</a></li></ul></div>
+  </div>
+  <div class="foot-bottom"><span>© 2025 Think'UP – Patrick Langlais · Versailles</span><div class="foot-legal"><a href="#">Mentions légales</a><a href="#">Confidentialité</a></div></div>
+</div></footer>
+<script>
+const nav=document.getElementById('nav');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.filt-btn').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filt-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));
+</script>
+</body>
+</html>

@@ -2,355 +2,187 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Offres Think'UP | Atelier IA, Diagnostic Index Iceberg, Pilotage – Pour dirigeants PME/ETI</title>
-<meta name="description" content="Trois offres Think'UP pour passer de l'idée au résultat IA : Atelier Déclic (2–3h), Diagnostic Index Iceberg (3–6 sem.), Pilotage IA & Freelances. Résultats mesurables en 90 jours.">
+<title>Offres Think'UP | Atelier IA, Diagnostic Index Iceberg, Pilotage – PME/ETI</title>
+<meta name="description" content="Trois offres Think'UP pour passer de l'idée au ROI IA : Atelier Déclic (2–3h), Diagnostic Index Iceberg (3–6 semaines), Pilotage & Freelances. Résultats mesurables en 90 jours.">
 <link rel="canonical" href="https://thinkup-vers.github.io/thinkup-site/offres.html">
+<meta property="og:image" content="og-thinkup.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-/* ── OFFRES ONLY ──── */
-.off-full{display:flex;flex-direction:column}
-.off-full .off-list{flex-grow:1}
-
-.path-strip{
-  display:grid;grid-template-columns:1fr auto 1fr auto 1fr;
-  align-items:center;gap:1rem;margin:3.5rem 0;
-}
+.path-strip{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:1rem;margin:3rem 0}
 .path-arrow{color:var(--border-l);font-size:1.5rem;text-align:center}
-.path-step{
-  text-align:center;padding:2rem 1.5rem;
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
-}
-.path-step.hl{
-  background:var(--grad-bg);
-  border:1px solid rgba(155,106,247,.3);
-}
-.path-step-n{
-  font-family:var(--ff-d);font-size:2rem;font-weight:300;
-  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:.5rem;
-}
-.path-step h4{margin-bottom:.25rem}
-.path-step p{font-size:.8rem;max-width:none;margin:0 auto;text-align:center}
-
-.off-detail{padding:3.5rem 0;border-top:1px solid var(--border);margin-top:3rem}
+.path-step{text-align:center;padding:1.75rem 1.25rem;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh)}
+.path-step.hl{border-color:var(--border-l);background:var(--bg-2)}
+.path-step-n{font-family:var(--ff-d);font-size:1.8rem;font-weight:300;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem}
+.path-step h4{margin-bottom:.25rem}.path-step p{font-size:.8rem;max-width:none;text-align:center;margin:0}
+.off-detail{padding:4rem 0;border-top:1.5px solid var(--border)}
 .off-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
-.off-detail-info h2{margin-bottom:.75rem}
-.off-detail-info .off-fmt{margin-bottom:1.25rem}
-.off-detail-info p{max-width:none;margin-bottom:1rem}
-.off-deliverables{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
-  padding:2rem;
-}
-.off-deliverables h4{margin-bottom:1.25rem;color:var(--white)}
-.off-for{
-  display:flex;align-items:center;gap:.5rem;padding:.5rem .85rem;
-  border:1px solid var(--border-l);border-radius:999px;
-  font-size:.78rem;color:var(--text-dim);display:inline-flex;margin:.25rem .25rem 0 0;
-}
-
-@media(max-width:1024px){.path-strip{grid-template-columns:1fr;gap:.75rem}.path-arrow{display:none}.off-detail-grid{grid-template-columns:1fr}}
+.off-deliverables{background:var(--bg-2);border:1.5px solid var(--border);border-radius:var(--rl);padding:2rem;box-shadow:var(--sh)}
+.off-deliverables h4{margin-bottom:1.1rem}
+.off-for{display:inline-flex;padding:.28rem .75rem;border:1.5px solid var(--border-l);border-radius:999px;font-size:.77rem;color:var(--text-dim);margin:.2rem .2rem 0 0}
+@media(max-width:1024px){.path-strip{grid-template-columns:1fr}.path-arrow{display:none}.off-detail-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<nav id="nav" role="navigation">
-  <div class="container">
-    <div class="nav-in">
-      <a href="index.html" class="nav-logo-pill" aria-label="Think'UP – Accueil"><img src="logo-thinkup.png" alt="Think'UP"></a>
-      <ul class="nav-links">
-        <li><a href="methode.html">Méthode</a></li>
-        <li><a href="offres.html" class="active">Offres</a></li>
-        <li><a href="resultats.html">Résultats</a></li>
-        <li><a href="patrick.html">Patrick Langlais</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-      <a href="contact.html" class="nav-cta">Parler d'un projet →</a>
-    </div>
-  </div>
-</nav>
-
+<nav id="nav"><div class="container"><div class="nav-in">
+  <a href="index.html" class="nav-logo"><img src="logo-thinkup.png" alt="Think'UP"></a>
+  <ul class="nav-links"><li><a href="methode.html">Méthode</a></li><li><a href="offres.html" class="active">Offres</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="blog.html">Blog</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul>
+  <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
+</div></div></nav>
 <main>
+<section class="page-hero"><div class="container"><div class="page-hero-in reveal">
+  <span class="label">Les offres</span>
+  <h1>Trois étapes,<br><span class="grad-text">un chemin vers le ROI</span></h1>
+  <p>De la sensibilisation à la mise en production. Chaque offre peut être engagée indépendamment selon votre stade actuel.</p>
+</div></div></section>
 
-<section class="page-hero">
-  <div class="page-hero-bg" aria-hidden="true"></div>
-  <div class="container">
-    <div class="page-hero-in reveal">
-      <span class="label">Les offres</span>
-      <h1>Trois étapes,<br><span class="grad-text">un chemin vers le ROI</span></h1>
-      <p style="margin-top:1.25rem">
-        Chaque offre intègre la logique Index Iceberg : comprendre le travail réel, 
-        prioriser ce qui compte, mobiliser les bons experts pour livrer des résultats mesurables. 
-        Engagez l'étape qui correspond à votre stade actuel.
-      </p>
-    </div>
+<section style="padding:3.5rem 0 4rem"><div class="container">
+  <div class="path-strip reveal">
+    <div class="path-step"><div class="path-step-n">01</div><h4>Atelier Déclic IA</h4><p>2–3h · Identifier & prioriser vos premiers cas d'usage</p></div>
+    <div class="path-arrow">→</div>
+    <div class="path-step hl"><div class="path-step-n">02</div><h4>Diagnostic Index Iceberg</h4><p>3–6 sem. · Audit complet + roadmap ROI</p></div>
+    <div class="path-arrow">→</div>
+    <div class="path-step"><div class="path-step-n">03</div><h4>Pilotage IA & Freelances</h4><p>90 jours · Mise en œuvre jusqu'au ROI</p></div>
   </div>
-</section>
+</div></section>
 
-<!-- PATH VUE D'ENSEMBLE -->
-<section style="padding:3rem 0 5rem">
-  <div class="container">
-    <div class="path-strip reveal">
-      <div class="path-step">
-        <div class="path-step-n">01</div>
-        <h4>Atelier Déclic IA</h4>
-        <p>2–3h · Identifier & prioriser vos premiers cas d'usage IA</p>
-      </div>
-      <div class="path-arrow" aria-hidden="true">→</div>
-      <div class="path-step hl">
-        <div class="path-step-n">02</div>
-        <h4>Diagnostic Index Iceberg</h4>
-        <p>3–6 semaines · Audit complet + roadmap ROI priorisée</p>
-      </div>
-      <div class="path-arrow" aria-hidden="true">→</div>
-      <div class="path-step">
-        <div class="path-step-n">03</div>
-        <h4>Pilotage IA & Freelances</h4>
-        <p>90 jours · Mise en œuvre jusqu'au ROI mesurable</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ OFFRE 1 ═══ -->
-<section id="atelier" class="section-gap" style="padding-top:0;background:var(--bg-2)">
-  <div class="container">
-    <div class="off-detail">
-      <div class="off-detail-grid">
-        <div class="off-detail-info reveal">
-          <div class="off-step">Étape 01</div>
-          <h2>Atelier <span class="grad-text">Déclic IA utile</span></h2>
-          <div class="off-fmt">Format : 2–3h · visio ou présentiel · direction + managers clés</div>
-          <p>
-            L'atelier s'adresse aux dirigeants qui entendent parler d'IA de partout 
-            et qui veulent comprendre — concrètement, sur leur métier — ce que l'IA 
-            peut apporter, sans vendeur de licences, sans jargon et sans engagement.
-          </p>
-          <p>
-            En 2 à 3 heures, vous repartez avec une vision claire de votre potentiel IA 
-            immédiat, identifié sur vos activités réelles, avec les risques et les 
-            conditions de réussite explicitées.
-          </p>
-          <div style="margin-top:1.25rem">
-            <p style="font-size:.84rem;color:var(--text-mu);margin-bottom:.5rem">Pour qui :</p>
-            <span class="off-for">Dirigeant TPE/PME</span>
-            <span class="off-for">Responsable métier</span>
-            <span class="off-for">Comité de direction</span>
-            <span class="off-for">Décideur sans background tech</span>
-          </div>
-          <div style="margin-top:2rem"><a href="contact.html" class="btn-p">Planifier l'atelier →</a></div>
-        </div>
-        <div class="off-deliverables reveal d1">
-          <h4>Ce que vous obtenez</h4>
-          <ul class="off-list">
-            <li>Tour d'horizon des usages IA réels dans votre secteur</li>
-            <li>Cartographie rapide Iceberg sur 1–2 métiers clés de votre entreprise</li>
-            <li>3 à 5 cas d'usage IA concrets et priorisés, issus de vos activités réelles</li>
-            <li>Analyse des risques et des conditions de réussite pour chaque piste</li>
-            <li>Un document de synthèse partageable en interne</li>
-          </ul>
-          <hr class="grad-hr" style="margin:1.5rem 0">
-          <div class="badge-award">
-            <span class="badge-award-icon">💡</span>
-            <div class="badge-award-text">
-              <strong>Idéal comme premier pas</strong>
-              Avant tout investissement, cet atelier clarifie si et où l'IA vaut votre attention
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ OFFRE 2 ═══ -->
-<section id="diagnostic" class="section-gap" style="padding-top:0">
-  <div class="container">
-    <div class="off-detail">
-      <div class="off-detail-grid">
-        <div class="off-detail-info reveal">
-          <div class="off-step">Étape 02 · Offre phare</div>
-          <h2>Diagnostic &amp; cadrage IA<br><span class="grad-text">Index Iceberg</span></h2>
-          <div class="off-fmt">Durée : 3–6 semaines selon périmètre · Livrables : rapport + restitution CODIR</div>
-          <p>
-            Le diagnostic complet de vos processus, par l'observation directe et les interviews métiers. 
-            Chaque tâche visible et invisible est cartographiée, mesurée, et évaluée selon son 
-            potentiel d'automatisation ou d'assistance IA.
-          </p>
-          <p>
-            Vous obtenez un business case documenté pour chaque projet IA identifié — 
-            pas une liste d'outils, mais un arbitrage rigoureux par impact, effort et risque, 
-            directement présentable à votre CODIR.
-          </p>
-          <p>
-            <strong>Pourquoi c'est l'offre phare :</strong> c'est la seule qui vous donne 
-            la visibilité complète pour décider — investir quand c'est justifié, 
-            stopper quand ce ne l'est pas.
-          </p>
-          <div style="margin-top:1.25rem">
-            <p style="font-size:.84rem;color:var(--text-mu);margin-bottom:.5rem">Pour qui :</p>
-            <span class="off-for">PME 10–250 salariés</span>
-            <span class="off-for">ETI en transformation</span>
-            <span class="off-for">Direction + DAF + Responsables métiers</span>
-          </div>
-          <div style="margin-top:2rem"><a href="contact.html" class="btn-p">Cadrer mon diagnostic →</a></div>
-        </div>
-        <div class="off-deliverables reveal d1" style="background:linear-gradient(145deg,var(--surface),rgba(155,106,247,.07));border-color:rgba(155,106,247,.3)">
-          <h4>Livrables concrets</h4>
-          <ul class="off-list">
-            <li>Rapport Index Iceberg : cartographie complète des tâches visibles / invisibles</li>
-            <li>Mesure du temps réellement consommé par catégorie de tâche</li>
-            <li>Identification et qualification des tâches assistables / automatisables par IA</li>
-            <li>Business case synthétique pour chaque projet IA envisagé (ROI, effort, risque)</li>
-            <li>Roadmap 6–12 mois avec 2 à 5 cas d'usage priorisés et chiffrés</li>
-            <li>Scénarios d'investissement : low, medium, high</li>
-            <li>Restitution au comité de direction, format décisionnel</li>
-          </ul>
-          <hr class="grad-hr" style="margin:1.5rem 0">
-          <div class="badge-award">
-            <span class="badge-award-icon">📊</span>
-            <div class="badge-award-text">
-              <strong>ROI positif dès le 1er projet piloté</strong>
-              Résultat observé sur l'ensemble des missions Think'UP
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ OFFRE 3 ═══ -->
-<section id="pilotage" class="section-gap" style="padding-top:0;background:var(--bg-2)">
-  <div class="container">
-    <div class="off-detail">
-      <div class="off-detail-grid">
-        <div class="off-detail-info reveal">
-          <div class="off-step">Étape 03</div>
-          <h2>Pilotage IA &amp;<br><span class="grad-text">réseau de freelances</span></h2>
-          <div class="off-fmt">Mode : forfait ou régie · Public : direction, DAF, DSI, responsables métiers</div>
-          <p>
-            Vous gardez la main sur la stratégie. Think'UP sécurise l'exécution : 
-            sélection des bons experts IA, rédaction des cahiers des charges métier, 
-            pilotage des livrables et mesure des résultats.
-          </p>
-          <p>
-            Pas de recrutement d'équipe IA en interne. Pas d'intermédiaire entre votre métier 
-            et les experts techniques. Un interlocuteur unique — Patrick Langlais — 
-            du diagnostic à la mesure du ROI.
-          </p>
-          <p>
-            <strong>Ce que cette offre évite :</strong> les pertes de temps à briefer 
-            des freelances sans cadrage métier, les livrables hors scope et les projets 
-            qui traînent sans pilotage.
-          </p>
-          <div style="margin-top:1.25rem">
-            <p style="font-size:.84rem;color:var(--text-mu);margin-bottom:.5rem">Pour qui :</p>
-            <span class="off-for">Entreprises avec diagnostic terminé</span>
-            <span class="off-for">Projets IA bloqués à relancer</span>
-            <span class="off-for">Direction sans équipe technique interne</span>
-          </div>
-          <div style="margin-top:2rem"><a href="contact.html" class="btn-p">Discuter du pilotage →</a></div>
-        </div>
-        <div class="off-deliverables reveal d1">
-          <h4>Ce que Think'UP prend en charge</h4>
-          <ul class="off-list">
-            <li>Rédaction de cahiers des charges métier précis et exploitables par les freelances</li>
-            <li>Sélection des experts IA adaptés à chaque projet (dev, data, intégration, change)</li>
-            <li>Challenge des devis et des approches techniques proposées</li>
-            <li>Suivi hebdomadaire des livrables avec validation côté métier</li>
-            <li>Mise en place des indicateurs de résultats : temps, qualité, ROI</li>
-            <li>Accompagnement à la conduite du changement auprès des équipes</li>
-            <li>Transfert de compétence pour réduire la dépendance externe dans la durée</li>
-          </ul>
-          <hr class="grad-hr" style="margin:1.5rem 0">
-          <div class="badge-award">
-            <span class="badge-award-icon">🎯</span>
-            <div class="badge-award-text">
-              <strong>Interlocuteur unique, du début à la mesure</strong>
-              35 ans d'expérience en pilotage de projets complexes chez HSBC
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ OFFRES -->
-<section class="section-gap" aria-labelledby="faq-off-title">
-  <div class="container">
-    <div class="grid-2-asym">
+<!-- OFFRE 1 -->
+<section id="atelier" class="bg-2"><div class="container">
+  <div class="off-detail">
+    <div class="off-detail-grid">
       <div class="reveal">
-        <span class="label">Questions sur les offres</span>
-        <h2 id="faq-off-title">Ce que les dirigeants demandent</h2>
-        <a href="contact.html" class="btn-g" style="margin-top:1.5rem;display:inline-flex">Poser une question →</a>
+        <div class="off-step">Étape 01</div>
+        <h2>Atelier <span class="grad-text">Déclic IA utile</span></h2>
+        <div class="off-fmt" style="margin-bottom:1rem">Format : 2–3h · visio ou présentiel · direction + managers clés</div>
+        <p style="max-width:none;margin-bottom:.85rem">Vous entendez parler d'IA de partout. Cet atelier vous donne une vision claire de ce qu'elle peut apporter à votre entreprise spécifiquement, sans vendeur de licences ni jargon technologique.</p>
+        <p style="max-width:none">En 2 à 3 heures, vous repartez avec 3 à 5 cas d'usage concrets identifiés sur vos activités réelles, les risques explicités et les conditions de réussite pour chacun.</p>
+        <div style="margin-top:1.25rem">
+          <p style="font-size:.83rem;color:var(--text-mu);margin-bottom:.5rem">Pour qui :</p>
+          <span class="off-for">Dirigeant TPE/PME</span><span class="off-for">Comité de direction</span><span class="off-for">Décideur sans background tech</span>
+        </div>
+        <div style="margin-top:1.75rem"><a href="contact.html" class="btn-p">Planifier l'atelier →</a></div>
       </div>
-      <div class="reveal d1">
-        <ul class="faq-list">
-          <li class="faq-item">
-            <button class="faq-q" aria-expanded="false"><span>Par quelle offre commencer si je ne connais pas l'IA ?</span><div class="faq-ico">+</div></button>
-            <div class="faq-a"><div class="faq-a-in">L'Atelier Déclic IA est le point d'entrée naturel. En 2 à 3 heures, vous comprenez ce que l'IA peut faire pour votre entreprise spécifiquement, vous identifiez vos premières zones d'Iceberg et vous repartez avec 3 à 5 pistes concrètes. Aucune compétence technique n'est requise.</div></div>
-          </li>
-          <li class="faq-item">
-            <button class="faq-q" aria-expanded="false"><span>Combien coûte le Diagnostic Index Iceberg ?</span><div class="faq-ico">+</div></button>
-            <div class="faq-a"><div class="faq-a-in">Les tarifs sont établis selon le périmètre (nombre d'équipes auditées, complexité des processus, zone géographique). Un premier échange de 30 minutes permet de définir le périmètre et d'estimer le coût. Contactez directement Patrick Langlais pour une estimation personnalisée.</div></div>
-          </li>
-          <li class="faq-item">
-            <button class="faq-q" aria-expanded="false"><span>Les offres sont-elles cumulables ou séquentielles ?</span><div class="faq-ico">+</div></button>
-            <div class="faq-a"><div class="faq-a-in">Les trois offres sont conçues pour s'enchaîner logiquement, mais chacune peut être engagée indépendamment. Vous pouvez commencer directement par le Diagnostic si votre organisation est déjà sensibilisée à l'IA. Le Pilotage suppose idéalement qu'un Diagnostic ait été réalisé, mais peut aussi s'appliquer à des projets IA déjà initiés et bloqués.</div></div>
-          </li>
-          <li class="faq-item">
-            <button class="faq-q" aria-expanded="false"><span>Les interventions se font-elles en présentiel ou à distance ?</span><div class="faq-ico">+</div></button>
-            <div class="faq-a"><div class="faq-a-in">Les deux. L'Atelier Déclic est proposé en visio ou en présentiel (Paris / Île-de-France en priorité). Le Diagnostic inclut des phases d'observation en présentiel pour les équipes auditées, et des phases à distance pour les synthèses et restitutions. Le Pilotage est principalement en mode hybride.</div></div>
-          </li>
+      <div class="off-deliverables reveal d1">
+        <h4>Ce que vous obtenez</h4>
+        <ul class="off-list">
+          <li>Tour d'horizon des usages IA réels dans votre secteur</li>
+          <li>Cartographie rapide Iceberg sur 1–2 métiers clés</li>
+          <li>3 à 5 cas d'usage IA concrets et priorisés, issus de vos activités réelles</li>
+          <li>Analyse des risques et conditions de réussite pour chaque piste</li>
+          <li>Document de synthèse partageable en interne</li>
         </ul>
+        <hr class="grad-hr">
+        <div class="badge-award"><span class="badge-award-icon">💡</span><div class="badge-award-text"><strong>Idéal comme premier pas</strong>Clarifie si et où l'IA vaut votre attention — avant tout investissement</div></div>
       </div>
     </div>
   </div>
-</section>
+</div></section>
 
-<section style="padding:0 0 7rem">
-  <div class="container">
-    <div class="cta-strip reveal">
-      <span class="label">Démarrer</span>
-      <h2>Quelle offre correspond à votre stade ?</h2>
-      <p>En 30 minutes d'échange, Patrick Langlais identifie l'étape la plus utile pour votre entreprise maintenant.</p>
-      <div class="btn-row"><a href="contact.html" class="btn-p">Planifier un échange →</a><a href="resultats.html" class="btn-g">Voir les résultats clients</a></div>
+<!-- OFFRE 2 -->
+<section id="diagnostic"><div class="container">
+  <div class="off-detail">
+    <div class="off-detail-grid">
+      <div class="reveal">
+        <div class="off-step">Étape 02 · Offre phare</div>
+        <h2>Diagnostic &amp; cadrage<br><span class="grad-text">Index Iceberg</span></h2>
+        <div class="off-fmt" style="margin-bottom:1rem">Durée : 3–6 semaines selon périmètre · Livrable : rapport + restitution CODIR</div>
+        <p style="max-width:none;margin-bottom:.85rem">Diagnostic complet de vos processus, par observation directe et interviews métiers. Chaque tâche visible et invisible est cartographiée, mesurée et évaluée selon son potentiel IA.</p>
+        <p style="max-width:none;margin-bottom:.85rem">Vous obtenez un business case documenté pour chaque projet IA — pas une liste d'outils, mais un arbitrage rigoureux par impact, effort et risque, présentable à votre CODIR.</p>
+        <p style="max-width:none"><strong>C'est l'offre phare</strong> : la seule qui vous donne la visibilité complète pour décider. Investir quand c'est justifié. Stopper quand ce ne l'est pas.</p>
+        <div style="margin-top:1.25rem"><span class="off-for">PME 10–250 salariés</span><span class="off-for">ETI en transformation</span><span class="off-for">Direction + DAF + Responsables métiers</span></div>
+        <div style="margin-top:1.75rem"><a href="contact.html" class="btn-p">Cadrer mon diagnostic →</a></div>
+      </div>
+      <div class="off-deliverables reveal d1" style="border-color:var(--border-l)">
+        <h4>Livrables concrets</h4>
+        <ul class="off-list">
+          <li>Rapport Index Iceberg : cartographie complète visible / invisible</li>
+          <li>Mesure du temps réellement consommé par catégorie de tâche</li>
+          <li>Qualification des tâches assistables / automatisables par IA</li>
+          <li>Business case synthétique pour chaque projet IA (ROI, effort, risque)</li>
+          <li>Roadmap 6–12 mois avec 2 à 5 cas d'usage priorisés et chiffrés</li>
+          <li>Scénarios d'investissement : low, medium, high</li>
+          <li>Restitution CODIR, format décisionnel</li>
+        </ul>
+        <hr class="grad-hr">
+        <div class="badge-award"><span class="badge-award-icon">📊</span><div class="badge-award-text"><strong>ROI positif dès le 1er projet piloté</strong>Résultat observé sur l'ensemble des missions Think'UP</div></div>
+      </div>
     </div>
   </div>
-</section>
+</div></section>
 
+<!-- OFFRE 3 -->
+<section id="pilotage" class="bg-2"><div class="container">
+  <div class="off-detail">
+    <div class="off-detail-grid">
+      <div class="reveal">
+        <div class="off-step">Étape 03</div>
+        <h2>Pilotage IA &amp;<br><span class="grad-text">réseau de freelances</span></h2>
+        <div class="off-fmt" style="margin-bottom:1rem">Mode : forfait ou régie · Périmètre : direction, DAF, DSI, responsables métiers</div>
+        <p style="max-width:none;margin-bottom:.85rem">Vous gardez la main sur la stratégie. Think'UP sécurise l'exécution : sélection des bons experts, rédaction des cahiers des charges métier, pilotage des livrables, mesure des résultats.</p>
+        <p style="max-width:none">Pas de recrutement d'équipe IA. Pas d'intermédiaire entre votre métier et les experts techniques. Un interlocuteur unique — Patrick Langlais — du diagnostic à la mesure du ROI.</p>
+        <div style="margin-top:1.25rem"><span class="off-for">Entreprises avec diagnostic terminé</span><span class="off-for">Projets IA bloqués à relancer</span></div>
+        <div style="margin-top:1.75rem"><a href="contact.html" class="btn-p">Discuter du pilotage →</a></div>
+      </div>
+      <div class="off-deliverables reveal d1">
+        <h4>Ce que Think'UP prend en charge</h4>
+        <ul class="off-list">
+          <li>Cahiers des charges métier précis et exploitables par les freelances</li>
+          <li>Sélection des experts IA adaptés à chaque projet</li>
+          <li>Challenge des devis et approches techniques proposées</li>
+          <li>Suivi hebdomadaire des livrables avec validation côté métier</li>
+          <li>Mise en place des indicateurs de résultats : temps, qualité, ROI</li>
+          <li>Accompagnement à la conduite du changement</li>
+          <li>Transfert de compétence pour réduire la dépendance externe</li>
+        </ul>
+        <hr class="grad-hr">
+        <div class="badge-award"><span class="badge-award-icon">🎯</span><div class="badge-award-text"><strong>Interlocuteur unique, du début à la mesure</strong>35 ans de pilotage de projets complexes chez HSBC</div></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section class="section-gap"><div class="container">
+  <div class="grid-2-asym">
+    <div class="reveal"><span class="label">Questions</span><h2>Ce que les dirigeants demandent</h2><div style="margin-top:1.5rem"><a href="contact.html" class="btn-g">Poser une question →</a></div></div>
+    <div class="reveal d1">
+      <ul class="faq-list">
+        <li class="faq-item"><button class="faq-q" aria-expanded="false"><span>Par quelle offre commencer si je ne connais pas l'IA ?</span><div class="faq-ico">+</div></button><div class="faq-a"><div class="faq-a-in">L'Atelier Déclic IA est le point d'entrée naturel. En 2 à 3 heures, vous comprenez ce que l'IA peut faire pour votre entreprise spécifiquement et repartez avec 3 à 5 pistes concrètes. Aucune compétence technique requise.</div></div></li>
+        <li class="faq-item"><button class="faq-q" aria-expanded="false"><span>Les offres sont-elles cumulables ?</span><div class="faq-ico">+</div></button><div class="faq-a"><div class="faq-a-in">Les trois offres s'enchaînent logiquement mais chacune peut être engagée indépendamment. Le Diagnostic peut démarrer directement si votre organisation est déjà sensibilisée. Le Pilotage peut également s'appliquer à des projets IA déjà initiés et bloqués.</div></div></li>
+        <li class="faq-item"><button class="faq-q" aria-expanded="false"><span>Les interventions sont-elles en présentiel ou à distance ?</span><div class="faq-ico">+</div></button><div class="faq-a"><div class="faq-a-in">Les deux. L'Atelier est proposé en visio ou en présentiel. Le Diagnostic inclut des phases d'observation en présentiel et des restitutions à distance. Le Pilotage fonctionne en mode hybride.</div></div></li>
+        <li class="faq-item"><button class="faq-q" aria-expanded="false"><span>Faut-il des compétences techniques en interne ?</span><div class="faq-ico">+</div></button><div class="faq-a"><div class="faq-a-in">Non. Think'UP est conçu pour des dirigeants sans background technique. La méthode part du métier, pas de la technologie. Patrick Langlais parle marges, délais, charge — pas algorithmes.</div></div></li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding:0 0 6rem"><div class="container">
+  <div class="cta-strip reveal">
+    <span class="label">Démarrer</span>
+    <h2>Quelle offre correspond à votre stade ?</h2>
+    <p>En 30 minutes d'échange, Patrick Langlais identifie l'étape la plus utile maintenant — sans engagement.</p>
+    <div class="btn-row" style="justify-content:center"><a href="contact.html" class="btn-p">Planifier un échange →</a><a href="resultats.html" class="btn-g">Voir les résultats clients</a></div>
+  </div>
+</div></section>
 </main>
 
-<footer role="contentinfo">
-  <div class="container">
-    <div class="foot-grid">
-      <div class="foot-brand"><a href="index.html" class="foot-logo-pill"><img src="logo-thinkup.png" alt="Think'UP" loading="lazy"></a><p>IA utile et rentable pour dirigeants PME/ETI. Méthode Index Iceberg. Versailles, France.</p></div>
-      <div class="foot-col"><h5>Navigation</h5><ul class="foot-links"><li><a href="methode.html">La méthode</a></li><li><a href="offres.html">Les offres</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul></div>
-      <div class="foot-col"><h5>Offres</h5><ul class="foot-links"><li><a href="offres.html#atelier">Atelier Déclic IA</a></li><li><a href="offres.html#diagnostic">Diagnostic Iceberg</a></li><li><a href="offres.html#pilotage">Pilotage & Freelances</a></li></ul></div>
-      <div class="foot-col"><h5>Contact</h5><ul class="foot-links"><li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li><li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li><li><a href="https://www.linkedin.com/in/patrick-langlais-9886444a/" target="_blank" rel="noopener">LinkedIn</a></li></ul></div>
-    </div>
-    <div class="foot-bottom"><span>© 2025 Think'UP – Patrick Langlais · Versailles, France</span><div class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a></div></div>
+<footer role="contentinfo"><div class="container">
+  <div class="foot-grid">
+    <div class="foot-brand"><a href="index.html" class="foot-logo"><img src="logo-thinkup.png" alt="Think'UP"></a><p>IA utile et rentable pour PME/ETI.<br>Index Iceberg. Versailles, France.</p></div>
+    <div class="foot-col"><h5>Pages</h5><ul class="foot-links"><li><a href="methode.html">La méthode</a></li><li><a href="offres.html">Les offres</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="blog.html">Blog</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul></div>
+    <div class="foot-col"><h5>Offres</h5><ul class="foot-links"><li><a href="#atelier">Atelier Déclic IA</a></li><li><a href="#diagnostic">Diagnostic Iceberg</a></li><li><a href="#pilotage">Pilotage & Freelances</a></li></ul></div>
+    <div class="foot-col"><h5>Contact</h5><ul class="foot-links"><li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li><li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li><li><a href="contact.html">Formulaire</a></li></ul></div>
   </div>
-</footer>
-
+  <div class="foot-bottom"><span>© 2025 Think'UP – Patrick Langlais · Versailles</span><div class="foot-legal"><a href="#">Mentions légales</a><a href="#">Confidentialité</a></div></div>
+</div></footer>
 <script>
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50),{passive:true});
+const nav=document.getElementById('nav');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-document.querySelectorAll('.faq-item').forEach(item=>{
-  const btn=item.querySelector('.faq-q'),ans=item.querySelector('.faq-a'),inner=item.querySelector('.faq-a-in');
-  btn.addEventListener('click',()=>{
-    const wasOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight='0';i.querySelector('.faq-q').setAttribute('aria-expanded','false')});
-    if(!wasOpen){item.classList.add('open');ans.style.maxHeight=inner.scrollHeight+'px';btn.setAttribute('aria-expanded','true')}
-  });
-});
-// scroll to anchor with nav offset
+document.querySelectorAll('.faq-item').forEach(item=>{const btn=item.querySelector('.faq-q'),ans=item.querySelector('.faq-a'),inner=item.querySelector('.faq-a-in');if(btn)btn.addEventListener('click',()=>{const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');const a=i.querySelector('.faq-a');if(a)a.style.maxHeight='0';const q=i.querySelector('.faq-q');if(q)q.setAttribute('aria-expanded','false')});if(!wasOpen){item.classList.add('open');ans.style.maxHeight=inner.scrollHeight+'px';btn.setAttribute('aria-expanded','true')}});});
 const hash=location.hash;if(hash){setTimeout(()=>{const t=document.querySelector(hash);if(t)window.scrollTo({top:t.getBoundingClientRect().top+scrollY-80,behavior:'smooth'})},300)}
 </script>
-</body>
-</html>
+</body></html>
