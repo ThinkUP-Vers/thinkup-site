@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="graphify.css">
 <style>
 .cas-full{padding:2.25rem;display:flex;flex-direction:column}
 .cas-full h3{margin-bottom:.55rem}
@@ -53,7 +54,7 @@
   <div class="stats-grid reveal">
     <div><div class="stat-n">+20–30%</div><div class="stat-l">Productivité en 90 jours</div></div>
     <div><div class="stat-n">−15–25%</div><div class="stat-l">Coûts opérationnels réduits</div></div>
-    <div><div class="stat-n">100%</div><div class="stat-l">ROI positif dès le 1er projet</div></div>
+    <div><div class="stat-n" data-graphify="ring" data-value="100" data-display="100%" data-color="grad" data-size="72" data-stroke="6">100%</div><div class="stat-l">ROI positif dès le 1er projet</div></div>
     <div><div class="stat-n">&lt; 2 sem.</div><div class="stat-l">Pour une roadmap chiffrée</div></div>
   </div>
 </div></div>
@@ -65,14 +66,14 @@
     <article class="cas-full card reveal">
       <div class="cas-meta"><div class="cas-tag">PME Services B2B</div><div class="cas-res">−40% temps</div></div>
       <h3>Relance client &amp; CRM automatisé</h3>
-      <div class="cas-gains"><div><div class="cas-gain-n">−40%</div><div class="cas-gain-l">Temps sur les suivis</div></div><div><div class="cas-gain-n">3h/sem</div><div class="cas-gain-l">Libérées par commercial</div></div><div><div class="cas-gain-n">90 j</div><div class="cas-gain-l">ROI positif</div></div></div>
+      <div class="cas-gains"><div><div class="cas-gain-n" data-graphify="ring" data-value="40" data-display="−40%" data-color="pink">−40%</div><div class="cas-gain-l">Temps sur les suivis</div></div><div><div class="cas-gain-n">3h/sem</div><div class="cas-gain-l">Libérées par commercial</div></div><div><div class="cas-gain-n">90 j</div><div class="cas-gain-l">ROI positif</div></div></div>
       <p>L'Index Iceberg révèle 3h par semaine par commercial absorbées par des re-saisies CRM et des relances non tracées — totalement invisibles dans les entretiens de départ. Automatisation des relances, connexion CRM–email, tableaux de suivi automatiques.</p>
       <div class="cas-insight"><strong>Iceberg révélé :</strong> les commerciaux déclaraient 2h/semaine en relances. Réalité mesurée : 5h, dont 3h en re-saisies entre 4 outils non connectés.</div>
     </article>
     <article class="cas-full card reveal d1">
       <div class="cas-meta"><div class="cas-tag">ETI Industrie</div><div class="cas-res">1,5 j/sem libéré</div></div>
       <h3>Reporting &amp; pilotage automatisés</h3>
-      <div class="cas-gains"><div><div class="cas-gain-n">−60%</div><div class="cas-gain-l">Temps de reporting</div></div><div><div class="cas-gain-n">4 outils</div><div class="cas-gain-l">Connectés auto.</div></div><div><div class="cas-gain-n">0</div><div class="cas-gain-l">Erreur consolidation</div></div></div>
+      <div class="cas-gains"><div><div class="cas-gain-n" data-graphify="ring" data-value="60" data-display="−60%" data-color="purple">−60%</div><div class="cas-gain-l">Temps de reporting</div></div><div><div class="cas-gain-n">4 outils</div><div class="cas-gain-l">Connectés auto.</div></div><div><div class="cas-gain-n">0</div><div class="cas-gain-l">Erreur consolidation</div></div></div>
       <p>1,5 jour par semaine d'un responsable consacré à consolider manuellement des données issues de 4 outils non connectés. Consolidation automatique, fiabilisation des chiffres, alertes sur anomalies. Ce temps est désormais alloué à l'analyse et au management.</p>
       <div class="cas-insight"><strong>Iceberg révélé :</strong> ce poste "consolidation" n'existait dans aucune fiche de poste. Il représentait 37% du temps productif du responsable.</div>
     </article>
@@ -86,7 +87,7 @@
     <article class="cas-full card reveal d3">
       <div class="cas-meta"><div class="cas-tag">Fonctions Support</div><div class="cas-res">Copilote déployé</div></div>
       <h3>Assistance IA rédaction &amp; dossiers</h3>
-      <div class="cas-gains"><div><div class="cas-gain-n">−40%</div><div class="cas-gain-l">Temps rédactionnel</div></div><div><div class="cas-gain-n">100%</div><div class="cas-gain-l">Contrôle humain</div></div></div>
+      <div class="cas-gains"><div><div class="cas-gain-n" data-graphify="ring" data-value="40" data-display="−40%" data-color="cyan">−40%</div><div class="cas-gain-l">Temps rédactionnel</div></div><div><div class="cas-gain-n" data-graphify="ring" data-value="100" data-display="100%" data-color="grad">100%</div><div class="cas-gain-l">Contrôle humain</div></div></div>
       <p>Copilote IA sur la rédaction, préparation de dossiers et consolidation dans les fonctions support d'une PME de services. L'IA agit comme assistant de première passe — le contrôle humain sur les livrables finaux est préservé. Formation intégrée au déploiement.</p>
       <div class="cas-insight"><strong>Iceberg révélé :</strong> 40% du temps des équipes support absorbé par des reformulations et premières passes rédactionnelles à faible valeur ajoutée.</div>
     </article>
@@ -158,6 +159,7 @@
   </div>
   <div class="foot-bottom"><span>© 2025 Think'UP – Patrick Langlais · Versailles</span><div class="foot-legal"><a href="#">Mentions légales</a><a href="#">Confidentialité</a></div></div>
 </div></footer>
+<script src="graphify.js"></script>
 <script>
 const nav=document.getElementById('nav');window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
