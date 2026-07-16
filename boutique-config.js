@@ -14,10 +14,19 @@
         → produit + prix → copier l'URL (https://buy.stripe.com/...).
    2. Dans les options du lien, définir la page de confirmation
       (redirection après paiement) :
-        https://www.think-up.fr/merci.html
-   3. Coller l'URL ci-dessous dans `paymentUrl` de l'offre concernée
+        https://think-up.fr/merci.html
+   3. ⚠ OBLIGATOIRE avant tout encaissement : activer dans Qonto/Stripe
+      la case d'acceptation des conditions générales, pointant vers
+        https://think-up.fr/cgv.html
+      (Stripe : Lien de paiement → options avancées → « Exiger
+      l'acceptation des conditions » ; Qonto : champ conditions du lien).
+      Si la prestation peut démarrer sous 14 jours ET être achetée par
+      un consommateur ou assimilé, recueillir AUSSI au même endroit son
+      renoncement exprès au droit de rétractation (cf. CGV art. 8.3),
+      sans quoi l'exécution ne peut pas commencer avant la fin du délai.
+   4. Coller l'URL ci-dessous dans `paymentUrl` de l'offre concernée
       et renseigner `prixEUR` (montant HORS TAXES, en euros).
-   4. Enregistrer et déployer. C'est tout.
+   5. Enregistrer et déployer. C'est tout.
 
    ── COMPORTEMENT DES BOUTONS SUR boutique.html ──────────────────
    · prixEUR = null                → carte « Sur devis » (lien contact)
@@ -43,7 +52,7 @@ window.BOUTIQUE_CONFIG = {
 
   /* E-mail de secours pour la commande tant que le lien de paiement
      n'est pas configuré. */
-  emailCommande: "patrick@thinkupcom.com",
+  emailCommande: "patrick@think-up.fr",
 
   offres: {
 
