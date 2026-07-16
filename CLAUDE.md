@@ -11,11 +11,14 @@ Chaque page est un fichier `.html` à la racine ; styles dans `style.css` et
 sa complexité selon la grille de la Phase 0 du skill `meta-agent`
 (multi-facettes, complexité, enjeu, ambiguïté productive, volume) :
 
-- Demande simple (score 0–1) : réponds directement, n'invoque rien, ne
-  mentionne pas le méta-agent.
+- Demande simple (score 0–1) : réponds directement, en commençant ta réponse
+  par une seule ligne d'information — « *Méta-agent : score X/5 — réponse
+  directe.* » — sans rien ajouter d'autre sur le méta-agent, puis la réponse.
 - Demande complexe (score ≥ 2) : invoque le skill `meta-agent` et suis son
-  protocole (conception d'agents sur mesure, challenge croisé via l'agent
-  `challenger`, synthèse).
+  protocole. Il présente son analyse (score, sous-problèmes, équipe d'agents
+  envisagée) et demande confirmation à l'utilisateur AVANT de lancer
+  l'orchestration (conception d'agents sur mesure, challenge croisé via
+  l'agent `challenger`, synthèse).
 
 L'utilisateur peut aussi forcer l'activation avec `/meta-agent`, ou la refuser
 en le disant explicitement.
