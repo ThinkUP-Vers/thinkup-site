@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Boutique Think'UP | Commander en ligne : Atelier Déclic IA, Diagnostic Index Iceberg</title>
+<meta name="description" content="Commandez en ligne les prestations Think'UP : Atelier Déclic IA (2–3h), Diagnostic Index Iceberg (3–6 semaines), Pilotage IA & Freelances. Paiement sécurisé, facture incluse, CGV claires.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://thinkup-vers.github.io/thinkup-site/boutique.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Boutique Think'UP | Commander les prestations IA en ligne">
+<meta property="og:description" content="Atelier Déclic IA, Diagnostic Index Iceberg, Pilotage IA & Freelances : commande en ligne sécurisée ou devis personnalisé.">
+<meta property="og:url" content="https://thinkup-vers.github.io/thinkup-site/boutique.html">
+<meta property="og:image" content="og-thinkup.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<!-- JSON-LD : catalogue de services.
+     ⚠ Quand un prix devient public, ajouter dans l'Offer concernée :
+     "price":"1500","priceCurrency":"EUR" (montant HT identique à boutique-config.js). -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Conseil en adoption de l'IA pour PME/ETI","provider":{"@type":"LocalBusiness","name":"Think'UP","url":"https://thinkup-vers.github.io/thinkup-site/","telephone":"+33782484354","email":"patrick@thinkupcom.com","address":{"@type":"PostalAddress","addressLocality":"Versailles","addressRegion":"Île-de-France","postalCode":"78000","addressCountry":"FR"}},"areaServed":"France","hasOfferCatalog":{"@type":"OfferCatalog","name":"Offres Think'UP","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Atelier Déclic IA utile","description":"Atelier de 2 à 3 heures pour identifier et prioriser 3 à 5 cas d'usage IA concrets."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Diagnostic & cadrage Index Iceberg","description":"Diagnostic complet des processus sur 3 à 6 semaines : cartographie, business cases et roadmap IA priorisée par ROI."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Pilotage IA & réseau de freelances","description":"Pilotage de la mise en œuvre des projets IA jusqu'au ROI mesuré, en forfait ou en régie."},"availability":"https://schema.org/InStock"}]}}
+</script>
+<style>
+/* ── BOUTIQUE ONLY ─────────────────────────── */
+.shop-card{display:flex;flex-direction:column}
+.buy-zone{margin-top:auto;padding-top:1.5rem;border-top:1.5px solid var(--border);display:flex;flex-direction:column;gap:.8rem}
+.buy-price{font-family:var(--ff-d);font-size:1.6rem;font-weight:400;color:var(--text);line-height:1.15;max-width:none}
+.buy-price-sub{display:block;font-family:var(--ff-b);font-size:.78rem;color:var(--text-mu);margin-top:.2rem}
+.buy-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.buy-alt{font-size:.83rem;color:var(--purple)}
+.shop-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3.5rem}
+.shop-trust-item{display:flex;align-items:flex-start;gap:.85rem;padding:1.25rem 1.5rem;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rl);box-shadow:var(--sh)}
+.shop-trust-ico{width:34px;height:34px;border-radius:var(--r);background:var(--purple-dim);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.shop-trust-item p{font-size:.82rem;max-width:none;line-height:1.55;margin:0}
+.shop-trust-item strong{display:block;font-size:.86rem}
+.shop-note{margin-top:2.5rem;font-size:.8rem;color:var(--text-mu);max-width:none;text-align:center}
+@media(max-width:1024px){.shop-trust{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- NAV (identique à index.html, Boutique active) -->
+<nav id="nav" role="navigation" aria-label="Navigation principale">
+  <div class="container">
+    <div class="nav-in">
+      <a href="index.html" class="nav-logo" aria-label="Think'UP – Accueil">
+        <img src="logo-thinkup.png" alt="Think'UP">
+      </a>
+      <ul class="nav-links">
+        <li><a href="methode.html">Méthode</a></li>
+        <li><a href="offres.html">Offres</a></li>
+        <li><a href="boutique.html" class="active">Boutique</a></li>
+        <li><a href="resultats.html">Résultats</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="patrick.html">Patrick Langlais</a></li>
+      </ul>
+      <div style="display:flex;align-items:center;gap:.85rem">
+        <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
+        <button class="nav-burger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<section class="page-hero"><div class="container"><div class="page-hero-in reveal">
+  <span class="label">La boutique</span>
+  <h1>Commander une offre,<br><span class="grad-text">simplement</span></h1>
+  <p>Choisissez votre étape, commandez en ligne en quelques clics — ou demandez un devis pour les missions sur mesure. Paiement sécurisé, facture incluse.</p>
+</div></div></section>
+
+<!-- CATALOGUE -->
+<section class="section-gap" aria-labelledby="shop-h2"><div class="container">
+  <div class="sec-hd reveal">
+    <h2 id="shop-h2">Trois offres, un chemin vers le ROI</h2>
+    <p>Chaque offre peut être engagée indépendamment. Le détail complet des contenus et livrables est présenté sur la page <a href="offres.html">Offres</a>.</p>
+  </div>
+
+  <div class="off-grid">
+
+    <!-- OFFRE 1 : ATELIER -->
+    <article class="card shop-card reveal" aria-labelledby="shop-atelier">
+      <div class="off-step">Étape 01</div>
+      <h3 id="shop-atelier" class="off-title">Atelier Déclic IA utile</h3>
+      <div class="off-fmt">2–3h · visio ou présentiel · direction + managers clés</div>
+      <p class="off-desc">Une vision claire de ce que l'IA peut apporter à votre entreprise spécifiquement. Vous repartez avec 3 à 5 cas d'usage concrets, priorisés, avec risques et conditions de réussite.</p>
+      <ul class="off-list">
+        <li>Cartographie rapide Iceberg sur 1–2 métiers clés</li>
+        <li>3 à 5 cas d'usage priorisés sur vos activités réelles</li>
+        <li>Document de synthèse partageable en interne</li>
+      </ul>
+      <div class="buy-zone" data-offre="atelier">
+        <p class="buy-price">Sur devis<span class="buy-price-sub">Tarification communiquée sous 24 h</span></p>
+        <a href="contact.html" class="off-link">Demander un devis →</a>
+      </div>
+    </article>
+
+    <!-- OFFRE 2 : DIAGNOSTIC -->
+    <article class="card-feat shop-card reveal d1" aria-labelledby="shop-diagnostic">
+      <div class="off-step">Étape 02 · Offre phare</div>
+      <h3 id="shop-diagnostic" class="off-title">Diagnostic &amp; cadrage Index Iceberg</h3>
+      <div class="off-fmt">3–6 semaines selon périmètre · rapport + restitution CODIR</div>
+      <p class="off-desc">Diagnostic complet de vos processus par observation directe : chaque tâche visible et invisible est cartographiée, mesurée et évaluée. Business case documenté pour chaque projet IA.</p>
+      <ul class="off-list">
+        <li>Rapport Index Iceberg : cartographie visible / invisible</li>
+        <li>Roadmap 6–12 mois, 2 à 5 cas d'usage chiffrés</li>
+        <li>Restitution CODIR, format décisionnel</li>
+      </ul>
+      <div class="buy-zone" data-offre="diagnostic">
+        <p class="buy-price">Sur devis<span class="buy-price-sub">Selon périmètre — cadrage en 30 min</span></p>
+        <a href="contact.html" class="off-link">Cadrer mon diagnostic →</a>
+      </div>
+    </article>
+
+    <!-- OFFRE 3 : PILOTAGE (sur mesure, jamais achetable en ligne) -->
+    <article class="card shop-card reveal d2" aria-labelledby="shop-pilotage">
+      <div class="off-step">Étape 03</div>
+      <h3 id="shop-pilotage" class="off-title">Pilotage IA &amp; réseau de freelances</h3>
+      <div class="off-fmt">Forfait ou régie · 90 jours jusqu'au ROI mesuré</div>
+      <p class="off-desc">Think'UP sécurise l'exécution de vos projets IA : sélection des experts, cahiers des charges métier, pilotage des livrables et mesure des résultats. Un interlocuteur unique.</p>
+      <ul class="off-list">
+        <li>Sélection et pilotage des experts IA</li>
+        <li>Suivi hebdomadaire, validation côté métier</li>
+        <li>Indicateurs de résultats : temps, qualité, ROI</li>
+      </ul>
+      <div class="buy-zone" data-offre="pilotage">
+        <p class="buy-price">Sur devis<span class="buy-price-sub">Offre sur mesure, selon périmètre</span></p>
+        <a href="contact.html" class="off-link">Discuter du pilotage →</a>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- RÉASSURANCE -->
+  <div class="shop-trust reveal">
+    <div class="shop-trust-item"><div class="shop-trust-ico" aria-hidden="true">🔒</div><p><strong>Paiement 100 % sécurisé</strong>Transaction traitée par un prestataire de paiement agréé (Qonto / Stripe). Aucune donnée bancaire ne transite par ce site.</p></div>
+    <div class="shop-trust-item"><div class="shop-trust-ico" aria-hidden="true">🧾</div><p><strong>Facture sous 24 h</strong>Une facture conforme vous est adressée par e-mail après chaque commande.</p></div>
+    <div class="shop-trust-item"><div class="shop-trust-ico" aria-hidden="true">📅</div><p><strong>Prise de contact sous 24 h ouvrées</strong>Patrick Langlais vous contacte personnellement pour planifier la prestation.</p></div>
+  </div>
+
+  <p class="shop-note">Les prix affichés s'entendent hors taxes ; le montant TTC est précisé avant paiement. En commandant, vous acceptez les <a href="cgv.html">Conditions Générales de Vente</a>. Une question avant de commander ? <a href="contact.html">Contactez-nous</a> ou appelez le <a href="tel:+33782484354">07 82 48 43 54</a>.</p>
+</div></section>
+
+<!-- CTA -->
+<section style="padding:0 0 6rem"><div class="container">
+  <div class="cta-strip reveal">
+    <span class="label">Un doute sur l'offre adaptée ?</span>
+    <h2>30 minutes pour choisir la bonne étape</h2>
+    <p>Un échange direct avec Patrick Langlais pour identifier l'offre la plus utile à votre stade — sans engagement.</p>
+    <div class="btn-row" style="justify-content:center"><a href="contact.html" class="btn-p">Planifier un échange →</a><a href="offres.html" class="btn-g">Voir le détail des offres</a></div>
+  </div>
+</div></section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="index.html" class="foot-logo"><img src="logo-thinkup.png" alt="Think'UP"></a>
+        <p>IA utile et rentable pour dirigeants PME/ETI.<br>Méthode Index Iceberg. Versailles, France.</p>
+      </div>
+      <div class="foot-col"><h5>Pages</h5><ul class="foot-links">
+        <li><a href="methode.html">La méthode</a></li>
+        <li><a href="offres.html">Les offres</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+        <li><a href="resultats.html">Résultats</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="patrick.html">Patrick Langlais</a></li>
+      </ul></div>
+      <div class="foot-col"><h5>Offres</h5><ul class="foot-links">
+        <li><a href="offres.html#atelier">Atelier Déclic IA</a></li>
+        <li><a href="offres.html#diagnostic">Diagnostic Iceberg</a></li>
+        <li><a href="offres.html#pilotage">Pilotage & Freelances</a></li>
+      </ul></div>
+      <div class="foot-col"><h5>Contact</h5><ul class="foot-links">
+        <li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li>
+        <li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li>
+        <li><a href="contact.html">Formulaire de contact</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 Think'UP – Patrick Langlais · Versailles, France</span>
+      <div class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="boutique-config.js"></script>
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function toggleMenu(){const l=document.querySelector('.nav-links');l.style.display=l.style.display==='flex'?'none':'flex'}
+
+/* ── Rendu des boutons d'achat depuis boutique-config.js ──────────
+   Sans JS (ou tant que prixEUR est null), la carte statique
+   « Sur devis » + lien contact reste affichée : aucun cul-de-sac. */
+(function(){
+  const cfg=window.BOUTIQUE_CONFIG;
+  if(!cfg||!cfg.offres)return;
+  const fmt=new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:2});
+  document.querySelectorAll('.buy-zone[data-offre]').forEach(zone=>{
+    const o=cfg.offres[zone.dataset.offre];
+    if(!o||o.prixEUR==null)return; /* sur devis : fallback statique conservé */
+    zone.textContent='';
+    /* prix */
+    const p=document.createElement('p');p.className='buy-price';
+    if(cfg.tvaApplicable){
+      const ttc=Math.round(o.prixEUR*(1+cfg.tauxTVA)*100)/100;
+      p.innerHTML=fmt.format(o.prixEUR)+' <abbr title="hors taxes">HT</abbr><span class="buy-price-sub">soit '+fmt.format(ttc)+' TTC (TVA '+(cfg.tauxTVA*100).toLocaleString('fr-FR')+' %)</span>';
+    }else{
+      p.innerHTML=fmt.format(o.prixEUR)+'<span class="buy-price-sub">TVA non applicable, art. 293 B du CGI</span>';
+    }
+    zone.appendChild(p);
+    if(o.paymentUrl){
+      /* lien de paiement actif */
+      const a=document.createElement('a');
+      a.className='btn-p buy-btn';a.href=o.paymentUrl;
+      a.textContent='Acheter →';
+      a.setAttribute('aria-label','Acheter : '+o.label);
+      zone.appendChild(a);
+      const s=document.createElement('span');s.className='buy-price-sub';
+      s.textContent='Paiement sécurisé · redirection vers notre prestataire de paiement';
+      zone.appendChild(s);
+    }else{
+      /* paiement pas encore configuré */
+      const b=document.createElement('button');
+      b.className='btn-p buy-btn';b.disabled=true;b.setAttribute('aria-disabled','true');
+      b.textContent='Bientôt disponible';
+      zone.appendChild(b);
+      const m=document.createElement('a');m.className='buy-alt';
+      m.href='mailto:'+cfg.emailCommande+'?subject='+encodeURIComponent('Commande – '+o.label);
+      m.textContent='Commander par e-mail →';
+      zone.appendChild(m);
+    }
+  });
+})();
+</script>
+</body>
+</html>
