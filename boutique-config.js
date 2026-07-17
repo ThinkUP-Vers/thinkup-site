@@ -46,8 +46,9 @@ window.BOUTIQUE_CONFIG = {
      · tvaApplicable: false → à utiliser si Think'UP est en franchise
        en base de TVA (art. 293 B du CGI) : le prix saisi est affiché
        tel quel avec la mention légale « TVA non applicable ».
-     ⚠ À FAIRE VALIDER par l'expert-comptable selon le statut réel. */
-  tvaApplicable: true,
+     Statut confirmé par le client (17/07/2026) : Think'UP, entrepreneur
+     individuel, en franchise en base de TVA → prix nets. */
+  tvaApplicable: false,
   tauxTVA: 0.20,
 
   /* E-mail de secours pour la commande tant que le lien de paiement
@@ -61,8 +62,8 @@ window.BOUTIQUE_CONFIG = {
        Exemple : prixEUR: 1500, paymentUrl: "https://pay.qonto.com/..." */
     atelier: {
       label: "Atelier Déclic IA utile",
-      prixEUR: null,      // ← montant HT en euros (ex. 1500). null = sur devis
-      paymentUrl: ""      // ← coller ici l'URL Qonto/Stripe
+      prixEUR: 1200,      // prix net (TVA non applicable, art. 293 B du CGI)
+      paymentUrl: ""      // ← coller ici l'URL Qonto/Stripe (compte Think'UP)
     },
 
     /* ── Offre 2 : Diagnostic & cadrage Index Iceberg ────────────
@@ -70,8 +71,8 @@ window.BOUTIQUE_CONFIG = {
        ou laissé sur devis si le prix dépend du périmètre. */
     diagnostic: {
       label: "Diagnostic & cadrage Index Iceberg",
-      prixEUR: null,      // ← montant HT en euros. null = sur devis
-      paymentUrl: ""      // ← coller ici l'URL Qonto/Stripe
+      prixEUR: 6900,      // prix net (TVA non applicable, art. 293 B du CGI)
+      paymentUrl: ""      // ← coller ici l'URL Qonto/Stripe (compte Think'UP)
     },
 
     /* ── Offre 3 : Pilotage IA & réseau de freelances ────────────
