@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Schéma Index Iceberg</title>
+  <desc id="desc">Schéma distinguant les tâches visibles et les tâches invisibles avant priorisation IA.</desc>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D020CC"/>
+      <stop offset="0.5" stop-color="#7B46E8"/>
+      <stop offset="1" stop-color="#0096B8"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#EEF3FF"/>
+      <stop offset="0.5" stop-color="#F8F6FF"/>
+      <stop offset="1" stop-color="#ECFBFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFFFF"/>
+  <rect x="0" y="292" width="1200" height="383" fill="url(#water)"/>
+  <path d="M0 292 C150 270 268 314 398 292 C545 269 650 318 796 292 C946 270 1058 315 1200 291" fill="none" stroke="#C8BEF0" stroke-width="3"/>
+  <text x="88" y="92" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#18143A">Index Iceberg</text>
+  <text x="88" y="129" font-family="Georgia, serif" font-size="48" fill="#18143A">Voir le travail réel avant d'automatiser</text>
+  <g transform="translate(118 172)">
+    <path d="M420 36 L522 230 L300 230 Z" fill="#FFFFFF" stroke="#C8BEF0" stroke-width="2"/>
+    <path d="M300 230 L522 230 L640 512 L180 512 Z" fill="#F8F6FF" stroke="#C8BEF0" stroke-width="2"/>
+    <path d="M420 36 L474 230 L372 230 Z" fill="url(#brand)" opacity="0.22"/>
+    <path d="M372 230 L474 230 L558 512 L252 512 Z" fill="url(#brand)" opacity="0.1"/>
+    <text x="410" y="158" text-anchor="middle" font-family="Consolas, monospace" font-size="13" letter-spacing="2" fill="#7B46E8">VISIBLE</text>
+    <text x="410" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#4A4672">réunions · reporting · CRM · tableaux</text>
+    <text x="410" y="322" text-anchor="middle" font-family="Consolas, monospace" font-size="13" letter-spacing="2" fill="#D020CC">INVISIBLE</text>
+    <text x="410" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#18143A">relances · vérifications · ressaisies</text>
+    <text x="410" y="389" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#18143A">reformatages · consolidations · micro-arbitrages</text>
+  </g>
+  <g transform="translate(792 208)" font-family="Arial, sans-serif">
+    <rect width="284" height="296" rx="18" fill="#FFFFFF" stroke="#E5E1F5" stroke-width="2"/>
+    <text x="28" y="44" font-size="16" font-weight="700" fill="#18143A">Critères de priorisation</text>
+    <g transform="translate(28 76)">
+      <circle cx="11" cy="11" r="11" fill="#D020CC"/><text x="34" y="16" font-size="15" fill="#4A4672">Impact métier</text>
+    </g>
+    <g transform="translate(28 121)">
+      <circle cx="11" cy="11" r="11" fill="#7B46E8"/><text x="34" y="16" font-size="15" fill="#4A4672">Effort de mise en œuvre</text>
+    </g>
+    <g transform="translate(28 166)">
+      <circle cx="11" cy="11" r="11" fill="#0096B8"/><text x="34" y="16" font-size="15" fill="#4A4672">Risque opérationnel</text>
+    </g>
+    <g transform="translate(28 211)">
+      <circle cx="11" cy="11" r="11" fill="#18143A"/><text x="34" y="16" font-size="15" fill="#4A4672">ROI attendu</text>
+    </g>
+    <rect x="28" y="252" width="228" height="1" fill="#E5E1F5"/>
+    <text x="28" y="276" font-size="13" fill="#81799F">Sortie : feuille de route mesurable.</text>
+  </g>
+</svg>

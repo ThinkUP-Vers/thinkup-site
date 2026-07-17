@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" role="img" aria-labelledby="title desc">
+  <title id="title">Diagnostic Iceberg</title>
+  <desc id="desc">Carte visuelle d'un diagnostic pour cartographier les tâches invisibles et chiffrer le ROI.</desc>
+  <rect width="800" height="540" rx="24" fill="#F6FBFF"/>
+  <rect x="58" y="58" width="684" height="424" rx="22" fill="#FFFFFF" stroke="#E5E1F5" stroke-width="2"/>
+  <text x="92" y="112" font-family="Consolas, monospace" font-size="13" letter-spacing="2" fill="#0096B8">DIAGNOSTIC ICEBERG</text>
+  <text x="92" y="164" font-family="Georgia, serif" font-size="48" fill="#18143A">Chiffrer avant de lancer</text>
+  <g transform="translate(118 216)">
+    <path d="M166 0 L254 118 L78 118 Z" fill="#FFFFFF" stroke="#C8BEF0" stroke-width="2"/>
+    <path d="M78 118 L254 118 L306 270 L28 270 Z" fill="#F8F6FF" stroke="#C8BEF0" stroke-width="2"/>
+    <path d="M166 0 L206 118 L130 118 Z" fill="#7B46E8" opacity="0.2"/>
+    <path d="M130 118 L206 118 L246 270 L88 270 Z" fill="#0096B8" opacity="0.13"/>
+  </g>
+  <g transform="translate(444 226)" font-family="Arial, sans-serif">
+    <rect width="178" height="48" rx="10" fill="#F8F6FF"/><text x="18" y="30" font-size="15" fill="#18143A">Temps consommé</text>
+    <rect y="66" width="178" height="48" rx="10" fill="#F8F6FF"/><text x="18" y="96" font-size="15" fill="#18143A">Coût évitable</text>
+    <rect y="132" width="178" height="48" rx="10" fill="#18143A"/><text x="18" y="162" font-size="15" fill="#FFFFFF">ROI cible</text>
+  </g>
+</svg>
