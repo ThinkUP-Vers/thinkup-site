@@ -25,25 +25,29 @@ chez Hostinger. Ne pas l'écraser lors des transferts.
 
 ### 1. Compléter la configuration (`boutique-config.js`)
 
-- [ ] Prix HT (`prixEUR`) des offres vendables en ligne.
-- [ ] Liens de paiement Qonto/Stripe dans `paymentUrl` (mode d'emploi en
-      tête du fichier) + redirection après paiement vers
-      `https://think-up.fr/merci.html`.
+- [x] Prix nets fixés (17/07/2026) : Atelier 1 200 €, Diagnostic 6 900 €,
+      Pilotage sur devis. TVA non applicable (art. 293 B), `tvaApplicable:false`.
+- [ ] Liens de paiement dans `paymentUrl` — ⚠ à créer depuis un compte
+      détenu par **Think'UP (EI, SIREN 944 966 613)**, PAS depuis le Qonto
+      de PL HOLDING (entité différente : c'est elle qui encaisserait).
+      Redirection après paiement vers `https://think-up.fr/merci.html`.
 - [ ] **Obligatoire** : case d'acceptation des CGV dans le checkout
       (`https://think-up.fr/cgv.html`) et, si la prestation peut démarrer
       sous 14 jours pour un consommateur, recueil du renoncement au droit
       de rétractation (CGV art. 8.3).
-- [ ] Faire valider `tvaApplicable`/`tauxTVA` par l'expert-comptable.
+- [ ] Point de vigilance expert-comptable : au rythme de ces prix, le
+      plafond de la franchise en base de TVA (services) peut être atteint
+      en quelques ventes — surveiller le seuil.
 
 ### 2. Compléter et faire valider les CGV (`cgv.html`)
 
-- [ ] Champs `<!-- ⚠ À COMPLÉTER -->` : SIREN/SIRET, forme juridique,
-      adresse complète, n° TVA ou franchise (art. 293 B).
+- [x] Identité vendeur complétée (17/07/2026) : EI Think'UP, SIREN
+      944 966 613, SIRET 944 966 613 00019, 22 rue Victor Hugo 78000
+      Versailles, TVA non applicable art. 293 B. Idem `mentions-legales.html`.
 - [ ] Médiateur de la consommation (obligatoire avant toute vente à des
       particuliers — art. L612-1 code conso).
+- [ ] Assurance RCP : compléter l'article si souscrite.
 - [ ] Relecture par un conseil juridique.
-- [ ] Au passage : compléter `mentions-legales.html` (SIREN manquant —
-      obligation LCEN, indépendante de la boutique).
 
 ### 3. Téléverser chez Hostinger (hPanel → Gestionnaire de fichiers)
 
