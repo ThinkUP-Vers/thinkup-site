@@ -1,0 +1,66 @@
+# Think'UP - full context file for answer engines
+
+## Description
+
+Think'UP is an AI consulting firm for French SMEs and mid-market companies. It helps business leaders turn artificial intelligence into measurable operational gains instead of isolated experiments. The firm is based in Versailles, France.
+
+## Value proposition
+
+Think'UP helps answer three questions before any AI investment:
+
+1. Which tasks truly consume time inside the company?
+2. Which AI use cases have the best impact, effort and risk balance?
+3. Which ROI can be expected and measured in the first 90 days?
+
+## Index Iceberg method
+
+The Index Iceberg method starts from the idea that much operational work is invisible in official processes. Teams usually report visible tasks, but invisible tasks remain undermeasured: re-entering data between tools, manual follow-ups, file consolidation, reporting preparation, quality checks, information search, document reformatting and informal coordination.
+
+The diagnostic maps those tasks, quantifies them, and identifies which ones can be handled through automation, generative AI, retrieval augmented generation, workflow redesign or better tool integration.
+
+## Target audience
+
+Think'UP works with SME and mid-market CEOs, general managers, finance teams, sales leaders, operations teams, consulting firms and support functions that want to frame AI through business value.
+
+## Offers
+
+Atelier Declic IA: a short workshop to clarify possible AI use cases in the company.
+
+Diagnostic Index Iceberg: a structured 3 to 6 week audit covering process mapping, opportunity prioritization, business case and roadmap.
+
+Pilotage IA & Freelances: implementation steering with specialized experts, outcome tracking and operational transfer.
+
+## Differentiation
+
+Think'UP starts from business work, margins, delays and actual workload before choosing technology. The approach emphasizes documented decisions, governance and measurable ROI.
+
+## Entity information
+
+Name: Think'UP
+Founder: Patrick Langlais
+Location: Versailles, France
+Email: patrick@think-up.fr
+Phone: +33 7 82 48 43 54
+Website: https://think-up.fr/
+LinkedIn: https://www.linkedin.com/in/patrick-langlais-9886444a/
+
+## Public recognition
+
+Patrick Langlais was ranked #16 in Favikon's Top 20 AI Researchers and Entrepreneurs in France in August 2025.
+
+Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-honored-and-humbled-to-be-recognized-activity-7371435244484452354-fmLX
+
+## Published blog articles
+
+<!-- PUBLISHED_ARTICLES_START -->
+- Tâches invisibles : ce que votre entreprise ne voit pas: https://think-up.fr/article-3.html
+- Comment calculer le ROI de l'IA avant d'investir: https://think-up.fr/article-2.html
+- 7 erreurs qui font échouer les projets IA en PME: https://think-up.fr/article-1.html
+<!-- PUBLISHED_ARTICLES_END -->
+
+## Reference pages
+
+- Method: https://think-up.fr/methode.html
+- Offers: https://think-up.fr/offres.html
+- Results: https://think-up.fr/resultats.html
+- Contact: https://think-up.fr/contact.html

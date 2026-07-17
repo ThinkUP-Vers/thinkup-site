@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Carte de décision IA</title>
+  <desc id="desc">Visualisation du chemin de décision Think'UP avant investissement IA : problème métier, tâches invisibles, ROI, risque et arbitrage.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBF8FF"/>
+      <stop offset="0.55" stop-color="#F6F8FF"/>
+      <stop offset="1" stop-color="#F2FCFF"/>
+    </linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D020CC"/>
+      <stop offset="0.5" stop-color="#7B46E8"/>
+      <stop offset="1" stop-color="#0096B8"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-15%" width="120%" height="135%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#18143A" flood-opacity="0.13"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <circle cx="1020" cy="96" r="220" fill="#7B46E8" opacity="0.055"/>
+  <circle cx="150" cy="580" r="250" fill="#D020CC" opacity="0.045"/>
+  <g filter="url(#shadow)">
+    <rect x="86" y="66" width="1028" height="548" rx="24" fill="#FFFFFF" stroke="#E5E1F5" stroke-width="2"/>
+  </g>
+  <text x="124" y="122" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#18143A">Décision IA avant investissement</text>
+  <text x="124" y="152" font-family="Consolas, monospace" font-size="12" letter-spacing="2" fill="#81799F">PROBLÈME · TÂCHES INVISIBLES · ROI · RISQUE · ARBITRAGE</text>
+  <g font-family="Arial, sans-serif">
+    <g transform="translate(124 204)">
+      <rect width="222" height="148" rx="16" fill="#F8F6FF" stroke="#C8BEF0" stroke-width="2"/>
+      <text x="22" y="39" font-size="13" font-weight="700" fill="#7B46E8">1. Problème métier</text>
+      <text x="22" y="76" font-family="Georgia, serif" font-size="27" fill="#18143A">Quelle friction ?</text>
+      <text x="22" y="109" font-size="14" fill="#4A4672">Temps perdu, relances,</text>
+      <text x="22" y="131" font-size="14" fill="#4A4672">ressaisies, arbitrages.</text>
+    </g>
+    <g transform="translate(382 204)">
+      <rect width="222" height="148" rx="16" fill="#F6FBFF" stroke="#C8BEF0" stroke-width="2"/>
+      <text x="22" y="39" font-size="13" font-weight="700" fill="#0096B8">2. Travail réel</text>
+      <text x="22" y="75" font-family="Georgia, serif" font-size="27" fill="#18143A">Où disparaît</text>
+      <text x="22" y="105" font-family="Georgia, serif" font-size="27" fill="#18143A">le temps ?</text>
+      <text x="22" y="132" font-size="14" fill="#4A4672">Cartographie terrain.</text>
+    </g>
+    <g transform="translate(640 204)">
+      <rect width="222" height="148" rx="16" fill="#FFF8FF" stroke="#C8BEF0" stroke-width="2"/>
+      <text x="22" y="39" font-size="13" font-weight="700" fill="#D020CC">3. Business case</text>
+      <text x="22" y="75" font-family="Georgia, serif" font-size="27" fill="#18143A">Combien cela</text>
+      <text x="22" y="105" font-family="Georgia, serif" font-size="27" fill="#18143A">rapporte ?</text>
+      <text x="22" y="132" font-size="14" fill="#4A4672">Gain, coût, risque.</text>
+    </g>
+    <g transform="translate(898 204)">
+      <rect width="84" height="148" rx="16" fill="url(#brand)"/>
+      <text x="42" y="60" text-anchor="middle" font-family="Georgia, serif" font-size="31" fill="#FFFFFF">OK</text>
+      <text x="42" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">Lancer</text>
+      <text x="42" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#FFFFFF">ou non</text>
+    </g>
+  </g>
+  <path d="M346 278H382M604 278H640M862 278H898" stroke="url(#brand)" stroke-width="4" stroke-linecap="round"/>
+  <g transform="translate(124 420)">
+    <rect width="878" height="112" rx="18" fill="#18143A"/>
+    <text x="28" y="43" font-family="Arial, sans-serif" font-size="17" font-weight="700" fill="#FFFFFF">Ce que Think'UP évite</text>
+    <text x="28" y="76" font-family="Arial, sans-serif" font-size="15" fill="#DAD5F5">Acheter des licences, lancer un pilote, puis chercher après coup où se trouve la valeur.</text>
+    <g transform="translate(680 27)" font-family="Arial, sans-serif">
+      <rect width="154" height="56" rx="12" fill="#FFFFFF" opacity="0.13"/>
+      <text x="77" y="25" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#FFFFFF">DÉCISION</text>
+      <text x="77" y="44" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">documentée</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Dashboard ROI IA 90 jours</title>
+  <desc id="desc">Tableau de bord synthétique pour piloter les 90 premiers jours d'un projet IA.</desc>
+  <defs>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#D020CC"/>
+      <stop offset="0.5" stop-color="#7B46E8"/>
+      <stop offset="1" stop-color="#0096B8"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-15%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#18143A" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" fill="#F8F6FF"/>
+  <g filter="url(#shadow)">
+    <rect x="92" y="64" width="1016" height="547" rx="22" fill="#FFFFFF" stroke="#E5E1F5" stroke-width="2"/>
+  </g>
+  <text x="130" y="115" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#18143A">ROI IA · 90 premiers jours</text>
+  <text x="130" y="144" font-family="Consolas, monospace" font-size="12" letter-spacing="2" fill="#81799F">PILOTER · CORRIGER · DÉCIDER</text>
+  <g font-family="Arial, sans-serif">
+    <g transform="translate(130 184)">
+      <rect width="205" height="116" rx="16" fill="#F8F6FF" stroke="#E5E1F5"/>
+      <text x="22" y="38" font-size="13" fill="#81799F">Temps libéré</text>
+      <text x="22" y="78" font-family="Georgia, serif" font-size="36" fill="#18143A">+126 h</text>
+    </g>
+    <g transform="translate(363 184)">
+      <rect width="205" height="116" rx="16" fill="#F6FBFF" stroke="#E5E1F5"/>
+      <text x="22" y="38" font-size="13" fill="#81799F">Coût évité</text>
+      <text x="22" y="78" font-family="Georgia, serif" font-size="36" fill="#18143A">18,4 k€</text>
+    </g>
+    <g transform="translate(596 184)">
+      <rect width="205" height="116" rx="16" fill="#FFF8FF" stroke="#E5E1F5"/>
+      <text x="22" y="38" font-size="13" fill="#81799F">Adoption équipe</text>
+      <text x="22" y="78" font-family="Georgia, serif" font-size="36" fill="#18143A">72%</text>
+    </g>
+    <g transform="translate(829 184)">
+      <rect width="205" height="116" rx="16" fill="#18143A"/>
+      <text x="22" y="38" font-size="13" fill="#DAD5F5">Décision</text>
+      <text x="22" y="78" font-family="Georgia, serif" font-size="31" fill="#FFFFFF">Étendre</text>
+    </g>
+  </g>
+  <g transform="translate(130 352)">
+    <rect width="610" height="184" rx="18" fill="#FFFFFF" stroke="#E5E1F5"/>
+    <text x="24" y="36" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#18143A">Gains cumulés par semaine</text>
+    <g stroke="#E5E1F5">
+      <line x1="40" y1="80" x2="550" y2="80"/>
+      <line x1="40" y1="120" x2="550" y2="120"/>
+      <line x1="40" y1="160" x2="550" y2="160"/>
+    </g>
+    <path d="M40 145 C110 132 180 128 250 108 C320 98 390 74 460 68 C500 60 520 52 530 48 L530 160 L40 160 Z" fill="url(#brand)" opacity="0.08"/>
+    <polyline points="40,145 110,132 180,128 250,108 320,98 390,74 460,68 530,48" fill="none" stroke="url(#brand)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(776 352)" font-family="Arial, sans-serif">
+    <rect width="258" height="184" rx="18" fill="#FFFFFF" stroke="#E5E1F5"/>
+    <text x="24" y="36" font-size="15" font-weight="700" fill="#18143A">Points de contrôle</text>
+    <g transform="translate(24 62)"><rect width="210" height="13" rx="7" fill="#E5E1F5"/><rect width="172" height="13" rx="7" fill="#7B46E8"/></g>
+    <text x="24" y="99" font-size="13" fill="#4A4672">Qualité des sorties</text>
+    <g transform="translate(24 116)"><rect width="210" height="13" rx="7" fill="#E5E1F5"/><rect width="142" height="13" rx="7" fill="#0096B8"/></g>
+    <text x="24" y="153" font-size="13" fill="#4A4672">Risque maîtrisé</text>
+  </g>
+</svg>
