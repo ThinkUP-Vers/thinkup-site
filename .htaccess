@@ -1,0 +1,90 @@
+# ============================================
+# Think'UP - Configuration Apache / Hostinger
+# ============================================
+RewriteEngine On
+
+# Charset UTF-8
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html .css .js .xml .txt
+
+# 1. Forcer HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# 2. Forcer le non-www (canonique = https://think-up.fr)
+RewriteCond %{HTTP_HOST} ^www\.think-up\.fr$ [NC]
+RewriteRule ^ https://think-up.fr%{REQUEST_URI} [L,R=301]
+
+# 2b. Rediriger l'ancienne arborescence /thinkup-site/ vers la racine
+RewriteRule ^thinkup-site/?$ https://think-up.fr/ [L,R=301]
+RewriteRule ^thinkup-site/index\.html$ https://think-up.fr/ [L,R=301]
+RewriteRule ^thinkup-site/(.+)$ https://think-up.fr/$1 [L,R=301]
+
+# 2c. Rediriger l'ancienne page confidentialite
+RewriteRule ^confidentialite\.html$ https://think-up.fr/politique-confidentialite.html [L,R=301]
+
+# 2d. Pages fantômes / doublons supprimés (audit SEO juillet 2026)
+RewriteRule ^index-iceberg\.html$ https://think-up.fr/methode.html [L,R=301]
+RewriteRule ^mentions\.html$ https://think-up.fr/mentions-legales.html [L,R=301]
+RewriteRule ^cas-clients\.html$ https://think-up.fr/resultats.html [L,R=301]
+RewriteRule ^a-propos\.html$ https://think-up.fr/patrick.html [L,R=301]
+RewriteRule ^ressources\.html$ https://think-up.fr/blog.html [L,R=301]
+RewriteRule ^taches-invisibles\.html$ https://think-up.fr/methode.html [L,R=301]
+RewriteRule ^diagnostic-roi-ia\.html$ https://think-up.fr/offres.html [L,R=301]
+RewriteRule ^gains-rapides-ia\.html$ https://think-up.fr/offres.html [L,R=301]
+RewriteRule ^cadrage-adoption-ia\.html$ https://think-up.fr/offres.html [L,R=301]
+
+# 3. Page 404 personnalisee
+ErrorDocument 404 /404.html
+
+# 4. Acces sans .html : /offres sert /offres.html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^\.]+)$ $1.html [L]
+
+# 5. Compression Gzip
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
+
+# 6. Cache navigateur
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# 6b. Cache-Control immutable sur les assets statiques
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|png|jpe?g|webp|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# 7. Headers de securite
+<IfModule mod_headers.c>
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+# 8. Proteger les fichiers et dossiers sensibles
+RewriteRule (^|/)\.git(/|$) - [F,L]
+RewriteRule ^editorial-content/ - [F,L]
+RewriteRule ^scheduled-blog/ - [F,L]
+<Files "publish-blog.php">
+  Require all denied
+</Files>
+<FilesMatch "\.(htaccess|md|json|gitignore)$">
+  Require all denied
+</FilesMatch>
