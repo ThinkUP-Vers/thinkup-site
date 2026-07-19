@@ -17,9 +17,17 @@ chez Hostinger) : les 13 pages du sitemap de prod, `style.css` (v8),
 - les **articles 4 et 5** (finis mais jamais publiés en prod, 404) ont été
   mis aux standards (canonical think-up.fr, e-mail, nav, liens légaux).
 
-Limite connue : `envoi-contact.php` (traitement du formulaire) est un
-fichier serveur **non récupérable** depuis l'extérieur — il n'existe que
-chez Hostinger. Ne pas l'écraser lors des transferts.
+Depuis le 17/07/2026, le dépôt contient aussi `envoi-contact.php`,
+`.htaccess` (fournis par le client, redirections des pages fantômes
+fusionnées dedans) et `404.html` : le dépôt est la source de vérité
+complète. Restent uniquement côté serveur : `publish-blog.php`,
+`editorial-content/`, `scheduled-blog/` (l'automate de publication du
+blog) — jamais touchés par le déploiement.
+
+⚠ Interaction avec l'automate du blog : s'il publie un article, il modifie
+`sitemap.xml` et `blog.html` SUR LE SERVEUR ; le déploiement suivant les
+écrasera avec la version du dépôt. Après chaque article publié par
+l'automate, rapatrier ces fichiers dans le dépôt (ou me le signaler).
 
 ## Déploiement, dans l'ordre
 
@@ -66,10 +74,11 @@ Fichiers **modifiés** (lien Boutique/CGV ajouté) : `index.html`,
 
 ### 4. Redirections 301
 
-- [ ] Ajouter le contenu de `htaccess-redirections.txt` à la fin du
-      `.htaccess` existant chez Hostinger (ne pas remplacer le fichier).
-      Ces redirections suppriment les 9 pages fantômes/doublons encore en
-      ligne, puis supprimer les fichiers correspondants sur le serveur.
+- [x] Intégrées au `.htaccess` du dépôt (section 2d) — déployées
+      automatiquement. Après déploiement : supprimer sur le serveur les 9
+      fichiers fantômes correspondants (index-iceberg, mentions,
+      cas-clients, a-propos, ressources, taches-invisibles,
+      diagnostic-roi-ia, gains-rapides-ia, cadrage-adoption-ia .html).
 
 ### 5. Tester le tunnel complet
 
