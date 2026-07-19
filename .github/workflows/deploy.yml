@@ -45,6 +45,7 @@ jobs:
             .claude/**
             CLAUDE.md
             DEPLOIEMENT-BOUTIQUE.md
+            MENTIONS-TIERCES-GEO.md
             htaccess-redirections.txt
             README.txt
             prod-sitemap.xml
