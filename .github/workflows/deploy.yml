@@ -1,0 +1,50 @@
+# Déploiement automatique de think-up.fr (Hostinger) à chaque fusion dans main.
+#
+# Prérequis (une seule fois, par le propriétaire du dépôt) :
+# 1. hPanel → Fichiers → Comptes FTP : créer un compte FTP dont le
+#    « dossier » est public_html (noter hôte, utilisateur, mot de passe).
+# 2. GitHub → Settings → Secrets and variables → Actions → New repository
+#    secret, trois fois :
+#      FTP_SERVER   = l'hôte FTP (ex. ftp://185.xx.xx.xx ou ftp.think-up.fr)
+#      FTP_USERNAME = l'utilisateur FTP
+#      FTP_PASSWORD = le mot de passe FTP
+#
+# Le déploiement n'efface JAMAIS les fichiers présents uniquement sur le
+# serveur (envoi-contact.php, .htaccess) : l'action ne gère que les
+# fichiers qu'elle a elle-même déployés.
+
+name: Déploiement Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Déployer sur Hostinger (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .claude/**
+            CLAUDE.md
+            DEPLOIEMENT-BOUTIQUE.md
+            htaccess-redirections.txt
+            README.txt
+            prod-sitemap.xml
