@@ -24,46 +24,6 @@ function thinkup_brevo_key(): string {
     return '';
 }
 
-// Auto-test de configuration (ne révèle JAMAIS la clé : longueur + booléens).
-// À retirer une fois la configuration validée.
-if (isset($_GET['selfcheck']) && hash_equals('tu-iceberg-8f3a2c', (string) $_GET['selfcheck'])) {
-    header('Content-Type: application/json; charset=utf-8');
-    $k = thinkup_brevo_key();
-    $disabled = array_map('trim', explode(',', (string) ini_get('disable_functions')));
-    $out = [
-        'config_local_present' => is_file(__DIR__ . '/config.local.php'),
-        'key_detected'         => $k !== '',
-        'key_length'           => strlen($k),
-        'key_prefix_ok'        => strpos($k, 'xkeysib-') === 0,
-        'curl_available'       => function_exists('curl_init'),
-        'putenv_available'     => function_exists('putenv') && !in_array('putenv', $disabled, true),
-    ];
-    // Envoi de contrôle : &sendtest=email — renvoie le code HTTP + la réponse
-    // brute de Brevo (jamais la clé) pour diagnostiquer un échec transactionnel.
-    if (isset($_GET['sendtest']) && $k !== '' && function_exists('curl_init')) {
-        $payload = json_encode([
-            'templateId' => 1,
-            'to'         => [['email' => (string) $_GET['sendtest'], 'name' => 'Test Iceberg']],
-            'params'     => ['NOM' => 'Test', 'PALIER' => 'Auto-verification'],
-        ], JSON_UNESCAPED_UNICODE);
-        $ch = curl_init('https://api.brevo.com/v3/smtp/email');
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => $payload,
-            CURLOPT_TIMEOUT        => 10,
-            CURLOPT_HTTPHEADER     => ['accept: application/json', 'content-type: application/json', 'api-key: ' . $k],
-        ]);
-        $resp = curl_exec($ch);
-        $out['brevo_http']       = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $out['brevo_curl_error'] = curl_error($ch);
-        $out['brevo_response']   = substr((string) $resp, 0, 600);
-        curl_close($ch);
-    }
-    echo json_encode($out, JSON_PRETTY_PRINT);
-    exit;
-}
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     header('Content-Type: text/plain; charset=utf-8');
