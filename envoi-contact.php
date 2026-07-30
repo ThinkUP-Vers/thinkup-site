@@ -2,9 +2,43 @@
 declare(strict_types=1);
 
 // Secrets locaux (non versionnés). Sur Hostinger : créez config.local.php à
-// côté de ce fichier avec putenv('BREVO_API_KEY=...'). Voir config.local.example.php.
+// côté de ce fichier avec  define('BREVO_API_KEY', 'xkeysib-...');
+// Voir config.local.example.php.
 if (is_file(__DIR__ . '/config.local.php')) {
     require __DIR__ . '/config.local.php';
+}
+
+// Récupère la clé Brevo depuis toutes les sources possibles (robuste même si
+// putenv() est désactivé par l'hébergeur) : constante define(), variable
+// d'environnement, ou variable globale $BREVO_API_KEY.
+function thinkup_brevo_key(): string {
+    if (defined('BREVO_API_KEY')) {
+        $k = (string) constant('BREVO_API_KEY');
+        if ($k !== '') { return $k; }
+    }
+    $k = getenv('BREVO_API_KEY');
+    if (is_string($k) && $k !== '') { return $k; }
+    if (isset($GLOBALS['BREVO_API_KEY']) && is_string($GLOBALS['BREVO_API_KEY']) && $GLOBALS['BREVO_API_KEY'] !== '') {
+        return $GLOBALS['BREVO_API_KEY'];
+    }
+    return '';
+}
+
+// Auto-test de configuration (ne révèle JAMAIS la clé : longueur + booléens).
+// À retirer une fois la configuration validée.
+if (isset($_GET['selfcheck']) && hash_equals('tu-iceberg-8f3a2c', (string) $_GET['selfcheck'])) {
+    header('Content-Type: application/json; charset=utf-8');
+    $k = thinkup_brevo_key();
+    $disabled = array_map('trim', explode(',', (string) ini_get('disable_functions')));
+    echo json_encode([
+        'config_local_present' => is_file(__DIR__ . '/config.local.php'),
+        'key_detected'         => $k !== '',
+        'key_length'           => strlen($k),
+        'key_prefix_ok'        => strpos($k, 'xkeysib-') === 0,
+        'curl_available'       => function_exists('curl_init'),
+        'putenv_available'     => function_exists('putenv') && !in_array('putenv', $disabled, true),
+    ], JSON_PRETTY_PRINT);
+    exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -69,7 +103,7 @@ if (!mail($to, $subject, $body, implode("\r\n", $headers))) {
 // le lead a déjà été transmis à Patrick ci-dessus.
 if (trim((string)($_POST['ack'] ?? '')) === '1') {
     $brevoSent = false;
-    $brevoKey = getenv('BREVO_API_KEY') ?: '';
+    $brevoKey = thinkup_brevo_key();
 
     if ($brevoKey !== '' && function_exists('curl_init')) {
         $payload = json_encode([
