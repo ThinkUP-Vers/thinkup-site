@@ -52,7 +52,7 @@ if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-$to = 'patrick@think-up.fr';
+$to = 'patrick@thinkupcom.com';
 $subject = "Nouveau contact Think'UP - " . $name;
 $body = implode("\n", [
     "Nouveau message depuis think-up.fr",
@@ -69,7 +69,7 @@ $body = implode("\n", [
 ]);
 
 $headers = [
-    'From: ThinkUP <patrick@think-up.fr>',
+    "From: Think'UP <contact@think-up.fr>",
     'Reply-To: ' . $email,
     'Content-Type: text/plain; charset=UTF-8',
 ];
@@ -130,8 +130,8 @@ if (trim((string)($_POST['ack'] ?? '')) === '1') {
             "Patrick Langlais — Think'UP",
         ]);
         $ackHeaders = [
-            "From: Think'UP <contact@thinkupcom.com>",
-            'Reply-To: patrick@think-up.fr',
+            "From: Think'UP <contact@think-up.fr>",
+            'Reply-To: patrick@thinkupcom.com',
             'Content-Type: text/plain; charset=UTF-8',
         ];
         @mail($email, "Votre Indice Iceberg — bien recu", $ackBody, implode("\r\n", $ackHeaders));

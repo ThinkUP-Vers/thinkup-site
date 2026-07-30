@@ -325,7 +325,7 @@
         <li><a href="offres.html#pilotage">Pilotage & Freelances</a></li>
       </ul></div>
       <div class="foot-col"><p class="foot-heading">Contact</p><ul class="foot-links">
-        <li><a href="mailto:patrick@think-up.fr">patrick@think-up.fr</a></li>
+        <li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li>
         <li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li>
         <li><a href="https://www.linkedin.com/in/patrick-langlais-9886444a/" target="_blank" rel="noopener">LinkedIn</a></li>
         <li><a href="contact.html">Formulaire de contact</a></li>
@@ -573,7 +573,7 @@ el('d-form').addEventListener('submit',function(e){
   fetch('envoi-contact.php',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(data).toString()})
   .then(function(res){if(!res.ok)throw new Error('HTTP '+res.status);
     form.style.display='none';el('d-cap-success').classList.add('on');})
-  .catch(function(){alert('Une erreur est survenue. Écrivez-moi directement : patrick@think-up.fr');})
+  .catch(function(){alert('Une erreur est survenue. Écrivez-moi directement : patrick@thinkupcom.com');})
   .finally(function(){btn.disabled=false;btn.textContent='Recevoir ma restitution →';});
 });
 
