@@ -90,7 +90,7 @@ if (trim((string)($_POST['ack'] ?? '')) === '1') {
 
     if ($brevoKey !== '' && function_exists('curl_init')) {
         $payload = json_encode([
-            'templateId' => 1, // « Indice Iceberg — Accusé de réception »
+            'templateId' => 2, // « Indice Iceberg — Accusé de réception (think-up.fr) »
             'to'         => [['email' => $email, 'name' => ($name ?: $email)]],
             'params'     => ['NOM' => $name, 'PALIER' => ($stage !== '' ? $stage : 'Votre diagnostic')],
         ], JSON_UNESCAPED_UNICODE);
