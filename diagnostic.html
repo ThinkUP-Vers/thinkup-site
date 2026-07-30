@@ -255,13 +255,15 @@
 
         <!-- CAPTURE EMAIL -->
         <div class="d-capture" id="d-capture">
-          <h3>Recevez votre restitution complète</h3>
+          <h3>Recevez votre restitution personnalisée</h3>
           <p class="d-cap-lead">
-            On vous envoie votre restitution en PDF <strong>et votre plan des 3 chantiers IA priorisés</strong>
-            (impact / effort / risque) — l'élément qui n'apparaît pas à l'écran.
+            Laissez votre email : <strong>accusé de réception immédiat</strong>, puis Patrick vous envoie
+            votre restitution complète — score détaillé et vos <strong>3 chantiers IA priorisés</strong>
+            (impact / effort / risque) — sous 24 à 48 h.
           </p>
           <form id="d-form" class="form" novalidate>
             <p style="display:none"><label>Bot : <input name="bot-field"></label></p>
+            <input type="hidden" name="ack" value="1">
             <div class="form-row">
               <div class="fg"><label for="d-nom">Prénom &amp; nom</label><input type="text" id="d-nom" name="nom" placeholder="Jean Dupont" required autocomplete="name"></div>
               <div class="fg"><label for="d-email">Email professionnel</label><input type="email" id="d-email" name="email" placeholder="jean@mapme.fr" required autocomplete="email"></div>
@@ -279,7 +281,7 @@
           </form>
           <div class="d-cap-success" id="d-cap-success">
             <div class="d-cap-ico">✓</div>
-            <p style="margin:0"><strong>C'est envoyé.</strong> Vous recevez votre restitution très vite. Pour aller au fond, réservez vos 30 minutes ci-dessous.</p>
+            <p style="margin:0"><strong>C'est bien reçu.</strong> Un accusé de réception vient de partir vers votre boîte. Patrick vous envoie votre restitution personnalisée sous 24 à 48 h — et pour aller plus vite, réservez vos 30 minutes ci-dessous.</p>
           </div>
         </div>
 

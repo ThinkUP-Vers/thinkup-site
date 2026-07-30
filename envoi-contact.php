@@ -57,4 +57,31 @@ if (!mail($to, $subject, $body, implode("\r\n", $headers))) {
     exit;
 }
 
+// Accusé de réception automatique (auto-diagnostic Indice Iceberg uniquement)
+if (trim((string)($_POST['ack'] ?? '')) === '1') {
+    $ackSubject = "Votre Indice Iceberg — bien reçu";
+    $ackBody = implode("\n", [
+        "Bonjour " . $name . ",",
+        "",
+        "Merci d'avoir realise votre auto-diagnostic Indice Iceberg. Votre demande est bien arrivee.",
+        ($stage !== '' ? ("Pour memoire : " . $stage . ".") : ""),
+        "",
+        "Patrick Langlais vous envoie votre restitution personnalisee",
+        "(score detaille + vos 3 chantiers IA priorises) sous 24 a 48 heures.",
+        "",
+        "Vous voulez aller plus vite ? Reservez 30 minutes : https://think-up.fr/contact.html",
+        "",
+        "A tres vite,",
+        "Patrick Langlais — Think'UP",
+        "patrick@think-up.fr",
+    ]);
+    $ackHeaders = [
+        "From: Think'UP <patrick@think-up.fr>",
+        'Reply-To: patrick@think-up.fr',
+        'Content-Type: text/plain; charset=UTF-8',
+    ];
+    // Non bloquant : le lead a deja ete transmis a Patrick ci-dessus.
+    @mail($email, $ackSubject, $ackBody, implode("\r\n", $ackHeaders));
+}
+
 echo 'OK';
