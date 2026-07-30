@@ -1,6 +1,12 @@
 <?php
 declare(strict_types=1);
 
+// Secrets locaux (non versionnés). Sur Hostinger : créez config.local.php à
+// côté de ce fichier avec putenv('BREVO_API_KEY=...'). Voir config.local.example.php.
+if (is_file(__DIR__ . '/config.local.php')) {
+    require __DIR__ . '/config.local.php';
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     header('Content-Type: text/plain; charset=utf-8');

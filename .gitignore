@@ -1,0 +1,7 @@
+# Secrets locaux (ne jamais versionner)
+config.local.php
+.env
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
