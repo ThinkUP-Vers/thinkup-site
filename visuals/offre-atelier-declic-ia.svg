@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" role="img" aria-labelledby="title desc">
+  <title id="title">Atelier Déclic IA</title>
+  <desc id="desc">Carte visuelle d'un atelier IA court pour identifier des cas d'usage concrets.</desc>
+  <rect width="800" height="540" rx="24" fill="#F8F6FF"/>
+  <rect x="58" y="58" width="684" height="424" rx="22" fill="#FFFFFF" stroke="#E5E1F5" stroke-width="2"/>
+  <text x="92" y="112" font-family="Consolas, monospace" font-size="13" letter-spacing="2" fill="#7B46E8">ATELIER DÉCLIC IA</text>
+  <text x="92" y="164" font-family="Georgia, serif" font-size="48" fill="#18143A">Identifier les bons usages</text>
+  <g transform="translate(92 214)" font-family="Arial, sans-serif">
+    <rect width="150" height="86" rx="14" fill="#FFF8FF" stroke="#C8BEF0"/>
+    <text x="22" y="36" font-size="15" font-weight="700" fill="#18143A">Irritants</text>
+    <text x="22" y="62" font-size="13" fill="#4A4672">terrain</text>
+    <rect x="176" width="150" height="86" rx="14" fill="#F8F6FF" stroke="#C8BEF0"/>
+    <text x="198" y="36" font-size="15" font-weight="700" fill="#18143A">Cas d'usage</text>
+    <text x="198" y="62" font-size="13" fill="#4A4672">IA possibles</text>
+    <rect x="352" width="150" height="86" rx="14" fill="#F6FBFF" stroke="#C8BEF0"/>
+    <text x="374" y="36" font-size="15" font-weight="700" fill="#18143A">Décision</text>
+    <text x="374" y="62" font-size="13" fill="#4A4672">priorisée</text>
+  </g>
+  <path d="M246 257H272M422 257H448" stroke="#7B46E8" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="654" cy="386" r="48" fill="#D020CC" opacity="0.12"/>
+  <circle cx="654" cy="386" r="30" fill="#D020CC" opacity="0.22"/>
+  <text x="654" y="392" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#7B46E8">2-3h</text>
+</svg>

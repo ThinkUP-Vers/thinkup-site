@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">Un outil n'est pas une stratégie</title>
+  <desc id="d">Illustration Think'UP — Un outil n'est pas une stratégie</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#D020CC"/><stop offset="0.5" stop-color="#7B46E8"/><stop offset="1" stop-color="#0096B8"/>
+  </linearGradient></defs>
+  <rect width="1200" height="675" fill="#F8F6FF"/>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#g)"/>
+  <text x="80" y="108" font-family="Cormorant Garamond,Georgia,serif" font-size="50" fill="#18143A">Un outil n'est pas une stratégie</text>
+  <line x1="80" y1="138" x2="1120" y2="138" stroke="#E5E1F5" stroke-width="2"/>
+<rect x="80" y="185" width="490" height="115" rx="14" fill="#D020CC" opacity="0.09"/>
+<rect x="80" y="185" width="4" height="115" rx="2" fill="#D020CC"/>
+<text x="106" y="227" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">Douze abonnements</text>
+<text x="106" y="261" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">gains individuels, invisibles</text>
+<rect x="630" y="185" width="490" height="115" rx="14" fill="#0096B8" opacity="0.09"/>
+<rect x="630" y="185" width="4" height="115" rx="2" fill="#0096B8"/>
+<text x="656" y="227" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">Un processus traité</text>
+<text x="656" y="261" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">gain mesuré, reproductible</text>
+<rect x="80" y="335" width="490" height="115" rx="14" fill="#D020CC" opacity="0.09"/>
+<rect x="80" y="335" width="4" height="115" rx="2" fill="#D020CC"/>
+<text x="106" y="377" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">Personne ne mesure</text>
+<text x="106" y="411" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">aucune preuve, aucun budget</text>
+<rect x="630" y="335" width="490" height="115" rx="14" fill="#0096B8" opacity="0.09"/>
+<rect x="630" y="335" width="4" height="115" rx="2" fill="#0096B8"/>
+<text x="656" y="377" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">Un chiffre avant / après</text>
+<text x="656" y="411" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">la preuve qui débloque la suite</text>
+<rect x="80" y="490" width="1040" height="95" rx="14" fill="#7B46E8" opacity="0.09"/>
+<rect x="80" y="490" width="4" height="95" rx="2" fill="#7B46E8"/>
+<text x="106" y="532" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">Si vous coupiez tout demain, qu'est-ce qui casserait ?</text>
+<text x="106" y="566" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">c'est la question qui tranche</text>
+  <text x="80" y="640" font-family="DM Mono,monospace" font-size="16" fill="#8882A8">THINK'UP · think-up.fr</text>
+</svg>

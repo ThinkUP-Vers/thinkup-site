@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">Choisir son premier cas d'usage</title>
+  <desc id="d">Illustration Think'UP — Choisir son premier cas d'usage</desc>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#D020CC"/><stop offset="0.5" stop-color="#7B46E8"/><stop offset="1" stop-color="#0096B8"/>
+  </linearGradient></defs>
+  <rect width="1200" height="675" fill="#F8F6FF"/>
+  <rect x="0" y="0" width="1200" height="6" fill="url(#g)"/>
+  <text x="80" y="108" font-family="Cormorant Garamond,Georgia,serif" font-size="50" fill="#18143A">Choisir son premier cas d'usage</text>
+  <line x1="80" y1="138" x2="1120" y2="138" stroke="#E5E1F5" stroke-width="2"/>
+<rect x="80" y="185" width="1040" height="92" rx="14" fill="#7B46E8" opacity="0.09"/>
+<rect x="80" y="185" width="4" height="92" rx="2" fill="#7B46E8"/>
+<text x="106" y="227" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">01 · La tâche revient au moins une fois par semaine</text>
+<text x="106" y="261" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">sans répétition, l'installation ne se rentabilise pas</text>
+<rect x="80" y="297" width="1040" height="92" rx="14" fill="#7B46E8" opacity="0.09"/>
+<rect x="80" y="297" width="4" height="92" rx="2" fill="#7B46E8"/>
+<text x="106" y="339" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">02 · Quelqu'un sait décrire précisément comment elle se fait</text>
+<text x="106" y="373" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">ce qu'on ne sait pas expliquer ne se délègue pas</text>
+<rect x="80" y="409" width="1040" height="92" rx="14" fill="#7B46E8" opacity="0.09"/>
+<rect x="80" y="409" width="4" height="92" rx="2" fill="#7B46E8"/>
+<text x="106" y="451" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">03 · Une erreur serait visible et rattrapable</text>
+<text x="106" y="485" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">jamais la paie, les contrats ou les données de santé</text>
+<rect x="80" y="521" width="1040" height="92" rx="14" fill="#7B46E8" opacity="0.09"/>
+<rect x="80" y="521" width="4" height="92" rx="2" fill="#7B46E8"/>
+<text x="106" y="563" font-family="DM Sans,sans-serif" font-size="25" font-weight="600" fill="#18143A">04 · Une personne identifiée veut que ça marche</text>
+<text x="106" y="597" font-family="DM Mono,monospace" font-size="18" fill="#4A4672">sans propriétaire, l'automatisation meurt en trois mois</text>
+  <text x="80" y="640" font-family="DM Mono,monospace" font-size="16" fill="#8882A8">THINK'UP · think-up.fr</text>
+</svg>
