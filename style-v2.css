@@ -1,0 +1,121 @@
+  :root { --paper: #faf7f3; --paper-2: #f1eae1; --paper-3: #e6dacc; --ink: #2a241f; --ink-2: #4a413a; --ink-soft: #6c6057; --accent: #38665f; --accent-2: #2b514c; --accent-on-deep: #8fc2b7; --accent-pale: #dce7e3; --ember: #c1783f; --rule: rgba(42,36,31,0.14); --rule-2: rgba(42,36,31,0.08); --on-deep: #f4eee6; --on-deep-soft: #c3b8ab; --deep: #262b29; --rule-deep: rgba(244,238,230,0.16); --focus: #38665f; --shadow: rgba(42,36,31,0.10); --ember-ink: #9c5827 }
+  :root[data-theme="dark"] { --paper: #1b1815; --paper-2: #232019; --paper-3: #2e2a22; --ink: #f2ebe1; --ink-2: #d6ccbf; --ink-soft: #a2968a; --accent: #7fb3a8; --accent-2: #a2ccc3; --accent-on-deep: #a2ccc3; --accent-pale: #2a3b37; --ember: #dda06b; --rule: rgba(242,235,225,0.16); --rule-2: rgba(242,235,225,0.08); --on-deep: #f2ebe1; --on-deep-soft: #afa398; --deep: #14120f; --rule-deep: rgba(242,235,225,0.14); --focus: #7fb3a8; --shadow: rgba(0,0,0,0.45); --ember-ink: #dda06b }
+  * { box-sizing: border-box }
+  html { scroll-behavior: smooth }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: Seravek,"Gill Sans Nova",Optima,"Segoe UI",system-ui,sans-serif; font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased }
+  .serif { font-family: "Palatino Linotype",Palatino,"Book Antiqua","URW Palladio L","Iowan Old Style",Georgia,serif; font-weight: 400; letter-spacing: -0.005em; text-wrap: balance }
+  .eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); margin: 0 }
+  a { color: inherit }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px }
+  img { max-width: 100% }
+  header.site { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb,var(--paper) 90%,transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule-2) }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 16px }
+  .logo { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.18rem; font-weight: 700; letter-spacing: -0.01em; text-decoration: none }
+  .logo i { font-style: normal; color: var(--accent) }
+  .navlinks { display: flex; align-items: center; gap: clamp(14px,2.6vw,30px); list-style: none; margin: 0; padding: 0 }
+  .navlinks a { text-decoration: none; font-size: 0.93rem; color: var(--ink-soft); transition: color 0.15s ease }
+  .navlinks a:hover { color: var(--ink) }
+  .navlinks .cta a:hover { background: var(--accent-2); color: var(--paper) }
+  .btn-primary { background: var(--accent); color: var(--paper) }
+  .btn-primary:hover { background: var(--accent-2) }
+  .btn-quiet { color: var(--ink); border-color: var(--rule) }
+  .btn-quiet:hover { border-color: var(--accent); color: var(--accent) }
+  footer.site { border-top: 1px solid var(--rule); padding-top: 44px; background: var(--paper) }
+  .foot-grid { display: grid; grid-template-columns: 1.7fr 1fr 1fr; gap: 30px; padding-bottom: 34px }
+  .foot-brand p { margin: 12px 0 0; max-width: 40ch; font-size: 0.9rem; color: var(--ink-soft) }
+  .foot-col { display: flex; flex-direction: column; gap: 9px; font-size: 0.9rem }
+  .foot-col a { color: var(--ink-soft); text-decoration: none }
+  .foot-col a:hover { color: var(--ink) }
+  .foot-col span { color: var(--ink-soft) }
+  .foot-bottom { border-top: 1px solid var(--rule-2); padding-block: 18px; font-size: 0.79rem; color: var(--ink-soft) }
+  .navlinks a[aria-current="page"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent) }
+  .close-ctas { display: flex; flex-wrap: wrap; gap: 12px }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --paper: #1b1815; --paper-2: #232019; --paper-3: #2e2a22; --ink: #f2ebe1; --ink-2: #d6ccbf; --ink-soft: #a2968a; --accent: #7fb3a8; --accent-2: #a2ccc3; --accent-on-deep: #a2ccc3; --accent-pale: #2a3b37; --ember: #dda06b; --rule: rgba(242,235,225,0.16); --rule-2: rgba(242,235,225,0.08); --on-deep: #f2ebe1; --on-deep-soft: #afa398; --deep: #14120f; --rule-deep: rgba(242,235,225,0.14); --focus: #7fb3a8; --shadow: rgba(0,0,0,0.45); --ember-ink: #dda06b }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto }
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important }
+}
+@media (max-width: 660px) {
+  .foot-grid { grid-template-columns: 1fr }
+}
+@media (max-width: 760px) {
+  .navlinks .hide-sm { display: none }
+}
+/* Ajouts du portage en production — pas issus des maquettes.
+   Le footer passe de 3 a 4 colonnes : les maquettes avaient perdu les liens
+   legaux et le telephone, reintegres au portage. */
+
+/* Les filtres du blog masquent les billets via l'attribut `hidden`, mais
+   `.post { display: flex }` et `.feature { display: grid }` l'emportent sur le
+   `display: none` de la feuille du navigateur : sans cette regle, cliquer sur
+   une categorie ne filtre rien. */
+  [hidden] { display: none !important; }
+
+/* Colonne de lecture. Les maquettes ne differaient que par le rembourrage
+   minimal (18 ou 22 px), ce qui l'avait maintenue dans le CSS de chaque page :
+   les pages sans maquette se retrouvaient donc avec un en-tete et un pied
+   pleine largeur, desalignes du contenu. Les pages qui redefinissent `.wrap`
+   en ligne l'emportent toujours. */
+  .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(18px,5vw,60px) }
+
+/* Boutons. Les maquettes ecrivaient `.btn` avec de legeres variantes, il est
+   donc reste dans le CSS propre a chaque page — les pages sans maquette
+   (legales, merci, 404) se retrouvaient avec des boutons sans fond. Cette base
+   partagee reste surchargeable par le CSS en ligne de chaque page. */
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 999px;
+    font-family: Seravek,"Gill Sans Nova",Optima,"Segoe UI",system-ui,sans-serif; font-size: 0.96rem;
+    text-decoration: none; border: 1px solid transparent; cursor: pointer;
+    transition: background 0.16s ease,border-color 0.16s ease,color 0.16s ease }
+  .btn-primary { background: var(--accent); color: var(--paper) }
+  .btn-primary:hover { background: var(--accent-2); color: var(--paper) }
+  .btn-quiet { color: var(--ink); border-color: var(--rule) }
+  .btn-quiet:hover { border-color: var(--accent); color: var(--accent) }
+  .btn-on-deep { background: var(--accent-on-deep); color: var(--deep) }
+  .btn-on-deep:hover { background: var(--on-deep); color: var(--deep) }
+
+/* Banniere de consentement. `consent.js` la construit sur toutes les pages,
+   mais son habillage vivait dans l'ancien style.css : sans ces regles, elle
+   s'affiche brute sur chaque page portee. */
+  .cookie-banner { position: fixed; left: 50%; transform: translateX(-50%); bottom: 18px; z-index: 60;
+    width: min(680px, calc(100% - 32px)); display: none; gap: 18px; align-items: center; flex-wrap: wrap;
+    justify-content: space-between; padding: 18px 20px; background: var(--paper-2);
+    border: 1px solid var(--rule); border-radius: 5px; box-shadow: 0 10px 30px var(--shadow) }
+  .cookie-banner.visible { display: flex }
+  .cookie-banner p { margin: 0; font-size: 0.9rem; color: var(--ink-2); flex: 1 1 300px }
+  .cookie-actions { display: flex; gap: 10px; flex: none }
+  .cookie-btn { font: inherit; font-size: 0.88rem; cursor: pointer; padding: 9px 18px; border-radius: 999px;
+    border: 1px solid var(--rule); background: transparent; color: var(--ink) }
+  .cookie-btn:hover { border-color: var(--accent); color: var(--accent) }
+  .cookie-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper) }
+  .cookie-btn.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--paper) }
+
+/* L'accordeon de FAQ n'existait que sur Offres. Il sert desormais aussi sur
+   l'accueil et sur Methode, dont les maquettes avaient perdu la FAQ que la
+   production affichait. Regles identiques a celles de la maquette Offres. */
+  .faq { padding-block: clamp(56px,7.5vw,88px); border-top: 1px solid var(--rule-2) }
+  .faq h2 { font-size: clamp(1.6rem,3vw,2.2rem); margin: 12px 0 34px; max-width: 20ch }
+  .faq-list { border-top: 1px solid var(--rule); max-width: 78ch }
+  .faq details { border-bottom: 1px solid var(--rule) }
+  .faq summary { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding-block: 20px; cursor: pointer; list-style: none; font-size: 1.03rem; font-weight: 600; color: var(--ink) }
+  .faq summary::-webkit-details-marker { display: none }
+  .faq summary::after { content: "+"; flex: none; font-size: 1.3rem; font-weight: 400; line-height: 1; color: var(--accent); transition: transform 0.18s ease }
+  .faq details[open] summary::after { content: "\2013" }
+  .faq summary:hover { color: var(--accent) }
+  .faq .answer { margin: 0; padding: 0 0 22px; color: var(--ink-2); max-width: 66ch; font-size: 0.97rem }
+
+  .foot-grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; }
+  @media (max-width: 960px) { .foot-grid { grid-template-columns: 1fr 1fr; gap: 28px 30px; } }
+  @media (max-width: 560px) { .foot-grid { grid-template-columns: 1fr; } }
+
+  .foot-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px 24px;
+  }
+  .foot-legal { display: flex; flex-wrap: wrap; gap: 18px; }
+  .foot-legal a { color: var(--ink-soft); text-decoration: none; }
+  .foot-legal a:hover { color: var(--ink); }

@@ -21,6 +21,18 @@ function thinkup_brevo_key(): string {
     if (isset($GLOBALS['BREVO_API_KEY']) && is_string($GLOBALS['BREVO_API_KEY']) && $GLOBALS['BREVO_API_KEY'] !== '') {
         return $GLOBALS['BREVO_API_KEY'];
     }
+    // Dernier recours : lire la clé directement dans config.local.php.
+    // Certains hébergeurs (Hostinger/LiteSpeed) désactivent putenv() ; un
+    // config.local.php écrit sous la forme putenv('BREVO_API_KEY=…') devient
+    // alors invisible, et toute la chaîne Brevo bascule en silence sur mail().
+    // Cette lecture rend la clé récupérable quelle que soit sa forme.
+    $conf = __DIR__ . '/config.local.php';
+    if (is_readable($conf)) {
+        $contenu = (string) @file_get_contents($conf);
+        if (preg_match('/xkeysib-[A-Za-z0-9_\-]+/', $contenu, $m)) {
+            return $m[0];
+        }
+    }
     return '';
 }
 
@@ -53,14 +65,15 @@ if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 }
 
 $to = 'patrick@thinkupcom.com';
-$subject = "Nouveau contact Think'UP - " . $name;
+// Le nom du prospect peut porter des accents : sujet encodé en MIME.
+$subject = '=?UTF-8?B?' . base64_encode("Nouveau contact Think'UP — " . $name) . '?=';
 $body = implode("\n", [
     "Nouveau message depuis think-up.fr",
     "",
     "Nom : " . $name,
     "Email : " . $email,
     "Entreprise : " . ($company ?: '-'),
-    "Telephone : " . ($phone ?: '-'),
+    "Téléphone : " . ($phone ?: '-'),
     "Effectif : " . ($size ?: '-'),
     "Stade IA : " . ($stage ?: '-'),
     "",
@@ -118,15 +131,15 @@ if (trim((string)($_POST['ack'] ?? '')) === '1') {
         $ackBody = implode("\n", [
             "Bonjour " . $name . ",",
             "",
-            "Merci d'avoir realise votre auto-diagnostic Indice Iceberg. Votre demande est bien arrivee.",
-            ($stage !== '' ? ("Pour memoire : " . $stage . ".") : ""),
+            "Merci d'avoir réalisé votre auto-diagnostic Indice Iceberg. Votre demande est bien arrivée.",
+            ($stage !== '' ? ("Pour mémoire : " . $stage . ".") : ""),
             "",
-            "Patrick Langlais vous envoie votre restitution personnalisee",
-            "(score detaille + vos 3 chantiers IA priorises) sous 24 a 48 heures.",
+            "Patrick Langlais vous envoie votre restitution personnalisée",
+            "(score détaillé + vos 3 chantiers IA priorisés) sous 24 à 48 heures.",
             "",
-            "Vous voulez aller plus vite ? Reservez 30 minutes : https://think-up.fr/contact.html",
+            "Vous voulez aller plus vite ? Réservez 30 minutes : https://think-up.fr/contact.html",
             "",
-            "A tres vite,",
+            "À très vite,",
             "Patrick Langlais — Think'UP",
         ]);
         $ackHeaders = [
@@ -134,7 +147,95 @@ if (trim((string)($_POST['ack'] ?? '')) === '1') {
             'Reply-To: patrick@thinkupcom.com',
             'Content-Type: text/plain; charset=UTF-8',
         ];
-        @mail($email, "Votre Indice Iceberg — bien recu", $ackBody, implode("\r\n", $ackHeaders));
+        // Un sujet non-ASCII doit être encodé MIME : sans ça, le tiret cadratin
+        // et les accents ressortent en mojibake dans certains clients mail.
+        $ackSubject = '=?UTF-8?B?' . base64_encode("Votre Indice Iceberg — bien reçu") . '?=';
+        @mail($email, $ackSubject, $ackBody, implode("\r\n", $ackHeaders));
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Enregistrement du prospect comme contact Brevo.
+//
+// Jusqu'ici la seule trace d'un prospect etait un e-mail dans la boite de
+// Patrick : si mail() echouait en silence ou si le message partait en
+// indesirables, le contact etait perdu sans laisser d'empreinte.
+//
+// Non bloquant : le lead a deja ete transmis plus haut. Un echec ici ne doit
+// jamais faire echouer la soumission du formulaire.
+//
+// La liste cible se configure dans config.local.php :
+//     define('BREVO_LIST_ID', 3);
+// Sans elle, le contact est cree hors liste (visible dans « Tous les contacts »).
+// ---------------------------------------------------------------------------
+$brevoKeyContact = thinkup_brevo_key();
+if ($brevoKeyContact !== '' && function_exists('curl_init') && $email !== '') {
+    $prenom = '';
+    $nomFamille = '';
+    if ($name !== '') {
+        $morceaux = preg_split('/\s+/', trim($name), 2);
+        $prenom = $morceaux[0] ?? '';
+        $nomFamille = $morceaux[1] ?? '';
+    }
+
+    $attributs = array_filter([
+        'PRENOM'     => $prenom,
+        'NOM'        => $nomFamille,
+        'ENTREPRISE' => $company,
+        'TELEPHONE'  => $phone,
+        'EFFECTIF'   => $size,
+        'STADE_IA'   => $stage,
+        'CONTEXTE'   => mb_substr($context, 0, 500),
+        'SOURCE'     => (trim((string)($_POST['ack'] ?? '')) === '1')
+                        ? 'Auto-diagnostic Indice Iceberg' : 'Formulaire de contact',
+        'DATE_DEMANDE' => date('Y-m-d'),
+    ], static fn($v) => $v !== '' && $v !== null);
+
+    $corpsContact = [
+        'email'          => $email,
+        'attributes'     => $attributs,
+        // Une nouvelle demande met a jour la fiche plutot que d'echouer en doublon.
+        'updateEnabled'  => true,
+    ];
+    // Liste « Prospects site — formulaires ». Un identifiant de liste n'est pas
+    // un secret : il vit ici plutot que dans config.local.php, qui n'est pas
+    // deploye. Surchargeable si besoin par une constante du meme nom.
+    $listeId = defined('BREVO_LIST_ID') ? (int) constant('BREVO_LIST_ID') : 3;
+    if ($listeId > 0) {
+        $corpsContact['listIds'] = [$listeId];
+    }
+
+    $envoyerContact = static function (array $donnees) use ($brevoKeyContact): int {
+        $chc = curl_init('https://api.brevo.com/v3/contacts');
+        curl_setopt_array($chc, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => json_encode($donnees, JSON_UNESCAPED_UNICODE),
+            CURLOPT_TIMEOUT        => 8,
+            CURLOPT_HTTPHEADER     => [
+                'accept: application/json',
+                'content-type: application/json',
+                'api-key: ' . $brevoKeyContact,
+            ],
+        ]);
+        @curl_exec($chc);
+        $code = (int) curl_getinfo($chc, CURLINFO_HTTP_CODE);
+        @curl_close($chc);
+        return $code;
+    };
+
+    $code = $envoyerContact($corpsContact);
+
+    // Brevo rejette en bloc un envoi contenant un attribut qu'il ne connait pas.
+    // Sans ce repli, un seul attribut manquant dans le compte ferait perdre TOUS
+    // les prospects, et en silence. On retente avec les seuls attributs standard.
+    if ($code < 200 || $code >= 300) {
+        $minimal = array_intersect_key($attributs, array_flip(['PRENOM', 'NOM']));
+        $corpsMinimal = ['email' => $email, 'attributes' => $minimal, 'updateEnabled' => true];
+        if (isset($corpsContact['listIds'])) {
+            $corpsMinimal['listIds'] = $corpsContact['listIds'];
+        }
+        $envoyerContact($corpsMinimal);
     }
 }
 

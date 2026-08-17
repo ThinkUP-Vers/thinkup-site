@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="Favikon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="Favikon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="Favikon-512.png">
-<meta name="theme-color" content="#7B46E8">
+<meta name="theme-color" content="#38665F">
 <title>Blog Think'UP | IA pour dirigeants PME/ETI</title>
 <meta name="description" content="Articles Think'UP sur l'IA en PME/ETI : cadrage, ROI, méthode Index Iceberg, pièges à éviter, retours terrain. Par Patrick Langlais.">
 <meta name="robots" content="index,follow">
@@ -27,172 +27,254 @@
 <meta name="twitter:title" content="Blog Think'UP | IA pour dirigeants PME/ETI">
 <meta name="twitter:description" content="Articles Think'UP sur l'IA en PME/ETI : cadrage, ROI, méthode Index Iceberg, pièges à éviter, retours terrain. Par Patrick Langlais.">
 <meta name="twitter:image" content="https://think-up.fr/og-thinkup.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" media="print" onload="this.media='all'">
-<noscript></noscript>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style-v2.css?v=1">
 <style>
-.blog-hero-lead{font-size:1rem;max-width:55ch}
-.blog-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin:2rem 0 3rem}
-.filt-btn{
-  padding:.4rem 1rem;border:1.5px solid var(--border-l);border-radius:999px;
-  font-family:var(--ff-m);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
-  cursor:pointer;background:none;color:var(--text-dim);transition:all .2s;
+  .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(18px,5vw,60px) }
+  .navlinks .cta a { color: var(--paper); background: var(--accent); padding: 9px 17px; border-radius: 999px; font-size: 0.88rem; box-shadow: none }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 999px; font-size: 0.96rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: background 0.16s ease,border-color 0.16s ease,color 0.16s ease }
+  .pagehead { padding-block: clamp(42px,6vw,74px) clamp(24px,3.2vw,34px) }
+  .pagehead h1 { font-size: clamp(2rem,4.3vw,3.1rem); line-height: 1.13; margin: 13px 0 20px; max-width: 16ch }
+  .pagehead .lede { font-size: 1.08rem; color: var(--ink-2); margin: 0; max-width: 60ch }
+  .filters { display: flex; flex-wrap: wrap; gap: 9px; padding-bottom: clamp(28px,3.6vw,40px); border-bottom: 1px solid var(--rule) }
+  .filters button { font: inherit; font-size: 0.87rem; cursor: pointer; padding: 7px 15px; border-radius: 999px; border: 1px solid var(--rule); background: transparent; color: var(--ink-soft); transition: border-color 0.15s ease,color 0.15s ease,background 0.15s ease }
+  .filters button:hover { border-color: var(--accent); color: var(--accent) }
+  .filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper) }
+  .filters .count { font-variant-numeric: tabular-nums; opacity: 0.9 }
+  main section { padding-block: clamp(38px,5vw,58px) }
+  .feature { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(26px,4vw,50px); align-items: center; padding: clamp(26px,3.6vw,38px); border: 1px solid var(--rule); border-radius: 5px; background: var(--paper-2) }
+  .feature .tag { font-size: 0.72rem; letter-spacing: 0.11em; text-transform: uppercase; font-weight: 600; color: var(--ember-ink) }
+  .feature h2 { font-size: clamp(1.5rem,2.9vw,2.1rem); line-height: 1.2; margin: 11px 0 14px }
+  .feature h2 a { text-decoration: none }
+  .feature h2 a:hover { color: var(--accent) }
+  .feature p { margin: 0 0 18px; color: var(--ink-2); font-size: 0.98rem }
+  .feature .meta { font-size: 0.83rem; color: var(--ink-soft); margin: 0 0 20px }
+  .feature-side { border-left: 1px solid var(--rule); padding-left: clamp(20px,2.6vw,30px) }
+  .feature-side p { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.06rem; line-height: 1.5; color: var(--ink); margin: 0 }
+  .feature-side .who { display: block; margin-top: 12px; font-family: inherit; font-size: 0.82rem; color: var(--ink-soft) }
+  .posts { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,290px),1fr)); gap: 0; border-top: 1px solid var(--rule); margin-top: clamp(30px,4vw,44px) }
+  .post { display: flex; flex-direction: column; padding: 26px 26px 26px 0; border-right: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule) }
+  .post .tag { font-size: 0.72rem; letter-spacing: 0.11em; text-transform: uppercase; font-weight: 600; color: var(--accent) }
+  .post h3 { margin: 9px 0 9px; font-size: 1.16rem; line-height: 1.3 }
+  .post h3 a { text-decoration: none }
+  .post h3 a:hover { color: var(--accent) }
+  .post p { margin: 0 0 16px; font-size: 0.93rem; color: var(--ink-soft); flex: 1 }
+  .post .meta { font-size: 0.8rem; color: var(--ink-soft) }
+  .empty { padding: 40px 0; color: var(--ink-soft); font-size: 0.95rem }
+  .close { background: var(--paper-2); border-top: 1px solid var(--rule-2) }
+  .close h2 { font-size: clamp(1.55rem,2.9vw,2.15rem); margin: 12px 0 14px; max-width: 20ch; line-height: 1.2 }
+  .close p { color: var(--ink-2); margin: 0 0 24px; max-width: 54ch }
+@media (max-width: 840px) {
+  .feature { grid-template-columns: 1fr }
+  .feature-side { border-left: none; border-top: 1px solid var(--rule); padding-left: 0; padding-top: 24px }
 }
-.filt-btn:hover,.filt-btn.active{border-color:var(--purple);background:var(--purple-dim);color:var(--purple)}
-.blog-hero-card{
-  grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:0;
-  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--rl);
-  box-shadow:var(--sh-l);overflow:hidden;margin-bottom:1.5rem;
+@media (max-width: 700px) {
+  .post { border-right: none; padding-right: 0 }
 }
-.blog-hero-card-img{
-  background:var(--grad-bg);display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;min-height:280px;
-}
-.blog-hero-card-img img{width:100%;height:100%;object-fit:cover;display:block}
-.blog-hero-card-ico{font-size:4rem;position:relative;z-index:1}
-.blog-hero-card-body{padding:2.5rem}
-.blog-hero-card-body .blog-card-cat{position:static;display:inline-block;margin-bottom:.85rem}
-.blog-hero-card-body h2{font-family:var(--ff-d);font-size:clamp(1.4rem,2.5vw,2rem);color:var(--text);margin-bottom:.75rem;font-weight:400}
-.blog-hero-card-body p{font-size:.9rem;max-width:none;margin-bottom:1.25rem}
-.blog-upcoming{margin:0 0 2rem;padding:1.25rem 1.4rem;border:1.5px solid var(--border);border-radius:var(--r);background:var(--surface)}
-.blog-upcoming p{max-width:none;margin:0;font-size:.88rem}
-@media(max-width:768px){.blog-hero-card{grid-template-columns:1fr}.blog-hero-card-img{min-height:180px}}
 </style>
 <style>.reveal{opacity:1!important;transform:none!important;visibility:visible!important}</style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://think-up.fr/#organization", "name": "Think'UP", "alternateName": "ThinkUP", "url": "https://think-up.fr/", "logo": {"@type": "ImageObject", "url": "https://think-up.fr/logo-thinkup.png", "width": 192, "height": 192}, "image": "https://think-up.fr/og-thinkup.jpg", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI. Méthode Index Iceberg. ROI mesuré en 90 jours.", "slogan": "On mesure avant d'investir", "email": "patrick@thinkupcom.com", "telephone": "+33782484354", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressRegion": "Île-de-France", "postalCode": "78000", "addressCountry": "FR"}, "contactPoint": {"@type": "ContactPoint", "telephone": "+33782484354", "email": "patrick@thinkupcom.com", "contactType": "customer support", "areaServed": "FR", "availableLanguage": ["French", "English"]}, "founder": {"@id": "https://think-up.fr/#patrick"}, "foundingLocation": {"@type": "Place", "name": "Versailles, France"}, "areaServed": {"@type": "Country", "name": "France"}, "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation des processus", "Adoption IA en entreprise", "Méthode Index Iceberg"], "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/", "https://www.facebook.com/profile.php?id=100078509676689", "https://share.google/AeZjfdZfWzTs4X1Mr"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://think-up.fr/#organization", "name": "Think'UP", "alternateName": "ThinkUP", "url": "https://think-up.fr/", "logo": {"@type": "ImageObject", "url": "https://think-up.fr/logo-thinkup-v2.png", "width": 512, "height": 512}, "image": "https://think-up.fr/og-thinkup.jpg", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI. Méthode Index Iceberg. ROI mesuré en 90 jours.", "slogan": "On mesure avant d'investir", "email": "patrick@thinkupcom.com", "telephone": "+33782484354", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressRegion": "Île-de-France", "postalCode": "78000", "addressCountry": "FR"}, "contactPoint": {"@type": "ContactPoint", "telephone": "+33782484354", "email": "patrick@thinkupcom.com", "contactType": "customer support", "areaServed": "FR", "availableLanguage": ["French", "English"]}, "founder": {"@id": "https://think-up.fr/#patrick"}, "foundingLocation": {"@type": "Place", "name": "Versailles, France"}, "areaServed": {"@type": "Country", "name": "France"}, "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation des processus", "Adoption IA en entreprise", "Méthode Index Iceberg"], "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/", "https://www.facebook.com/profile.php?id=100078509676689", "https://share.google/AeZjfdZfWzTs4X1Mr"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://think-up.fr/#website", "url": "https://think-up.fr/", "name": "Think'UP", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI.", "inLanguage": "fr-FR", "publisher": {"@id": "https://think-up.fr/#organization"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://think-up.fr/"}, {"@type": "ListItem", "position": 2, "name": "Blog Think'UP | IA pour dirigeants PME/ETI", "item": "https://think-up.fr/blog.html"}]}</script>
 <script src="consent.js?v=2" defer></script>
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs context">
 </head>
 <body>
-<nav id="nav"><div class="container"><div class="nav-in">
-  <a href="index.html" class="nav-logo"><img decoding="async" width="42" height="42" src="logo-thinkup.png" alt="Think'UP" loading="lazy" decoding="async"></a>
-  <ul class="nav-links"><li><a href="methode.html">Méthode</a></li><li><a href="offres.html">Offres</a></li><li><a href="diagnostic.html">Diagnostic IA</a></li>
-        <li><a href="boutique.html">Boutique</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="ressources.html">Ressources</a></li><li><a href="blog.html" class="active">Blog</a></li><li><a href="faq.html">FAQ</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul>
-  <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
-</div></div></nav>
+<header class="site">
+  <nav class="nav wrap">
+    <a class="logo" href="index.html">Think<i>&#39;</i>UP</a>
+    <ul class="navlinks">
+      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
+      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
+      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
+      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
+      <li class="hide-sm"><a href="blog.html" aria-current="page">Blog</a></li>
+      <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
+    </ul>
+  </nav>
+</header>
+
 <main>
 
-<section class="page-hero"><div class="container"><div class="page-hero-in reveal">
-  <span class="label">Le blog</span>
-  <h1>IA concrète,<br><span class="grad-text">sans jargon</span></h1>
-  <p class="blog-hero-lead">Des analyses, guides et retours terrain pour les dirigeants qui veulent comprendre avant d'investir. Par Patrick Langlais, Top 20 IA France 2025.</p>
-</div></div></section>
+  <section class="pagehead" style="padding-bottom:0">
+    <div class="wrap">
+      <p class="eyebrow">Le blog</p>
+      <h1 class="serif">L'IA concrète, sans jargon</h1>
+      <p class="lede">Des analyses et des retours de terrain pour les dirigeants qui veulent comprendre avant d'investir. Écrits par moi, pas par une IA — ce serait un comble.</p>
+    </div>
+  </section>
 
-<section class="section-gap"><div class="container">
-  <!-- Filtres catégories -->
-  <div class="blog-filter reveal">
-    <button class="filt-btn active" data-filter="all">Tous les articles</button>
-    <button class="filt-btn" data-filter="Stratégie">Stratégie</button>
-    <button class="filt-btn" data-filter="ROI & Finance">ROI &amp; Finance</button>
-    <button class="filt-btn" data-filter="Méthode">Méthode</button>
-    <button class="filt-btn" data-filter="Gouvernance">Gouvernance</button>
-    <button class="filt-btn" data-filter="Productivité">Productivité</button>
-    <button class="filt-btn" data-filter="Données">Données</button>
-    <button class="filt-btn" data-filter="Budget">Budget</button>
-    <button class="filt-btn" data-filter="Réglementation">Réglementation</button>
-    <button class="filt-btn" data-filter="Management">Management</button>
-  </div>
-
-  <!-- ARTICLE HERO (featured) -->
-  <div class="blog-hero-card reveal">
-    <div class="blog-hero-card-img"><img src="blog-images/article-1.jpg" alt="" width="1200" height="675" decoding="async"></div>
-    <div class="blog-hero-card-body">
-      <span class="blog-card-cat article-tag">Stratégie</span>
-      <h2>7 erreurs qui font échouer les projets IA en PME — et comment les éviter</h2>
-      <p>Les projets IA ne ratent pas par manque de technologie. Ils ratent parce que 7 erreurs systématiques se répètent dans presque toutes les PME qui se lancent sans méthode. Un guide direct pour ne pas les reproduire.</p>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem">
-        <span style="font-family:var(--ff-m);font-size:.7rem;color:var(--text-mu)">6 min de lecture · Stratégie IA</span>
-        <a href="article-1.html" class="btn-p" style="padding:.65rem 1.3rem;font-size:.875rem">Lire l'article →</a>
+  <section style="padding-block:clamp(26px,3.4vw,36px) 0">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filtrer par thème">
+        <button type="button" data-cat="*" aria-pressed="true">Tous <span class="count">10</span></button>
+        <button type="button" data-cat="strategie" aria-pressed="false">Stratégie IA <span class="count">4</span></button>
+        <button type="button" data-cat="gouvernance" aria-pressed="false">Gouvernance <span class="count">2</span></button>
+        <button type="button" data-cat="methode" aria-pressed="false">Méthode <span class="count">1</span></button>
+        <button type="button" data-cat="roi" aria-pressed="false">ROI et finance <span class="count">1</span></button>
+        <button type="button" data-cat="productivite" aria-pressed="false">Productivité <span class="count">1</span></button>
+        <button type="button" data-cat="donnees" aria-pressed="false">Données <span class="count">1</span></button>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div id="articles-a-venir">
-    <!-- BLOG_UPCOMING_START -->
-    <div class="blog-upcoming"><p><span class="label">Prochainement</span><br><strong>10 juin 2026</strong> : S&#039;abonner à ChatGPT n&#039;est pas une stratégie IA<br><strong>24 juin 2026</strong> : Comment choisir votre premier cas d&#039;usage IA ?</p></div>
-<!-- BLOG_UPCOMING_END -->
-  </div>
-  <!-- GRILLE ARTICLES -->
-  <div class="blog-grid reveal">
-    <a href="article-5.html" class="blog-card" data-category="Stratégie IA" style="text-decoration:none">
-      <div class="blog-card-img"><img src="visuals/dashboard-roi-90-jours.svg" alt="Illustration : tableau de bord ROI — bilan IA pour PME 2025" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">Stratégie IA</span></div>
-      <div class="blog-card-body">
-        <h3>IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas</h3>
-        <p>Retours terrain sans optimisme commercial : les usages qui produisent des résultats, ceux qui échouent.</p>
-        <div class="blog-card-meta"><span>8 min</span><span class="blog-read-link">Lire →</span></div>
-      </div>
-    </a>
-    <a href="article-4.html" class="blog-card" data-category="Stratégie IA" style="text-decoration:none">
-      <div class="blog-card-img"><img src="visuals/matrice-impact-effort-risque.svg" alt="Illustration : matrice impact-effort-risque — choisir son consultant IA" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">Stratégie IA</span></div>
-      <div class="blog-card-body">
-        <h3>Comment choisir son consultant IA ? Les 5 questions à poser</h3>
-        <p>Un guide objectif pour évaluer n'importe quelle proposition de conseil IA avant de signer — y compris la nôtre.</p>
-        <div class="blog-card-meta"><span>7 min</span><span class="blog-read-link">Lire →</span></div>
-      </div>
-    </a>
-    <!-- BLOG_AUTO_START -->
-    <a href="article-3.html" class="blog-card" data-category="Méthode" style="text-decoration:none">
-      <div class="blog-card-img"><img src="blog-images/article-3.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">Méthode</span></div>
-      <div class="blog-card-body">
-        <h3>Tâches invisibles : ce que votre entreprise ne voit pas</h3>
-        <p>Le concept qui change tout pour votre productivité réelle.</p>
-        <div class="blog-card-meta"><span>5 min</span><span class="blog-read-link">Lire →</span></div>
-      </div>
-    </a>
-    <a href="article-2.html" class="blog-card" data-category="ROI &amp; Finance" style="text-decoration:none">
-      <div class="blog-card-img"><img src="blog-images/article-2.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">ROI &amp; Finance</span></div>
-      <div class="blog-card-body">
-        <h3>Comment calculer le ROI de l&#039;IA avant d&#039;investir</h3>
-        <p>La méthode chiffrée pour décider avec un exemple concret de PME B2B.</p>
-        <div class="blog-card-meta"><span>7 min</span><span class="blog-read-link">Lire →</span></div>
-      </div>
-    </a>
-<!-- BLOG_AUTO_END -->
-  </div>
-</div></section>
+  <section style="padding-top:clamp(30px,4vw,44px)">
+    <div class="wrap">
 
-<!-- NEWSLETTER / CTA -->
-<section style="padding:0 0 6rem"><div class="container">
-  <div class="cta-strip reveal">
-    <span class="label">Rester informé</span>
-    <h2>Un article utile, pas de spam</h2>
-    <p>Chaque article de ce blog est écrit pour un dirigeant qui n'a pas le temps de lire des généralités. Planifiez un échange direct si vous avez une question spécifique.</p>
-    <div class="btn-row" style="justify-content:center">
-      <a href="contact.html" class="btn-p">Planifier 30 minutes →</a>
-      <a href="methode.html" class="btn-g">Découvrir la méthode</a>
+      <article class="feature" data-cat="strategie">
+        <div>
+          <span class="tag">À la une · Stratégie IA</span>
+          <h2 class="serif"><a href="article-1.html">7 erreurs qui font échouer les projets IA en PME</a></h2>
+          <p>Les projets IA ne ratent pas par manque de technologie. Ils ratent parce que sept erreurs se répètent, presque à l'identique, dans les entreprises qui se lancent sans méthode. Un guide direct pour ne pas les reproduire.</p>
+          <p class="meta">6 minutes de lecture · Mars 2025</p>
+          <a class="btn btn-primary" href="article-1.html">Lire l'article →</a>
+        </div>
+        <div class="feature-side">
+          <p class="serif">« En finance de marché, on ne prend jamais une position sans avoir défini la cible de gain et le risque acceptable. La même rigueur vaut pour l'IA. »</p>
+          <span class="who">Extrait de l'article</span>
+        </div>
+      </article>
+
+      <div class="posts" id="posts">
+
+        <article class="post" data-cat="donnees">
+          <span class="tag">Données</span>
+          <h3 class="serif"><a href="article-10.html">Données privées : que préparer avant de connecter une IA</a></h3>
+          <p>Le socle minimal pour exploiter vos documents internes sans créer un nouveau risque.</p>
+          <p class="meta">3 minutes de lecture</p>
+        </article>
+        <article class="post" data-cat="productivite">
+          <span class="tag">Productivité</span>
+          <h3 class="serif"><a href="article-9.html">Comment libérer cinq heures par semaine avec l'IA ?</a></h3>
+          <p>Une cartographie pragmatique pour repérer les tâches invisibles qui consomment vos équipes.</p>
+          <p class="meta">3 minutes de lecture</p>
+        </article>
+        <article class="post" data-cat="gouvernance">
+          <span class="tag">Gouvernance</span>
+          <h3 class="serif"><a href="article-8.html">Validation humaine et IA : où placer le contrôle ?</a></h3>
+          <p>Contrôler par exception pour gagner du temps sans laisser passer l'erreur coûteuse.</p>
+          <p class="meta">3 minutes de lecture</p>
+        </article>
+        <article class="post" data-cat="strategie">
+          <span class="tag">Stratégie IA</span>
+          <h3 class="serif"><a href="article-7.html">Comment choisir votre premier cas d'usage IA ?</a></h3>
+          <p>Une méthode courte pour éliminer les projets gadgets et prioriser un irritant métier.</p>
+          <p class="meta">3 minutes de lecture</p>
+        </article>
+        <article class="post" data-cat="gouvernance">
+          <span class="tag">Gouvernance</span>
+          <h3 class="serif"><a href="article-6.html">S'abonner à ChatGPT n'est pas une stratégie IA</a></h3>
+          <p>Les règles simples à poser avant de distribuer des licences dans votre PME.</p>
+          <p class="meta">3 minutes de lecture</p>
+        </article>
+
+        <article class="post" data-cat="strategie">
+          <span class="tag">Stratégie IA</span>
+          <h3 class="serif"><a href="article-5.html">IA pour PME en 2025 : ce qui marche, ce qui ne marche pas</a></h3>
+          <p>Des retours de terrain sans optimisme commercial : les usages qui produisent des résultats, et ceux qui échouent.</p>
+          <p class="meta">8 minutes de lecture</p>
+        </article>
+
+        <article class="post" data-cat="strategie">
+          <span class="tag">Stratégie IA</span>
+          <h3 class="serif"><a href="article-4.html">Comment choisir son consultant IA ? Les 5 questions à poser</a></h3>
+          <p>Une grille pour évaluer n'importe quelle proposition de conseil en IA avant de signer — la mienne comprise.</p>
+          <p class="meta">7 minutes de lecture</p>
+        </article>
+
+        <article class="post" data-cat="methode">
+          <span class="tag">Méthode</span>
+          <h3 class="serif"><a href="article-3.html">Tâches invisibles : ce que votre entreprise ne voit pas</a></h3>
+          <p>Le concept qui change la lecture de votre productivité réelle, et par où commencer pour le mesurer.</p>
+          <p class="meta">5 minutes de lecture</p>
+        </article>
+
+        <article class="post" data-cat="roi">
+          <span class="tag">ROI et finance</span>
+          <h3 class="serif"><a href="article-2.html">Comment calculer le retour de l'IA avant d'investir</a></h3>
+          <p>La méthode chiffrée pour décider, avec un exemple concret de PME de services B2B.</p>
+          <p class="meta">7 minutes de lecture</p>
+        </article>
+
+      </div>
+
+      <p class="empty" id="empty" hidden>Aucun article dans ce thème pour l'instant.</p>
     </div>
-  </div>
-</div></section>
+  </section>
+
+  <section class="close">
+    <div class="wrap">
+      <p class="eyebrow">Une question précise ?</p>
+      <h2 class="serif">Un article utile vaut mieux qu'une newsletter de plus</h2>
+      <p>Chaque texte ici est écrit pour un dirigeant qui n'a pas le temps de lire des généralités. Si votre question est spécifique à votre entreprise, un échange direct ira plus vite qu'un article.</p>
+      <div class="close-ctas">
+        <a class="btn btn-primary" href="contact.html">Planifier 30 minutes →</a>
+        <a class="btn btn-quiet" href="methode.html">Découvrir la méthode</a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
-<footer role="contentinfo"><div class="container">
-  <div class="foot-grid">
-    <div class="foot-brand"><a href="index.html" class="foot-logo"><img decoding="async" width="42" height="42" src="logo-thinkup.png" alt="Think'UP" loading="lazy" decoding="async"></a><p>IA utile et rentable pour PME/ETI.<br>Index Iceberg. Versailles, France.</p></div>
-    <div class="foot-col"><p class="foot-heading">Pages</p><ul class="foot-links"><li><a href="methode.html">La méthode</a></li><li><a href="offres.html">Les offres</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="blog.html">Blog</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul></div>
-    <div class="foot-col"><p class="foot-heading">Blog</p><ul class="foot-links"><li><a href="blog.html#articles-a-venir">AI Act + RGPD PME</a></li><li><a href="blog.html#articles-a-venir">Gouvernance IA</a></li><li><a href="blog.html#articles-a-venir">Budget IA 2027</a></li><li><a href="article-1.html">7 erreurs projets IA PME</a></li><li><a href="article-2.html">Calculer le ROI IA</a></li></ul></div>
-    <div class="foot-col"><p class="foot-heading">Contact</p><ul class="foot-links"><li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li><li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li><li><a href="contact.html">Formulaire</a></li></ul></div>
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="logo">Think<i>&#39;</i>UP</span>
+      <p>Conseil en adoption de l'IA pour les dirigeants de PME et d'ETI. On mesure avant de recommander — c'est la seule règle de la maison.</p>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">Le site</span>
+      <a href="methode.html">La méthode</a>
+      <a href="offres.html">Les offres</a>
+      <a href="resultats.html">Résultats</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">En savoir plus</span>
+      <a href="diagnostic.html">L'auto-diagnostic</a>
+      <a href="patrick.html">Patrick Langlais</a>
+      <a href="faq.html">Questions fréquentes</a>
+      <a href="boutique.html">La boutique</a>
+      <a href="ai-act.html">L'AI Act</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">Me joindre</span>
+      <a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a>
+      <a href="tel:+33782484354">+33 7 82 48 43 54</a>
+      <a href="contact.html">Me parler 30 min</a>
+      <span>Versailles, France</span>
+    </div>
   </div>
-  <div class="foot-bottom"><span>© 2026 Think'UP – Patrick Langlais · Versailles</span><div class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></div></div>
-</div></footer>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 Think'UP — Patrick Langlais &middot; Versailles</span>
+    <span class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></span>
+  </div>
+</footer>
+
 <script>
-const nav=document.getElementById('nav');if(nav){window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});}
-const reveals=document.querySelectorAll('.reveal');
-const showAll=()=>reveals.forEach(el=>el.classList.add('visible'));
-if('IntersectionObserver' in window){
-  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
-  reveals.forEach(el=>io.observe(el));
-}else{showAll();}
-document.querySelectorAll('.filt-btn').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('.filt-btn').forEach(item=>item.classList.remove('active'));
-  btn.classList.add('active');
-  const filter=btn.dataset.filter;
-  document.querySelectorAll('.blog-grid .blog-card').forEach(card=>{
-    card.style.display=filter==='all'||card.dataset.category===filter?'':'none';
-  });
-}));
+  (function () {
+    var buttons = document.querySelectorAll('.filters button');
+    var items = document.querySelectorAll('[data-cat]');
+    var empty = document.getElementById('empty');
+
+    function apply(cat) {
+      var shown = 0;
+      items.forEach(function (el) {
+        if (el.closest('.filters')) return;
+        var match = (cat === '*' || el.dataset.cat === cat);
+        el.hidden = !match;
+        if (match) shown++;
+      });
+      empty.hidden = shown > 0;
+    }
+
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        buttons.forEach(function (o) { o.setAttribute('aria-pressed', String(o === b)); });
+        apply(b.dataset.cat);
+      });
+    });
+  })();
 </script>
-</body></html>
+</body>
+</html>

@@ -2,6 +2,10 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" type="image/png" sizes="32x32" href="Favikon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="Favikon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="Favikon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="Favikon-512.png">
 <title>Boutique Think'UP | Nos offres et tarifs : Atelier Déclic IA, Diagnostic Index Iceberg</title>
 <meta name="description" content="Les offres Think'UP : Atelier Déclic IA (2–3h, 1 200 € nets), Diagnostic Index Iceberg (3–6 semaines, 6 900 € nets), Pilotage IA & Freelances sur devis. TVA non applicable, art. 293 B du CGI.">
 <meta name="robots" content="index,follow">
@@ -12,9 +16,8 @@
 <meta property="og:url" content="https://think-up.fr/boutique.html">
 <meta property="og:image" content="https://think-up.fr/og-thinkup.jpg">
 <meta property="og:locale" content="fr_FR">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-v2.css?v=1">
+<link rel="stylesheet" href="style-legacy.css?v=1">
 <!-- JSON-LD : catalogue de services.
      ⚠ Quand un prix devient public, ajouter dans l'Offer concernée :
      "price":"1500","priceCurrency":"EUR" (montant HT identique à boutique-config.js). -->
@@ -36,34 +39,47 @@
 .shop-trust-item strong{display:block;font-size:.86rem}
 .shop-note{margin-top:2.5rem;font-size:.8rem;color:var(--text-mu);max-width:none;text-align:center}
 @media(max-width:1024px){.shop-trust{grid-template-columns:1fr}}
+  .aia-cta, .aia-cta h2, .aia-cta p, .aia-cta > *,
+  .portrait-badge, .step30-n, .form-success-ico,
+  .d-opt.sel .d-opt-mk, .d-cap-ico { color: var(--paper) }
+  /* Le bouton du bloc est un <a> nu au fond blanc ecrit en dur : il restait
+     blanc en theme sombre, avec un texte ember a 2,25:1. On le fait suivre
+     le thème dans les deux sens. */
+  .aia-cta a { background: var(--paper); color: var(--accent-2) }
+  .aia-cta a:hover { background: var(--paper-2); color: var(--accent-2) }
+
+  /* Le cartouche du portrait a un fond blanc en dur (rgba(255,255,255,.95)) :
+     en theme sombre son texte clair devenait illisible (1,07:1). */
+  .portrait-info { background: color-mix(in srgb, var(--paper) 95%, transparent) }
+  /* Chiffre du badge : blanc en dur sur l'accent, qui s'eclaircit en sombre. */
+  .portrait-badge-n, .portrait-badge * { color: var(--paper) }
+  /* Etiquette mise en avant : `--ember-ink` sur sa teinte ember plafonnait a
+     4,17:1. On la bascule sur la famille accent, deja utilisee pour ce role. */
+  .skill-tag.feat { background: var(--accent-pale); color: var(--accent-2);
+    border-color: var(--accent) }
+
+  /* Boutons « Bientot disponible » : l'opacite 0,45 les rendait illisibles
+     (1,39:1). Les controles inactifs echappent au critere WCAG, mais ce texte
+     porte une information. On le rend sobre plutot que fantomatique. */
+  .buy-btn[disabled], .btn-p[disabled] { opacity: 1; background: var(--paper-2);
+    color: var(--ink-2); border: 1px solid var(--rule); box-shadow: none;
+    cursor: not-allowed }
 </style>
 </head>
 <body>
-
-<!-- NAV (identique à index.html, Boutique active) -->
-<nav id="nav" role="navigation" aria-label="Navigation principale">
-  <div class="container">
-    <div class="nav-in">
-      <a href="index.html" class="nav-logo" aria-label="Think'UP – Accueil">
-        <img src="logo-thinkup.png" alt="Think'UP">
-      </a>
-      <ul class="nav-links">
-        <li><a href="methode.html">Méthode</a></li>
-        <li><a href="offres.html">Offres</a></li><li><a href="diagnostic.html">Diagnostic IA</a></li>
-        <li><a href="boutique.html" class="active">Boutique</a></li>
-        <li><a href="resultats.html">Résultats</a></li>
-        <li><a href="ressources.html">Ressources</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="patrick.html">Patrick Langlais</a></li>
-      </ul>
-      <div style="display:flex;align-items:center;gap:.85rem">
-        <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
-        <button class="nav-burger" aria-label="Menu" onclick="toggleMenu()"><span></span><span></span><span></span></button>
-      </div>
-    </div>
-  </div>
-</nav>
+<header class="site">
+  <nav class="nav wrap">
+    <a class="logo" href="index.html">Think<i>&#39;</i>UP</a>
+    <ul class="navlinks">
+      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
+      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
+      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
+      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
+      <li class="hide-sm"><a href="blog.html">Blog</a></li>
+      <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
+    </ul>
+  </nav>
+</header>
 
 <main>
 
@@ -157,37 +173,39 @@
 
 </main>
 
-<footer role="contentinfo">
-  <div class="container">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <a href="index.html" class="foot-logo"><img src="logo-thinkup.png" alt="Think'UP"></a>
-        <p>IA utile et rentable pour dirigeants PME/ETI.<br>Méthode Index Iceberg. Versailles, France.</p>
-      </div>
-      <div class="foot-col"><h5>Pages</h5><ul class="foot-links">
-        <li><a href="methode.html">La méthode</a></li>
-        <li><a href="offres.html">Les offres</a></li>
-        <li><a href="boutique.html">Boutique</a></li>
-        <li><a href="resultats.html">Résultats</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="patrick.html">Patrick Langlais</a></li>
-      </ul></div>
-      <div class="foot-col"><h5>Offres</h5><ul class="foot-links">
-        <li><a href="offres.html#atelier">Atelier Déclic IA</a></li>
-        <li><a href="offres.html#diagnostic">Diagnostic Iceberg</a></li>
-        <li><a href="offres.html#pilotage">Pilotage & Freelances</a></li>
-      </ul></div>
-      <div class="foot-col"><h5>Contact</h5><ul class="foot-links">
-        <li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li>
-        <li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li>
-        <li><a href="contact.html">Formulaire de contact</a></li>
-      </ul></div>
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="logo">Think<i>&#39;</i>UP</span>
+      <p>Conseil en adoption de l'IA pour les dirigeants de PME et d'ETI. On mesure avant de recommander — c'est la seule règle de la maison.</p>
     </div>
-    <div class="foot-bottom">
-      <span>© 2025 Think'UP – Patrick Langlais · Versailles, France</span>
-      <div class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></div>
+    <div class="foot-col">
+      <span class="eyebrow">Le site</span>
+      <a href="methode.html">La méthode</a>
+      <a href="offres.html">Les offres</a>
+      <a href="resultats.html">Résultats</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="blog.html">Blog</a>
     </div>
+    <div class="foot-col">
+      <span class="eyebrow">En savoir plus</span>
+      <a href="diagnostic.html">L'auto-diagnostic</a>
+      <a href="patrick.html">Patrick Langlais</a>
+      <a href="faq.html">Questions fréquentes</a>
+      <a href="boutique.html">La boutique</a>
+      <a href="ai-act.html">L'AI Act</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">Me joindre</span>
+      <a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a>
+      <a href="tel:+33782484354">+33 7 82 48 43 54</a>
+      <a href="contact.html">Me parler 30 min</a>
+      <span>Versailles, France</span>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 Think'UP — Patrick Langlais &middot; Versailles</span>
+    <span class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></span>
   </div>
 </footer>
 

@@ -7,33 +7,107 @@
 <link rel="icon" type="image/png" sizes="192x192" href="Favikon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="Favikon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="Favikon-512.png">
-<meta name="theme-color" content="#7B46E8">
+<meta name="theme-color" content="#38665F">
 <title>404 – Page introuvable | Think'UP</title>
 <meta name="description" content="La page demandée n'existe pas ou a été déplacée. Retour à l'accueil Think'UP.">
 <meta name="robots" content="noindex,follow">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style-v2.css?v=1">
 <!-- Microsoft Clarity -->
 <script type="text/javascript">
 (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "wg2wwqst2s");
 </script>
+<style>
+
+  .pagehead { padding-block: clamp(44px,6.5vw,72px) clamp(20px,3vw,30px) }
+  .pagehead h1 { font-size: clamp(1.9rem,3.9vw,2.8rem); line-height: 1.15; margin: 13px 0 18px; max-width: 22ch }
+  .pagehead .lede { font-size: 1.05rem; color: var(--ink-2); margin: 0; max-width: 62ch }
+  .doc { padding-block: 0 clamp(56px,7vw,88px); }
+  .doc-in { max-width: 72ch }
+  .doc h2 { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-weight: 400; font-size: clamp(1.22rem,2.2vw,1.55rem); line-height: 1.28; margin: 2.1em 0 0.55em; color: var(--ink) }
+  .doc h3 { font-size: 1.02rem; font-weight: 600; margin: 1.6em 0 0.5em; color: var(--ink) }
+  .doc p { margin: 0 0 1.15em; color: var(--ink-2) }
+  .doc ul, .doc ol { margin: 0 0 1.3em; padding-left: 1.15em; color: var(--ink-2) }
+  .doc li { margin-bottom: 0.5em }
+  .doc strong { color: var(--ink); font-weight: 600 }
+  /* `:not(.btn)` est indispensable : `.doc a` l'emporte en specificite sur
+     `.btn-primary` et repeignait le texte des boutons en ember sur fond accent. */
+  .doc a:not(.btn) { color: var(--ember-ink); text-decoration: underline; text-underline-offset: 2px }
+  .doc a:not(.btn):hover { color: var(--accent) }
+  .doc-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px }
+</style>
 </head>
 <body>
-<nav id="nav"><div class="container"><div class="nav-in">
-  <a href="index.html" class="nav-logo"><img decoding="async" width="42" height="42" src="logo-thinkup.png" alt="Think'UP"></a>
-  <ul class="nav-links"><li><a href="methode.html">Méthode</a></li><li><a href="offres.html">Offres</a></li><li><a href="diagnostic.html">Diagnostic IA</a></li><li><a href="resultats.html">Résultats</a></li><li><a href="ressources.html">Ressources</a></li><li><a href="blog.html">Blog</a></li><li><a href="patrick.html">Patrick Langlais</a></li></ul>
-  <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
-</div></div></nav>
+<header class="site">
+  <nav class="nav wrap">
+    <a class="logo" href="index.html">Think<i>&#39;</i>UP</a>
+    <ul class="navlinks">
+      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
+      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
+      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
+      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
+      <li class="hide-sm"><a href="blog.html">Blog</a></li>
+      <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
+    </ul>
+  </nav>
+</header>
+
 <main>
-<section class="page-hero"><div class="container"><div class="page-hero-in">
-  <span class="label">Erreur 404</span>
-  <h1>Cette page n'existe pas</h1>
-  <p>La page que vous cherchez a peut-être été déplacée ou n'a jamais existé. Quelques pistes pour continuer votre visite :</p>
-  <p>
-    <a class="nav-cta" href="index.html">Accueil</a>
-    <a class="nav-cta" href="methode.html" style="margin-left:1rem">Méthode Index Iceberg</a>
-    <a class="nav-cta" href="contact.html" style="margin-left:1rem">Contact</a>
-  </p>
-</div></div></section>
+
+  <section class="pagehead">
+    <div class="wrap">
+      <p class="eyebrow">Page introuvable</p>
+      <h1 class="serif">Cette page n'existe pas</h1>
+      <p class="lede">La page que vous cherchez a peut-être été déplacée ou n'a jamais existé. Quelques pistes pour continuer votre visite :</p>
+    </div>
+  </section>
+
+  <section class="doc">
+    <div class="wrap">
+      <div class="doc-in">
+        <p><a href="index.html">Accueil</a>
+    <a href="methode.html" style="margin-left:1rem">Méthode Index Iceberg</a>
+    <a href="contact.html" style="margin-left:1rem">Contact</a></p>
+        <p class="doc-ctas"><a class="btn btn-primary" href="index.html">Retour à l'accueil</a><a class="btn btn-quiet" href="offres.html">Voir les offres</a></p>
+      </div>
+    </div>
+  </section>
+
 </main>
+
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="logo">Think<i>&#39;</i>UP</span>
+      <p>Conseil en adoption de l'IA pour les dirigeants de PME et d'ETI. On mesure avant de recommander — c'est la seule règle de la maison.</p>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">Le site</span>
+      <a href="methode.html">La méthode</a>
+      <a href="offres.html">Les offres</a>
+      <a href="resultats.html">Résultats</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">En savoir plus</span>
+      <a href="diagnostic.html">L'auto-diagnostic</a>
+      <a href="patrick.html">Patrick Langlais</a>
+      <a href="faq.html">Questions fréquentes</a>
+      <a href="boutique.html">La boutique</a>
+      <a href="ai-act.html">L'AI Act</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">Me joindre</span>
+      <a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a>
+      <a href="tel:+33782484354">+33 7 82 48 43 54</a>
+      <a href="contact.html">Me parler 30 min</a>
+      <span>Versailles, France</span>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 Think'UP — Patrick Langlais &middot; Versailles</span>
+    <span class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></span>
+  </div>
+</footer>
 </body>
 </html>

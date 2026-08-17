@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="Favikon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="Favikon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="Favikon-512.png">
-<meta name="theme-color" content="#7B46E8">
+<meta name="theme-color" content="#38665F">
 <title>Think'UP | Consultant IA PME/ETI – Index Iceberg</title>
 <meta name="description" content="Think'UP aide les dirigeants PME/ETI à récupérer jusqu'à 40% du temps équipe via la méthode Index Iceberg. ROI IA mesuré en 90 jours. Versailles.">
 <meta name="robots" content="index,follow">
@@ -28,454 +28,359 @@
 <meta name="twitter:title" content="Think'UP | Consultant IA PME/ETI Versailles – Index Iceberg">
 <meta name="twitter:description" content="Think'UP aide les dirigeants PME/ETI à récupérer jusqu'à 40% du temps équipe via la méthode Index Iceberg. ROI IA mesuré en 90 jours. Versailles.">
 <meta name="twitter:image" content="https://think-up.fr/og-thinkup.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@300;400&display=swap" media="print" onload="this.media='all'">
-<noscript></noscript>
-<link rel="stylesheet" href="style.css?v=8">
+<link rel="stylesheet" href="style-v2.css?v=1">
 
 <style>
-/* ── INDEX ONLY ─────────────────────────── */
-#hero{
-  min-height:100vh;display:flex;align-items:center;
-  padding:calc(var(--navh) + 3rem) 0 4rem;
-  position:relative;overflow:hidden;
+  .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(22px,5vw,60px) }
+  .narrow { max-width: 68ch }
+  .navlinks .cta a { color: var(--paper); background: var(--accent); padding: 9px 17px; border-radius: 999px; font-size: 0.88rem }
+  .hero { padding-block: clamp(44px,7vw,84px) clamp(40px,6vw,72px) }
+  .hero-grid { display: grid; grid-template-columns: 1fr minmax(240px,340px); gap: clamp(32px,5vw,64px); align-items: center }
+  .hero h1 { font-size: clamp(2.15rem,4.6vw,3.5rem); line-height: 1.12; margin: 14px 0 22px; max-width: 17ch }
+  .hero h1 .quiet { color: var(--ink-soft) }
+  .hero .lede { font-size: 1.1rem; color: var(--ink-2); margin: 0 0 30px; max-width: 54ch }
+  .portrait-frame { position: relative }
+  .portrait-frame::after { content: ""; position: absolute; inset: 16px -16px -16px 16px; background: var(--accent-pale); border-radius: 3px; z-index: 0 }
+  .portrait-frame img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; border-radius: 3px; box-shadow: 0 14px 40px -14px var(--shadow) }
+  .portrait-cap { position: relative; z-index: 2; margin: 22px 0 0; font-size: 0.84rem; font-style: italic; color: var(--ink-soft) }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 13px; align-items: center }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 999px; font-size: 0.96rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: background 0.16s ease,border-color 0.16s ease,color 0.16s ease }
+  .hero-note { margin: 22px 0 0; font-size: 0.9rem; color: var(--ink-soft) }
+  .hero-note b { color: var(--ink); font-weight: 600 }
+  .creds { border-block: 1px solid var(--rule-2); background: var(--paper-2); padding-block: 26px }
+  .creds-row { display: flex; flex-wrap: wrap; gap: 14px 44px; align-items: baseline }
+  .cred { display: flex; align-items: baseline; gap: 10px }
+  .cred .n { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.5rem; color: var(--accent); font-variant-numeric: tabular-nums }
+  .cred .t { font-size: 0.88rem; color: var(--ink-soft); max-width: 22ch }
+  section { padding-block: clamp(56px,8vw,96px) }
+  h2.sec { font-size: clamp(1.65rem,3.1vw,2.45rem); line-height: 1.2; margin: 12px 0 18px; max-width: 22ch }
+  .sec-lede { font-size: 1.05rem; color: var(--ink-2); margin: 0 0 40px; max-width: 62ch }
+  .obs-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--rule) }
+  .obs-list li { display: grid; grid-template-columns: auto 1fr; gap: 18px; padding-block: 24px; border-bottom: 1px solid var(--rule); align-items: start }
+  .obs-list .bullet { width: 9px; height: 9px; margin-top: 10px; border-radius: 50%; border: 1.5px solid var(--ember); flex: none }
+  .obs-list h3 { margin: 0 0 5px; font-size: 1.04rem; font-weight: 600 }
+  .obs-list p { margin: 0; color: var(--ink-soft); font-size: 0.96rem; max-width: 68ch }
+  .method { background: var(--deep); color: var(--on-deep) }
+  .method .eyebrow { color: var(--accent-on-deep) }
+  .method h2.sec { color: var(--on-deep) }
+  .method .sec-lede { color: var(--on-deep-soft) }
+  .berg { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--rule-deep); border-radius: 3px; overflow: hidden; margin-top: 8px }
+  .berg-half { padding: 30px 28px }
+  .berg-half.above { background: color-mix(in srgb,var(--on-deep) 8%,transparent); border-right: 1px solid var(--rule-deep) }
+  .berg-half .pct { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: clamp(2.4rem,5vw,3.4rem); line-height: 1; display: block; font-variant-numeric: tabular-nums }
+  .berg-half.above .pct { color: var(--on-deep-soft) }
+  .berg-half.below .pct { color: var(--accent-on-deep) }
+  .berg-half h3 { margin: 12px 0 8px; font-size: 1.06rem; font-weight: 600 }
+  .berg-half p { margin: 0; color: var(--on-deep-soft); font-size: 0.95rem }
+  .method-after { margin: 34px 0 0; color: var(--on-deep-soft); max-width: 64ch; font-size: 1rem }
+  .method-after b { color: var(--on-deep); font-weight: 600 }
+  .offer-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(258px,1fr)); gap: 22px }
+  .offer { display: flex; flex-direction: column; padding: 28px 26px; background: var(--paper-2); border: 1px solid var(--rule-2); border-radius: 4px }
+  .offer.lead { background: var(--paper-3); border-color: var(--accent) }
+  .offer .tag { align-self: flex-start; font-size: 0.68rem; letter-spacing: 0.11em; text-transform: uppercase; font-weight: 600; color: var(--accent); margin-bottom: 12px }
+  .offer h3 { margin: 0 0 6px; font-size: 1.24rem }
+  .offer .when { margin: 0 0 14px; font-size: 0.84rem; color: color-mix(in srgb, var(--ink-soft) 82%, var(--ink)) }
+  .offer p.body { margin: 0 0 20px; font-size: 0.95rem; color: var(--ink-2); flex: 1 }
+  .offer .go { align-self: flex-start; font-size: 0.9rem; text-decoration: none; color: var(--accent); border-bottom: 1px solid currentColor; padding-bottom: 1px }
+  .offer .go:hover { color: var(--ink) }
+  .invite { background: var(--accent-pale); border-block: 1px solid var(--rule-2) }
+  .invite .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px }
+  .invite h3 { margin: 8px 0 4px; font-size: 1.5rem }
+  .invite p { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 46ch }
+  .refs-note { border-left: 2px solid var(--ember); padding: 4px 0 4px 20px; margin: 0; max-width: 62ch; color: var(--ink-2) }
+  .refs-note em { font-style: italic; color: var(--ink-soft) }
+  .close { background: var(--paper-2) }
+  .close-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px,5vw,60px); align-items: center }
+  .close h2 { font-size: clamp(1.7rem,3.2vw,2.4rem); margin: 12px 0 16px; max-width: 17ch; line-height: 1.2 }
+  .close p { color: var(--ink-2); margin: 0 0 26px; max-width: 46ch }
+  .pullquote { margin: 0; padding: 28px 30px; background: var(--paper); border: 1px solid var(--rule-2); border-radius: 4px }
+  .pullquote p { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.22rem; line-height: 1.45; color: var(--ink); margin: 0 0 18px; max-width: none }
+  .sig { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-style: italic; font-size: 1.5rem; color: var(--accent); display: block; margin-bottom: 3px }
+  .sig-role { font-size: 0.83rem; color: var(--ink-soft) }
+@media (max-width: 700px) {
+  .navlinks .hide-sm { display: none }
 }
-.hero-orb{
-  position:absolute;pointer-events:none;border-radius:50%;filter:blur(60px);
+@media (max-width: 880px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 34px }
+  .portrait-frame { order: -1; max-width: 300px }
 }
-.hero-orb-1{
-  width:600px;height:600px;right:-100px;top:-100px;
-  background:radial-gradient(circle,rgba(123,70,232,.12) 0%,rgba(0,150,184,.06) 50%,transparent 70%);
+@media (max-width: 760px) {
+  .berg { grid-template-columns: 1fr }
+  .berg-half.above { border-right: none; border-bottom: 1px solid var(--rule-deep) }
 }
-.hero-orb-2{
-  width:400px;height:400px;left:-80px;bottom:-80px;
-  background:radial-gradient(circle,rgba(208,32,204,.08) 0%,transparent 65%);
+@media (max-width: 800px) {
+  .close-grid { grid-template-columns: 1fr }
 }
-.hero-grid{display:grid;grid-template-columns:1fr minmax(380px,520px);align-items:center;gap:4rem;position:relative;z-index:2}
-.hero-pill{
-  display:inline-flex;align-items:center;gap:.6rem;
-  padding:.28rem .9rem .28rem .45rem;
-  border:1.5px solid var(--border-l);border-radius:999px;
-  margin-bottom:1.75rem;background:var(--bg);box-shadow:var(--sh);
-}
-.hero-dot{width:7px;height:7px;border-radius:50%;background:var(--pink);animation:gpulse 2.5s infinite}
-.hero-dot-lbl{font-family:var(--ff-m);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--purple)}
-.hero-lead{font-size:1.05rem;color:var(--text-dim);margin:1.35rem 0 2.25rem;max-width:50ch;line-height:1.75}
-.hero-trust{
-  display:flex;gap:1.75rem;flex-wrap:wrap;margin-top:2.5rem;
-  padding-top:2rem;border-top:1.5px solid var(--border);
-}
-.htrust{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--text-dim)}
-.htrust-ck{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:.85rem}
-
-/* SVG iceberg light */
-.ice-wrap{animation:float 5s ease-in-out infinite}
-.ice-wrap svg{width:100%;max-width:360px;filter:drop-shadow(0 12px 30px rgba(123,70,232,.12))}
-
-/* stats strip */
-.stats-strip{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  padding:0;border:1.5px solid var(--border);border-radius:var(--rl);
-  overflow:hidden;box-shadow:var(--sh);
-}
-.sstat{
-  padding:2rem 1.5rem;text-align:center;
-  border-right:1.5px solid var(--border);
-  background:var(--surface);transition:background .3s;
-}
-.sstat:last-child{border-right:none}
-.sstat:hover{background:var(--bg-2)}
-.sstat-n{
-  font-family:var(--ff-d);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:300;line-height:1;
-  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.sstat-l{font-size:.76rem;color:var(--text-mu);margin-top:.3rem}
-
-/* prob section */
-.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:4.5rem;align-items:center}
-
-/* results ribbon */
-.res-ribbon{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
-  background:var(--grad);border-radius:var(--rl);overflow:hidden;
-  box-shadow:0 8px 30px var(--pink-glow);
-}
-.res-cell{
-  padding:2.25rem 1.5rem;text-align:center;
-  border-right:1px solid rgba(255,255,255,.2);position:relative;
-}
-.res-cell:last-child{border-right:none}
-.res-cell-n{font-family:var(--ff-d);font-size:2.2rem;font-weight:300;color:#fff;line-height:1}
-.res-cell-l{font-size:.76rem;color:rgba(255,255,255,.75);margin-top:.3rem}
-
-/* teaser blog */
-.blog-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-
-@media(max-width:1024px){.hero-grid{grid-template-columns:1fr}.ice-wrap{max-width:620px;margin:0 auto}.prob-grid{grid-template-columns:1fr}.stats-strip{grid-template-columns:repeat(2,1fr)}.res-ribbon{grid-template-columns:repeat(2,1fr)}.blog-mini{grid-template-columns:1fr 1fr}}
-@media(max-width:640px){.stats-strip{grid-template-columns:1fr}.res-ribbon{grid-template-columns:1fr}.hero-trust{flex-direction:column}.blog-mini{grid-template-columns:1fr}}
+  .refs-lede { margin: 0; max-width: 58ch; color: var(--ink-2) }
+  .refs-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,230px),1fr)); gap: 0; border-top: 1px solid var(--rule); margin-top: 26px }
+  .ref { display: flex; flex-direction: column; gap: 7px; padding: 24px 24px 24px 0; border-right: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule) }
+  .ref-s { font-size: 0.72rem; letter-spacing: 0.11em; text-transform: uppercase; font-weight: 600; color: var(--accent) }
+  .ref-v { font-size: 1.85rem; line-height: 1.1; color: var(--ink) }
+  .ref-k { font-size: 0.88rem; color: var(--ink-2) }
+  .refs-suite { margin: 22px 0 0 }
+  @media (max-width: 700px) { .ref { border-right: none; padding-right: 0 } }
 </style>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://think-up.fr/#organization", "name": "Think'UP", "alternateName": "ThinkUP", "url": "https://think-up.fr/", "logo": {"@type": "ImageObject", "url": "https://think-up.fr/logo-thinkup.png", "width": 192, "height": 192}, "image": "https://think-up.fr/og-thinkup.jpg", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI. Méthode Index Iceberg. ROI mesuré en 90 jours.", "slogan": "On mesure avant d'investir", "email": "patrick@thinkupcom.com", "telephone": "+33782484354", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressRegion": "Île-de-France", "postalCode": "78000", "addressCountry": "FR"}, "contactPoint": {"@type": "ContactPoint", "telephone": "+33782484354", "email": "patrick@thinkupcom.com", "contactType": "customer support", "areaServed": "FR", "availableLanguage": ["French", "English"]}, "founder": {"@id": "https://think-up.fr/#patrick"}, "foundingLocation": {"@type": "Place", "name": "Versailles, France"}, "areaServed": {"@type": "Country", "name": "France"}, "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation des processus", "Adoption IA en entreprise", "Méthode Index Iceberg"], "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/", "https://www.facebook.com/profile.php?id=100078509676689", "https://share.google/AeZjfdZfWzTs4X1Mr"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://think-up.fr/#organization", "name": "Think'UP", "alternateName": "ThinkUP", "url": "https://think-up.fr/", "logo": {"@type": "ImageObject", "url": "https://think-up.fr/logo-thinkup-v2.png", "width": 512, "height": 512}, "image": "https://think-up.fr/og-thinkup.jpg", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI. Méthode Index Iceberg. ROI mesuré en 90 jours.", "slogan": "On mesure avant d'investir", "email": "patrick@thinkupcom.com", "telephone": "+33782484354", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressRegion": "Île-de-France", "postalCode": "78000", "addressCountry": "FR"}, "contactPoint": {"@type": "ContactPoint", "telephone": "+33782484354", "email": "patrick@thinkupcom.com", "contactType": "customer support", "areaServed": "FR", "availableLanguage": ["French", "English"]}, "founder": {"@id": "https://think-up.fr/#patrick"}, "foundingLocation": {"@type": "Place", "name": "Versailles, France"}, "areaServed": {"@type": "Country", "name": "France"}, "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation des processus", "Adoption IA en entreprise", "Méthode Index Iceberg"], "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/", "https://www.facebook.com/profile.php?id=100078509676689", "https://share.google/AeZjfdZfWzTs4X1Mr"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "@id": "https://think-up.fr/#website", "url": "https://think-up.fr/", "name": "Think'UP", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI.", "inLanguage": "fr-FR", "publisher": {"@id": "https://think-up.fr/#organization"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://think-up.fr/#patrick", "name": "Patrick Langlais", "jobTitle": "Consultant IA, fondateur de Think'UP", "worksFor": {"@id": "https://think-up.fr/#organization"}, "url": "https://think-up.fr/patrick.html", "image": "https://think-up.fr/photo-patrick.jpg", "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/"], "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation", "Finance de marché"], "alumniOf": "Finance de marché", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressCountry": "FR"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://think-up.fr/"}]}</script>
 <script src="consent.js?v=2" defer></script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Que fait ThinkUP pour les PME et ETI ?","acceptedAnswer":{"@type":"Answer","text":"ThinkUP accompagne les dirigeants de PME et ETI pour identifier les cas d usage IA les plus rentables, construire un business case et piloter les projets jusqu au ROI mesure."}},{"@type":"Question","name":"Qu est ce que la methode Index Iceberg ?","acceptedAnswer":{"@type":"Answer","text":"La methode Index Iceberg cartographie les taches visibles et invisibles des equipes, chiffre le temps perdu et priorise les automatisations IA selon impact, effort, risque et retour sur investissement."}},{"@type":"Question","name":"Ou intervient ThinkUP ?","acceptedAnswer":{"@type":"Answer","text":"ThinkUP est base a Versailles et intervient en France, a distance ou en presentiel, pour les dirigeants de PME et ETI."}}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Que fait Think'UP pour les PME et les ETI ?", "acceptedAnswer": {"@type": "Answer", "text": "J'aide les dirigeants à repérer les usages de l'IA réellement rentables chez eux, à construire le business case qui va avec, puis à piloter les projets jusqu'au retour mesuré. Pas de licence à vendre, pas de techno imposée."}}, {"@type": "Question", "name": "Qu'est-ce que la méthode Index Iceberg ?", "acceptedAnswer": {"@type": "Answer", "text": "C'est ma façon de cartographier le travail réel : les tâches visibles, et surtout celles qu'aucun outil ne mesure. On chiffre le temps qu'elles consomment, puis on classe les automatisations possibles par impact, effort, risque et retour attendu."}}, {"@type": "Question", "name": "Où intervenez-vous ?", "acceptedAnswer": {"@type": "Answer", "text": "Je suis basé à Versailles et j'interviens partout en France, sur place ou à distance selon ce que la mission demande. Le diagnostic suppose des phases d'observation dans vos locaux."}}]}</script>
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs context">
 </head>
 <body>
+<header class="site">
+  <nav class="nav wrap">
+    <a class="logo" href="#top">Think<i>&#39;</i>UP</a>
+    <ul class="navlinks">
+      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
+      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
+      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
+      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
+      <li class="hide-sm"><a href="blog.html">Blog</a></li>
+      <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
+    </ul>
+  </nav>
+</header>
 
-<!-- NAV -->
-<nav id="nav" class="has-mobile-menu" role="navigation" aria-label="Navigation principale">
-  <div class="container">
-    <div class="nav-in">
-      <a href="index.html" class="nav-logo" aria-label="Think'UP – Accueil">
-        <img decoding="async" width="42" height="42" src="logo-thinkup.png" alt="Think'UP" loading="lazy" decoding="async">
-      </a>
-      <ul class="nav-links" id="nav-menu">
-        <li><a href="methode.html">Méthode</a></li>
-        <li><a href="offres.html">Offres</a></li><li><a href="diagnostic.html">Diagnostic IA</a></li>
-        <li><a href="boutique.html">Boutique</a></li>
-        <li><a href="resultats.html">Résultats</a></li>
-        <li><a href="ressources.html">Ressources</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="faq.html">FAQ</a></li><li><a href="patrick.html">Patrick Langlais</a></li>
-        <li class="mobile-nav-cta"><a href="contact.html" class="nav-mobile-button">Diagnostic 30 min →</a></li>
-      </ul>
-      <div style="display:flex;align-items:center;gap:.85rem">
-        <a href="contact.html" class="nav-cta">Diagnostic 30 min →</a>
-        <button class="nav-burger" type="button" aria-label="Ouvrir le menu" aria-controls="nav-menu" aria-expanded="false" onclick="this.closest('nav').classList.toggle('menu-open');this.setAttribute('aria-expanded',this.closest('nav').classList.contains('menu-open')?'true':'false');this.setAttribute('aria-label',this.closest('nav').classList.contains('menu-open')?'Fermer le menu':'Ouvrir le menu')"><span></span><span></span><span></span></button>
-      </div>
-    </div>
-  </div>
-</nav>
+<main id="top">
 
-<main>
-
-<!-- HERO ────────────────────────────────── -->
-<section id="hero" aria-labelledby="h1-hero">
-  <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
-  <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
-  <div class="container">
-    <div class="hero-grid">
+  <section class="hero">
+    <div class="wrap hero-grid">
       <div>
-        <div class="hero-pill">
-          <div class="hero-dot" aria-hidden="true"></div>
-          <span class="hero-dot-lbl">Top 20 IA France 2025 · Versailles</span>
+        <p class="eyebrow">Patrick Langlais · Versailles</p>
+        <h1 class="serif">Je ne vends pas d'IA.<br><span class="quiet">Je vous dis si elle vaut le coup.</span></h1>
+        <p class="lede">Trente-cinq ans à mesurer le risque en finance de marché m'ont appris une chose : on ne décide pas sans chiffre. J'applique la même règle à l'intelligence artificielle — le business case d'abord, l'outil ensuite. Parfois ma conclusion, c'est « n'y allez pas ». Vous l'aurez quand même.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#parler">Me parler 30 minutes →</a>
+          <a class="btn btn-quiet" href="#methode">Comment je travaille</a>
         </div>
-        <h1 id="h1-hero">
-          Votre IA doit rapporter.<br>
-          <span class="grad-text">On mesure avant d'investir.</span>
-        </h1>
-        <p class="hero-lead">
-          La méthode Index Iceberg cartographie ce que vos équipes font vraiment — 
-          pas ce qu'elles déclarent. Elle identifie vos gains IA prioritaires 
-          avec un ROI chiffré avant chaque décision.
-        </p>
-        <div class="btn-row">
-          <a href="contact.html" class="btn-p">Planifier 30 minutes →</a>
-          <a href="methode.html" class="btn-g">Découvrir la méthode</a>
+        <p class="hero-note">Au bout du fil, ce sera <b>moi</b> — pas un formulaire, pas un commercial, pas un chatbot.</p>
+      </div>
+      <figure class="portrait-frame" style="margin:0">
+        <img src="patrick-portrait.webp" alt="Portrait de Patrick Langlais, fondateur de Think'UP" width="340" height="425">
+        <figcaption class="portrait-cap">Patrick Langlais, fondateur de Think'UP.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <div class="creds">
+    <div class="wrap creds-row">
+      <div class="cred"><span class="n">35 ans</span><span class="t">en finance de marché et gestion des risques</span></div>
+      <div class="cred"><span class="n">3–6</span><span class="t">semaines du diagnostic au livrable CODIR</span></div>
+      <div class="cred"><span class="n">90</span><span class="t">jours pour mesurer les premiers gains</span></div>
+    </div>
+  </div>
+
+  <section id="constat">
+    <div class="wrap">
+      <p class="eyebrow">Le constat</p>
+      <h2 class="sec serif">Ce que je vois en arrivant chez vous</h2>
+      <p class="sec-lede">L'IA n'échoue presque jamais pour des raisons techniques. Elle échoue parce que personne n'a pris le temps de cadrer, de prioriser, de piloter. J'ai vu des budgets entiers partir dans des outils que plus personne n'ouvre six mois plus tard.</p>
+
+      <ul class="obs-list">
+        <li>
+          <span class="bullet" aria-hidden="true"></span>
+          <div>
+            <h3>Vous ne savez pas par quoi commencer</h3>
+            <p>Faute de cartographie de ce que font réellement vos équipes, on optimise ce qui se voit — rarement ce qui coûte.</p>
+          </div>
+        </li>
+        <li>
+          <span class="bullet" aria-hidden="true"></span>
+          <div>
+            <h3>Personne ne vous a chiffré le retour avant de lancer</h3>
+            <p>Un euro engagé sans business case préalable est un euro à risque. En salle des marchés, ça ne passerait pas. Ici non plus.</p>
+          </div>
+        </li>
+        <li>
+          <span class="bullet" aria-hidden="true"></span>
+          <div>
+            <h3>Vous n'avez pas les moyens de recruter une équipe IA</h3>
+            <p>Vous n'en avez pas besoin. J'active un réseau d'experts à la demande, sans un poste fixe de plus sur votre masse salariale.</p>
+          </div>
+        </li>
+        <li>
+          <span class="bullet" aria-hidden="true"></span>
+          <div>
+            <h3>Vous avez déjà testé, et ça n'a rien donné</h3>
+            <p>Parce que ces solutions partaient de la technologie disponible, pas de vos métiers ni de vos chiffres.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="method" id="methode">
+    <div class="wrap">
+      <p class="eyebrow">La méthode Index Iceberg</p>
+      <h2 class="sec serif">Le travail qui compte est celui que personne ne déclare</h2>
+      <p class="sec-lede">En réunion, vos équipes décrivent leur métier tel qu'il est censé fonctionner. Le reste — les reprises, les relances, les copier-coller entre deux logiciels, les vérifications de dernière minute — ne figure sur aucune fiche de poste. C'est pourtant là que se trouve l'essentiel de votre gisement.</p>
+
+      <div class="berg">
+        <div class="berg-half above">
+          <span class="pct">20&#8239;%</span>
+          <h3>Ce qui est déclaré</h3>
+          <p>Les tâches visibles, celles qu'on décrit spontanément. C'est ce que la plupart des projets IA tentent d'automatiser.</p>
         </div>
-        <div class="hero-trust">
-          <div class="htrust"><span class="htrust-ck">✓</span> ROI positif dès le 1er projet</div>
-          <div class="htrust"><span class="htrust-ck">✓</span> Business case avant décision</div>
-          <div class="htrust"><span class="htrust-ck">✓</span> Résultats en 90 jours</div>
-          <div class="htrust"><span class="htrust-ck">✓</span> Zéro recrutement requis</div>
+        <div class="berg-half below">
+          <span class="pct">80&#8239;%</span>
+          <h3>Ce qui est immergé</h3>
+          <p>Le travail réel, invisible et non mesuré. C'est là que l'IA paie — à condition d'aller le chercher méthodiquement.</p>
         </div>
       </div>
 
-      <!-- Iceberg SVG light version -->
-      <div class="ice-wrap" aria-hidden="true">
-        <img class="site-visual-img" src="visuals/accueil-carte-decision-ia.svg" alt="" width="1200" height="675" loading="eager" decoding="async">
-        <svg viewBox="0 0 360 500" xmlns="http://www.w3.org/2000/svg" fill="none">
-          <defs>
-            <linearGradient id="gTop2" x1="0" y1="1" x2="1" y2="0">
-              <stop offset="0%" stop-color="#7B46E8"/><stop offset="100%" stop-color="#D020CC"/>
-            </linearGradient>
-            <linearGradient id="gBot2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#EEF0FF"/><stop offset="100%" stop-color="#DDD8F8"/>
-            </linearGradient>
-            <linearGradient id="gWave2" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#D020CC" stop-opacity="0"/>
-              <stop offset="35%" stop-color="#D020CC" stop-opacity=".6"/>
-              <stop offset="65%" stop-color="#0096B8" stop-opacity=".6"/>
-              <stop offset="100%" stop-color="#0096B8" stop-opacity="0"/>
-            </linearGradient>
-            <filter id="glw2"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-          </defs>
-          <!-- fond -->
-          <rect width="360" height="500" rx="14" fill="#F8F6FF"/>
-          <!-- waterline -->
-          <rect x="0" y="165" width="360" height="2" fill="url(#gWave2)">
-            <animate attributeName="opacity" values=".6;1;.6" dur="3s" repeatCount="indefinite"/>
-          </rect>
-          <!-- partie visible -->
-          <polygon points="180,28 260,165 100,165" fill="url(#gTop2)" filter="url(#glw2)"/>
-          <polygon points="180,28 218,100 180,135 142,100" fill="white" opacity=".25"/>
-          <!-- partie immergée -->
-          <polygon points="100,170 260,170 315,330 275,415 225,450 180,460 135,450 85,415 45,330" fill="url(#gBot2)" opacity=".9"/>
-          <!-- waterline label -->
-          <rect x="0" y="155" width="360" height="18" fill="url(#gWave2)" opacity=".3"/>
-          <!-- labels -->
-          <text x="20" y="105" font-family="Cormorant Garamond,serif" font-size="26" fill="#D020CC" font-weight="300" opacity=".9">20%</text>
-          <text x="20" y="124" font-family="DM Mono,monospace" font-size="7.5" fill="#D020CC" opacity=".55" letter-spacing="1.5">VISIBLE</text>
-          <text x="20" y="295" font-family="Cormorant Garamond,serif" font-size="26" fill="#7B46E8" font-weight="300" opacity=".85">80%</text>
-          <text x="20" y="314" font-family="DM Mono,monospace" font-size="7.5" fill="#7B46E8" opacity=".5" letter-spacing="1.5">INVISIBLE</text>
-          <text x="118" y="268" font-family="DM Sans,sans-serif" font-size="9" fill="#7B46E8" opacity=".7" font-weight="500">Tâches invisibles</text>
-          <text x="112" y="283" font-family="DM Mono,monospace" font-size="7.5" fill="#0096B8" opacity=".45" letter-spacing=".7">temps · erreurs · délais</text>
-          <!-- badge -->
-          <rect x="248" y="16" width="100" height="22" rx="4" fill="rgba(123,70,232,.1)" stroke="#7B46E8" stroke-width=".7"/>
-          <text x="258" y="31" font-family="DM Mono,monospace" font-size="8" fill="#7B46E8" letter-spacing=".6">INDEX ICEBERG</text>
-          <!-- sparkle top -->
-          <circle cx="180" cy="60" r="2.5" fill="white" opacity=".9"><animate attributeName="opacity" values=".9;.3;.9" dur="2.2s" repeatCount="indefinite"/></circle>
-        </svg>
+      <p class="method-after">Je passe quelques semaines à observer et à mesurer ce travail immergé : temps réel passé, coût, qualité. J'en sors une liste de chantiers classés par impact et par effort, chacun avec son chiffre. Vous décidez ensuite avec les mêmes informations qu'un comité d'investissement — <b>pas avec une promesse commerciale.</b></p>
+    </div>
+  </section>
+
+  <section id="offres">
+    <div class="wrap">
+      <p class="eyebrow">Travailler ensemble</p>
+      <h2 class="sec serif">Trois façons d'entrer, selon où vous en êtes</h2>
+      <p class="sec-lede">Elles s'enchaînent naturellement, mais chacune se tient seule. Rien ne vous oblige à prendre la suivante.</p>
+
+      <div class="offer-grid">
+        <div class="offer">
+          <span class="tag">Pour y voir clair</span>
+          <h3 class="serif">Atelier Déclic IA</h3>
+          <p class="when">2 à 3 heures · visio ou chez vous</p>
+          <p class="body">On regarde ensemble ce que l'IA peut faire pour votre entreprise — la vôtre, pas « les PME » en général. Vous repartez avec trois à cinq cas d'usage concrets et une idée nette de ce qui ne vous concerne pas.</p>
+          <a class="go" href="offres.html#atelier">Voir le détail →</a>
+        </div>
+        <div class="offer lead">
+          <span class="tag">Le cœur du métier</span>
+          <h3 class="serif">Diagnostic Index Iceberg</h3>
+          <p class="when">3 à 6 semaines · livrable présenté au CODIR</p>
+          <p class="body">L'audit complet de vos processus, puis une feuille de route sur 6 à 12 mois classée par retour sur investissement. Un business case par chantier, chiffré, avant que vous n'engagiez quoi que ce soit.</p>
+          <a class="go" href="offres.html#diagnostic">Voir le détail →</a>
+        </div>
+        <div class="offer">
+          <span class="tag">Pour aller au bout</span>
+          <h3 class="serif">Pilotage IA &amp; freelances</h3>
+          <p class="when">Forfait ou régie · jusqu'au résultat</p>
+          <p class="body">Je coordonne les experts, je tiens les délais et je pilote jusqu'au gain mesuré. Vous gardez la main sur les décisions, sans avoir à monter d'équipe interne.</p>
+          <a class="go" href="offres.html#pilotage">Voir le détail →</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- STATS ───────────────────────────────── -->
-<section style="padding:4.5rem 0" aria-label="Chiffres clés Think'UP">
-  <div class="container">
-    <div class="stats-strip reveal">
-      <div class="sstat"><div class="sstat-n">Top 20</div><div class="sstat-l">IA France 2025 · Favikon</div></div>
-      <div class="sstat"><div class="sstat-n">+40%</div><div class="sstat-l">Temps récupéré sur tâches invisibles</div></div>
-      <div class="sstat"><div class="sstat-n">90 j</div><div class="sstat-l">Pour un ROI positif sur le 1er projet</div></div>
-      <div class="sstat"><div class="sstat-n">35 ans</div><div class="sstat-l">Finance de marché & gestion des risques</div></div>
-    </div>
-  </div>
-</section>
-
-
-<!-- GEO ANSWERS -->
-<section class="section-gap" aria-labelledby="geo-h2">
-  <div class="container">
-    <div class="sec-hd reveal">
-      <span class="label">Reponses rapides</span>
-      <h2 id="geo-h2">Ce que Think'UP fait concretement</h2>
-      <p>Une synthese directe pour dirigeants, moteurs de recherche et moteurs de reponse IA.</p>
-    </div>
-    <div class="off-grid reveal">
-      <article class="card">
-        <h3>Qui accompagne Think'UP ?</h3>
-        <p>Think'UP accompagne les dirigeants de PME et ETI qui veulent cadrer l'IA par le ROI, sans recruter une equipe IA interne ni lancer des outils au hasard.</p>
-      </article>
-      <article class="card">
-        <h3>Quelle est la methode ?</h3>
-        <p>L'Index Iceberg cartographie les taches visibles et invisibles, chiffre le temps perdu, priorise les cas d'usage IA et construit un business case avant investissement.</p>
-      </article>
-      <article class="card">
-        <h3>Quel resultat attendre ?</h3>
-        <p>Le livrable attendu est une roadmap IA priorisee par impact, effort, risque et ROI, puis un pilotage possible jusqu'aux gains mesures dans les 90 premiers jours.</p>
-      </article>
-    </div>
-  </div>
-</section>
-<!-- PROBLÈME ────────────────────────────── -->
-<section class="section-gap bg-2" aria-labelledby="prob-h2">
-  <div class="container">
-    <div class="prob-grid">
-      <div class="reveal">
-        <span class="label">Le diagnostic de départ</span>
-        <h2 id="prob-h2">Vous avez investi dans l'IA. Mais le ROI n'est pas au rendez-vous.</h2>
-        <p style="margin-top:1rem;max-width:none">
-          L'IA n'échoue pas par manque de technologie. Elle échoue par manque de cadrage, 
-          de priorisation et de pilotage. Des outils testés, des budgets consommés — 
-          mais zéro impact mesurable sur vos marges ou votre productivité.
-        </p>
-        <div style="margin-top:2rem"><a href="methode.html" class="btn-p">Découvrir la méthode Index Iceberg →</a></div>
+  <section class="invite">
+    <div class="wrap row">
+      <div>
+        <p class="eyebrow">Gratuit · trois minutes</p>
+        <h3 class="serif">Estimez votre Indice Iceberg</h3>
+        <p>Quelques questions pour situer la part de travail invisible dans votre organisation. Résultat immédiat, sans inscription.</p>
       </div>
-      <div class="reveal d1">
-        <ul class="fail-list">
-          <li class="fail-item"><div class="fail-x">✕</div><div class="fail-txt"><strong>Vous ne savez pas quoi automatiser en priorité</strong>Sans cartographie des tâches invisibles, vous optimisez les mauvaises choses.</div></li>
-          <li class="fail-item"><div class="fail-x">✕</div><div class="fail-txt"><strong>Aucune visibilité sur le ROI avant de lancer</strong>Chaque euro investi sans business case préalable est un euro à risque.</div></li>
-          <li class="fail-item"><div class="fail-x">✕</div><div class="fail-txt"><strong>Pas de ressources pour recruter une équipe IA</strong>Vous n'avez pas à le faire. Think'UP vous donne accès à un réseau sans coût fixe.</div></li>
-          <li class="fail-item"><div class="fail-x">✕</div><div class="fail-txt"><strong>Des solutions testées qui n'ont pas tenu leurs promesses</strong>Parce qu'elles partaient de la technologie, pas de vos métiers.</div></li>
-        </ul>
+      <a class="btn btn-primary" href="diagnostic.html">Faire l'auto-diagnostic →</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <p class="eyebrow">Références</p>
+      <h2 class="sec serif">Quatre missions, quatre résultats mesurés</h2>
+      <p class="refs-lede">Les noms restent confidentiels tant que mes clients ne les ont pas rendus publics. Les chiffres, eux, sont ceux du terrain.</p>
+      <div class="refs-grid">
+        <div class="ref">
+          <span class="ref-s">PME · Services B2B</span>
+          <span class="ref-v serif">−40 %</span>
+          <span class="ref-k">de temps sur les suivis commerciaux, soit 3 h par semaine et par commercial. Retour positif en 90 jours.</span>
+        </div>
+        <div class="ref">
+          <span class="ref-s">ETI · Industrie</span>
+          <span class="ref-v serif">1,5 j/sem</span>
+          <span class="ref-k">libérés sur le reporting, −60 % de temps de consolidation, quatre outils reliés, plus aucune erreur de report.</span>
+        </div>
+        <div class="ref">
+          <span class="ref-s">Cabinet de conseil</span>
+          <span class="ref-v serif">0 €</span>
+          <span class="ref-k">d'investissement technique. Six semaines de conception ont suffi : l'existant couvrait le besoin.</span>
+        </div>
+        <div class="ref">
+          <span class="ref-s">Fonctions support</span>
+          <span class="ref-v serif">−40 %</span>
+          <span class="ref-k">de temps rédactionnel, avec 100 % du contrôle humain conservé sur les documents produits.</span>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+      <p class="refs-suite"><a class="go" href="resultats.html">Voir les quatre cas en détail →</a></p>
+      </div>
+  </section>
 
-<!-- RÉSULTATS RIBBON ────────────────────── -->
-<section style="padding:4.5rem 0" aria-label="Résultats mesurés Think'UP">
-  <div class="container">
-    <div class="res-ribbon reveal">
-      <div class="res-cell"><div class="res-cell-n">+20–30%</div><div class="res-cell-l">Productivité en 90 jours</div></div>
-      <div class="res-cell"><div class="res-cell-n">−15–25%</div><div class="res-cell-l">Coûts opérationnels réduits</div></div>
-      <div class="res-cell"><div class="res-cell-n">3–7</div><div class="res-cell-l">Gains rapides par mission</div></div>
-      <div class="res-cell" style="border-right:none"><div class="res-cell-n">&lt; 2 sem.</div><div class="res-cell-l">Roadmap IA chiffrée</div></div>
-    </div>
-    <div style="text-align:center;margin-top:1.5rem">
-      <a href="resultats.html" class="btn-g">Voir les résultats clients →</a>
-    </div>
-  </div>
-</section>
-
-<!-- AUTO-DIAGNOSTIC TEASER ──────────────── -->
-<section class="section-gap" aria-labelledby="diag-h2">
-  <div class="container">
-    <div class="cta-strip reveal">
-      <span class="label">Gratuit · 3 minutes</span>
-      <h2 id="diag-h2">Votre Indice Iceberg, tout de suite</h2>
-      <p>
-        Avant même d'en parler : mesurez la maturité IA de votre entreprise sur 5 leviers,
-        estimez le temps invisible englouti chaque année et repartez avec votre priorité n°1.
-        Sans jargon, sans engagement, sans e-mail pour voir le résultat.
-      </p>
-      <div class="btn-row" style="justify-content:center">
-        <a href="diagnostic.html" class="btn-p">Faire mon auto-diagnostic →</a>
-        <a href="methode.html" class="btn-g">Comment ça marche ?</a>
+  <section class="faq">
+    <div class="wrap">
+      <p class="eyebrow">Questions fréquentes</p>
+      <h2 class="serif">Ce qu'on me demande souvent</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Que fait Think'UP pour les PME et les ETI ?</summary>
+          <p class="answer">J'aide les dirigeants à repérer les usages de l'IA réellement rentables chez eux, à construire le business case qui va avec, puis à piloter les projets jusqu'au retour mesuré. Pas de licence à vendre, pas de techno imposée.</p>
+        </details>
+        <details>
+          <summary>Qu'est-ce que la méthode Index Iceberg ?</summary>
+          <p class="answer">C'est ma façon de cartographier le travail réel : les tâches visibles, et surtout celles qu'aucun outil ne mesure. On chiffre le temps qu'elles consomment, puis on classe les automatisations possibles par impact, effort, risque et retour attendu.</p>
+        </details>
+        <details>
+          <summary>Où intervenez-vous ?</summary>
+          <p class="answer">Je suis basé à Versailles et j'interviens partout en France, sur place ou à distance selon ce que la mission demande. Le diagnostic suppose des phases d'observation dans vos locaux.</p>
+        </details>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- OFFRES ──────────────────────────────── -->
-<section class="section-gap bg-2" aria-labelledby="off-h2">
-  <div class="container">
-    <div class="sec-hd reveal">
-      <span class="label">Les offres</span>
-      <h2 id="off-h2">Trois étapes, un chemin clair vers le ROI</h2>
-      <p>De la prise de conscience à la mise en production. Chaque offre peut être engagée indépendamment.</p>
-    </div>
-    <div class="off-grid">
-      <article class="card reveal" style="display:flex;flex-direction:column">
-        <div class="off-step">Étape 01</div>
-        <div class="off-title">Atelier Déclic IA</div>
-        <div class="off-fmt">2–3h · visio ou présentiel</div>
-        <p class="off-desc">Comprendre ce que l'IA peut faire pour votre entreprise spécifiquement. Repartir avec 3 à 5 cas d'usage concrets.</p>
-        <a href="offres.html#atelier" class="off-link" style="margin-top:auto">Voir le détail →</a>
-      </article>
-      <article class="card-feat reveal d1" style="display:flex;flex-direction:column;padding:2rem">
-        <div class="off-step">Étape 02 · Offre phare</div>
-        <div class="off-title">Diagnostic Index Iceberg</div>
-        <div class="off-fmt">3–6 semaines · livrable CODIR</div>
-        <p class="off-desc">Audit complet des processus, roadmap 6–12 mois priorisée par ROI. Business case par projet avant toute décision.</p>
-        <a href="offres.html#diagnostic" class="off-link" style="margin-top:auto">Voir le détail →</a>
-      </article>
-      <article class="card reveal d2" style="display:flex;flex-direction:column">
-        <div class="off-step">Étape 03</div>
-        <div class="off-title">Pilotage IA & Freelances</div>
-        <div class="off-fmt">Forfait ou régie · jusqu'au ROI</div>
-        <p class="off-desc">Coordination des experts IA et pilotage jusqu'au résultat mesurable, sans équipe interne à créer.</p>
-        <a href="offres.html#pilotage" class="off-link" style="margin-top:auto">Voir le détail →</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- BLOG TEASER ─────────────────────────── -->
-<section class="section-gap" aria-labelledby="blog-h2">
-  <div class="container">
-    <div class="sec-hd reveal">
-      <span class="label">Le blog Think'UP</span>
-      <h2 id="blog-h2">IA concrète, sans jargon</h2>
-      <p>Des analyses opérationnelles pour les dirigeants qui veulent comprendre avant d'investir.</p>
-    </div>
-    <div class="blog-mini reveal">
-      <!-- HOME_BLOG_AUTO_START -->
-    <a href="article-3.html" class="blog-card" data-category="Méthode" style="text-decoration:none">
-      <div class="blog-card-img"><img src="blog-images/article-3.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">Méthode</span></div>
-      <div class="blog-card-body">
-        <h3>Tâches invisibles : ce que votre entreprise ne voit pas</h3>
-        <p>Le concept qui change tout pour votre productivité réelle.</p>
-        <div class="blog-card-meta"><span>5 min</span><span class="blog-read-link">Lire →</span></div>
+  <section class="close" id="parler">
+    <div class="wrap close-grid">
+      <div>
+        <p class="eyebrow">Premier échange, sans engagement</p>
+        <h2 class="serif">Trente minutes pour savoir si ça vaut la peine</h2>
+        <p>Vous me racontez où vous en êtes, je vous dis franchement ce que je vois — y compris quand la réponse est « ce n'est pas le moment ». Pas de présentation, pas de jargon, pas de relance commerciale ensuite.</p>
+        <a class="btn btn-primary" href="contact.html">Choisir un créneau →</a>
       </div>
-    </a>
-    <a href="article-2.html" class="blog-card" data-category="ROI &amp; Finance" style="text-decoration:none">
-      <div class="blog-card-img"><img src="blog-images/article-2.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">ROI &amp; Finance</span></div>
-      <div class="blog-card-body">
-        <h3>Comment calculer le ROI de l&#039;IA avant d&#039;investir</h3>
-        <p>La méthode chiffrée pour décider avec un exemple concret de PME B2B.</p>
-        <div class="blog-card-meta"><span>7 min</span><span class="blog-read-link">Lire →</span></div>
-      </div>
-    </a>
-    <a href="article-1.html" class="blog-card" data-category="Stratégie" style="text-decoration:none">
-      <div class="blog-card-img"><img src="blog-images/article-1.jpg" alt="" width="1200" height="675" loading="lazy" decoding="async"><span class="blog-card-cat">Stratégie</span></div>
-      <div class="blog-card-body">
-        <h3>7 erreurs qui font échouer les projets IA en PME</h3>
-        <p>Les pièges les plus fréquents et comment les éviter avant de lancer.</p>
-        <div class="blog-card-meta"><span>6 min</span><span class="blog-read-link">Lire →</span></div>
-      </div>
-    </a>
-<!-- HOME_BLOG_AUTO_END -->
+      <blockquote class="pullquote">
+        <p class="serif">On ne pilote pas ce qu'on ne mesure pas. C'était vrai en salle des marchés. Ça l'est tout autant pour l'IA.</p>
+        <span class="sig">Patrick Langlais</span>
+        <span class="sig-role">Fondateur de Think'UP · Versailles</span>
+      </blockquote>
     </div>
-    <div style="text-align:center;margin-top:2.5rem">
-      <a href="blog.html" class="btn-g">Voir tous les articles →</a>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL ───────────────────────────── -->
-<section style="padding:0 0 6rem">
-  <div class="container">
-    <div class="cta-strip reveal">
-      <span class="label">Premier pas gratuit</span>
-      <h2>Identifiez votre Iceberg IA en 30 minutes</h2>
-      <p>Un échange direct avec Patrick Langlais pour voir où se cachent vos gains IA prioritaires. Sans engagement, sans jargon.</p>
-      <div class="btn-row" style="justify-content:center">
-        <a href="contact.html" class="btn-p">Planifier l'échange →</a>
-        <a href="patrick.html" class="btn-g">Qui est Patrick Langlais ?</a>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
 </main>
 
-<footer role="contentinfo">
-  <div class="container">
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <a href="index.html" class="foot-logo"><img decoding="async" width="42" height="42" src="logo-thinkup.png" alt="Think'UP" loading="lazy" decoding="async"></a>
-        <p>IA utile et rentable pour dirigeants PME/ETI.<br>Méthode Index Iceberg. Versailles, France.</p>
-      </div>
-      <div class="foot-col"><p class="foot-heading">Pages</p><ul class="foot-links">
-        <li><a href="methode.html">La méthode</a></li>
-        <li><a href="offres.html">Les offres</a></li>
-        <li><a href="resultats.html">Résultats</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="patrick.html">Patrick Langlais</a></li>
-      </ul></div>
-      <div class="foot-col"><p class="foot-heading">Offres</p><ul class="foot-links">
-        <li><a href="offres.html#atelier">Atelier Déclic IA</a></li>
-        <li><a href="offres.html#diagnostic">Diagnostic Iceberg</a></li>
-        <li><a href="offres.html#pilotage">Pilotage & Freelances</a></li>
-      </ul></div>
-      <div class="foot-col"><p class="foot-heading">Contact</p><ul class="foot-links">
-        <li><a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a></li>
-        <li><a href="tel:+33782484354">+33 7 82 48 43 54</a></li>
-        <li><a href="https://www.linkedin.com/in/patrick-langlais-9886444a/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="contact.html">Formulaire de contact</a></li>
-      </ul></div>
+<footer class="site">
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <span class="logo">Think<i>&#39;</i>UP</span>
+      <p>Conseil en adoption de l'IA pour les dirigeants de PME et d'ETI. On mesure avant de recommander — c'est la seule règle de la maison.</p>
     </div>
-    <div class="foot-bottom">
-      <span>© 2026 Think'UP – Patrick Langlais · Versailles, France</span>
-      <div class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></div>
+    <div class="foot-col">
+      <span class="eyebrow">Le site</span>
+      <a href="methode.html">La méthode</a>
+      <a href="offres.html">Les offres</a>
+      <a href="resultats.html">Résultats</a>
+      <a href="ressources.html">Ressources</a>
+      <a href="blog.html">Blog</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">En savoir plus</span>
+      <a href="diagnostic.html">L'auto-diagnostic</a>
+      <a href="patrick.html">Patrick Langlais</a>
+      <a href="faq.html">Questions fréquentes</a>
+      <a href="boutique.html">La boutique</a>
+      <a href="ai-act.html">L'AI Act</a>
+    </div>
+    <div class="foot-col">
+      <span class="eyebrow">Me joindre</span>
+      <a href="mailto:patrick@thinkupcom.com">patrick@thinkupcom.com</a>
+      <a href="tel:+33782484354">+33 7 82 48 43 54</a>
+      <a href="contact.html">Me parler 30 min</a>
+      <span>Versailles, France</span>
     </div>
   </div>
+  <div class="wrap foot-bottom">
+    <span>&copy; 2026 Think'UP — Patrick Langlais &middot; Versailles</span>
+    <span class="foot-legal"><a href="mentions-legales.html">Mentions légales</a><a href="politique-confidentialite.html">Confidentialité</a><a href="cgv.html">CGV</a></span>
+  </div>
 </footer>
-
-<script>
-const nav=document.getElementById('nav');
-const burger=document.querySelector('.nav-burger');
-function closeMenu(){
-  nav.classList.remove('menu-open');
-  burger.setAttribute('aria-expanded','false');
-  burger.setAttribute('aria-label','Ouvrir le menu');
-}
-document.querySelectorAll('.nav-links a').forEach(link=>link.addEventListener('click',closeMenu));
-document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu()});
-window.addEventListener('resize',()=>{if(innerWidth>768)closeMenu()});
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>30),{passive:true});
-if('IntersectionObserver'in window){
-  const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');io.unobserve(x.target)}}),{threshold:.1});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-}else{
-  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
-}
-</script>
 </body>
 </html>
