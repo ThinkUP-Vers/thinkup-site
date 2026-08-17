@@ -135,6 +135,7 @@
       </article>
 
       <div class="posts" id="posts">
+        <!-- BLOG_AUTO_START -->
 
         <article class="post" data-cat="donnees">
           <span class="tag">Données</span>
@@ -195,6 +196,7 @@
           <p class="meta">7 minutes de lecture</p>
         </article>
 
+              <!-- BLOG_AUTO_END -->
       </div>
 
       <p class="empty" id="empty" hidden>Aucun article dans ce thème pour l'instant.</p>
@@ -254,18 +256,28 @@
 <script>
   (function () {
     var buttons = document.querySelectorAll('.filters button');
-    var items = document.querySelectorAll('[data-cat]');
+    var items = document.querySelectorAll('article[data-cat], .feature[data-cat]');
     var empty = document.getElementById('empty');
+
+    // Les compteurs sont déduits des cartes présentes, jamais écrits en dur :
+    // ajouter un article ne peut plus les rendre faux.
+    buttons.forEach(function (b) {
+      var cat = b.dataset.cat;
+      var n = 0;
+      items.forEach(function (el) { if (cat === '*' || el.dataset.cat === cat) n++; });
+      var badge = b.querySelector('.count');
+      if (badge) { badge.textContent = n; }
+      b.hidden = (n === 0 && cat !== '*');
+    });
 
     function apply(cat) {
       var shown = 0;
       items.forEach(function (el) {
-        if (el.closest('.filters')) return;
         var match = (cat === '*' || el.dataset.cat === cat);
         el.hidden = !match;
         if (match) shown++;
       });
-      empty.hidden = shown > 0;
+      if (empty) { empty.hidden = shown > 0; }
     }
 
     buttons.forEach(function (b) {
