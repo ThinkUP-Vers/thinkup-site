@@ -46,14 +46,21 @@ jobs:
                  "texte brut. Ajoutez-le dans Settings → Secrets and variables → Actions."
             exit 1
           fi
-          {
-            echo '<?php'
-            echo '// Fichier généré au déploiement depuis le secret GitHub BREVO_API_KEY.'
-            echo '// Ne jamais le versionner ni le modifier à la main sur le serveur :'
-            echo '// il est réécrit à chaque déploiement.'
-            printf "define('BREVO_API_KEY', '%s');\n" "$BREVO_API_KEY"
-          } > config.local.php
-          echo "config.local.php généré ($(wc -c < config.local.php) octets)"
+          # Le fichier est réduit au strict minimum : deux lignes, sans commentaire
+          # ni accent. Toute erreur de syntaxe ici est fatale à l'inclusion dans
+          # envoi-contact.php, donc au formulaire de contact tout entier.
+          # La valeur est nettoyée (espaces et sauts de ligne d'un copier-coller)
+          # et les apostrophes échappées.
+          CLE=$(printf '%s' "$BREVO_API_KEY" | tr -d '[:space:]' | sed "s/'/\\\\'/g")
+          printf "<?php\ndefine('BREVO_API_KEY', '%s');\n" "$CLE" > config.local.php
+
+          # Garde-fou : ne jamais déployer un config.local.php qui ne compile pas.
+          if ! php -l config.local.php; then
+            echo "::error::config.local.php généré est invalide — déploiement interrompu" \
+                 "pour ne pas casser le formulaire de contact en production."
+            exit 1
+          fi
+          echo "config.local.php validé ($(wc -c < config.local.php) octets)"
 
       - name: Déployer sur Hostinger (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
