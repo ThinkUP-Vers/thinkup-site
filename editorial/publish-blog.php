@@ -6,8 +6,9 @@ if (PHP_SAPI !== 'cli') {
     exit;
 }
 
-$root = __DIR__;
-$calendar = json_decode((string) file_get_contents($root . '/editorial-calendar.json'), true, 512, JSON_THROW_ON_ERROR);
+$atelier = __DIR__;            // editorial/ : calendrier et articles en attente
+$root = dirname(__DIR__);      // racine du site : pages, blog, sitemap
+$calendar = json_decode((string) file_get_contents($atelier . '/editorial-calendar.json'), true, 512, JSON_THROW_ON_ERROR);
 $articles = $calendar['articles'];
 $timezone = new DateTimeZone((string) $calendar['timezone']);
 $dateOverride = null;
@@ -46,7 +47,11 @@ function replace_block(string $file, string $start, string $end, string $replace
     $startIndex = strpos($content, $start);
     $endIndex = strpos($content, $end);
     if ($startIndex === false || $endIndex === false || $endIndex < $startIndex) {
-        throw new RuntimeException('Missing markers in ' . $file);
+        // Un bloc absent n'est pas une erreur : la refonte d'aout 2026 a supprime
+        // les vignettes de blog de l'accueil. Faire echouer toute la publication
+        // pour ca priverait le site de ses articles a leur date.
+        fwrite(STDERR, "Marqueurs absents dans " . basename($file) . " — bloc ignore.\n");
+        return;
     }
     $next = substr($content, 0, $startIndex + strlen($start)) . "\n" . $replacement . "\n" . substr($content, $endIndex);
     atomic_write($file, $next);
@@ -126,7 +131,7 @@ foreach ($articles as $article) {
         $published[] = $article;
         if ($article['scheduled']) {
             $scheduledPublished[] = $article;
-            $source = $root . '/scheduled-blog/' . $article['slug'] . '.html';
+            $source = $atelier . '/scheduled-blog/' . $article['slug'] . '.html';
             $destination = $root . '/' . $article['slug'] . '.html';
             atomic_write($destination, (string) file_get_contents($source));
         }

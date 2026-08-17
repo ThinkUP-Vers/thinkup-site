@@ -33,7 +33,7 @@ jobs:
       - name: Publier les articles dus
         id: publication
         run: |
-          php publish-blog.php
+          php editorial/publish-blog.php
           if git diff --quiet; then
             echo "modifie=non" >> "$GITHUB_OUTPUT"
             echo "Aucun article à publier aujourd'hui."
@@ -84,6 +84,4 @@ jobs:
             htaccess-redirections.txt
             README.txt
             prod-sitemap.xml
-            publish-blog.php
-            editorial-calendar.json
-            scheduled-blog/**
+            editorial/**
