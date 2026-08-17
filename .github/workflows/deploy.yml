@@ -80,3 +80,6 @@ jobs:
             htaccess-redirections.txt
             README.txt
             prod-sitemap.xml
+            publish-blog.php
+            editorial-calendar.json
+            scheduled-blog/**

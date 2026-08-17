@@ -70,6 +70,12 @@
 @media (max-width: 700px) {
   .post { border-right: none; padding-right: 0 }
 }
+
+  .upcoming { padding-block: 0 clamp(48px,6vw,72px) }
+  .upcoming-list { border-top: 1px solid var(--rule); margin-top: 14px }
+  .upcoming-list p { margin: 0; padding-block: 14px; border-bottom: 1px solid var(--rule-2); font-size: 0.94rem; color: var(--ink-2) }
+  .upcoming-list p:last-child { border-bottom: none }
+  .upcoming-list strong { color: var(--ink); font-weight: 600 }
 </style>
 <style>.reveal{opacity:1!important;transform:none!important;visibility:visible!important}</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://think-up.fr/#organization", "name": "Think'UP", "alternateName": "ThinkUP", "url": "https://think-up.fr/", "logo": {"@type": "ImageObject", "url": "https://think-up.fr/logo-thinkup-v2.png", "width": 512, "height": 512}, "image": "https://think-up.fr/og-thinkup.jpg", "description": "Cabinet de conseil en IA pour dirigeants PME/ETI. Méthode Index Iceberg. ROI mesuré en 90 jours.", "slogan": "On mesure avant d'investir", "email": "patrick@thinkupcom.com", "telephone": "+33782484354", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressRegion": "Île-de-France", "postalCode": "78000", "addressCountry": "FR"}, "contactPoint": {"@type": "ContactPoint", "telephone": "+33782484354", "email": "patrick@thinkupcom.com", "contactType": "customer support", "areaServed": "FR", "availableLanguage": ["French", "English"]}, "founder": {"@id": "https://think-up.fr/#patrick"}, "foundingLocation": {"@type": "Place", "name": "Versailles, France"}, "areaServed": {"@type": "Country", "name": "France"}, "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation des processus", "Adoption IA en entreprise", "Méthode Index Iceberg"], "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/", "https://www.facebook.com/profile.php?id=100078509676689", "https://share.google/AeZjfdZfWzTs4X1Mr"]}</script>
@@ -211,6 +217,16 @@
       <div class="close-ctas">
         <a class="btn btn-primary" href="contact.html">Planifier 30 minutes →</a>
         <a class="btn btn-quiet" href="methode.html">Découvrir la méthode</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="upcoming">
+    <div class="wrap">
+      <p class="eyebrow">Prochainement</p>
+      <div class="upcoming-list">
+        <!-- BLOG_UPCOMING_START -->
+        <!-- BLOG_UPCOMING_END -->
       </div>
     </div>
   </section>

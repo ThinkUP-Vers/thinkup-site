@@ -1,0 +1,89 @@
+name: Publication éditoriale
+
+# Publie les articles dont la date est arrivée, d'après editorial-calendar.json.
+#
+# La publication se fait DEPUIS LE DÉPÔT, jamais sur le serveur : le
+# déploiement FTP écrase blog.html et sitemap.xml à chaque passage, un script
+# qui les modifierait côté serveur verrait son travail effacé au push suivant.
+#
+# Ce workflow déploie lui-même dans la foulée. C'est nécessaire : un push
+# effectué avec GITHUB_TOKEN ne déclenche pas les autres workflows, le
+# déploiement habituel ne partirait donc jamais.
+
+on:
+  schedule:
+    # 05h00 UTC = 07h00 à Paris en été, 06h00 en hiver.
+    - cron: '0 5 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Publier les articles dus
+        id: publication
+        run: |
+          php publish-blog.php
+          if git diff --quiet; then
+            echo "modifie=non" >> "$GITHUB_OUTPUT"
+            echo "Aucun article à publier aujourd'hui."
+          else
+            echo "modifie=oui" >> "$GITHUB_OUTPUT"
+            git diff --name-only | sed 's/^/  /'
+          fi
+
+      - name: Committer la publication
+        if: steps.publication.outputs.modifie == 'oui'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore(blog): publication automatique du $(date +%d/%m/%Y)"
+          git push
+
+      # Les étapes suivantes ne tournent que si quelque chose a été publié.
+      - name: Générer config.local.php depuis le secret Brevo
+        if: steps.publication.outputs.modifie == 'oui'
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          if [ -z "$BREVO_API_KEY" ]; then
+            echo "::error::Le secret BREVO_API_KEY est absent."
+            exit 1
+          fi
+          CLE=$(printf '%s' "$BREVO_API_KEY" | tr -d '[:space:]' | sed "s/'/\\\\'/g")
+          printf "<?php\ndefine('BREVO_API_KEY', '%s');\n" "$CLE" > config.local.php
+          php -l config.local.php
+
+      - name: Déployer sur Hostinger (FTP)
+        if: steps.publication.outputs.modifie == 'oui'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .claude/**
+            CLAUDE.md
+            DEPLOIEMENT-BOUTIQUE.md
+            MENTIONS-TIERCES-GEO.md
+            htaccess-redirections.txt
+            README.txt
+            prod-sitemap.xml
+            publish-blog.php
+            editorial-calendar.json
+            scheduled-blog/**
