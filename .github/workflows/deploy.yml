@@ -31,6 +31,30 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v4
 
+      # config.local.php porte la clé Brevo. Il est dans .gitignore — donc absent
+      # du dépôt, et jamais déployé. Résultat constaté le 17/08/2026 : il
+      # n'existait pas sur le serveur, la clé n'était donc jamais lue et toute la
+      # chaîne Brevo (accusé de réception ET enregistrement du prospect) basculait
+      # en silence sur mail(). On le génère ici depuis un secret du dépôt.
+      - name: Générer config.local.php depuis le secret Brevo
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: |
+          if [ -z "$BREVO_API_KEY" ]; then
+            echo "::error::Le secret BREVO_API_KEY est absent. Sans lui, les prospects" \
+                 "ne sont pas enregistrés dans Brevo et l'accusé de réception part en" \
+                 "texte brut. Ajoutez-le dans Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          {
+            echo '<?php'
+            echo '// Fichier généré au déploiement depuis le secret GitHub BREVO_API_KEY.'
+            echo '// Ne jamais le versionner ni le modifier à la main sur le serveur :'
+            echo '// il est réécrit à chaque déploiement.'
+            printf "define('BREVO_API_KEY', '%s');\n" "$BREVO_API_KEY"
+          } > config.local.php
+          echo "config.local.php généré ($(wc -c < config.local.php) octets)"
+
       - name: Déployer sur Hostinger (FTP)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
