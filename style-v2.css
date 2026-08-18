@@ -119,3 +119,12 @@
   .foot-legal { display: flex; flex-wrap: wrap; gap: 18px; }
   .foot-legal a { color: var(--ink-soft); text-decoration: none; }
   .foot-legal a:hover { color: var(--ink); }
+
+/* Logo. Le logotype porte deja le nom : il remplace le texte, en navigation
+   comme en pied de page. Deux fichiers, basculés par <picture> selon le theme
+   du visiteur — le vert de la charte n'est pas lisible sur le fond sombre.
+   width/height sont declares sur l'<img> pour reserver la place au chargement
+   et eviter que la barre de navigation ne saute. */
+  .logo-img { display: block; height: 34px; width: auto }
+  .foot-brand .logo-img { height: 48px }
+  @media (max-width: 480px) { .logo-img { height: 30px } }
