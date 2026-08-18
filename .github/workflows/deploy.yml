@@ -12,6 +12,19 @@
 # Le déploiement n'efface JAMAIS les fichiers présents uniquement sur le
 # serveur (envoi-contact.php, .htaccess) : l'action ne gère que les
 # fichiers qu'elle a elle-même déployés.
+#
+# ── Fiabilité (18/08/2026) ───────────────────────────────────────────────
+# Le FTP Hostinger échoue par intermittence sur « Timeout (control socket) » :
+# 2 échecs sur les 19 derniers déploiements, dont un qui a laissé la
+# production un quart d'heure en arrière SANS que rien ne le signale — le
+# push était vert côté git, seul le run était rouge.
+#
+# Trois garde-fous en réponse :
+#   1. le transfert est retenté jusqu'à trois fois, avec une pause croissante ;
+#   2. version.txt porte le SHA déployé, et le workflow vérifie ensuite sur
+#      le site public que c'est bien ce SHA qui est servi — un transfert
+#      « réussi » mais incomplet est donc détecté ;
+#   3. tout échec ouvre une issue, pour qu'une panne ne reste pas silencieuse.
 
 name: Déploiement Hostinger
 
@@ -24,12 +37,16 @@ concurrency:
   group: deploy-production
   cancel-in-progress: false
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer le code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       # config.local.php porte la clé Brevo. Il est dans .gitignore — donc absent
       # du dépôt, et jamais déployé. Résultat constaté le 17/08/2026 : il
@@ -62,13 +79,23 @@ jobs:
           fi
           echo "config.local.php validé ($(wc -c < config.local.php) octets)"
 
-      - name: Déployer sur Hostinger (FTP)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # Empreinte du déploiement : permet de vérifier ensuite, depuis
+      # l'extérieur, quel commit est réellement servi par le serveur.
+      - name: Générer version.txt
+        run: |
+          printf '%s\n%s\n' "$GITHUB_SHA" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" > version.txt
+          echo "version.txt -> $GITHUB_SHA"
+
+      - name: Déployer sur Hostinger (tentative 1)
+        id: ftp1
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ./
+          timeout: 120000
           exclude: |
             **/.git*
             **/.git*/**
@@ -81,3 +108,110 @@ jobs:
             README.txt
             prod-sitemap.xml
             editorial/**
+
+      - name: Pause avant la tentative 2
+        if: steps.ftp1.outcome == 'failure'
+        run: |
+          echo "::warning::Transfert FTP en échec (tentative 1). Nouvel essai dans 30 s."
+          sleep 30
+
+      - name: Déployer sur Hostinger (tentative 2)
+        id: ftp2
+        if: steps.ftp1.outcome == 'failure'
+        continue-on-error: true
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./
+          timeout: 120000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .claude/**
+            CLAUDE.md
+            DEPLOIEMENT-BOUTIQUE.md
+            MENTIONS-TIERCES-GEO.md
+            htaccess-redirections.txt
+            README.txt
+            prod-sitemap.xml
+            editorial/**
+
+      - name: Pause avant la tentative 3
+        if: steps.ftp1.outcome == 'failure' && steps.ftp2.outcome == 'failure'
+        run: |
+          echo "::warning::Transfert FTP en échec (tentative 2). Dernier essai dans 90 s."
+          sleep 90
+
+      # Dernière tentative : sans continue-on-error, pour que le job échoue
+      # réellement si le FTP reste inaccessible.
+      - name: Déployer sur Hostinger (tentative 3)
+        if: steps.ftp1.outcome == 'failure' && steps.ftp2.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ./
+          timeout: 120000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .claude/**
+            CLAUDE.md
+            DEPLOIEMENT-BOUTIQUE.md
+            MENTIONS-TIERCES-GEO.md
+            htaccess-redirections.txt
+            README.txt
+            prod-sitemap.xml
+            editorial/**
+
+      # Un transfert FTP « réussi » ne prouve pas que le site sert le bon
+      # contenu. On interroge donc le site public jusqu'à y lire le SHA
+      # déployé. `Cache-Control: no-cache` et un paramètre aléatoire évitent
+      # de relire une réponse mise en cache.
+      - name: Vérifier la mise en ligne
+        run: |
+          echo "SHA attendu : $GITHUB_SHA"
+          for i in $(seq 1 12); do
+            sleep 15
+            SERVI=$(curl -fsS -H 'Cache-Control: no-cache' \
+                     "https://think-up.fr/version.txt?cb=$RANDOM$i" 2>/dev/null | head -1 | tr -d '\r' || true)
+            if [ "$SERVI" = "$GITHUB_SHA" ]; then
+              echo "Mise en ligne confirmée après $((i * 15)) s."
+              exit 0
+            fi
+            echo "  tentative $i — servi : ${SERVI:-<indisponible>}"
+          done
+          echo "::error::Le site ne sert pas le commit $GITHUB_SHA après 3 minutes." \
+               "Le transfert FTP s'est terminé sans erreur, mais la production n'est pas à jour." \
+               "Vérifier l'espace disque et les droits du compte FTP dans hPanel."
+          exit 1
+
+      # Une panne de déploiement doit être visible sans avoir à consulter
+      # l'onglet Actions.
+      - name: Signaler l'échec par une issue
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Déploiement en échec — $(date -u +'%d/%m/%Y %H:%M') UTC" \
+            --body "Le déploiement du commit \`${GITHUB_SHA:0:7}\` a échoué.
+
+          **La production n'est pas à jour** : elle sert encore le commit précédent.
+
+          Détail du run : ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+
+          Causes déjà rencontrées :
+          - \`Timeout (control socket)\` — le FTP Hostinger n'a pas répondu. Le transfert
+            est désormais retenté trois fois ; trois échecs de suite signalent un problème
+            réel côté hébergeur (quota disque, compte FTP suspendu, maintenance).
+          - Transfert terminé mais site non à jour — la vérification post-déploiement a
+            expiré. Contrôler l'espace disque dans hPanel.
+
+          Relancer : onglet Actions → *Déploiement Hostinger* → **Run workflow**." \
+            || echo "::warning::Impossible de créer l'issue de suivi."

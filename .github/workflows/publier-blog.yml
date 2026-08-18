@@ -6,9 +6,16 @@ name: Publication éditoriale
 # déploiement FTP écrase blog.html et sitemap.xml à chaque passage, un script
 # qui les modifierait côté serveur verrait son travail effacé au push suivant.
 #
-# Ce workflow déploie lui-même dans la foulée. C'est nécessaire : un push
-# effectué avec GITHUB_TOKEN ne déclenche pas les autres workflows, le
-# déploiement habituel ne partirait donc jamais.
+# Ce workflow ne déploie plus lui-même. Il déclenche « Déploiement Hostinger »
+# explicitement (workflow_dispatch), car un push effectué avec GITHUB_TOKEN ne
+# déclenche pas les autres workflows — le déploiement habituel ne partirait
+# donc jamais.
+#
+# Pourquoi déléguer plutôt que redéployer ici (18/08/2026) : ce fichier
+# dupliquait tout le bloc FTP de deploy.yml. Les deux copies avaient déjà
+# divergé (versions d'action différentes) et seule l'une des deux a reçu les
+# garde-fous — retries, vérification de mise en ligne, alerte. Une seule
+# définition du déploiement évite que la prochaine correction n'en oublie une.
 
 on:
   schedule:
@@ -17,18 +24,19 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: deploy-production
+  group: publication-editoriale
   cancel-in-progress: false
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   publier:
     runs-on: ubuntu-latest
     steps:
       - name: Récupérer le code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Publier les articles dus
         id: publication
@@ -51,37 +59,17 @@ jobs:
           git commit -m "chore(blog): publication automatique du $(date +%d/%m/%Y)"
           git push
 
-      # Les étapes suivantes ne tournent que si quelque chose a été publié.
-      - name: Générer config.local.php depuis le secret Brevo
+      # Le déploiement — retries, vérification de mise en ligne et alerte —
+      # est défini une seule fois, dans deploy.yml.
+      - name: Déclencher le déploiement
         if: steps.publication.outputs.modifie == 'oui'
         env:
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ -z "$BREVO_API_KEY" ]; then
-            echo "::error::Le secret BREVO_API_KEY est absent."
+          if ! gh workflow run deploy.yml --ref main; then
+            echo "::error::Le déploiement n'a pas pu être déclenché. Les articles sont" \
+                 "publiés dans le dépôt mais PAS en ligne. Lancer à la main :" \
+                 "Actions → Déploiement Hostinger → Run workflow."
             exit 1
           fi
-          CLE=$(printf '%s' "$BREVO_API_KEY" | tr -d '[:space:]' | sed "s/'/\\\\'/g")
-          printf "<?php\ndefine('BREVO_API_KEY', '%s');\n" "$CLE" > config.local.php
-          php -l config.local.php
-
-      - name: Déployer sur Hostinger (FTP)
-        if: steps.publication.outputs.modifie == 'oui'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            .claude/**
-            CLAUDE.md
-            DEPLOIEMENT-BOUTIQUE.md
-            MENTIONS-TIERCES-GEO.md
-            htaccess-redirections.txt
-            README.txt
-            prod-sitemap.xml
-            editorial/**
+          echo "Déploiement déclenché. Son propre run vérifie la mise en ligne."

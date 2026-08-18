@@ -2,6 +2,9 @@
 config.local.php
 .env
 
+# Genere par le workflow de deploiement (empreinte du commit deploye)
+version.txt
+
 # OS / éditeurs
 .DS_Store
 Thumbs.db
