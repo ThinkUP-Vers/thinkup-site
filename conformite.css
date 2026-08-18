@@ -1,0 +1,124 @@
+/* ============================================================
+   Think'UP — Diagnostics de conformite (IA Act / RGPD)
+   Feuille partagee par ai-act.html et rgpd.html.
+   S'appuie sur les variables de style-v2.css ; ne redefinit
+   que les tokens de risque, absents de la charte.
+   ============================================================ */
+
+:root{
+  --risk-hi:#a33b2a; --risk-hi-bg:#f6e7e3;
+  --risk-md:#9c5827; --risk-md-bg:#f7ece1;
+  --risk-lo:#2b6b52; --risk-lo-bg:#e2efe8;
+  --note-bg:#eef0f5; --note-ink:#3d4457;
+}
+:root[data-theme="dark"]{
+  --risk-hi:#e29184; --risk-hi-bg:#3a2320;
+  --risk-md:#dda06b; --risk-md-bg:#372a1e;
+  --risk-lo:#8fc9ac; --risk-lo-bg:#1e2f27;
+  --note-bg:#232733; --note-ink:#c6ccda;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --risk-hi:#e29184; --risk-hi-bg:#3a2320;
+    --risk-md:#dda06b; --risk-md-bg:#372a1e;
+    --risk-lo:#8fc9ac; --risk-lo-bg:#1e2f27;
+    --note-bg:#232733; --note-ink:#c6ccda;
+  }
+}
+
+/* ---- Ossature ---------------------------------------- */
+.c-hero{padding-block:clamp(38px,6vw,64px) clamp(20px,3vw,30px);border-bottom:1px solid var(--rule-2)}
+.c-hero h1{font-size:clamp(1.9rem,4.4vw,3rem);margin:12px 0 14px;max-width:19ch;line-height:1.12}
+.c-hero .lede{margin:0;max-width:62ch;font-size:1.05rem;color:var(--ink-2)}
+.c-sec{padding-block:clamp(40px,5.5vw,68px);border-top:1px solid var(--rule-2)}
+.c-sec h2{font-size:clamp(1.45rem,2.8vw,2.05rem);margin:10px 0 22px;max-width:24ch}
+.c-sec h3{font-size:.79rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:34px 0 12px}
+.c-prose{max-width:72ch;color:var(--ink-2)}
+.c-prose p{margin:0 0 14px}
+
+/* ---- Encarts ----------------------------------------- */
+.c-note{background:var(--note-bg);color:var(--note-ink);border-radius:5px;padding:16px 20px;margin:0 0 22px;font-size:.95rem;max-width:78ch}
+.c-note.warn{background:var(--risk-md-bg);color:var(--ink-2);border-left:3px solid var(--risk-md)}
+.c-note.legal{background:var(--paper-2);color:var(--ink-2);border-left:3px solid var(--accent);font-size:.9rem}
+
+/* ---- Compteur d'echeances ---------------------------- */
+.c-count{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:14px;margin:26px 0 8px}
+.c-count-card{border:1px solid var(--rule);border-radius:5px;padding:16px 18px;background:var(--paper-2)}
+.c-count-n{font-family:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;font-size:1.85rem;line-height:1.1;color:var(--ink)}
+.c-count-n.past{color:var(--risk-lo);font-size:1.35rem}
+.c-count-d{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:6px 0 10px;padding-bottom:9px;border-bottom:1px solid var(--rule-2)}
+.c-count-l{font-size:.87rem;color:var(--ink-2);line-height:1.45}
+
+/* ---- Tableaux ---------------------------------------- */
+.c-tw{overflow-x:auto;margin:0 0 12px;-webkit-overflow-scrolling:touch}
+table.c-t{border-collapse:collapse;width:100%;min-width:520px;font-size:.93rem}
+table.c-t th{text-align:left;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;padding:0 16px 9px 0;border-bottom:1px solid var(--rule)}
+table.c-t td{padding:13px 16px 13px 0;border-bottom:1px solid var(--rule-2);color:var(--ink-2);vertical-align:top}
+table.c-t td:first-child{color:var(--ink);font-weight:600}
+table.c-t td.nw:first-child{white-space:nowrap}
+
+/* ---- Questionnaire ----------------------------------- */
+.c-app{border:1px solid var(--rule);border-radius:6px;background:var(--paper-2);padding:clamp(20px,3.4vw,34px);max-width:760px}
+.c-prog{height:5px;border-radius:999px;background:var(--paper-3);overflow:hidden;margin-bottom:22px}
+.c-prog i{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .35s ease}
+.c-step{font-size:.73rem;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+.c-q{font-family:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.28;margin:0 0 8px;color:var(--ink)}
+.c-help{font-size:.9rem;color:var(--ink-soft);margin:0 0 18px;max-width:60ch}
+.c-opts{display:flex;flex-direction:column;gap:9px}
+.c-opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:14px 16px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);color:var(--ink-2);font:inherit;font-size:.97rem;line-height:1.45;cursor:pointer;transition:border-color .15s ease,background .15s ease}
+.c-opt:hover{border-color:var(--accent);background:var(--accent-pale)}
+.c-opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-pale);color:var(--ink)}
+.c-opt-m{flex:none;width:18px;height:18px;margin-top:2px;border:1px solid var(--rule);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:transparent}
+.c-opt[aria-pressed="true"] .c-opt-m{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.c-opt-t b{display:block;font-weight:600;color:var(--ink)}
+.c-opt-t span{display:block;font-size:.87rem;color:var(--ink-soft);margin-top:2px}
+.c-field{display:block;width:100%;padding:13px 15px;border:1px solid var(--rule);border-radius:5px;background:var(--paper);color:var(--ink);font:inherit;font-size:1rem}
+.c-field:focus{outline:2px solid var(--focus);outline-offset:2px}
+.c-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:22px;flex-wrap:wrap}
+.c-back{background:none;border:0;font:inherit;font-size:.9rem;color:var(--ink-soft);cursor:pointer;padding:8px 0}
+.c-back:hover{color:var(--ink)}
+
+/* ---- Resultat ---------------------------------------- */
+.c-verdict{border-radius:6px;padding:22px 24px;margin-bottom:22px}
+.c-verdict.hi{background:var(--risk-hi-bg);border-left:4px solid var(--risk-hi)}
+.c-verdict.md{background:var(--risk-md-bg);border-left:4px solid var(--risk-md)}
+.c-verdict.lo{background:var(--risk-lo-bg);border-left:4px solid var(--risk-lo)}
+.c-verdict-k{font-size:.73rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600;margin-bottom:8px}
+.c-verdict.hi .c-verdict-k{color:var(--risk-hi)}
+.c-verdict.md .c-verdict-k{color:var(--risk-md)}
+.c-verdict.lo .c-verdict-k{color:var(--risk-lo)}
+.c-verdict h3{font-family:"Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;font-size:1.35rem;font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 8px}
+.c-verdict p{margin:0;color:var(--ink-2);font-size:.96rem;max-width:64ch}
+.c-obl{list-style:none;padding:0;margin:0 0 22px}
+.c-obl li{padding:13px 0 13px 26px;border-bottom:1px solid var(--rule-2);position:relative;color:var(--ink-2);font-size:.95rem}
+.c-obl li::before{content:"";position:absolute;left:4px;top:20px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.c-obl li b{color:var(--ink)}
+.c-obl li .ref{display:block;font-size:.82rem;color:var(--ink-soft);margin-top:3px}
+
+/* ---- Registre ---------------------------------------- */
+.c-reg{margin-top:22px}
+.c-reg-empty{font-size:.92rem;color:var(--ink-soft);font-style:italic}
+.c-reg-item{display:flex;gap:14px;align-items:flex-start;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--rule-2);flex-wrap:wrap}
+.c-reg-nm{font-weight:600;color:var(--ink);font-size:.97rem}
+.c-reg-meta{font-size:.85rem;color:var(--ink-soft);margin-top:3px;max-width:60ch}
+.c-tag{display:inline-block;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:999px}
+.c-tag.hi{background:var(--risk-hi-bg);color:var(--risk-hi)}
+.c-tag.md{background:var(--risk-md-bg);color:var(--risk-md)}
+.c-tag.lo{background:var(--risk-lo-bg);color:var(--risk-lo)}
+.c-reg-x{background:none;border:0;font:inherit;font-size:.85rem;color:var(--ink-soft);cursor:pointer;text-decoration:underline}
+.c-reg-x:hover{color:var(--risk-hi)}
+.c-reg-acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+
+/* ---- Divers ------------------------------------------ */
+.c-src{font-size:.88rem;color:var(--ink-soft);max-width:74ch}
+.c-src li{margin-bottom:7px}
+.c-updated{font-size:.8rem;color:var(--ink-soft);letter-spacing:.04em}
+@media print{header.site,footer.site,.c-app,.c-reg-acts{display:none}}
+
+/* CTA de la barre de navigation — la regle vit en CSS inline dans les autres
+   pages du site ; centralisee ici pour les deux diagnostics. */
+.navlinks .cta a{color:var(--paper);background:var(--accent);padding:9px 17px;border-radius:999px;font-size:.88rem;text-decoration:none}
+
+/* Gravite des points releves par le diagnostic RGPD. */
+.c-obl li.hi::before{background:var(--risk-hi)}
+.c-obl li.md::before{background:var(--risk-md)}

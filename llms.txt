@@ -24,6 +24,8 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 - FAQ: https://think-up.fr/faq.html
 - Contact: https://think-up.fr/contact.html
 - Blog: https://think-up.fr/blog.html
+- EU AI Act diagnostic (free self-assessment tool, answers stay in the browser): https://think-up.fr/ai-act.html
+- GDPR diagnostic (free self-assessment tool, builds an Article 30 record): https://think-up.fr/rgpd.html
 
 ## Offers
 
