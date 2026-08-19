@@ -44,6 +44,7 @@ The expected output of a Think'UP engagement is a documented AI decision: task m
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
+- AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/article-11.html
 - Données privées : que préparer avant de connecter une IA ?: https://think-up.fr/article-10.html
 - Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/article-9.html
 - Validation humaine et IA : où placer le contrôle ?: https://think-up.fr/article-8.html
