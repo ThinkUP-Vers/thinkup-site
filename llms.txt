@@ -29,9 +29,15 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 
 ## Offers
 
-- Atelier Declic IA: 2 to 3 hour workshop to identify concrete AI use cases.
-- Diagnostic Index Iceberg: 3 to 6 week audit to map visible and invisible work, prioritize AI use cases and quantify ROI.
-- Pilotage IA & Freelances: implementation steering with qualified AI experts and measurable outcomes.
+- Atelier Declic IA: 2 to 3 hour workshop to identify and prioritize 3 to 5 concrete AI use cases. 1,200 EUR net (VAT not applicable, art. 293 B CGI).
+- Diagnostic & cadrage Index Iceberg: 3 to 6 week audit to map visible and invisible work, prioritize AI use cases and quantify ROI. 6,900 EUR net (VAT not applicable, art. 293 B CGI).
+- Pilotage IA & reseau de freelances: implementation steering with qualified AI experts and measurable outcomes. Priced per scope.
+- Formalisation de savoir-faire: turns an expert's tacit method into a documented, reusable process that teams and AI tools can apply. Priced per scope.
+- Conformite RGPD & IA Act: GDPR and EU AI Act compliance for SMEs - system qualification, Article 30 record, article 4 AI literacy obligation, remediation plan. Priced per scope.
+- Reponse aux appels d'offres publics: support for French public tenders - DCE review, go/no-go decision, technical memorandum written against the scoring grid. Priced per scope.
+
+Full offer page: https://think-up.fr/offres.html
+Online purchase for the two fixed-price offers: https://think-up.fr/boutique.html
 
 ## Short answers
 

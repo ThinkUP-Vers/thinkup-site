@@ -1,11 +1,13 @@
 const clarityId = 'wg2wwqst2s';
+const gtmId = 'GTM-N96DM7CJ';
 const consentKey = 'thinkup_analytics_consent';
 
 /* Pages sans aucune mesure d'audience, meme si le visiteur a consenti
    ailleurs sur le site.
 
    Les diagnostics de conformite affichent que les reponses ne quittent pas
-   le navigateur. Clarity rejoue les clics et le DOM : il capterait donc les
+   le navigateur. Ni Clarity ni Google Tag Manager n'y sont charges.
+   Clarity rejoue les clics et le DOM : il capterait donc les
    reponses au questionnaire — absence de base legale, conservation illimitee,
    transfert hors UE — et les enverrait chez Microsoft, hors Union europeenne.
    Une page qui explique le regime des transferts ne peut pas en realiser un
@@ -32,6 +34,24 @@ function loadClarity(){
   })(window, document, 'clarity', 'script', clarityId);
 }
 
+function loadGTM(){
+  if(window.__thinkupGtmLoaded) return;
+  window.__thinkupGtmLoaded = true;
+  /* GTM n'est charge qu'apres consentement explicite : pas de balise
+     <noscript> en secours, qui deposerait le traceur sans consentement. */
+  (function(w,d,s,l,i){
+    w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer',gtmId);
+}
+
+function loadAnalytics(){
+  loadClarity();
+  loadGTM();
+}
+
 function buildConsentBanner(){
   if(localStorage.getItem(consentKey)) return;
 
@@ -51,7 +71,7 @@ function buildConsentBanner(){
     if(!choice) return;
     localStorage.setItem(consentKey,choice);
     banner.classList.remove('visible');
-    if(choice === 'yes') loadClarity();
+    if(choice === 'yes') loadAnalytics();
   });
 
   document.body.appendChild(banner);
@@ -59,6 +79,6 @@ function buildConsentBanner(){
 
 document.addEventListener('DOMContentLoaded',function(){
   if(isNoTrackPage()) return;
-  if(localStorage.getItem(consentKey) === 'yes') loadClarity();
+  if(localStorage.getItem(consentKey) === 'yes') loadAnalytics();
   buildConsentBanner();
 });
