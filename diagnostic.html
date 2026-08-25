@@ -104,6 +104,19 @@
 .d-amorce{padding:1.25rem 1.4rem;border-radius:var(--rl);background:var(--bg-2);border:1px solid var(--border)}
 .d-disclaimer{margin-top:1rem;font-size:.8rem;color:var(--text-mu);line-height:1.6;font-style:italic}
 
+/* feuille de route + point d'equilibre */
+.d-road{display:flex;flex-direction:column;gap:.7rem}
+.d-road-item{display:flex;gap:1rem;padding:1.1rem 1.25rem;border:1.5px solid var(--border);border-radius:var(--rl);background:var(--surface)}
+.d-road-item.first{border-color:var(--border-l);background:var(--grad-soft)}
+.d-road-num{flex:0 0 auto;font-family:var(--ff-m);font-size:.78rem;letter-spacing:.06em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;padding-top:.2rem}
+.d-road-body{min-width:0}
+.d-road-title{font-family:var(--ff-d);font-size:1.08rem;color:var(--text);margin:.15rem 0 .35rem;line-height:1.3}
+.d-road-txt{margin:0;font-size:.9rem;color:var(--text-dim);line-height:1.6}
+.d-pay{padding:1.25rem 1.4rem;border-radius:var(--rl);background:var(--bg-2);border:1px solid var(--border)}
+.d-pay-num{font-family:var(--ff-d);font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.15;color:var(--text);margin-bottom:.45rem}
+.d-pay-txt{margin:0;font-size:.9rem;color:var(--text-dim);line-height:1.65}
+@media(max-width:520px){.d-road-item{flex-direction:column;gap:.35rem}}
+
 /* capture */
 .d-capture{margin-top:2.25rem;padding:1.6rem;border-radius:var(--rl);border:1.5px solid var(--border);background:var(--surface-2);box-shadow:var(--sh)}
 .d-capture h3{font-family:var(--ff-d);font-weight:400;margin-bottom:.5rem}
@@ -260,6 +273,19 @@
             comme le rappelle notre méthode, le temps invisible ne se voit pas sans observation du terrain.
             Le <strong>Diagnostic 30 min</strong> transforme cette estimation en chiffres réels. On mesure avant d'investir.
           </p>
+        </div>
+
+        <div class="d-res-block">
+          <span class="d-res-h">Votre feuille de route</span>
+          <div class="d-road" id="d-road"></div>
+        </div>
+
+        <div class="d-res-block">
+          <span class="d-res-h">Seuil de rentabilité à 12 mois</span>
+          <div class="d-pay">
+            <div class="d-pay-num" id="d-pay-num">&mdash;</div>
+            <p class="d-pay-txt" id="d-pay-txt"></p>
+          </div>
         </div>
 
         <!-- CAPTURE EMAIL -->
@@ -555,6 +581,31 @@ function showResult(){
     'Think\'UP situe un gisement de l\'ordre de <strong>'+fmtK(loJ)+' à '+fmtK(hiJ)+' jours-homme par an</strong> '+
     'potentiellement récupérables sur les tâches invisibles — à confirmer et chiffrer précisément lors du diagnostic.';
 
+  /* feuille de route : les 3 leviers les plus faibles, du plus faible au moins faible */
+  var order=Object.keys(DIMS).sort(function(a,b){
+    return (r.dimScore[a]-r.dimScore[b])||(DIMS[b].weight-DIMS[a].weight);
+  }).slice(0,3);
+  var road=el('d-road');road.innerHTML='';
+  order.forEach(function(d,i){
+    var p=PRIO[d],item=document.createElement('div');
+    item.className='d-road-item'+(i===0?' first':'');
+    item.innerHTML='<span class="d-road-num">0'+(i+1)+'</span><div class="d-road-body">'+
+      '<span class="d-etape-tag">Étape '+p.etape+'</span>'+
+      '<div class="d-road-title">'+p.title+'</div>'+
+      '<p class="d-road-txt">'+(i===0?'Votre priorité n°1, détaillée ci-dessus.':p.txt)+'</p></div>';
+    road.appendChild(item);
+  });
+
+  /* seuil de rentabilite : budget de chantier rembourse en 12 mois, hypotheses doublement prudentes
+     (borne basse du potentiel recuperable + montee en charge a 50% la premiere annee) */
+  var RAMP=.5;
+  var seuil=loE*RAMP;
+  el('d-pay-num').textContent=fmtK(seuil)+" €";
+  el('d-pay-txt').innerHTML="Lecture : un chantier facturé jusqu'à <strong>"+fmtK(seuil)+" €</strong> se rembourse en moins de douze mois. "+
+    "Le calcul retient délibérément les hypothèses les plus basses : la borne inférieure du potentiel récupérable ci-dessus ("+fmtK(loE)+" €/an), "+
+    "minorée de moitié pour tenir compte de la montée en charge la première année. "+
+    "Au-delà de ce budget, le retour dépasse l'année. C'est un repère pour cadrer une enveloppe, pas un engagement de résultat.";
+
   /* champs cachés pour la capture */
   el('d-eff').value=r.effLbl+' salariés';
   el('d-stade').value='Palier '+r.palier.name+' — score '+r.global+'/100';
@@ -563,7 +614,9 @@ function showResult(){
     'Score global : '+r.global+'/100 — Profil : '+r.palier.name+' (étape '+r.palier.etape+')\n'+
     'Scores par levier : '+Object.keys(DIMS).map(function(d){return DIMS[d].label+' '+r.dimScore[d]}).join(' · ')+'\n'+
     'Priorité n°1 : '+pr.title+' (étape '+pr.etape+')\n'+
-    'Temps invisible estimé : '+fmt(r.hours)+' h/an — gisement récupérable ~'+fmtK(loJ)+' à '+fmtK(hiJ)+' jours-homme/an.';
+    'Temps invisible estimé : '+fmt(r.hours)+' h/an — gisement récupérable ~'+fmtK(loJ)+' à '+fmtK(hiJ)+' jours-homme/an.\n'+
+    'Feuille de route : '+order.map(function(d,i){return (i+1)+'. '+PRIO[d].title}).join(' · ')+'\n'+
+    "Seuil de rentabilité à 12 mois : "+el('d-pay-num').textContent+" de budget chantier.";
 }
 
 function animateNum(node,target,dur){
