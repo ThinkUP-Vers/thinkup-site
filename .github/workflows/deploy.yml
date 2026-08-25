@@ -148,6 +148,7 @@ jobs:
       # Dernière tentative : sans continue-on-error, pour que le job échoue
       # réellement si le FTP reste inaccessible.
       - name: Déployer sur Hostinger (tentative 3)
+        id: ftp3
         if: steps.ftp1.outcome == 'failure' && steps.ftp2.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
@@ -168,6 +169,26 @@ jobs:
             README.txt
             prod-sitemap.xml
             editorial/**
+
+      # Les tentatives 1 et 2 portent continue-on-error : dans l'onglet Actions
+      # comme dans l'API, un échec y remonte en « success ». Constaté le
+      # 25/08/2026 : le run se lisait « 2 réussites, 1 échec » alors que les trois
+      # transferts avaient échoué. Ce bilan rétablit le résultat réel.
+      - name: Bilan des tentatives FTP
+        if: always()
+        run: |
+          {
+            echo "### Transfert FTP"
+            echo ""
+            echo "| Tentative | Résultat réel |"
+            echo "| --- | --- |"
+            echo "| 1 | ${{ steps.ftp1.outcome }} |"
+            echo "| 2 | ${{ steps.ftp2.outcome }} |"
+            echo "| 3 | ${{ steps.ftp3.outcome }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Tentatives FTP réelles - 1 : ${{ steps.ftp1.outcome }}"
+          echo "                          2 : ${{ steps.ftp2.outcome }}"
+          echo "                          3 : ${{ steps.ftp3.outcome }}"
 
       # Un transfert FTP « réussi » ne prouve pas que le site sert le bon
       # contenu. On interroge donc le site public jusqu'à y lire le SHA
@@ -203,6 +224,8 @@ jobs:
             --body "Le déploiement du commit \`${GITHUB_SHA:0:7}\` a échoué.
 
           **La production n'est pas à jour** : elle sert encore le commit précédent.
+
+          Tentatives FTP - 1 : \`${{ steps.ftp1.outcome }}\` · 2 : \`${{ steps.ftp2.outcome }}\` · 3 : \`${{ steps.ftp3.outcome }}\`
 
           Détail du run : ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
 
