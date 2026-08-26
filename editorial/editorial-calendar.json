@@ -1,9 +1,9 @@
 {
   "timezone": "Europe/Paris",
-  "featured": "article-1",
+  "featured": "erreurs-projets-ia-pme",
   "articles": [
     {
-      "slug": "article-1",
+      "slug": "erreurs-projets-ia-pme",
       "image": "blog-images/article-1.jpg",
       "scheduled": false,
       "publishDate": "2025-03-01",
@@ -14,7 +14,7 @@
       "summary": "Les pièges les plus fréquents et comment les éviter avant de lancer."
     },
     {
-      "slug": "article-2",
+      "slug": "calculer-roi-ia",
       "image": "blog-images/article-2.jpg",
       "scheduled": false,
       "publishDate": "2025-03-15",
@@ -25,7 +25,7 @@
       "summary": "La méthode chiffrée pour décider avec un exemple concret de PME B2B."
     },
     {
-      "slug": "article-3",
+      "slug": "taches-invisibles-cout-pme",
       "image": "blog-images/article-3.jpg",
       "scheduled": false,
       "publishDate": "2025-04-05",
@@ -36,7 +36,7 @@
       "summary": "Le concept qui change tout pour votre productivité réelle."
     },
     {
-      "slug": "article-4",
+      "slug": "choisir-consultant-ia",
       "image": "visuals/matrice-impact-effort-risque.svg",
       "scheduled": false,
       "publishDate": "2025-04-20",
@@ -47,7 +47,7 @@
       "summary": "Un guide objectif pour évaluer n'importe quelle proposition de conseil IA avant de signer — y compris la nôtre."
     },
     {
-      "slug": "article-5",
+      "slug": "ia-pme-ce-qui-marche",
       "image": "visuals/dashboard-roi-90-jours.svg",
       "scheduled": false,
       "publishDate": "2025-05-10",
@@ -58,7 +58,7 @@
       "summary": "Retours terrain sans optimisme commercial : les usages qui produisent des résultats, ceux qui échouent."
     },
     {
-      "slug": "article-6",
+      "slug": "chatgpt-nest-pas-une-strategie-ia",
       "image": "blog-images/article-6.jpg",
       "scheduled": false,
       "publishDate": "2026-06-10",
@@ -71,7 +71,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_ia-gouvernance-thinkup-activity-7423987575943716864-Wpac"
     },
     {
-      "slug": "article-7",
+      "slug": "premier-cas-usage-ia",
       "image": "blog-images/article-7.jpg",
       "scheduled": false,
       "publishDate": "2026-06-24",
@@ -84,7 +84,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_ia-formationia-projetia-activity-7406604357640658944-_G0u"
     },
     {
-      "slug": "article-8",
+      "slug": "validation-humaine-ia",
       "image": "blog-images/article-8.jpg",
       "scheduled": false,
       "publishDate": "2026-07-08",
@@ -97,7 +97,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_thinkup-gouvernance-iaentreprise-activity-7426898860712849408-v-SL"
     },
     {
-      "slug": "article-9",
+      "slug": "liberer-cinq-heures-par-semaine-ia",
       "image": "blog-images/article-9.jpg",
       "scheduled": false,
       "publishDate": "2026-07-22",
@@ -110,7 +110,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/in/patrick-langlais-9886444a"
     },
     {
-      "slug": "article-10",
+      "slug": "preparer-ses-donnees-ia",
       "image": "blog-images/article-10.jpg",
       "scheduled": false,
       "publishDate": "2026-08-05",
@@ -123,7 +123,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_thinkup-ia-strat%C3%A9gie-activity-7414576896337707008-bqI7"
     },
     {
-      "slug": "article-11",
+      "slug": "ai-act-rgpd-checklist-pme",
       "image": "blog-images/article-11.jpg",
       "scheduled": true,
       "publishDate": "2026-08-19",
@@ -136,7 +136,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_thinkup-ia-strat%C3%A9gie-activity-7414576896337707008-bqI7"
     },
     {
-      "slug": "article-12",
+      "slug": "tableau-de-bord-roi-ia-90-jours",
       "image": "blog-images/article-12.jpg",
       "scheduled": true,
       "publishDate": "2026-09-09",
@@ -149,7 +149,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_thinkup-ia-strat%C3%A9gie-activity-7414576896337707008-bqI7"
     },
     {
-      "slug": "article-13",
+      "slug": "quels-processus-automatiser",
       "image": "blog-images/article-13.jpg",
       "scheduled": true,
       "publishDate": "2026-09-23",
@@ -162,7 +162,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_ia-formationia-projetia-activity-7406604357640658944-_G0u"
     },
     {
-      "slug": "article-14",
+      "slug": "ia-transforme-les-metiers-plan-manager",
       "image": "blog-images/article-14.jpg",
       "scheduled": true,
       "publishDate": "2026-10-07",
@@ -175,7 +175,7 @@
       "sourceLinkedIn": "https://fr.linkedin.com/posts/patrick-langlais-9886444a_thinkup-ia-strat%C3%A9gie-activity-7414576896337707008-bqI7"
     },
     {
-      "slug": "article-15",
+      "slug": "budget-ia-2027",
       "image": "blog-images/article-15.jpg",
       "scheduled": true,
       "publishDate": "2026-10-21",

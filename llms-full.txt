@@ -60,12 +60,12 @@ Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-ho
 
 <!-- PUBLISHED_ARTICLES_START -->
 - AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/ai-act-rgpd-checklist-pme.html
-- Préparer ses données privées avant de connecter une IA: https://think-up.fr/preparer-ses-donnees-ia.html
+- Données privées : que préparer avant de connecter une IA ?: https://think-up.fr/preparer-ses-donnees-ia.html
 - Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html
 - Validation humaine et IA : où placer le contrôle ?: https://think-up.fr/validation-humaine-ia.html
 - Comment choisir votre premier cas d'usage IA ?: https://think-up.fr/premier-cas-usage-ia.html
 - S'abonner à ChatGPT n'est pas une stratégie IA: https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html
-- IA pour PME : ce qui marche vraiment, ce qui ne marche pas: https://think-up.fr/ia-pme-ce-qui-marche.html
+- IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas: https://think-up.fr/ia-pme-ce-qui-marche.html
 - Comment choisir son consultant IA ? Les 5 questions à poser: https://think-up.fr/choisir-consultant-ia.html
 - Tâches invisibles : ce que votre entreprise ne voit pas: https://think-up.fr/taches-invisibles-cout-pme.html
 - Comment calculer le ROI de l'IA avant d'investir: https://think-up.fr/calculer-roi-ia.html
