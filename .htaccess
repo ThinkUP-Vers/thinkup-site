@@ -33,6 +33,20 @@ RewriteRule ^diagnostic-roi-ia\.html$ https://think-up.fr/offres.html [L,R=301]
 RewriteRule ^gains-rapides-ia\.html$ https://think-up.fr/offres.html [L,R=301]
 RewriteRule ^cadrage-adoption-ia\.html$ https://think-up.fr/offres.html [L,R=301]
 
+
+# 2e. Slugs descriptifs des articles (refonte SEO aout 2026)
+RewriteRule ^article-1\.html$ https://think-up.fr/erreurs-projets-ia-pme.html [L,R=301]
+RewriteRule ^article-2\.html$ https://think-up.fr/calculer-roi-ia.html [L,R=301]
+RewriteRule ^article-3\.html$ https://think-up.fr/taches-invisibles-cout-pme.html [L,R=301]
+RewriteRule ^article-4\.html$ https://think-up.fr/choisir-consultant-ia.html [L,R=301]
+RewriteRule ^article-5\.html$ https://think-up.fr/ia-pme-ce-qui-marche.html [L,R=301]
+RewriteRule ^article-6\.html$ https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html [L,R=301]
+RewriteRule ^article-7\.html$ https://think-up.fr/premier-cas-usage-ia.html [L,R=301]
+RewriteRule ^article-8\.html$ https://think-up.fr/validation-humaine-ia.html [L,R=301]
+RewriteRule ^article-9\.html$ https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html [L,R=301]
+RewriteRule ^article-10\.html$ https://think-up.fr/preparer-ses-donnees-ia.html [L,R=301]
+RewriteRule ^article-11\.html$ https://think-up.fr/ai-act-rgpd-checklist-pme.html [L,R=301]
+
 # 3. Page 404 personnalisee
 ErrorDocument 404 /404.html
 

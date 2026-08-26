@@ -45,7 +45,7 @@ Think'UP starts from business work, margins, delays and actual workload before c
 Name: Think'UP
 Founder: Patrick Langlais
 Location: Versailles, France
-Email: patrick@think-up.fr
+Email: patrick@thinkupcom.com
 Phone: +33 7 82 48 43 54
 Website: https://think-up.fr/
 LinkedIn: https://www.linkedin.com/in/patrick-langlais-9886444a/
@@ -59,17 +59,17 @@ Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-ho
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
-- AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/article-11.html
-- Préparer ses données privées avant de connecter une IA: https://think-up.fr/article-10.html
-- Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/article-9.html
-- Validation humaine et IA : où placer le contrôle ?: https://think-up.fr/article-8.html
-- Comment choisir votre premier cas d'usage IA ?: https://think-up.fr/article-7.html
-- S'abonner à ChatGPT n'est pas une stratégie IA: https://think-up.fr/article-6.html
-- IA pour PME : ce qui marche vraiment, ce qui ne marche pas: https://think-up.fr/article-5.html
-- Comment choisir son consultant IA ? Les 5 questions à poser: https://think-up.fr/article-4.html
-- Tâches invisibles : ce que votre entreprise ne voit pas: https://think-up.fr/article-3.html
-- Comment calculer le ROI de l'IA avant d'investir: https://think-up.fr/article-2.html
-- 7 erreurs qui font échouer les projets IA en PME: https://think-up.fr/article-1.html
+- AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/ai-act-rgpd-checklist-pme.html
+- Préparer ses données privées avant de connecter une IA: https://think-up.fr/preparer-ses-donnees-ia.html
+- Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html
+- Validation humaine et IA : où placer le contrôle ?: https://think-up.fr/validation-humaine-ia.html
+- Comment choisir votre premier cas d'usage IA ?: https://think-up.fr/premier-cas-usage-ia.html
+- S'abonner à ChatGPT n'est pas une stratégie IA: https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html
+- IA pour PME : ce qui marche vraiment, ce qui ne marche pas: https://think-up.fr/ia-pme-ce-qui-marche.html
+- Comment choisir son consultant IA ? Les 5 questions à poser: https://think-up.fr/choisir-consultant-ia.html
+- Tâches invisibles : ce que votre entreprise ne voit pas: https://think-up.fr/taches-invisibles-cout-pme.html
+- Comment calculer le ROI de l'IA avant d'investir: https://think-up.fr/calculer-roi-ia.html
+- 7 erreurs qui font échouer les projets IA en PME: https://think-up.fr/erreurs-projets-ia-pme.html
 <!-- PUBLISHED_ARTICLES_END -->
 
 ## Reference pages
