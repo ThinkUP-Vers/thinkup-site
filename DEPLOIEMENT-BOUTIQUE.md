@@ -60,13 +60,13 @@ l'automate, rapatrier ces fichiers dans le dépôt (ou me le signaler).
 ### 3. Téléverser chez Hostinger (hPanel → Gestionnaire de fichiers)
 
 Fichiers **nouveaux** : `boutique.html`, `boutique-config.js`,
-`merci.html`, `cgv.html`, et si publication du blog : `article-4.html`,
-`article-5.html`.
+`merci.html`, `cgv.html`, et si publication du blog : `choisir-consultant-ia.html`,
+`ia-pme-ce-qui-marche.html`.
 
 Fichiers **modifiés** (lien Boutique/CGV ajouté) : `index.html`,
 `methode.html`, `offres.html`, `resultats.html`, `patrick.html`,
-`contact.html`, `faq.html`, `blog.html`, `article-1.html`,
-`article-2.html`, `article-3.html`, `mentions-legales.html`,
+`contact.html`, `faq.html`, `blog.html`, `erreurs-projets-ia-pme.html`,
+`calculer-roi-ia.html`, `taches-invisibles-cout-pme.html`, `mentions-legales.html`,
 `politique-confidentialite.html`, `sitemap.xml` (+ boutique et cgv).
 
 - [ ] Vérifier ensuite `https://think-up.fr/boutique.html` (affichage,

@@ -24,7 +24,7 @@ toutes à faire une seule fois sauf mention contraire.
 ## 2. Fiches et profils à aligner (cohérence d'entité)
 
 Toutes les fiches doivent utiliser EXACTEMENT : **Think'UP** (avec
-l'apostrophe), think-up.fr, patrick@think-up.fr, 22 rue Victor Hugo,
+l'apostrophe), think-up.fr, patrick@thinkupcom.com, 22 rue Victor Hugo,
 78000 Versailles. La cohérence nom/adresse/téléphone est un signal
 d'entité majeur pour les IA.
 
