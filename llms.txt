@@ -18,7 +18,7 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 
 - Home: https://think-up.fr/
 - Method: https://think-up.fr/methode.html
-- Consultant IA à Versailles et dans les Yvelines: https://think-up.fr/consultant-ia-versailles.html
+- Consultant IA à Versailles, missions dans toute la France: https://think-up.fr/consultant-ia-versailles.html
 - Offers: https://think-up.fr/offres.html
 - Results: https://think-up.fr/resultats.html
 - Patrick Langlais: https://think-up.fr/patrick.html
