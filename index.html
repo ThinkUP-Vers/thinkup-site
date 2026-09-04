@@ -33,9 +33,7 @@
 <style>
   .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(22px,5vw,60px) }
   .narrow { max-width: 68ch }
-  .navlinks .cta a { color: var(--paper); background: var(--accent); padding: 9px 17px; border-radius: 999px; font-size: 0.88rem; white-space: nowrap }
-  .navlinks .cta-alt a { color: var(--accent); background: transparent; border: 1px solid var(--accent) }
-  .navlinks .cta-alt a:hover { background: var(--accent); color: var(--paper) }
+  .navlinks .cta a { color: var(--paper); background: var(--accent); padding: 9px 17px; border-radius: 999px; font-size: 0.88rem }
   .hero { padding-block: clamp(44px,7vw,84px) clamp(40px,6vw,72px) }
   .hero-grid { display: grid; grid-template-columns: 1fr minmax(240px,340px); gap: clamp(32px,5vw,64px); align-items: center }
   .hero h1 { font-size: clamp(2.15rem,4.6vw,3.5rem); line-height: 1.12; margin: 14px 0 22px; max-width: 17ch }
@@ -99,16 +97,6 @@
   .pullquote p { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.22rem; line-height: 1.45; color: var(--ink); margin: 0 0 18px; max-width: none }
   .sig { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-style: italic; font-size: 1.5rem; color: var(--accent); display: block; margin-bottom: 3px }
   .sig-role { font-size: 0.83rem; color: var(--ink-soft) }
-@media (max-width: 1080px) {
-  .navlinks { gap: 13px }
-  .navlinks .cta a { padding: 8px 13px; font-size: 0.83rem }
-}
-@media (max-width: 880px) {
-  .navlinks .hide-sm { display: none }
-}
-@media (max-width: 560px) {
-  .navlinks .cta-alt { display: none }
-}
 @media (max-width: 880px) {
   .hero-grid { grid-template-columns: 1fr; gap: 34px }
   .portrait-frame { order: -1; max-width: 300px }

@@ -40,7 +40,9 @@
 @media (max-width: 660px) {
   .foot-grid { grid-template-columns: 1fr }
 }
-@media (max-width: 760px) {
+/* 880 et non 760 depuis l'ajout du CTA « Faire l'auto-diagnostic » : avec ce
+   septieme element la barre passait sur deux lignes entre 761 et 870 px. */
+@media (max-width: 880px) {
   .navlinks .hide-sm { display: none }
 }
 /* Ajouts du portage en production — pas issus des maquettes.
@@ -128,3 +130,22 @@
   .logo-img { display: block; height: 34px; width: auto }
   .foot-brand .logo-img { height: 48px }
   @media (max-width: 480px) { .logo-img { height: 30px } }
+
+/* CTA secondaire du menu — acces direct a l'auto-diagnostic Indice Iceberg.
+   Contour plutot que fond plein : « Me parler 30 min » reste le CTA principal.
+   La specificite monte d'un cran (`li.cta`) parce que presque chaque page
+   redeclare `.navlinks .cta a` dans son <style> inline, charge apres cette
+   feuille — a specificite egale c'est la derniere declaration qui gagne. */
+  .navlinks li.cta-alt a { color: var(--accent); background: transparent; border: 1px solid var(--accent) }
+  .navlinks li.cta-alt a:hover { background: var(--accent); color: var(--paper) }
+  .navlinks li.cta a { white-space: nowrap }
+@media (max-width: 1080px) {
+  .navlinks { gap: 13px }
+  .navlinks li.cta a { padding: 8px 13px; font-size: 0.83rem }
+}
+/* Sous 560 px il ne reste que le logo et « Me parler 30 min » : deux pastilles
+   cote a cote ne tiennent pas. L'auto-diagnostic reste atteignable par le
+   pied de page et par les bandeaux de chaque page. */
+@media (max-width: 560px) {
+  .navlinks li.cta-alt { display: none }
+}
