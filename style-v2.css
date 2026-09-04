@@ -8,7 +8,15 @@
   a { color: inherit }
   :focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px }
   img { max-width: 100% }
-  header.site { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb,var(--paper) 90%,transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule-2) }
+  /* `background` est declare deux fois a dessein : un navigateur qui ne comprend
+     pas `color-mix` jette cette declaration-la et garde la precedente. Sans ce
+     repli il se retrouvait sans fond du tout — en-tete collant transparent, le
+     contenu de la page defilant au travers du menu. Meme logique pour le
+     prefixe -webkit- du flou, longtemps requis par Safari. */
+  header.site { position: sticky; top: 0; z-index: 20; background: var(--paper);
+    background: color-mix(in srgb,var(--paper) 90%,transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule-2) }
   .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 16px }
   .logo { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.18rem; font-weight: 700; letter-spacing: -0.01em; text-decoration: none }
   .logo i { font-style: normal; color: var(--accent) }
