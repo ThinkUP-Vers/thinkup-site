@@ -23,14 +23,57 @@
     return header.classList.contains('menu-open');
   }
 
+  /* Le panneau se limite a la hauteur d'ecran restante pour rester defilable
+     en paysage. Cette hauteur depend de la barre, qu'on mesure ici : la coder
+     en dur dans le CSS la desynchronise du jour ou un CTA change de taille. */
+  function measure() {
+    header.style.setProperty('--nav-h', header.offsetHeight + 'px');
+  }
+  measure();
+  window.addEventListener('resize', measure);
+
   function setOpen(open) {
+    if (open) measure();
     header.classList.toggle('menu-open', open);
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     burger.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
   }
 
+  /* Elements atteignables au clavier tant que le panneau est ouvert : tout ce
+     qui est visible dans l'en-tete, donc le logo, les liens du panneau, les
+     deux CTA et le burger. Les liens du panneau ferme ont `offsetParent` nul
+     et sortent d'eux-memes de la liste. */
+  function focusables() {
+    var all = header.querySelectorAll('a[href], button:not([disabled])');
+    return Array.prototype.filter.call(all, function (el) {
+      return el.offsetParent !== null;
+    });
+  }
+
   burger.addEventListener('click', function () {
-    setOpen(!isOpen());
+    var open = !isOpen();
+    setOpen(open);
+    if (open) {
+      var first = panel.querySelector('a[href]');
+      if (first) first.focus();
+    }
+  });
+
+  /* Sans ce piege, Tab quitte l'en-tete des le dernier lien et le curseur part
+     dans la page couverte par le panneau : au clavier on ne voit plus ou on
+     est. Echap reste la sortie, et rend le focus au burger. */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || !isOpen()) return;
+    var f = focusables();
+    if (f.length < 2) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
 
   /* Naviguer referme : sur les ancres internes la page ne se recharge pas, le

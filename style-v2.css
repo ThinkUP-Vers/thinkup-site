@@ -160,7 +160,8 @@
      cassent sur deux lignes, ce qui epaissit la barre. */
   .navlinks li.nav-more { flex: none }
   .nav-more-list > li > a { white-space: nowrap }
-  .nav-burger { display: none; flex: none; width: 40px; height: 40px; padding: 0;
+  /* 44 px : cible tactile confortable au pouce. */
+  .nav-burger { display: none; flex: none; width: 44px; height: 44px; padding: 0;
     align-items: center; justify-content: center; border: 1px solid var(--rule);
     border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer }
   .nav-burger:hover { border-color: var(--accent); color: var(--accent) }
@@ -183,14 +184,22 @@
   .navlinks { margin-left: auto }
   /* `header.site` est en `position: sticky`, donc positionne : il sert de
      reference au panneau, qui se cale sous la barre sur toute sa largeur. */
+  /* En paysage sur telephone la hauteur utile tombe sous celle du panneau.
+     Comme il est en position absolue dans un en-tete collant, le bas devenait
+     inatteignable : le panneau defile donc pour son propre compte. La hauteur
+     de barre est mesuree par nav.js (`--nav-h`) plutot que codee en dur —
+     elle depend de la cible tactile du burger et du CTA. */
   .nav-more { display: none; position: absolute; top: 100%; left: 0; right: 0;
+    max-height: calc(100vh - var(--nav-h, 77px));
+    max-height: calc(100dvh - var(--nav-h, 77px)); overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--paper); border-bottom: 1px solid var(--rule);
     box-shadow: 0 16px 32px -20px var(--shadow) }
   header.site.menu-open .nav-more { display: block }
   .nav-more-list { flex-direction: column; align-items: stretch; gap: 0;
     padding: 4px clamp(18px,5vw,60px) 16px }
   .nav-more-list > li + li { border-top: 1px solid var(--rule-2) }
-  .nav-more-list > li > a { display: block; padding: 13px 0; font-size: 1rem }
+  .nav-more-list > li > a { display: block; padding: 14px 0; font-size: 1rem }
   .nav-more-list > li.cta-alt { border-top: 0; padding-top: 14px }
   .nav-more-list > li.cta-alt a { display: inline-flex; padding: 9px 17px; font-size: 0.88rem }
 }
