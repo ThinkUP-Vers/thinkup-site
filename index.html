@@ -97,9 +97,6 @@
   .pullquote p { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.22rem; line-height: 1.45; color: var(--ink); margin: 0 0 18px; max-width: none }
   .sig { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-style: italic; font-size: 1.5rem; color: var(--accent); display: block; margin-bottom: 3px }
   .sig-role { font-size: 0.83rem; color: var(--ink-soft) }
-@media (max-width: 700px) {
-  .navlinks .hide-sm { display: none }
-}
 @media (max-width: 880px) {
   .hero-grid { grid-template-columns: 1fr; gap: 34px }
   .portrait-frame { order: -1; max-width: 300px }
@@ -125,6 +122,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://think-up.fr/#patrick", "name": "Patrick Langlais", "jobTitle": "Consultant IA, fondateur de Think'UP", "worksFor": {"@id": "https://think-up.fr/#organization"}, "url": "https://think-up.fr/patrick.html", "image": "https://think-up.fr/photo-patrick.jpg", "sameAs": ["https://www.linkedin.com/in/patrick-langlais-9886444a/"], "knowsAbout": ["Intelligence artificielle", "ROI IA", "Transformation numérique PME", "Automatisation", "Finance de marché"], "alumniOf": "Finance de marché", "address": {"@type": "PostalAddress", "addressLocality": "Versailles", "addressCountry": "FR"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://think-up.fr/"}]}</script>
 <script src="consent.js?v=3" defer></script>
+<script src="nav.js?v=1" defer></script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Que fait Think'UP pour les PME et les ETI ?", "acceptedAnswer": {"@type": "Answer", "text": "J'aide les dirigeants à repérer les usages de l'IA réellement rentables chez eux, à construire le business case qui va avec, puis à piloter les projets jusqu'au retour mesuré. Pas de licence à vendre, pas de techno imposée."}}, {"@type": "Question", "name": "Qu'est-ce que la méthode Index Iceberg ?", "acceptedAnswer": {"@type": "Answer", "text": "C'est ma façon de cartographier le travail réel : les tâches visibles, et surtout celles qu'aucun outil ne mesure. On chiffre le temps qu'elles consomment, puis on classe les automatisations possibles par impact, effort, risque et retour attendu."}}, {"@type": "Question", "name": "Où intervenez-vous ?", "acceptedAnswer": {"@type": "Answer", "text": "Je suis basé à Versailles et j'interviens partout en France, sur place ou à distance selon ce que la mission demande. Le diagnostic suppose des phases d'observation dans vos locaux."}}]}</script>
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs context">
 </head>
@@ -132,14 +130,20 @@
 <header class="site">
   <nav class="nav wrap">
     <a class="logo" href="#top"><picture><source srcset="logo-thinkup-web-dark.png" media="(prefers-color-scheme: dark)"><img src="logo-thinkup-web.png" alt="Think'UP" width="138" height="137" class="logo-img"></picture></a>
-    <ul class="navlinks">
-      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
-      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
-      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
-      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
-      <li class="hide-sm"><a href="blog.html">Blog</a></li>
+    <ul class="navlinks" id="nav-menu">
+      <li class="nav-more">
+        <ul class="nav-more-list">
+          <li><a href="methode.html">La méthode</a></li>
+          <li><a href="offres.html">Les offres</a></li>
+          <li><a href="resultats.html">Résultats</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li class="cta cta-alt"><a href="diagnostic.html">Faire l'auto-diagnostic</a></li>
+        </ul>
+      </li>
       <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
     </ul>
+    <button class="nav-burger" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Ouvrir le menu"><span class="nav-burger-bars" aria-hidden="true"></span></button>
   </nav>
 </header>
 
