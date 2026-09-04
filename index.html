@@ -33,7 +33,9 @@
 <style>
   .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(22px,5vw,60px) }
   .narrow { max-width: 68ch }
-  .navlinks .cta a { color: var(--paper); background: var(--accent); padding: 9px 17px; border-radius: 999px; font-size: 0.88rem }
+  .navlinks .cta a { color: var(--paper); background: var(--accent); padding: 9px 17px; border-radius: 999px; font-size: 0.88rem; white-space: nowrap }
+  .navlinks .cta-alt a { color: var(--accent); background: transparent; border: 1px solid var(--accent) }
+  .navlinks .cta-alt a:hover { background: var(--accent); color: var(--paper) }
   .hero { padding-block: clamp(44px,7vw,84px) clamp(40px,6vw,72px) }
   .hero-grid { display: grid; grid-template-columns: 1fr minmax(240px,340px); gap: clamp(32px,5vw,64px); align-items: center }
   .hero h1 { font-size: clamp(2.15rem,4.6vw,3.5rem); line-height: 1.12; margin: 14px 0 22px; max-width: 17ch }
@@ -83,11 +85,7 @@
   .offer p.body { margin: 0 0 20px; font-size: 0.95rem; color: var(--ink-2); flex: 1 }
   .offer .go { align-self: flex-start; font-size: 0.9rem; text-decoration: none; color: var(--accent); border-bottom: 1px solid currentColor; padding-bottom: 1px }
   .offer .go:hover { color: var(--ink) }
-  .hero-ctas .btn-quiet { border-color: var(--rule); color: var(--ink) }
-  .hero-ctas .btn-quiet:hover { border-color: var(--accent); color: var(--accent) }
-  .hero-plain { font-size: 0.94rem; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px }
-  .hero-plain:hover { color: var(--accent); border-color: var(--accent) }
-  .invite { background: var(--accent-pale); border-block: 1px solid var(--rule-2); padding-block: clamp(28px,4vw,44px) }
+  .invite { background: var(--accent-pale); border-block: 1px solid var(--rule-2) }
   .invite .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px }
   .invite h3 { margin: 8px 0 4px; font-size: 1.5rem }
   .invite p { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 46ch }
@@ -101,8 +99,15 @@
   .pullquote p { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-size: 1.22rem; line-height: 1.45; color: var(--ink); margin: 0 0 18px; max-width: none }
   .sig { font-family: "Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif; font-style: italic; font-size: 1.5rem; color: var(--accent); display: block; margin-bottom: 3px }
   .sig-role { font-size: 0.83rem; color: var(--ink-soft) }
-@media (max-width: 700px) {
+@media (max-width: 1080px) {
+  .navlinks { gap: 13px }
+  .navlinks .cta a { padding: 8px 13px; font-size: 0.83rem }
+}
+@media (max-width: 880px) {
   .navlinks .hide-sm { display: none }
+}
+@media (max-width: 560px) {
+  .navlinks .cta-alt { display: none }
 }
 @media (max-width: 880px) {
   .hero-grid { grid-template-columns: 1fr; gap: 34px }
@@ -140,9 +145,9 @@
       <li class="hide-sm"><a href="methode.html">La méthode</a></li>
       <li class="hide-sm"><a href="offres.html">Les offres</a></li>
       <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
-      <li class="hide-sm"><a href="diagnostic.html">Diagnostic</a></li>
       <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
       <li class="hide-sm"><a href="blog.html">Blog</a></li>
+      <li class="cta cta-alt"><a href="diagnostic.html">Faire l'auto-diagnostic</a></li>
       <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
     </ul>
   </nav>
@@ -158,8 +163,7 @@
         <p class="lede">Trente-cinq ans à mesurer le risque en finance de marché m'ont appris une chose : on ne décide pas sans chiffre. J'applique la même règle à l'intelligence artificielle — le business case d'abord, l'outil ensuite. Parfois ma conclusion, c'est « n'y allez pas ».</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#parler">Me parler 30 minutes →</a>
-          <a class="btn btn-quiet" href="diagnostic.html">Diagnostic Iceberg · 3 min</a>
-          <a class="hero-plain" href="#methode">Comment je travaille</a>
+          <a class="btn btn-quiet" href="#methode">Comment je travaille</a>
         </div>
         <p class="hero-note">Au bout du fil, ce sera <b>moi</b> — pas un formulaire, pas un commercial, pas un chatbot.</p>
       </div>
@@ -177,17 +181,6 @@
       <div class="cred"><span class="n">90</span><span class="t">jours pour mesurer les premiers gains</span></div>
     </div>
   </div>
-
-  <section class="invite" id="indice-iceberg">
-    <div class="wrap row">
-      <div>
-        <p class="eyebrow">Gratuit · trois minutes · sans inscription</p>
-        <h3 class="serif">Estimez votre Indice Iceberg</h3>
-        <p>Quelques questions pour situer la part de travail invisible dans votre organisation, et voir par où commencer. Résultat immédiat à l'écran.</p>
-      </div>
-      <a class="btn btn-primary" href="diagnostic.html">Faire l'auto-diagnostic →</a>
-    </div>
-  </section>
 
   <section id="constat">
     <div class="wrap">
@@ -301,6 +294,17 @@
           <a class="go" href="offres.html#appels-offres">Voir le détail →</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="invite">
+    <div class="wrap row">
+      <div>
+        <p class="eyebrow">Gratuit · trois minutes</p>
+        <h3 class="serif">Estimez votre Indice Iceberg</h3>
+        <p>Quelques questions pour situer la part de travail invisible dans votre organisation. Résultat immédiat, sans inscription.</p>
+      </div>
+      <a class="btn btn-primary" href="diagnostic.html">Faire l'auto-diagnostic →</a>
     </div>
   </section>
 
