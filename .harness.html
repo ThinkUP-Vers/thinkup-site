@@ -1,0 +1,40 @@
+<!doctype html><meta charset="utf-8"><body><pre id="out">running</pre>
+<iframe id="f" style="width:400px;height:700px;border:0"></iframe>
+<script>
+var log=[];
+function say(t){log.push(t);document.getElementById('out').textContent=log.join('\n')}
+var pages=['index.html','offres.html','diagnostic.html','rgpd.html','404.html'];
+var i=0;
+function next(){
+  if(i>=pages.length){say('DONE');return}
+  var f=document.getElementById('f');
+  f.onload=function(){
+    try{
+      var d=f.contentDocument,w=f.contentWindow;
+      var h=d.querySelector('header.site'),b=d.querySelector('.nav-burger'),p=d.querySelector('.nav-more');
+      if(!h||!b||!p){say(pages[i]+' MANQUE header/burger/panel');i++;return next()}
+      var cs=w.getComputedStyle(b);
+      var r=[pages[i],'burgerVisible='+(cs.display!=='none')];
+      r.push('panelClosed='+w.getComputedStyle(p).display);
+      b.click();
+      r.push('afterClick='+w.getComputedStyle(p).display);
+      r.push('aria='+b.getAttribute('aria-expanded'));
+      r.push('label='+b.getAttribute('aria-label'));
+      var pr=p.getBoundingClientRect();
+      r.push('panelTop='+Math.round(pr.top)+' panelH='+Math.round(pr.height)+' links='+p.querySelectorAll('a').length);
+      // Echap referme
+      d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+      r.push('afterEsc='+w.getComputedStyle(p).display+' aria='+b.getAttribute('aria-expanded'));
+      // clic sur un lien referme
+      b.click();
+      p.querySelector('a').dispatchEvent(new w.MouseEvent('click',{bubbles:true,cancelable:true}));
+      r.push('afterLink='+w.getComputedStyle(p).display);
+      r.push('ovf='+(d.documentElement.scrollWidth>d.documentElement.clientWidth));
+      say(r.join(' | '));
+    }catch(e){say(pages[i]+' ERREUR '+e.message)}
+    i++;setTimeout(next,150);
+  };
+  f.src='http://localhost:8199/'+pages[i];
+}
+next();
+</script>

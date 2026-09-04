@@ -40,11 +40,6 @@
 @media (max-width: 660px) {
   .foot-grid { grid-template-columns: 1fr }
 }
-/* 880 et non 760 depuis l'ajout du CTA « Faire l'auto-diagnostic » : avec ce
-   septieme element la barre passait sur deux lignes entre 761 et 870 px. */
-@media (max-width: 880px) {
-  .navlinks .hide-sm { display: none }
-}
 /* Ajouts du portage en production — pas issus des maquettes.
    Le footer passe de 3 a 4 colonnes : les maquettes avaient perdu les liens
    legaux et le telephone, reintegres au portage. */
@@ -136,16 +131,66 @@
    La specificite monte d'un cran (`li.cta`) parce que presque chaque page
    redeclare `.navlinks .cta a` dans son <style> inline, charge apres cette
    feuille — a specificite egale c'est la derniere declaration qui gagne. */
+/* Pastille du CTA. Elle ne vivait que dans le <style> inline des pages issues
+   des maquettes : sur les 11 autres (404, boutique, cgv, contact, diagnostic,
+   faq, mentions-legales, merci, patrick, politique-confidentialite,
+   ressources) « Me parler 30 min » s'affichait en texte nu. Base partagee ici,
+   avec `li.cta` pour passer devant les declarations inline, qui reprennent les
+   memes valeurs. */
+  .navlinks li.cta a { color: var(--paper); background: var(--accent); padding: 9px 17px;
+    border-radius: 999px; font-size: 0.88rem; white-space: nowrap }
+  /* Apres `li.cta` : specificite egale, c'est l'ordre qui tranche. */
   .navlinks li.cta-alt a { color: var(--accent); background: transparent; border: 1px solid var(--accent) }
   .navlinks li.cta-alt a:hover { background: var(--accent); color: var(--paper) }
-  .navlinks li.cta a { white-space: nowrap }
 @media (max-width: 1080px) {
   .navlinks { gap: 13px }
+  .nav-more-list { gap: 13px }
   .navlinks li.cta a { padding: 8px 13px; font-size: 0.83rem }
 }
-/* Sous 560 px il ne reste que le logo et « Me parler 30 min » : deux pastilles
-   cote a cote ne tiennent pas. L'auto-diagnostic reste atteignable par le
-   pied de page et par les bandeaux de chaque page. */
-@media (max-width: 560px) {
-  .navlinks li.cta-alt { display: none }
+
+/* ── Menu mobile ──────────────────────────────────────────────────────────
+   Les liens de navigation vivent dans `.nav-more` : rangee horizontale dans
+   la barre au-dessus de 880 px, panneau deroulant en dessous. Avant, ils
+   etaient purement masques sous ce seuil et le site n'avait aucun menu
+   mobile. La logique d'ouverture est dans nav.js. */
+  .nav-more-list { display: flex; align-items: center; gap: clamp(14px,2.6vw,30px);
+    list-style: none; margin: 0; padding: 0 }
+  /* `.nav-more` est un seul element flexible de `.navlinks` : sans ces deux
+     regles il se comprime d'un bloc entre 881 et 1080 px et les libelles se
+     cassent sur deux lignes, ce qui epaissit la barre. */
+  .navlinks li.nav-more { flex: none }
+  .nav-more-list > li > a { white-space: nowrap }
+  .nav-burger { display: none; flex: none; width: 40px; height: 40px; padding: 0;
+    align-items: center; justify-content: center; border: 1px solid var(--rule);
+    border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer }
+  .nav-burger:hover { border-color: var(--accent); color: var(--accent) }
+  .nav-burger-bars { position: relative }
+  .nav-burger-bars, .nav-burger-bars::before, .nav-burger-bars::after {
+    display: block; width: 17px; height: 1.5px; border-radius: 2px; background: currentColor;
+    transition: transform 0.18s ease, background 0.18s ease }
+  .nav-burger-bars::before, .nav-burger-bars::after { content: ""; position: absolute; left: 0 }
+  .nav-burger-bars::before { top: -5px }
+  .nav-burger-bars::after { top: 5px }
+  .menu-open .nav-burger-bars { background: transparent }
+  .menu-open .nav-burger-bars::before { transform: translateY(5px) rotate(45deg) }
+  .menu-open .nav-burger-bars::after { transform: translateY(-5px) rotate(-45deg) }
+
+@media (max-width: 880px) {
+  .nav-burger { display: inline-flex }
+  /* `.nav` est en `space-between` : avec le burger la barre compte trois
+     elements et « Me parler 30 min » se retrouverait au milieu. La marge
+     automatique regroupe le CTA et le burger a droite du logo. */
+  .navlinks { margin-left: auto }
+  /* `header.site` est en `position: sticky`, donc positionne : il sert de
+     reference au panneau, qui se cale sous la barre sur toute sa largeur. */
+  .nav-more { display: none; position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+    box-shadow: 0 16px 32px -20px var(--shadow) }
+  header.site.menu-open .nav-more { display: block }
+  .nav-more-list { flex-direction: column; align-items: stretch; gap: 0;
+    padding: 4px clamp(18px,5vw,60px) 16px }
+  .nav-more-list > li + li { border-top: 1px solid var(--rule-2) }
+  .nav-more-list > li > a { display: block; padding: 13px 0; font-size: 1rem }
+  .nav-more-list > li.cta-alt { border-top: 0; padding-top: 14px }
+  .nav-more-list > li.cta-alt a { display: inline-flex; padding: 9px 17px; font-size: 0.88rem }
 }

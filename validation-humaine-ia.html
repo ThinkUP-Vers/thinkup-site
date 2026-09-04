@@ -27,6 +27,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Validation humaine et IA : où placer le contrôle ?","description":"Faut-il tout relire après une IA ? Découvrez où placer la validation humaine pour protéger la valeur sans annuler les gains de productivité.","image":"https://think-up.fr/og-thinkup.jpg","author":{"@id":"https://think-up.fr/#patrick"},"publisher":{"@id":"https://think-up.fr/#organization"},"datePublished":"2026-07-08","dateModified":"2026-07-08","mainEntityOfPage":"https://think-up.fr/validation-humaine-ia.html","inLanguage":"fr-FR","articleSection":"Gouvernance"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://think-up.fr/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://think-up.fr/blog.html"},{"@type":"ListItem","position":3,"name":"Validation humaine et IA : où placer le contrôle ?","item":"https://think-up.fr/validation-humaine-ia.html"}]}</script>
 <script src="consent.js?v=3" defer></script>
+<script src="nav.js?v=1" defer></script>
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs context">
 <style>
   .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(18px,5vw,60px) }
@@ -145,15 +146,20 @@
 <header class="site">
   <nav class="nav wrap">
     <a class="logo" href="index.html"><picture><source srcset="logo-thinkup-web-dark.png" media="(prefers-color-scheme: dark)"><img src="logo-thinkup-web.png" alt="Think'UP" width="138" height="137" class="logo-img"></picture></a>
-    <ul class="navlinks">
-      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
-      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
-      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
-      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
-      <li class="hide-sm"><a href="blog.html" aria-current="page">Blog</a></li>
-      <li class="cta cta-alt"><a href="diagnostic.html">Faire l'auto-diagnostic</a></li>
+    <ul class="navlinks" id="nav-menu">
+      <li class="nav-more">
+        <ul class="nav-more-list">
+          <li><a href="methode.html">La méthode</a></li>
+          <li><a href="offres.html">Les offres</a></li>
+          <li><a href="resultats.html">Résultats</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="blog.html" aria-current="page">Blog</a></li>
+          <li class="cta cta-alt"><a href="diagnostic.html">Faire l'auto-diagnostic</a></li>
+        </ul>
+      </li>
       <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
     </ul>
+    <button class="nav-burger" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Ouvrir le menu"><span class="nav-burger-bars" aria-hidden="true"></span></button>
   </nav>
 </header>
 
