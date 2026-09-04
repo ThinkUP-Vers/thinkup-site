@@ -203,3 +203,22 @@
   .nav-more-list > li.cta-alt { border-top: 0; padding-top: 14px }
   .nav-more-list > li.cta-alt a { display: inline-flex; padding: 9px 17px; font-size: 0.88rem }
 }
+
+/* ── Confort tactile sur telephone ────────────────────────────────────────
+   Mesure au doigt : le CTA du menu tombait a 31 px de haut et les liens du
+   pied de page a 21 px, avec 9 px d'ecart. Rien d'illegal — le minimum
+   WCAG 2.2 AA est de 24x24 px, et les liens en colonne relevent de
+   l'exception « lien dans un bloc de texte » — mais c'est etroit au pouce.
+   Ces reglages ne s'appliquent qu'en dessous de 880 px : le dessin des
+   ecrans larges ne bouge pas. */
+@media (max-width: 880px) {
+  .navlinks li.cta a { padding: 15px 20px }
+  /* On ecarte les liens plutot que de les grossir : un pied de page a vingt
+     liens de 44 px de haut deviendrait interminable au defilement. */
+  .foot-col { gap: 15px }
+  /* Champs de formulaire : `.fg input` vit dans style-legacy.css, chargee
+     apres cette feuille. Le `:not([type="hidden"])` fait passer la
+     specificite devant, sans `!important`. */
+  .fg input:not([type="hidden"]), .fg textarea, .fg select { padding: 0.95rem 1rem }
+}
+
