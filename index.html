@@ -83,7 +83,11 @@
   .offer p.body { margin: 0 0 20px; font-size: 0.95rem; color: var(--ink-2); flex: 1 }
   .offer .go { align-self: flex-start; font-size: 0.9rem; text-decoration: none; color: var(--accent); border-bottom: 1px solid currentColor; padding-bottom: 1px }
   .offer .go:hover { color: var(--ink) }
-  .invite { background: var(--accent-pale); border-block: 1px solid var(--rule-2) }
+  .hero-ctas .btn-quiet { border-color: var(--rule); color: var(--ink) }
+  .hero-ctas .btn-quiet:hover { border-color: var(--accent); color: var(--accent) }
+  .hero-plain { font-size: 0.94rem; color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule); padding-bottom: 2px }
+  .hero-plain:hover { color: var(--accent); border-color: var(--accent) }
+  .invite { background: var(--accent-pale); border-block: 1px solid var(--rule-2); padding-block: clamp(28px,4vw,44px) }
   .invite .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 22px }
   .invite h3 { margin: 8px 0 4px; font-size: 1.5rem }
   .invite p { margin: 0; color: var(--ink-2); font-size: 0.95rem; max-width: 46ch }
@@ -136,6 +140,7 @@
       <li class="hide-sm"><a href="methode.html">La méthode</a></li>
       <li class="hide-sm"><a href="offres.html">Les offres</a></li>
       <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
+      <li class="hide-sm"><a href="diagnostic.html">Diagnostic</a></li>
       <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
       <li class="hide-sm"><a href="blog.html">Blog</a></li>
       <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
@@ -153,7 +158,8 @@
         <p class="lede">Trente-cinq ans à mesurer le risque en finance de marché m'ont appris une chose : on ne décide pas sans chiffre. J'applique la même règle à l'intelligence artificielle — le business case d'abord, l'outil ensuite. Parfois ma conclusion, c'est « n'y allez pas ».</p>
         <div class="hero-ctas">
           <a class="btn btn-primary" href="#parler">Me parler 30 minutes →</a>
-          <a class="btn btn-quiet" href="#methode">Comment je travaille</a>
+          <a class="btn btn-quiet" href="diagnostic.html">Diagnostic Iceberg · 3 min</a>
+          <a class="hero-plain" href="#methode">Comment je travaille</a>
         </div>
         <p class="hero-note">Au bout du fil, ce sera <b>moi</b> — pas un formulaire, pas un commercial, pas un chatbot.</p>
       </div>
@@ -171,6 +177,17 @@
       <div class="cred"><span class="n">90</span><span class="t">jours pour mesurer les premiers gains</span></div>
     </div>
   </div>
+
+  <section class="invite" id="indice-iceberg">
+    <div class="wrap row">
+      <div>
+        <p class="eyebrow">Gratuit · trois minutes · sans inscription</p>
+        <h3 class="serif">Estimez votre Indice Iceberg</h3>
+        <p>Quelques questions pour situer la part de travail invisible dans votre organisation, et voir par où commencer. Résultat immédiat à l'écran.</p>
+      </div>
+      <a class="btn btn-primary" href="diagnostic.html">Faire l'auto-diagnostic →</a>
+    </div>
+  </section>
 
   <section id="constat">
     <div class="wrap">
@@ -284,17 +301,6 @@
           <a class="go" href="offres.html#appels-offres">Voir le détail →</a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="invite">
-    <div class="wrap row">
-      <div>
-        <p class="eyebrow">Gratuit · trois minutes</p>
-        <h3 class="serif">Estimez votre Indice Iceberg</h3>
-        <p>Quelques questions pour situer la part de travail invisible dans votre organisation. Résultat immédiat, sans inscription.</p>
-      </div>
-      <a class="btn btn-primary" href="diagnostic.html">Faire l'auto-diagnostic →</a>
     </div>
   </section>
 
