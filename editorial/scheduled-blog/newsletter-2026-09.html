@@ -22,11 +22,12 @@
 <meta name="twitter:title" content="Newsletter IA — Septembre 2026 : le retour de bâton | Think'UP">
 <meta name="twitter:description" content="Newsletter IA de Think&#039;UP (septembre 2026) : licenciements IA annulés par la justice, chiffres d&#039;échec contradictoires entre cabinets, sanctions pour promesses IA non tenues, aveu public des patrons d&#039;OpenAI et Anthropic. Ce que ça change pour votre PME.">
 <meta name="twitter:image" content="https://think-up.fr/og-thinkup.jpg">
-<link rel="stylesheet" href="style-v2.css?v=2">
+<link rel="stylesheet" href="style-v2.css?v=3">
 <style>.article-body table{width:100%;border-collapse:collapse;margin:1.25rem 0 1.75rem;font-size:.88rem}.article-body th,.article-body td{padding:.75rem;border:1px solid var(--border-l);text-align:left;vertical-align:top}.article-body th{color:var(--text);background:var(--surface)}</style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Newsletter IA — Septembre 2026 : le retour de bâton","description":"Newsletter IA de Think'UP (septembre 2026) : licenciements IA annulés par la justice, chiffres d'échec contradictoires entre cabinets, sanctions pour promesses IA non tenues, aveu public des patrons d'OpenAI et Anthropic. Ce que ça change pour votre PME.","image":"https://think-up.fr/og-thinkup.jpg","author":{"@id":"https://think-up.fr/#patrick"},"publisher":{"@id":"https://think-up.fr/#organization"},"datePublished":"2026-09-08","dateModified":"2026-09-08","mainEntityOfPage":"https://think-up.fr/newsletter-2026-09.html","inLanguage":"fr-FR","articleSection":"Newsletter"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://think-up.fr/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://think-up.fr/blog.html"},{"@type":"ListItem","position":3,"name":"Newsletter IA — Septembre 2026 : le retour de bâton","item":"https://think-up.fr/newsletter-2026-09.html"}]}</script>
 <script src="consent.js?v=3" defer></script>
+<script src="nav.js?v=1" defer></script>
 <link rel="alternate" type="text/plain" href="/llms.txt" title="LLMs context">
 <style>
   .wrap { max-width: 1080px; margin: 0 auto; padding-inline: clamp(18px,5vw,60px) }
@@ -81,14 +82,20 @@
 <header class="site">
   <nav class="nav wrap">
     <a class="logo" href="index.html">Think<i>&#39;</i>UP</a>
-    <ul class="navlinks">
-      <li class="hide-sm"><a href="methode.html">La méthode</a></li>
-      <li class="hide-sm"><a href="offres.html">Les offres</a></li>
-      <li class="hide-sm"><a href="resultats.html">Résultats</a></li>
-      <li class="hide-sm"><a href="ressources.html">Ressources</a></li>
-      <li class="hide-sm"><a href="blog.html" aria-current="page">Blog</a></li>
+    <ul class="navlinks" id="nav-menu">
+      <li class="nav-more">
+        <ul class="nav-more-list">
+          <li><a href="methode.html">La méthode</a></li>
+          <li><a href="offres.html">Les offres</a></li>
+          <li><a href="resultats.html">Résultats</a></li>
+          <li><a href="ressources.html">Ressources</a></li>
+          <li><a href="blog.html" aria-current="page">Blog</a></li>
+          <li class="cta cta-alt"><a href="diagnostic.html">Faire l'auto-diagnostic</a></li>
+        </ul>
+      </li>
       <li class="cta"><a href="contact.html">Me parler 30 min</a></li>
     </ul>
+    <button class="nav-burger" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="Ouvrir le menu"><span class="nav-burger-bars" aria-hidden="true"></span></button>
   </nav>
 </header>
 
