@@ -19,8 +19,20 @@ name: Publication éditoriale
 
 on:
   schedule:
-    # 05h00 UTC = 07h00 à Paris en été, 06h00 en hiver.
-    - cron: '0 5 * * *'
+    # GitHub Actions ne respecte pas l'heure nominale d'un cron planifié sur un
+    # dépôt à faible activité : les 5 derniers runs de cette tâche se sont tous
+    # déclenchés entre 3h30 et 5h APRÈS l'heure demandée (vérifié le 2026-09-08
+    # via l'API `.../actions/workflows/publier-blog.yml/runs`, created_at réel
+    # entre 08h43 et 09h51 UTC pour un cron fixé à 05h00 UTC). Un run par jour
+    # expose donc l'intégralité de ce retard sur la date de publication.
+    #
+    # Correctif : on tente toutes les heures entre 00h00 et 06h00 UTC (avant
+    # les heures ouvrées françaises) plutôt qu'une seule fois. Le script est
+    # idempotent (git diff vide si rien n'est dû) : les runs qui ne trouvent
+    # rien à publier ne font rien, coût quasi nul. Le premier run qui parvient
+    # réellement à s'exécuter avant l'ouverture des bureaux publie l'article,
+    # au lieu d'attendre la seule fenêtre nominale qui, elle, dérive.
+    - cron: '0 0-6 * * *'
   workflow_dispatch:
 
 concurrency:
