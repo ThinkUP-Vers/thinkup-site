@@ -59,6 +59,7 @@ Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-ho
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
+- Newsletter IA — Septembre 2026 : le retour de bâton: https://think-up.fr/newsletter-2026-09.html
 - AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/ai-act-rgpd-checklist-pme.html
 - Données privées : que préparer avant de connecter une IA ?: https://think-up.fr/preparer-ses-donnees-ia.html
 - Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html
