@@ -59,6 +59,7 @@ Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-ho
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
+- ROI IA : le tableau de bord des 90 premiers jours: https://think-up.fr/tableau-de-bord-roi-ia-90-jours.html
 - Newsletter IA de septembre 2026 : le retour de bâton: https://think-up.fr/newsletter-2026-09.html
 - AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/ai-act-rgpd-checklist-pme.html
 - Données privées : que préparer avant de connecter une IA ?: https://think-up.fr/preparer-ses-donnees-ia.html
