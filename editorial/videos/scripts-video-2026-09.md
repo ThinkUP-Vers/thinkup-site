@@ -315,3 +315,16 @@ Légende : `L'IA ne sait pas que votre tarif a changé. #données #IA`
 3. Monter dans CapCut ou Premiere : sous-titres incrustés et police identique sur les trois plateformes.
 4. Activer l'étiquette « contenu généré par IA » sur chaque plateforme.
 5. Vérifier la marge de sécurité TikTok : aucun texte dans les 250 px du bas, ni dans les 120 px de droite.
+
+## Version motion design
+
+`render_motion.py` rend les 15 montages ci-dessus en animation typographique,
+aux couleurs du site, avec ffmpeg et Pillow. Les vidéos sont muettes : une
+piste audio silencieuse est incluse, il faut ajouter la musique ou la voix
+dans l'application de la plateforme.
+
+```
+FONT_DIR=/chemin/polices python3 editorial/videos/render_motion.py SORTIE --jobs 4
+```
+
+Ne pas déposer les `.mp4` dans le dépôt : il est publié tel quel sur le site.
