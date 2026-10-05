@@ -21,7 +21,8 @@
       (Stripe : Lien de paiement → options avancées → « Exiger
       l'acceptation des conditions » ; Qonto : champ conditions du lien).
       Si la prestation peut démarrer sous 14 jours ET être achetée par
-      un consommateur ou assimilé, recueillir AUSSI au même endroit son
+      un professionnel relevant de l'art. L221-3 du Code de la
+      consommation (CGV art. 8.1), recueillir AUSSI au même endroit son
       renoncement exprès au droit de rétractation (cf. CGV art. 8.3),
       sans quoi l'exécution ne peut pas commencer avant la fin du délai.
    4. Coller l'URL ci-dessous dans `paymentUrl` de l'offre concernée
