@@ -63,20 +63,21 @@ grep -L nav-burger *.html editorial/scheduled-blog/*.html
 grep -o 'style-v2\.css?v=[0-9]*' *.html editorial/scheduled-blog/*.html | grep -v 'v=3'
 ```
 
-## Méta-agent : évaluation systématique des demandes
+## Méta-agent : usage restreint
 
-À CHAQUE demande de l'utilisateur, avant de répondre, évalue silencieusement
-sa complexité selon la grille de la Phase 0 du skill `meta-agent`
-(multi-facettes, complexité, enjeu, ambiguïté productive, volume) :
+Le skill `meta-agent` (orchestration de plusieurs agents et challenge croisé
+par l'agent `challenger`) ne se déclenche PAS automatiquement. Il coûte cher
+en tokens et n'apporte rien sur les demandes courantes de ce dépôt : aucune
+ligne d'en-tête, aucun score affiché, aucune évaluation à chaque demande.
 
-- Demande simple (score 0–1) : réponds directement, en commençant ta réponse
-  par une seule ligne d'information — « *Méta-agent : score X/5 — réponse
-  directe.* » — sans rien ajouter d'autre sur le méta-agent, puis la réponse.
-- Demande complexe (score ≥ 2) : invoque le skill `meta-agent` et suis son
-  protocole. Il présente son analyse (score, sous-problèmes, équipe d'agents
-  envisagée) et demande confirmation à l'utilisateur AVANT de lancer
-  l'orchestration (conception d'agents sur mesure, challenge croisé via
-  l'agent `challenger`, synthèse).
+Il s'active uniquement dans deux cas :
 
-L'utilisateur peut aussi forcer l'activation avec `/meta-agent`, ou la refuser
-en le disant explicitement.
+1. L'utilisateur l'invoque avec `/meta-agent`.
+2. La demande crée ou modifie un contenu juridique ou réglementaire :
+   `cgv.html`, `mentions-legales.html`, `politique-confidentialite.html`,
+   `rgpd.html`, `ai-act.html`, ou toute clause contractuelle. Une erreur y a un
+   coût réel (conformité, litige) : un passage du challenger est justifié.
+
+Dans le cas 2, présente d'abord l'équipe d'agents envisagée en quelques
+lignes et demande confirmation avant de lancer l'orchestration. Pour tout
+le reste, réponds directement.
