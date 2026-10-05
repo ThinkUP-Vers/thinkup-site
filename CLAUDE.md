@@ -6,8 +6,7 @@ Chaque page est un fichier `.html` à la racine.
 
 Feuilles de style réellement chargées : `style-v2.css` sur les 30 pages,
 `style-legacy.css` sur 8 d'entre elles, `conformite.css` sur `ai-act.html`
-et `rgpd.html`. `style.css` existe encore à la racine mais aucune page ne
-le référence ; `styles.css` n'existe pas.
+et `rgpd.html`. style.css et styles.css n'existent plus.
 
 Chaque page porte aussi un bloc `<style>` en ligne, chargé APRÈS les
 feuilles liées. À spécificité égale, c'est donc lui qui l'emporte : une
