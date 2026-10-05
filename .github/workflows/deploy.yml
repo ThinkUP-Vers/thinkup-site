@@ -104,9 +104,6 @@ jobs:
             CLAUDE.md
             DEPLOIEMENT-BOUTIQUE.md
             MENTIONS-TIERCES-GEO.md
-            htaccess-redirections.txt
-            README.txt
-            prod-sitemap.xml
             editorial/**
 
       - name: Pause avant la tentative 2
@@ -134,9 +131,6 @@ jobs:
             CLAUDE.md
             DEPLOIEMENT-BOUTIQUE.md
             MENTIONS-TIERCES-GEO.md
-            htaccess-redirections.txt
-            README.txt
-            prod-sitemap.xml
             editorial/**
 
       - name: Pause avant la tentative 3
@@ -165,9 +159,6 @@ jobs:
             CLAUDE.md
             DEPLOIEMENT-BOUTIQUE.md
             MENTIONS-TIERCES-GEO.md
-            htaccess-redirections.txt
-            README.txt
-            prod-sitemap.xml
             editorial/**
 
       # Les tentatives 1 et 2 portent continue-on-error : dans l'onglet Actions
