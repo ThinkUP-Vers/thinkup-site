@@ -8,6 +8,7 @@ namespace ContactTest;
 $cases = [
     'mail-only' => [true, [], false, [], 200, 'OK', 0, 0],
     'brevo-rescue' => [false, [201], true, [], 200, 'OK', 1, 0],
+    'brevo-truncated-context' => [false, [201], true, ['contexte' => str_repeat('x', 501)], 503, 'coordonnées', 1, 0],
     'retry-identity-only' => [false, [400, 204], true, [], 503, 'coordonnées', 2, 0],
     'diagnostic-identity-only' => [false, [400, 201], true, ['ack' => '1', 'diagnostic_consent' => '1'], 503, 'coordonnées', 2, 0],
     'mail-rescue' => [true, [500, 500], true, [], 200, 'OK', 2, 0],

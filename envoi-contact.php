@@ -97,7 +97,7 @@ $headers = [
 // mail() true signifie acceptation par le serveur, pas livraison en boîte.
 $mailAccepted = mail($to, $subject, $body, implode("\r\n", $headers));
 $contactAccepted = false;
-$contactIdentityOnly = false;
+$contactIncomplete = false;
 
 // ---------------------------------------------------------------------------
 // Enregistrement du prospect comme contact Brevo.
@@ -170,6 +170,7 @@ if ($brevoKeyContact !== '' && function_exists('curl_init') && $email !== '') {
     };
 
     $code = $envoyerContact($corpsContact);
+    $contactIncomplete = ($code >= 200 && $code < 300 && ($attributs['CONTEXTE'] ?? '') !== $context);
 
     // Brevo rejette en bloc un envoi contenant un attribut qu'il ne connait pas.
     // Sans ce repli, un seul attribut manquant dans le compte ferait perdre TOUS
@@ -181,16 +182,16 @@ if ($brevoKeyContact !== '' && function_exists('curl_init') && $email !== '') {
             $corpsMinimal['listIds'] = $corpsContact['listIds'];
         }
         $code = $envoyerContact($corpsMinimal);
-        $contactIdentityOnly = ($code >= 200 && $code < 300);
+        $contactIncomplete = ($code >= 200 && $code < 300);
     }
-    // Le repli minimal conserve l'identité, pas le contenu de la demande.
-    $contactAccepted = ($code >= 200 && $code < 300 && !$contactIdentityOnly);
+    // Un contexte tronqué ou le repli identité ne conserve pas la demande complète.
+    $contactAccepted = ($code >= 200 && $code < 300 && !$contactIncomplete);
 }
 
 if (!$mailAccepted && !$contactAccepted) {
     http_response_code(503);
-    echo $contactIdentityOnly
-        ? 'Vos coordonnées ont été enregistrées, mais le contenu de votre demande n’a pas été transmis. Merci de réessayer ou de nous contacter directement.'
+    echo $contactIncomplete
+        ? 'Vos coordonnées ont été enregistrées, mais le contenu complet de votre demande n’a pas été transmis. Merci de réessayer ou de nous contacter directement.'
         : 'Envoi impossible. Votre demande n’a pas été acceptée ; merci de réessayer ou de nous contacter directement.';
     exit;
 }
