@@ -97,6 +97,7 @@ $headers = [
 // mail() true signifie acceptation par le serveur, pas livraison en boîte.
 $mailAccepted = mail($to, $subject, $body, implode("\r\n", $headers));
 $contactAccepted = false;
+$contactIdentityOnly = false;
 
 // ---------------------------------------------------------------------------
 // Enregistrement du prospect comme contact Brevo.
@@ -180,13 +181,17 @@ if ($brevoKeyContact !== '' && function_exists('curl_init') && $email !== '') {
             $corpsMinimal['listIds'] = $corpsContact['listIds'];
         }
         $code = $envoyerContact($corpsMinimal);
+        $contactIdentityOnly = ($code >= 200 && $code < 300);
     }
-    $contactAccepted = ($code >= 200 && $code < 300);
+    // Le repli minimal conserve l'identité, pas le contenu de la demande.
+    $contactAccepted = ($code >= 200 && $code < 300 && !$contactIdentityOnly);
 }
 
 if (!$mailAccepted && !$contactAccepted) {
     http_response_code(503);
-    echo 'Envoi impossible. Votre demande n’a pas été acceptée ; merci de réessayer ou de nous contacter directement.';
+    echo $contactIdentityOnly
+        ? 'Vos coordonnées ont été enregistrées, mais le contenu de votre demande n’a pas été transmis. Merci de réessayer ou de nous contacter directement.'
+        : 'Envoi impossible. Votre demande n’a pas été acceptée ; merci de réessayer ou de nous contacter directement.';
     exit;
 }
 
