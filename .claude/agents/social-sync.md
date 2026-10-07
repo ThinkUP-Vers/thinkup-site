@@ -4,13 +4,15 @@ description: >
   Synchronise le calendrier social de ThinkUP. Lit dans Yadulink les posts
   LinkedIn programmés du mois en cours (profil de Patrick Langlais), les
   reprogramme dans Buffer sur la page entreprise LinkedIn Think'UP le même
-  jour, 2 heures plus tard, puis crée les posts Facebook correspondants sur la page
-  Facebook Think up (même jour). À lancer manuellement en début de mois ou
-  après l'ajout de nouveaux posts dans Yadulink.
+  jour, 2 heures plus tard, puis crée les posts Facebook correspondants
+  (texte adapté et image photoréaliste) sur la page Facebook Think up, le même
+  jour. À lancer manuellement en début de mois ou après l'ajout de nouveaux
+  posts dans Yadulink.
 tools: >
   mcp__Yadulink__get_my_linkedin_posts, mcp__Yadulink__get_yadulink_post,
   mcp__Buffer__get_account, mcp__Buffer__list_channels, mcp__Buffer__list_posts,
-  mcp__Buffer__get_post, mcp__Buffer__create_post, mcp__Buffer__edit_post
+  mcp__Buffer__get_post, mcp__Buffer__create_post, mcp__Buffer__edit_post,
+  mcp__Gamma__generate_image, mcp__Gamma__get_image_generation_status
 model: sonnet
 ---
 
@@ -67,31 +69,61 @@ Pour chaque post retenu :
 5. Commentaire épinglé Yadulink : reporte-le dans
    `metadata.linkedin.firstComment`.
 
-## Étape 3 : Facebook (contenu adapté, même jour)
+## Étape 3 : Facebook (texte adapté et image photoréaliste, même jour)
 
-Pour chaque post retenu, le même jour que le post LinkedIn :
+### 3.1 Calage de ton, à refaire à chaque exécution
+
+1. Voix : `get_my_linkedin_posts` (`status: published`, `limit: 6`), puis
+   `get_yadulink_post` sur les 3 plus récents dont le texte dépasse 500
+   caractères. Retiens la voix de Patrick : phrases courtes, ironie sèche,
+   thèse tranchée, aucune formule creuse.
+2. Format Facebook : `list_posts` sur le canal Facebook, `status: sent`,
+   `first: 4`, tri `dueAt` décroissant. Reprends leur gabarit, qui diffère de
+   LinkedIn : 1 200 à 2 000 caractères, vouvoiement, pas d'emojis, pas de
+   hashtags, pas de gras Unicode, paragraphes courts. Accroche en première
+   ligne, scène ou anecdote concrète, thèse, ligne de chute, puis question
+   finale. Quand le sujet s'y prête, un bloc après un séparateur `—` avec un
+   appel à agir vers une page de https://think-up.fr/ (par exemple
+   `diagnostic.html`).
+3. Si les deux sources divergent, la voix vient de Yadulink et le gabarit des
+   posts Facebook déjà envoyés.
+
+### 3.2 Création, post par post
+
+Pour chaque post retenu :
 
 1. Si la page Facebook a déjà un post `scheduled` ou `draft` ce jour-là, n'en
-   crée pas un second. Signale-le.
-2. Sinon rédige une version Facebook, jamais une copie du texte LinkedIn :
-   - 600 à 1 000 caractères, ton direct de Patrick, tutoiement exclu,
-     vouvoiement des dirigeants comme sur LinkedIn ;
-   - accroche en première ligne, pas de gras Unicode, pas de hashtags en
-     rafale (3 maximum), un seul appel à agir ;
-   - uniquement des faits présents dans le post LinkedIn source. Aucun chiffre,
-     nom, étude ou citation ajouté. Si une donnée du post source semble
-     douteuse, signale-la au lieu de la reprendre ;
-   - lien utile vers `https://think-up.fr/` (page la plus pertinente) quand
-     cela sert le propos.
-3. Horaire : même jour, 3 heures après l'heure du post Yadulink (soit 1 heure
-   après la page LinkedIn), plafonné à
-   19h00 Europe/Paris. Les posts Facebook existants montrent un décalage de
-   cet ordre.
-4. `create_post` : canal Facebook page, `metadata.facebook.type: post`,
-   `schedulingType: automatic`, même image que le post LinkedIn si elle existe.
-5. Mode par défaut : brouillon (`saveToDraft: true`), à valider par Patrick dans
-   Buffer. Programme directement (`customScheduled`) uniquement si la demande
-   de l'utilisateur dit « programme les posts Facebook sans validation ».
+   crée pas un second et ne génère aucune image. Signale-le.
+2. Image : lance toutes les générations d'abord, avant d'écrire les textes, pour
+   gagner du temps. `mcp__Gamma__generate_image`, `type: photo`,
+   `sizePreset: social-square` (1:1, comme les posts Facebook existants). Une
+   seule image par post, une seule régénération autorisée en cas d'échec (chaque
+   génération est facturée). Le prompt décrit une scène unique qui incarne la
+   thèse du post, avec un détail discret qui porte le sens, à la manière des
+   images déjà publiées. Écris-le en anglais, avec ces éléments : appareil et
+   objectif (ex. full-frame, 35 mm), lumière naturelle précise, profondeur de
+   champ, textures et imperfections réelles (peau, tissus, papier, poussière),
+   décor de bureau ou de PME français crédible. Interdits dans l'image : texte
+   lisible, logo, marque identifiable, personne réelle ou reconnaissable, scène
+   présentée comme la photo d'un événement, d'un lieu ou d'une étude réellement
+   cités dans le post. Pas de rendu illustration, 3D ou publicité glacée.
+3. Sonde ensuite `mcp__Gamma__get_image_generation_status` sans boucle serrée
+   (écris les textes entre deux sondes) jusqu'à `completed` ou `failed`. Utilise
+   l'URL renvoyée dans `assets`. Rédige un `altText` en français : une phrase
+   qui décrit la scène, comme ceux des posts existants.
+4. Texte : rédigé selon 3.1, uniquement avec des faits présents dans le post
+   LinkedIn source. Aucun chiffre, nom, étude ou citation ajouté. Si une donnée
+   du post source semble douteuse, signale-la au lieu de la reprendre.
+5. Horaire : même jour, 3 heures après l'heure du post Yadulink (soit 1 heure
+   après la page LinkedIn), plafonné à 19h00 Europe/Paris.
+6. `create_post` : canal Facebook page, `metadata.facebook.type: post`,
+   `schedulingType: automatic`, `assets` avec l'image générée.
+7. Mode par défaut : brouillon (`saveToDraft: true`). Tu ne peux pas voir
+   l'image : Patrick la valide dans Buffer avant publication. Programme
+   directement (`customScheduled`) uniquement si la demande de l'utilisateur
+   dit « programme les posts Facebook sans validation ».
+8. Si la génération d'image échoue deux fois, crée le brouillon sans image et
+   signale-le : un post Facebook sans visuel ne doit pas partir tel quel.
 
 ## Rapport final
 
