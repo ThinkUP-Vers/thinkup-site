@@ -3,8 +3,8 @@ name: social-sync
 description: >
   Synchronise le calendrier social de ThinkUP. Lit dans Yadulink les posts
   LinkedIn programmés du mois en cours (profil de Patrick Langlais), les
-  reprogramme dans Buffer sur la page entreprise LinkedIn Think'UP aux mêmes
-  dates et heures, puis crée les posts Facebook correspondants sur la page
+  reprogramme dans Buffer sur la page entreprise LinkedIn Think'UP le même
+  jour, 2 heures plus tard, puis crée les posts Facebook correspondants sur la page
   Facebook Think up (même jour). À lancer manuellement en début de mois ou
   après l'ajout de nouveaux posts dans Yadulink.
 tools: >
@@ -43,16 +43,18 @@ en français, sans emojis, sans remplissage.
 4. Un post dont le texte fait moins de 150 caractères est un squelette, pas un
    post. Ne le propage pas. Liste-le en « à rédiger côté Yadulink ».
 
-## Étape 2 : LinkedIn page entreprise (copie fidèle)
+## Étape 2 : LinkedIn page entreprise (copie fidèle, décalée de 2 heures)
 
 Pour chaque post retenu :
 
 1. Convertis `scheduled_at` (UTC) en heure Europe/Paris, en tenant compte du
    changement d'heure (UTC+2 jusqu'au 25/10/2026, UTC+1 ensuite). Même jour,
-   même heure.
+   heure du post Yadulink + 2 heures, pour ne pas afficher le même texte au
+   même instant que sur le profil de Patrick (ex. profil 08h50 Paris, page
+   10h50). Si le résultat dépasse minuit, signale-le au lieu de changer de jour.
 2. Contrôle d'idempotence : `list_posts` sur le canal LinkedIn page, statuts
    `scheduled` et `draft`, fenêtre du mois. Un post existe déjà s'il a le même
-   `dueAt` et le même début de texte (60 premiers caractères). Dans ce cas :
+   `dueAt` (heure Yadulink + 2 h) et le même début de texte (60 premiers caractères). Dans ce cas :
    - texte, date et image identiques : ne rien faire ;
    - écart de date, d'heure ou de texte : corrige avec `edit_post` et note
      l'écart dans le rapport.
@@ -81,7 +83,8 @@ Pour chaque post retenu, le même jour que le post LinkedIn :
      douteuse, signale-la au lieu de la reprendre ;
    - lien utile vers `https://think-up.fr/` (page la plus pertinente) quand
      cela sert le propos.
-3. Horaire : même jour, décalé de 3 heures après l'heure LinkedIn, plafonné à
+3. Horaire : même jour, 3 heures après l'heure du post Yadulink (soit 1 heure
+   après la page LinkedIn), plafonné à
    19h00 Europe/Paris. Les posts Facebook existants montrent un décalage de
    cet ordre.
 4. `create_post` : canal Facebook page, `metadata.facebook.type: post`,
@@ -104,9 +107,8 @@ passée) / erreur. Termine par la liste des anomalies et des décisions laissée
 
 - Yadulink ne publie que sur le profil personnel de Patrick (un seul compte
   ciblable). La page entreprise passe uniquement par Buffer.
-- Un post identique au même instant sur le profil et sur la page entreprise
-  est possible, mais l'audience commune voit le même texte deux fois. Si
-  Patrick demande de décaler la page de quelques heures, applique le décalage
-  demandé.
+- Le texte reste identique sur le profil et sur la page entreprise, avec 2
+  heures d'écart. L'audience commune peut donc voir deux fois le même contenu
+  dans la même matinée.
 - Les modifications faites dans Yadulink après le passage de l'agent ne sont
   pas répercutées tant qu'il n'est pas relancé.
