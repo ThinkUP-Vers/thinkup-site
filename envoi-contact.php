@@ -96,7 +96,6 @@ $headers = [
 
 // mail() true signifie acceptation par le serveur, pas livraison en boîte.
 $mailAccepted = mail($to, $subject, $body, implode("\r\n", $headers));
-$contactAccepted = false;
 $contactIncomplete = false;
 
 // ---------------------------------------------------------------------------
@@ -106,8 +105,8 @@ $contactIncomplete = false;
 // Patrick : si mail() echouait en silence ou si le message partait en
 // indesirables, le contact etait perdu sans laisser d'empreinte.
 //
-// Canal indépendant de mail() : son acceptation peut sauver une demande
-// refusée par le serveur mail. Le statut final tient compte des deux canaux.
+// Trace CRM complémentaire. La réception intégrale est assurée par mail()
+// ou par le canal transactionnel ci-dessous, indépendamment des attributs.
 //
 // La liste cible se configure dans config.local.php :
 //     define('BREVO_LIST_ID', 3);
@@ -184,11 +183,37 @@ if ($brevoKeyContact !== '' && function_exists('curl_init') && $email !== '') {
         $code = $envoyerContact($corpsMinimal);
         $contactIncomplete = ($code >= 200 && $code < 300);
     }
-    // Un contexte tronqué ou le repli identité ne conserve pas la demande complète.
-    $contactAccepted = ($code >= 200 && $code < 300 && !$contactIncomplete);
 }
 
-if (!$mailAccepted && !$contactAccepted) {
+// La fiche CRM reste un complément : elle peut être partielle ou remplacée
+// par une demande ultérieure. Le repli transmet donc le message intégral
+// à Patrick, avec le même expéditeur fixe que mail(), sans créer de queue.
+$transactionAccepted = false;
+if (!$mailAccepted && $brevoKeyContact !== '' && function_exists('curl_init')) {
+    $payload = json_encode([
+        'sender' => ['email' => 'contact@think-up.fr', 'name' => "Think'UP"],
+        'to' => [['email' => $to, 'name' => 'Patrick Langlais']],
+        'replyTo' => ['email' => $email],
+        'subject' => "Nouveau contact Think'UP — " . $name,
+        'textContent' => $body,
+        'htmlContent' => '<pre>' . htmlspecialchars($body, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</pre>',
+    ], JSON_UNESCAPED_UNICODE);
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_TIMEOUT => 8,
+        CURLOPT_HTTPHEADER => ['accept: application/json', 'content-type: application/json', 'api-key: ' . $brevoKeyContact],
+    ]);
+    $response = @curl_exec($ch);
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    @curl_close($ch);
+    $receipt = is_string($response) ? json_decode($response, true) : null;
+    $transactionAccepted = $httpCode === 201 && is_array($receipt) && !empty($receipt['messageId']);
+}
+
+if (!$mailAccepted && !$transactionAccepted) {
     http_response_code(503);
     echo $contactIncomplete
         ? 'Vos coordonnées ont été enregistrées, mais le contenu complet de votre demande n’a pas été transmis. Merci de réessayer ou de nous contacter directement.'

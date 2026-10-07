@@ -48,6 +48,19 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v6
 
+      - name: Vérifier les transports du formulaire (mocks uniquement)
+        run: |
+          php -n -l envoi-contact.php
+          php -n -l editorial/tests/contact-delivery.php
+          for scenario in mail-only brevo-rescue long-context-rescue retry-rescue retry-failure-rescue crm-success-transaction-fail crm-partial-transaction-fail missing-receipt network-fail mail-rescue no-key diagnostic-missing-consent diagnostic-fail diagnostic-rescue diagnostic-success ack-failure-nonblocking; do
+            php -n editorial/tests/contact-delivery.php "$scenario"
+          done
+
+      - name: Vérifier l'expéditeur Brevo avant tout transfert (lecture seule)
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+        run: python3 editorial/check-brevo-sender.py
+
       # config.local.php porte la clé Brevo. Il est dans .gitignore — donc absent
       # du dépôt, et jamais déployé. Résultat constaté le 17/08/2026 : il
       # n'existait pas sur le serveur, la clé n'était donc jamais lue et toute la
