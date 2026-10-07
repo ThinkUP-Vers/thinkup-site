@@ -5,14 +5,13 @@ description: >
   LinkedIn programmés du mois en cours (profil de Patrick Langlais), les
   reprogramme dans Buffer sur la page entreprise LinkedIn Think'UP le même
   jour, 2 heures plus tard, puis crée les posts Facebook correspondants
-  (texte adapté et image photoréaliste) sur la page Facebook Think up, le même
+  (texte adapté, image du post Yadulink) sur la page Facebook Think up, le même
   jour. À lancer manuellement en début de mois ou après l'ajout de nouveaux
   posts dans Yadulink.
 tools: >
   mcp__Yadulink__get_my_linkedin_posts, mcp__Yadulink__get_yadulink_post,
   mcp__Buffer__get_account, mcp__Buffer__list_channels, mcp__Buffer__list_posts,
-  mcp__Buffer__get_post, mcp__Buffer__create_post, mcp__Buffer__edit_post,
-  mcp__Gamma__generate_image, mcp__Gamma__get_image_generation_status
+  mcp__Buffer__get_post, mcp__Buffer__create_post, mcp__Buffer__edit_post
 model: sonnet
 ---
 
@@ -100,28 +99,25 @@ Pour chaque post retenu :
 
 1. Si la page Facebook a déjà un post `scheduled` ou `draft` ce jour-là, n'en
    crée pas un second et ne génère aucune image. Signale-le.
-2. Image : lance toutes les générations d'abord, avant d'écrire les textes, pour
-   gagner du temps. `mcp__Gamma__generate_image`, `type: photo`,
-   `sizePreset: social-square` (1:1, comme les posts Facebook existants). Une
-   seule image par post, une seule régénération autorisée en cas d'échec (chaque
-   génération est facturée). Le prompt décrit une scène unique qui incarne la
-   thèse du post, avec un détail discret qui porte le sens, à la manière des
-   images déjà publiées. Écris-le en anglais, avec ces éléments : appareil et
-   objectif (ex. full-frame, 35 mm), lumière naturelle précise, profondeur de
-   champ, textures et imperfections réelles (peau, tissus, papier, poussière),
-   décor de bureau ou de PME français crédible. Interdits dans l'image : texte
-   lisible, logo, marque identifiable, personne réelle ou reconnaissable, scène
-   présentée comme la photo d'un événement, d'un lieu ou d'une étude réellement
-   cités dans le post. Pas de rendu illustration, 3D ou publicité glacée.
-3. Sonde ensuite `mcp__Gamma__get_image_generation_status` sans boucle serrée
-   (écris les textes entre deux sondes) jusqu'à `completed` ou `failed`. Utilise
-   l'URL renvoyée dans `assets`. Rédige un `altText` en français : une phrase
-   qui décrit la scène, comme ceux des posts existants.
+2. Image : aucune génération d'image, ni Gamma ni autre outil. Les images de
+   Patrick viennent de sa banque d'images et de ChatGPT, auxquels tu n'as pas
+   accès. Réutilise l'image du post Yadulink source (`media[0].url`, fichier
+   public sur media.yadulink.com, portrait, photoréaliste), passée dans `assets`
+   avec un `altText` français d'une phrase qui décrit la scène. Le format
+   portrait est accepté par Facebook, ne recadre pas.
+3. Si le post source n'a pas d'image, crée le brouillon sans image et ajoute au
+   rapport un prompt prêt à coller dans ChatGPT : scène unique qui incarne la
+   thèse du post, en anglais, appareil et objectif (full-frame, 35 mm), lumière
+   naturelle précise, textures réelles, décor de PME française crédible,
+   format 4:5. Interdits : texte lisible dans l'image (sauf un court intitulé
+   voulu), logo, marque identifiable, personne réelle, scène présentée comme la
+   photo d'un événement, d'un lieu ou d'une étude cités dans le post. Patrick
+   génère l'image dans ChatGPT puis la joint lui-même au brouillon dans Buffer.
 4. Texte : rédigé selon 3.1, uniquement avec des faits présents dans le post
    LinkedIn source. Aucun chiffre, nom, étude ou citation ajouté. Si une donnée
    du post source semble douteuse, signale-la au lieu de la reprendre. Termine
-   le corps du post par la ligne « Image générée par IA. » (transparence AI
-   Act, article 50).
+   le corps du post par la ligne « Image générée par IA. » quand une image est
+   jointe (transparence AI Act, article 50).
 5. Horaire : même jour que le post Yadulink, à 12h30 Europe/Paris. Si la page
    LinkedIn est programmée à 11h00 ou après, programme Facebook 90 minutes après
    elle, plafonné à 19h00. Le week-end est exclu : si le post Yadulink tombe un
@@ -135,8 +131,9 @@ Pour chaque post retenu :
    humaine sert aussi de contrôle éditorial (AI Act, article 50). Programme
    directement (`customScheduled`) uniquement si la demande de l'utilisateur
    dit « programme les posts Facebook sans validation ».
-8. Si la génération d'image échoue deux fois, crée le brouillon sans image et
-   signale-le : un post Facebook sans visuel ne doit pas partir tel quel.
+8. Un post Facebook sans visuel ne doit pas partir tel quel : il reste en
+   brouillon même si Patrick a demandé la programmation directe, et tu le
+   signales.
 
 ## Rapport final
 
