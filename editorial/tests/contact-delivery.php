@@ -11,6 +11,8 @@ $cases = [
  'crm-success-transaction-fail'=>[false,[201],500,true,[],503,1,1,0],
  'crm-partial-transaction-fail'=>[false,[400,204],500,true,[],503,2,1,0],
  'missing-receipt'=>[false,[201],201,true,['mock_no_receipt'=>'1'],503,1,1,0],
+ 'malformed-receipt'=>[false,[201],201,true,['mock_receipt'=>'{invalid'],503,1,1,0],
+ 'invalid-receipt-type'=>[false,[201],201,true,['mock_receipt'=>'{"messageId":["invalid"]}'],503,1,1,0],
  'network-fail'=>[false,[0,0],0,true,[],503,2,1,0],
  'mail-rescue'=>[true,[500,503],null,true,[],200,2,0,0],
  'no-key'=>[false,[],null,false,[],503,0,0,0],
@@ -40,7 +42,7 @@ function curl_setopt_array(object $handle,array $options): bool {
  $handle->kind=str_ends_with($handle->url,'/contacts')?'contact':(isset($payload['templateId'])?'ack':'transaction');
  $calls[]=['kind'=>$handle->kind,'payload'=>$payload,'options'=>$options]; return true;
 }
-function curl_exec(object $handle): string|false { global $transactionResponse; if ($handle->kind==='transaction'&&$transactionResponse===0) { return false; } return isset($_POST['mock_no_receipt'])?'{}':'{"messageId":"fixture-message-id"}'; }
+function curl_exec(object $handle): string|false { global $transactionResponse; if ($handle->kind==='transaction'&&$transactionResponse===0) { return false; } return $_POST['mock_receipt']??(isset($_POST['mock_no_receipt'])?'{}':'{"messageId":"fixture-message-id"}'); }
 function curl_getinfo(object $handle,int $option): int { global $contactResponses,$transactionResponse; return match($handle->kind) {'contact'=>array_shift($contactResponses)??500,'transaction'=>$transactionResponse??500,'ack'=>isset($_POST['mock_ack_fail'])?500:201}; }
 function curl_close(object $handle): void {}
 function check(bool $condition,string $message): void { if (!$condition) { throw new \RuntimeException($message); } }

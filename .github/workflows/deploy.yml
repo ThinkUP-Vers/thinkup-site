@@ -52,9 +52,12 @@ jobs:
         run: |
           php -n -l envoi-contact.php
           php -n -l editorial/tests/contact-delivery.php
-          for scenario in mail-only brevo-rescue long-context-rescue retry-rescue retry-failure-rescue crm-success-transaction-fail crm-partial-transaction-fail missing-receipt network-fail mail-rescue no-key diagnostic-missing-consent diagnostic-fail diagnostic-rescue diagnostic-success ack-failure-nonblocking; do
+          for scenario in mail-only brevo-rescue long-context-rescue retry-rescue retry-failure-rescue crm-success-transaction-fail crm-partial-transaction-fail missing-receipt malformed-receipt invalid-receipt-type network-fail mail-rescue no-key diagnostic-missing-consent diagnostic-fail diagnostic-rescue diagnostic-success ack-failure-nonblocking; do
             php -n editorial/tests/contact-delivery.php "$scenario"
           done
+
+      - name: Vérifier le garde-fou expéditeur (mocks uniquement)
+        run: python3 editorial/tests/brevo-sender.py
 
       - name: Vérifier l'expéditeur Brevo avant tout transfert (lecture seule)
         env:

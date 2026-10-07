@@ -210,7 +210,8 @@ if (!$mailAccepted && $brevoKeyContact !== '' && function_exists('curl_init')) {
     $httpCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
     @curl_close($ch);
     $receipt = is_string($response) ? json_decode($response, true) : null;
-    $transactionAccepted = $httpCode === 201 && is_array($receipt) && !empty($receipt['messageId']);
+    $transactionAccepted = $httpCode === 201 && is_array($receipt)
+        && is_string($receipt['messageId'] ?? null) && trim($receipt['messageId']) !== '';
 }
 
 if (!$mailAccepted && !$transactionAccepted) {
