@@ -11,9 +11,7 @@ description: >
 tools: >
   mcp__Yadulink__get_my_linkedin_posts, mcp__Yadulink__get_yadulink_post,
   mcp__Buffer__get_account, mcp__Buffer__list_channels, mcp__Buffer__list_posts,
-  mcp__Buffer__get_post, mcp__Buffer__create_post, mcp__Buffer__edit_post,
-  mcp__Gamma__search_gammas, mcp__Gamma__read_gamma, mcp__Gamma__export_gamma,
-  mcp__Gamma__get_export_status
+  mcp__Buffer__get_post, mcp__Buffer__create_post, mcp__Buffer__edit_post
 model: sonnet
 ---
 
@@ -44,15 +42,12 @@ en français, sans emojis, sans remplissage.
 3. Pour chacun, `get_yadulink_post` : texte intégral exact (jamais le
    `content_preview`), images ordonnées, commentaires épinglés.
 4. Un post Yadulink dont le texte fait moins de 150 caractères est une
-   accroche de carrousel : le contenu réel est un carrousel Gamma de Patrick,
-   que l'API Yadulink n'expose pas (`media` vide). Cherche-le :
-   `search_gammas` (`createdBy: me`) sur le titre du post, comparé après
-   normalisation NFKC (le gras Unicode devient du texte normal), sans casse ni
-   accents. Garde uniquement un Gamma dont le titre correspond et dont le
-   contenu (`read_gamma`) est en français ; ignore les versions « UK English » ou
-   anglaises. S'il y a zéro correspondance, plusieurs candidats français ou un
-   doute sur la version, ne choisis pas : liste les candidats avec leur URL et
-   ne crée rien pour ce post.
+   accroche de carrousel. Le carrousel réel est un PDF 4:5 que Patrick assemble
+   lui-même ; l'API Yadulink ne l'expose pas (`media` vide). Ne cherche jamais ce
+   carrousel dans Gamma : le Gamma de même titre est souvent une autre version
+   (présentation 16:9, texte différent, ou copie anglaise) et l'exporter
+   publierait le mauvais document. Pour un carrousel, ne crée que le brouillon
+   LinkedIn page décrit à l'étape 2 et signale « PDF à joindre à la main ».
 
 ## Étape 2 : LinkedIn page entreprise (copie fidèle, décalée de 2 heures)
 
@@ -75,14 +70,11 @@ Pour chaque post retenu :
 4. Image : si le post en a une, passe-la dans `assets` (`image.url` = URL
    Yadulink, avec `altText` descriptif). Si Buffer rejette l'URL, ne programme
    pas le post sans image : signale-le.
-5. Carrousel (accroche courte avec Gamma identifié) : texte = l'accroche
-   Yadulink telle quelle, document = PDF du Gamma. `export_gamma` en `pdf`, puis
-   `get_export_status` jusqu'à `completed`. Passe l'URL dans `assets` sous la
-   forme `document` (`url`, `title` = titre du Gamma, `thumbnailUrl: ""`). Le
-   lien d'export Gamma expire après environ 7 jours : n'exporte et ne programme
-   un carrousel que si son `dueAt` est dans les 6 jours. Au-delà, liste-le en
-   « carrousel à programmer plus tard » sans rien créer, et rappelle dans le
-   rapport qu'il faut relancer l'agent chaque semaine.
+5. Carrousel (accroche courte) : crée un brouillon (`saveToDraft: true`) avec
+   l'accroche Yadulink telle quelle, sans document, au `dueAt` normal. Patrick
+   joint le PDF dans Buffer puis programme le post. Buffer exige une URL
+   publique pour un document : sans URL fournie par Patrick, l'agent ne peut pas
+   joindre le PDF. Ne programme jamais un carrousel sans son PDF.
 6. Commentaire épinglé Yadulink : reporte-le dans
    `metadata.linkedin.firstComment`.
 
@@ -113,12 +105,9 @@ Pour chaque post retenu :
 
 ### 3.2 Création, post par post
 
-Posts carrousel : Facebook n'accepte pas le PDF via Buffer. Rédige le texte
-d'après le contenu français du Gamma (`read_gamma`), crée un brouillon sans
-image et ajoute au rapport le prompt ChatGPT du point 3. Le lien d'export Gamma
-ne doit jamais apparaître dans un post Facebook.
-
-Pour chaque post retenu :
+Posts carrousel : Facebook n'accepte pas le PDF via Buffer. Sans le texte du
+carrousel (que tu ne lis pas), ne rédige pas de post Facebook : signale-le au
+rapport pour que Patrick fournisse le PDF ou le texte.
 
 1. Si la page Facebook a déjà un post `scheduled` ou `draft` ce jour-là, n'en
    crée pas un second et ne génère aucune image. Signale-le.
@@ -170,11 +159,6 @@ passée) / erreur. Termine par la liste des anomalies et des décisions laissée
 
 ## Limites connues
 
-- Le PDF d'un carrousel est hébergé par Gamma avec un lien temporaire. Je n'ai
-  pas pu établir si Buffer copie le fichier à la création du post ou le
-  télécharge à la publication. Dans le doute, l'agent ne programme un carrousel
-  que dans les 6 jours précédant sa publication, et l'agent signale tout
-  carrousel programmé que Buffer n'a pas pu publier.
 - Yadulink ne publie que sur le profil personnel de Patrick (un seul compte
   ciblable). La page entreprise passe uniquement par Buffer.
 - Le texte reste identique sur le profil et sur la page entreprise, avec 2
