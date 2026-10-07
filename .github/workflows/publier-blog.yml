@@ -49,11 +49,26 @@ jobs:
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v6
+        with:
+          # refresh-sitemap.php lit la date du dernier commit de chaque page
+          # pour en déduire son <lastmod>. Avec la profondeur 1 par défaut,
+          # `git log` ne voit qu'un commit et ne retourne rien pour presque
+          # tous les fichiers : le script refuse alors de tourner plutôt que
+          # de dater tout le sitemap d'aujourd'hui. L'historique complet est
+          # donc nécessaire.
+          fetch-depth: 0
 
       - name: Publier les articles dus
         id: publication
         run: |
           php editorial/publish-blog.php
+          # publish-blog.php date les articles de leur jour de PUBLICATION, et
+          # ne touche pas aux pages fixes. Ce second passage réaligne tous les
+          # <lastmod> sur la dernière modification réelle du fichier — sans
+          # quoi une correction apportée à une page déjà en ligne reste
+          # invisible pour Google (cas de faq.html, corrigée le 20/09/2026 et
+          # encore annoncée au 25/08 dans le sitemap trois semaines après).
+          php editorial/refresh-sitemap.php
           if git diff --quiet; then
             echo "modifie=non" >> "$GITHUB_OUTPUT"
             echo "Aucun article à publier aujourd'hui."
