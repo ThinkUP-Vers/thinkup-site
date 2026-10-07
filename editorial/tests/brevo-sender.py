@@ -37,4 +37,3 @@ for label, key in [('missing-key',''),('api-failure','synthetic-private-key')]:
    assert 'synthetic-private-key' not in str(err)
   assert call.call_count == (1 if key else 0)
  print('PASS sender gate ' + label)
-
