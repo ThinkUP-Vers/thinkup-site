@@ -77,14 +77,20 @@ Pour chaque post retenu :
    `get_yadulink_post` sur les 3 plus récents dont le texte dépasse 500
    caractères. Retiens la voix de Patrick : phrases courtes, ironie sèche,
    thèse tranchée, aucune formule creuse.
-2. Format Facebook : `list_posts` sur le canal Facebook, `status: sent`,
-   `first: 4`, tri `dueAt` décroissant. Reprends leur gabarit, qui diffère de
-   LinkedIn : 1 200 à 2 000 caractères, vouvoiement, pas d'emojis, pas de
-   hashtags, pas de gras Unicode, paragraphes courts. Accroche en première
-   ligne, scène ou anecdote concrète, thèse, ligne de chute, puis question
-   finale. Quand le sujet s'y prête, un bloc après un séparateur `—` avec un
-   appel à agir vers une page de https://think-up.fr/ (par exemple
-   `diagnostic.html`).
+2. Gabarit Facebook, aux standards de la plateforme (les posts Facebook déjà
+   envoyés font 1 100 à 1 700 caractères : c'est trop long, ne les imite que
+   pour le ton et la structure) :
+   - 300 à 500 caractères, 700 au maximum quand une anecdote le justifie.
+     Une seule idée par post ;
+   - l'accroche tient dans les 120 premiers caractères, avant le « Voir plus » ;
+   - 3 à 6 lignes courtes séparées par des sauts de ligne, langage parlé,
+     aucune phrase de plus de 20 mots ;
+   - vouvoiement, pas d'emojis, pas de hashtags, pas de gras Unicode ;
+   - une seule question finale, concrète, à laquelle un dirigeant répond en une
+     ligne en commentaire ;
+   - le lien vers une page de https://think-up.fr/ (par exemple
+     `diagnostic.html`) va dans `metadata.facebook.firstComment`, pas dans le
+     corps du post.
 3. Si les deux sources divergent, la voix vient de Yadulink et le gabarit des
    posts Facebook déjà envoyés.
 
@@ -113,13 +119,20 @@ Pour chaque post retenu :
    qui décrit la scène, comme ceux des posts existants.
 4. Texte : rédigé selon 3.1, uniquement avec des faits présents dans le post
    LinkedIn source. Aucun chiffre, nom, étude ou citation ajouté. Si une donnée
-   du post source semble douteuse, signale-la au lieu de la reprendre.
-5. Horaire : même jour, 3 heures après l'heure du post Yadulink (soit 1 heure
-   après la page LinkedIn), plafonné à 19h00 Europe/Paris.
+   du post source semble douteuse, signale-la au lieu de la reprendre. Termine
+   le corps du post par la ligne « Image générée par IA. » (transparence AI
+   Act, article 50).
+5. Horaire : même jour que le post Yadulink, à 12h30 Europe/Paris. Si la page
+   LinkedIn est programmée à 11h00 ou après, programme Facebook 90 minutes après
+   elle, plafonné à 19h00. Le week-end est exclu : si le post Yadulink tombe un
+   samedi ou un dimanche, programme Facebook le vendredi précédent à 12h30 et
+   signale-le.
 6. `create_post` : canal Facebook page, `metadata.facebook.type: post`,
-   `schedulingType: automatic`, `assets` avec l'image générée.
+   `schedulingType: automatic`, `assets` avec l'image générée,
+   `metadata.facebook.firstComment` avec le lien (voir 3.1).
 7. Mode par défaut : brouillon (`saveToDraft: true`). Tu ne peux pas voir
-   l'image : Patrick la valide dans Buffer avant publication. Programme
+   l'image : Patrick la valide dans Buffer avant publication. Cette relecture
+   humaine sert aussi de contrôle éditorial (AI Act, article 50). Programme
    directement (`customScheduled`) uniquement si la demande de l'utilisateur
    dit « programme les posts Facebook sans validation ».
 8. Si la génération d'image échoue deux fois, crée le brouillon sans image et
@@ -142,5 +155,10 @@ passée) / erreur. Termine par la liste des anomalies et des décisions laissée
 - Le texte reste identique sur le profil et sur la page entreprise, avec 2
   heures d'écart. L'audience commune peut donc voir deux fois le même contenu
   dans la même matinée.
+- La page Facebook a une audience minuscule (30 posts mesurés : 6 à 345
+  impressions par post, une réaction ou moins, aucun commentaire ni partage).
+  Les horaires ci-dessus viennent de benchmarks externes, pas de données
+  propres, trop faibles pour conclure. Ne prétends jamais avoir optimisé les
+  horaires à partir des statistiques de la page.
 - Les modifications faites dans Yadulink après le passage de l'agent ne sont
   pas répercutées tant qu'il n'est pas relancé.
