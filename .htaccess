@@ -92,6 +92,14 @@ RewriteRule ^([^\.]+)$ $1.html [L]
 </IfModule>
 
 # 8. Proteger les fichiers et dossiers sensibles
+# README.txt : retire du depot le 05/10/2026 mais toujours present sur le
+# serveur — le deploiement FTP ne supprime que les fichiers qu'il a lui-meme
+# envoyes, et celui-ci est anterieur. Il exposait la documentation technique de
+# l'ancienne architecture GitHub Pages. 410 plutot que 403 ou 404 : Gone
+# signifie « supprime definitivement », ce que Google traite plus vite qu'un
+# simple introuvable. A supprimer pour de bon dans le gestionnaire de fichiers
+# Hostinger ; cette regle peut alors disparaitre.
+RewriteRule ^README\.txt$ - [G,L]
 RewriteRule (^|/)\.git(/|$) - [F,L]
 RewriteRule ^editorial-content/ - [F,L]
 RewriteRule ^scheduled-blog/ - [F,L]
