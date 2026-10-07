@@ -155,7 +155,8 @@ if ($brevoKeyContact !== '' && function_exists('curl_init') && $email !== '') {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => json_encode($donnees, JSON_UNESCAPED_UNICODE),
-            CURLOPT_TIMEOUT        => 8,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_TIMEOUT        => 5,
             CURLOPT_HTTPHEADER     => [
                 'accept: application/json',
                 'content-type: application/json',
@@ -203,7 +204,8 @@ if (!$mailAccepted && $brevoKeyContact !== '' && function_exists('curl_init')) {
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_POST => true,
         CURLOPT_POSTFIELDS => $payload,
-        CURLOPT_TIMEOUT => 8,
+        CURLOPT_CONNECTTIMEOUT => 2,
+        CURLOPT_TIMEOUT => 5,
         CURLOPT_HTTPHEADER => ['accept: application/json', 'content-type: application/json', 'api-key: ' . $brevoKeyContact],
     ]);
     $response = @curl_exec($ch);
@@ -242,7 +244,8 @@ if ($isDiagnostic) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => $payload,
-            CURLOPT_TIMEOUT        => 8,
+            CURLOPT_CONNECTTIMEOUT => 2,
+            CURLOPT_TIMEOUT        => 5,
             CURLOPT_HTTPHEADER     => [
                 'accept: application/json',
                 'content-type: application/json',

@@ -28,7 +28,7 @@ if (!isset($cases[$case])) { throw new \RuntimeException('Unknown case'); }
 $calls=$mails=[];
 $_SERVER['REQUEST_METHOD']='POST';
 $_POST=$extra+['nom'=>'Test Fixture','email'=>'fixture@example.invalid','entreprise'=>'Entreprise <test>','tel'=>'+33123456789','effectif'=>'12','stade'=>'Exploration','contexte'=>"Contexte complet\nDeuxième ligne <test>"];
-foreach (['CURLOPT_RETURNTRANSFER','CURLOPT_POST','CURLOPT_POSTFIELDS','CURLOPT_TIMEOUT','CURLOPT_HTTPHEADER','CURLINFO_HTTP_CODE'] as $index=>$constant) { if (!\defined($constant)) { \define($constant,$index+1); } }
+foreach (['CURLOPT_RETURNTRANSFER','CURLOPT_POST','CURLOPT_POSTFIELDS','CURLOPT_TIMEOUT','CURLOPT_CONNECTTIMEOUT','CURLOPT_HTTPHEADER','CURLINFO_HTTP_CODE'] as $index=>$constant) { if (!\defined($constant)) { \define($constant,$index+1); } }
 function is_file(string $path): bool { return false; }
 function is_readable(string $path): bool { return false; }
 function getenv(string $name): string|false { global $key; return $name==='BREVO_API_KEY'&&$key?'mock-key':false; }
@@ -66,7 +66,8 @@ register_shutdown_function(static function() use($case,$expectedStatus,$expected
   $contactIndex=0;
   foreach ($calls as $call) {
    $p=$call['payload'];
-   check($call['options'][CURLOPT_TIMEOUT]===8,'bounded timeout');
+   check($call['options'][CURLOPT_CONNECTTIMEOUT]===2,'bounded connection timeout');
+   check($call['options'][CURLOPT_TIMEOUT]===5,'bounded total timeout');
    check(in_array('api-key: mock-key',$call['options'][CURLOPT_HTTPHEADER],true),'auth header');
    if ($call['kind']==='contact') {
     $attrs=['PRENOM'=>'Test','NOM'=>'Fixture'];
