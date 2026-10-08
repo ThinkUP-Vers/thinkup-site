@@ -81,3 +81,33 @@ Il s'active uniquement dans deux cas :
 Dans le cas 2, présente d'abord l'équipe d'agents envisagée en quelques
 lignes et demande confirmation avant de lancer l'orchestration. Pour tout
 le reste, réponds directement.
+
+## Outil audit-ia : CR d'audit → compte rendu, solution, devis
+
+Le skill `audit-ia` (`.claude/skills/audit-ia/`, invocable par `/audit-ia`)
+transforme le compte rendu d'un audit (Noota, audio, texte, Drive) en trois
+livrables : compte rendu pour le prospect, dossier de mise en œuvre interne,
+devis. Ses passes de relecture (agent `relecteur-audit`) font partie de
+l'outil, demandées par l'utilisateur : la règle méta-agent ci-dessus ne s'y
+applique pas.
+
+Le dépôt est PUBLIC. Donc :
+
+- les dossiers clients vivent dans `audits/`, ignoré par git — ne jamais le
+  committer, ni le forcer avec `git add -f` ; `audit.py init` refuse de créer
+  un dossier qui ne serait pas ignoré ;
+- les tarifs internes (TJM, coût des freelances) vivent dans
+  `.claude/skills/audit-ia/tarifs.local.json` (ignoré) ou dans la variable
+  d'environnement `THINKUP_TARIFS`, jamais dans un fichier versionné.
+
+`.claude/` est exclu du déploiement FTP : rien de l'outil ne part sur
+think-up.fr.
+
+Si `cgv.html` change de version ou si un prix change dans
+`boutique-config.js`, `audit.py verifier` le signale : mettre à jour
+`.claude/skills/audit-ia/assets/emetteur.json` et relire la section
+Conditions du devis généré. Contrôle de non-régression du script :
+
+```
+python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit-ia/exemple --final
+```

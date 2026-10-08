@@ -1,0 +1,11 @@
+{
+  "_note": "Copier en tarifs.local.json (ignoré par git) ou passer le contenu dans la variable d'environnement THINKUP_TARIFS. Valeurs à renseigner par Patrick : aucune n'est une recommandation.",
+  "tjm_thinkup": null,
+  "contingence_pct": null,
+  "cout_jour_freelance": {
+    "no-code / automatisation": null,
+    "développeur intégration / API": null,
+    "data / IA": null
+  },
+  "plancher_mission": null
+}

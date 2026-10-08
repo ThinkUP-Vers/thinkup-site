@@ -1,0 +1,18 @@
+{
+  "_note": "Identité reprise de cgv.html (article 1). Si les CGV changent de version, `audit.py verifier` le détecte : mettre à jour ce fichier et relire la section Conditions du devis.",
+  "nom_commercial": "Think'UP",
+  "representant": "Patrick Langlais",
+  "forme": "Entrepreneur individuel (nom commercial : Think'UP)",
+  "adresse": "22 rue Victor Hugo, 78000 Versailles",
+  "siren": "944 966 613",
+  "siret": "944 966 613 00019",
+  "email": "patrick@thinkupcom.com",
+  "telephone": "07 82 48 43 54",
+  "site": "https://think-up.fr",
+  "mention_tva": "TVA non applicable, art. 293 B du CGI",
+  "cgv_url": "https://think-up.fr/cgv.html",
+  "cgv_version": "5 octobre 2026",
+  "validite_jours": 30,
+  "acompte_pct": 30,
+  "delai_paiement_jours": 30
+}

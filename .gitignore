@@ -8,3 +8,10 @@ version.txt
 # OS / éditeurs
 .DS_Store
 Thumbs.db
+
+# Outil audit-ia : dossiers clients et tarifs internes (dépôt PUBLIC, ne jamais versionner)
+audits/
+.claude/skills/audit-ia/tarifs.local.json
+.claude/skills/audit-ia/exemple/livrables/
+.claude/skills/audit-ia/exemple/calculs.json
+__pycache__/
