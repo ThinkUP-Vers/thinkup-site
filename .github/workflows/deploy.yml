@@ -59,10 +59,28 @@ jobs:
       - name: Vérifier le garde-fou expéditeur (mocks uniquement)
         run: python3 editorial/tests/brevo-sender.py
 
-      - name: Vérifier l'expéditeur Brevo avant tout transfert (lecture seule)
+      - name: Vérifier le contrôle Hostinger (mocks uniquement)
+        run: python3 editorial/tests/brevo-host.py
+
+      - name: Vérifier Brevo depuis Hostinger et retirer le helper temporaire
+        id: host_preflight
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-        run: python3 editorial/check-brevo-sender.py
+          # Hostname officiel lié au compte hPanel, certificat vérifié. Aucun repli IP.
+          FTP_TLS_HOST: srv2197-files.hstgr.io
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: python3 editorial/check-brevo-host.py
+
+      - name: Nettoyer le helper même après interruption ou échec
+        if: always()
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          # Hostname officiel lié au compte hPanel, certificat vérifié. Aucun repli IP.
+          FTP_TLS_HOST: srv2197-files.hstgr.io
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: python3 editorial/check-brevo-host.py --cleanup
 
       # config.local.php porte la clé Brevo. Il est dans .gitignore — donc absent
       # du dépôt, et jamais déployé. Résultat constaté le 17/08/2026 : il
@@ -73,19 +91,7 @@ jobs:
         env:
           BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
         run: |
-          if [ -z "$BREVO_API_KEY" ]; then
-            echo "::error::Le secret BREVO_API_KEY est absent. Sans lui, les prospects" \
-                 "ne sont pas enregistrés dans Brevo et l'accusé de réception part en" \
-                 "texte brut. Ajoutez-le dans Settings → Secrets and variables → Actions."
-            exit 1
-          fi
-          # Le fichier est réduit au strict minimum : deux lignes, sans commentaire
-          # ni accent. Toute erreur de syntaxe ici est fatale à l'inclusion dans
-          # envoi-contact.php, donc au formulaire de contact tout entier.
-          # La valeur est nettoyée (espaces et sauts de ligne d'un copier-coller)
-          # et les apostrophes échappées.
-          CLE=$(printf '%s' "$BREVO_API_KEY" | tr -d '[:space:]' | sed "s/'/\\\\'/g")
-          printf "<?php\ndefine('BREVO_API_KEY', '%s');\n" "$CLE" > config.local.php
+          python3 editorial/brevo-key.py
 
           # Garde-fou : ne jamais déployer un config.local.php qui ne compile pas.
           if ! php -l config.local.php; then
@@ -107,10 +113,13 @@ jobs:
         continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ steps.host_preflight.outputs.server_host }}
+          port: ${{ steps.host_preflight.outputs.server_port }}
+          security: strict
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
+          protocol: ftps
+          server-dir: ${{ steps.host_preflight.outputs.server_dir }}
           timeout: 120000
           exclude: |
             **/.git*
@@ -134,10 +143,13 @@ jobs:
         continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ steps.host_preflight.outputs.server_host }}
+          port: ${{ steps.host_preflight.outputs.server_port }}
+          security: strict
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
+          protocol: ftps
+          server-dir: ${{ steps.host_preflight.outputs.server_dir }}
           timeout: 120000
           exclude: |
             **/.git*
@@ -162,10 +174,13 @@ jobs:
         if: steps.ftp1.outcome == 'failure' && steps.ftp2.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
+          server: ${{ steps.host_preflight.outputs.server_host }}
+          port: ${{ steps.host_preflight.outputs.server_port }}
+          security: strict
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ./
+          protocol: ftps
+          server-dir: ${{ steps.host_preflight.outputs.server_dir }}
           timeout: 120000
           exclude: |
             **/.git*
