@@ -54,7 +54,7 @@ window.BOUTIQUE_CONFIG = {
 
   /* E-mail de secours pour la commande tant que le lien de paiement
      n'est pas configuré. */
-  emailCommande: "patrick@think-up.fr",
+  emailCommande: "patrick@thinkupcom.com",
 
   offres: {
 
