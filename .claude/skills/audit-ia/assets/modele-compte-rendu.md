@@ -97,7 +97,7 @@ avec leur point de départ mesuré ou déclaré, rôle de vos équipes à chaque
 
 # 9. Prochaines étapes
 
-<!-- consigne : la décision attendue ; le devis joint (n° {{devis.numero}}, {{devis.total}} net,
+<!-- consigne : la décision attendue ; le devis joint (n° {{devis.numero}}, {{devis.total}},
 valable jusqu'au {{devis.date_validite}}) ; les questions ci-dessous à confirmer ; la date proposée
 pour en reparler. -->
 

@@ -8,7 +8,9 @@ appelle par des balises {{...}} (voir references/dossier-json.md).
   audit.py init [racine] --client "Nom" [--date AAAA-MM-JJ]
   audit.py calculer <dossier>
   audit.py verifier <dossier> [--etape extraction|redaction|final]
-  audit.py construire <dossier> [--pdf]
+  audit.py construire <dossier> [--pdf] [--final]
+  audit.py archiver <dossier>                       # zip du dossier, à côté de lui
+  audit.py restaurer <archive.zip> [racine]
 
 Code de sortie : 0 si aucune erreur, 1 sinon. Les alertes n'empêchent rien
 mais doivent être lues.
@@ -25,6 +27,7 @@ import shutil
 import subprocess
 import sys
 import unicodedata
+import zipfile
 from pathlib import Path
 
 ICI = Path(__file__).resolve().parent
@@ -178,8 +181,27 @@ def charger(dossier):
         sortir(f"dossier.json invalide : {e}")
 
 
-def emetteur():
-    return json.loads((ASSETS / "emetteur.json").read_text(encoding="utf-8"))
+def emetteur(jour=None):
+    """Entité émettrice à une date : la dernière dont « a_compter_du » est atteint ("origine" pour la
+    première). Une entité à « a_compter_du » null est préparée mais inactive."""
+    brut = json.loads((ASSETS / "emetteur.json").read_text(encoding="utf-8"))
+    jour = jour or dt.date.today().isoformat()
+    actives = [(("0000" if e["a_compter_du"] == "origine" else e["a_compter_du"]), e)
+               for e in brut.get("entites", []) if e.get("a_compter_du") == "origine"
+               or (e.get("a_compter_du") and e["a_compter_du"] <= jour)]
+    if not actives:
+        raise ErreurDonnees(f"assets/emetteur.json : aucune entité émettrice active au {jour}")
+    em = {k: v for k, v in brut.items() if k not in ("entites", "_note")}
+    em.update(max(actives, key=lambda x: x[0])[1])
+    return em
+
+
+def emetteur_du(d):
+    return emetteur((d.get("devis") or {}).get("date_emission") or None)
+
+
+def assujetti(em):
+    return (em.get("tva") or {}).get("regime") == "assujetti"
 
 
 def tarifs():
@@ -227,7 +249,8 @@ def valeur(x, scen, hyps, ctx, defaut=None):
 
 def calc_devis(d):
     dv = d.get("devis") or {}
-    em = emetteur()
+    em = emetteur_du(d)
+    taux = float(em["tva"].get("taux") or 0) if assujetti(em) else 0.0   # taux absent : bloqué au contrôle final
     lots = []
     for l in dv.get("lots", []):
         try:
@@ -243,11 +266,15 @@ def calc_devis(d):
         {"libelle": "Acompte à la commande", "pourcentage": em["acompte_pct"]},
         {"libelle": "Solde à la livraison des livrables", "pourcentage": 100 - em["acompte_pct"]},
     ]
-    ech, reste = [], total
+    tva = round(total * taux / 100, 2)
+    ttc = round(total + tva, 2)
+    ech, reste, reste_ttc = [], total, ttc
     for i, e in enumerate(plan):
-        m = reste if i == len(plan) - 1 else round(total * e["pourcentage"] / 100, 2)
-        reste = round(reste - m, 2)
-        ech.append({"libelle": e["libelle"], "pourcentage": e["pourcentage"], "montant": m})
+        dernier = i == len(plan) - 1
+        m = reste if dernier else round(total * e["pourcentage"] / 100, 2)
+        m_ttc = reste_ttc if dernier else round(ttc * e["pourcentage"] / 100, 2)
+        reste, reste_ttc = round(reste - m, 2), round(reste_ttc - m_ttc, 2)
+        ech.append({"libelle": e["libelle"], "pourcentage": e["pourcentage"], "montant": m, "montant_ttc": m_ttc})
 
     emission = validite = None
     if dv.get("date_emission"):
@@ -256,6 +283,7 @@ def calc_devis(d):
     tiers = dv.get("budget_tiers") or []
     return {
         "lots": lots, "total": total, "options": options, "echeancier": ech,
+        "assujetti": taux > 0, "taux_tva": taux, "tva": tva, "total_ttc": ttc,
         "date_emission": emission.isoformat() if emission else None,
         "date_validite": validite.isoformat() if validite else None,
         "tiers_min": sum(t["min"] for t in tiers if not t.get("option")),
@@ -289,6 +317,8 @@ def indicateurs(gain, gain_an1, recurrent, mise, interne, h_annuelles, h_liberee
 def calc_bc(d, dev):
     hyps = par_id(d.get("hypotheses"))
     tiers = (d.get("devis") or {}).get("budget_tiers") or []
+    # Le business case compte ce que le client supporte : HT s'il récupère la TVA, TTC sinon.
+    coef = 1 + dev["taux_tva"] / 100 if (d.get("client") or {}).get("recupere_tva") is False else 1
     res = {}
     for s in d.get("solutions", []):
         bc = s.get("business_case")
@@ -309,7 +339,7 @@ def calc_bc(d, dev):
             gain = h_lib * v("cout_horaire") + v("gains_autres_annuels", 0)
             recurrent = sum(float(o.get("cout_mensuel") or 0) * float(o.get("quantite") or 1) * 12
                             for o in s.get("outils", [])) + v("maintenance_annuelle", 0)
-            mise = sum(l["montant"] / len(l["solutions"]) for l in dev["lots"] if sid in l["solutions"])
+            mise = sum(l["montant"] * coef / len(l["solutions"]) for l in dev["lots"] if sid in l["solutions"])
             mise += sum(part_tiers(t, scen) / len(t["solutions"]) for t in tiers
                         if sid in (t.get("solutions") or []))
             res[sid][scen] = indicateurs(gain, gain * v("adoption_an1"), recurrent, mise,
@@ -319,7 +349,7 @@ def calc_bc(d, dev):
         res["global"] = {}
         for scen in SCENARIOS:
             somme = lambda k: sum(res[i][scen][k] for i in retenues)
-            mise = dev["total"] + sum(part_tiers(t, scen) for t in tiers if not t.get("option"))
+            mise = dev["total"] * coef + sum(part_tiers(t, scen) for t in tiers if not t.get("option"))
             res["global"][scen] = indicateurs(somme("gain_annuel"), somme("gain_an1"),
                                               somme("recurrent_annuel"), mise, somme("cout_interne"),
                                               somme("heures_annuelles"), somme("heures_liberees"))
@@ -377,14 +407,17 @@ def contexte(d, calc):
             else:
                 ctx[f"{bloc}.{k}"] = nombre(v)
     dv, dev = d.get("devis") or {}, calc["devis"]
-    em = emetteur()
+    em = emetteur_du(d)
+    base = " HT" if dev["assujetti"] else " net"
     ctx.update({
         "devis.numero": dv.get("numero", ""), "devis.objet": dv.get("objet", ""),
         "devis.date_emission": date_fr(dev["date_emission"]) if dev["date_emission"] else "",
         "devis.date_validite": date_fr(dev["date_validite"]) if dev["date_validite"] else "",
         "devis.validite_jours": str(dv.get("validite_jours", em["validite_jours"])),
-        "devis.total": euros(dev["total"]), "devis.total_options": euros(dev["options"]),
-        "devis.acompte": euros(dev["echeancier"][0]["montant"]) if dev["echeancier"] else "",
+        "devis.total": euros(dev["total"]) + base, "devis.total_options": euros(dev["options"]) + base,
+        "devis.total_ttc": euros(dev["total_ttc"]) + (" TTC" if dev["assujetti"] else " net"),
+        "devis.tva": euros(dev["tva"]),
+        "devis.acompte": euros(dev["echeancier"][0]["montant"]) + base if dev["echeancier"] else "",
         "devis.budget_tiers_min": euros(dev["tiers_min"], 100),
         "devis.budget_tiers_max": euros(dev["tiers_max"], 100),
         "nb.problemes": str(len(d.get("problemes", []))),
@@ -517,7 +550,7 @@ def sans_commentaires(texte):
 # ── Devis (généré, jamais rédigé à la main) ──────────────────────────────
 
 def devis_md(d, calc):
-    em, c, dv, dev = emetteur(), d.get("client") or {}, d.get("devis") or {}, calc["devis"]
+    em, c, dv, dev = emetteur_du(d), d.get("client") or {}, d.get("devis") or {}, calc["devis"]
     S, P = par_id(d.get("solutions")), par_id(d.get("problemes"))
     decideur = next((i for i in c.get("interlocuteurs", []) if i.get("role") == "décideur"),
                     (c.get("interlocuteurs") or [{}])[0])
@@ -534,8 +567,7 @@ def devis_md(d, calc):
         f'valable jusqu\'au {date_fr(dev["date_validite"]) if dev["date_validite"] else "—"}</p></div>',
         "",
         '<div class="parties"><div class="partie"><p class="etiquette">Prestataire</p><p>'
-        f'<strong>{e(em["nom_commercial"])}</strong> — {e(em["representant"])}<br>{e(em["forme"])}<br>'
-        f'{e(em["adresse"])}<br>SIRET {e(em["siret"])}<br>{e(em["email"])} · {e(em["telephone"])}</p></div>'
+        + prestataire(em) + '</p></div>'
         '<div class="partie"><p class="etiquette">Client</p><p>' + "<br>".join(client_lignes) + "</p></div></div>",
         "",
         "## Objet", "", dv.get("objet", ""), "",
@@ -552,12 +584,20 @@ def devis_md(d, calc):
         q, u = l.get("quantite", 1), l.get("unite", "forfait")
         qte = "forfait" if u == "forfait" and q == 1 else f"{nombre(q)} {u}"
         return [l["id"], l.get("titre"), l.get("duree", ""), qte, euros(montant[l["id"]])]
-    out += ["## Prestations", "", tableau(["Lot", "Désignation", "Durée indicative", "Quantité", "Montant net"],
-                                          [ligne(l) for l in fermes] + [["", "**Total net**", "", "", f"**{euros(dev['total'])}**"]]),
-            "", em["mention_tva"] + ".", ""]
+    col = "Montant HT" if dev["assujetti"] else "Montant net"
+    if dev["assujetti"]:
+        totaux = [["", "**Total HT**", "", "", f"**{euros(dev['total'])}**"],
+                  ["", f"TVA {nombre(dev['taux_tva'])}{NBSP}%", "", "", euros(dev["tva"])],
+                  ["", "**Total TTC**", "", "", f"**{euros(dev['total_ttc'])}**"]]
+        apres = [""]
+    else:
+        totaux = [["", "**Total net**", "", "", f"**{euros(dev['total'])}**"]]
+        apres = ["", (em.get("tva") or {}).get("mention", "[mention de TVA à compléter]") + ".", ""]
+    out += ["## Prestations", "", tableau(["Lot", "Désignation", "Durée indicative", "Quantité", col],
+                                          [ligne(l) for l in fermes] + totaux)] + apres
     if opts:
         out += ["### Options, non comprises dans le total", "",
-                tableau(["Lot", "Désignation", "Durée indicative", "Quantité", "Montant net"], [ligne(l) for l in opts]), ""]
+                tableau(["Lot", "Désignation", "Durée indicative", "Quantité", col], [ligne(l) for l in opts]), ""]
 
     out += ["## Détail des prestations", ""]
     for l in fermes + opts:
@@ -591,9 +631,14 @@ def devis_md(d, calc):
         out += ["## Hypothèses de chiffrage", ""] + [f"- {x}" for x in dv["hypotheses_chiffrage"]] + [""]
     if dv.get("exclusions"):
         out += ["## Ce que ce devis ne comprend pas", ""] + [f"- {x}" for x in dv["exclusions"]] + [""]
-    out += ["## Échéancier de facturation", "",
-            tableau(["Échéance", "Part", "Montant net"],
-                    [[x["libelle"], f"{nombre(x['pourcentage'])}{NBSP}%", euros(x["montant"])] for x in dev["echeancier"]]), ""]
+    if dev["assujetti"]:
+        ech = tableau(["Échéance", "Part", "Montant HT", "Montant TTC"],
+                      [[x["libelle"], f"{nombre(x['pourcentage'])}{NBSP}%", euros(x["montant"]), euros(x["montant_ttc"])]
+                       for x in dev["echeancier"]])
+    else:
+        ech = tableau(["Échéance", "Part", "Montant net"],
+                      [[x["libelle"], f"{nombre(x['pourcentage'])}{NBSP}%", euros(x["montant"])] for x in dev["echeancier"]])
+    out += ["## Échéancier de facturation", "", ech, ""]
     valid = dv.get("validite_jours", em["validite_jours"])
     out += ["## Conditions", "",
             f"- Devis valable {valid} jours, soit jusqu'au {date_fr(dev['date_validite']) if dev['date_validite'] else '—'}.",
@@ -605,7 +650,7 @@ def devis_md(d, calc):
             "- Frais de déplacement hors Île-de-France facturés en sus, après accord préalable (CGV, article 4).",
             "- Les estimations de gains figurant dans le compte rendu d'audit sont des analyses prospectives "
             "et non une garantie de résultat (CGV, article 7.1).",
-            f"- {em['mention_tva']}.",
+            *([f"- {(em.get('tva') or {}).get('mention', '[mention de TVA à compléter]')}."] if not dev["assujetti"] else []),
             f"- Conditions générales de vente, version du {em['cgv_version']}, consultables sur "
             f"{em['cgv_url']} : elles s'appliquent au présent devis."]
     out += [f"- {x}" for x in dv.get("conditions_particulieres", [])]
@@ -613,6 +658,51 @@ def devis_md(d, calc):
             '<div class="signature"><p>Date :</p><p>Nom et fonction du signataire :</p>'
             "<p>Signature et cachet, précédés de la mention « Bon pour accord » :</p></div>", ""]
     return "\n".join(out)
+
+
+def prestataire(em):
+    """Bloc d'identité de l'émetteur : entrepreneur individuel ou société (dénomination, forme,
+    capital, siège, RCS, TVA intracommunautaire, représentant). Un champ vide reste visible :
+    le contrôle final le bloque."""
+    v = lambda k: html.escape(str(em.get(k) or "[à compléter]"))
+    if em.get("denomination"):
+        lignes = [f'<strong>{v("nom_commercial")}</strong>, nom commercial de {v("denomination")}',
+                  f'{v("forme")} au capital de {v("capital")}', f'Siège : {v("adresse")}',
+                  f'{v("siren")} RCS {v("greffe")}' + (f' · TVA {v("tva_intracom")}' if em.get("tva_intracom") else ""),
+                  f'Représentée par {v("representant")}, {v("qualite")}']
+    else:
+        lignes = [f'<strong>{v("nom_commercial")}</strong> — {v("representant")}', v("forme"), v("adresse"),
+                  f'SIRET {v("siret")}']
+    return "<br>".join(lignes + [f'{v("email")} · {v("telephone")}'])
+
+
+CHAMPS_EMETTEUR = {
+    "societe": ("denomination", "nom_commercial", "forme", "capital", "adresse", "siren", "greffe",
+                "representant", "qualite", "email", "telephone"),
+    "ei": ("nom_commercial", "representant", "forme", "adresse", "siret", "email", "telephone"),
+}
+
+
+def verifier_emetteur(d, rapport):
+    try:
+        em = emetteur_du(d)
+    except ErreurDonnees as x:
+        rapport.erreur(str(x))
+        return
+    champs = CHAMPS_EMETTEUR["societe" if em.get("denomination") else "ei"] + ("cgv_version",)
+    manquants = [k for k in champs if not em.get(k)]
+    tva = em.get("tva") or {}
+    if tva.get("regime") == "assujetti":
+        manquants += [k for k in ("taux",) if not tva.get(k)]
+        if em.get("denomination") and not em.get("tva_intracom"):
+            manquants.append("tva_intracom")
+    elif tva.get("regime") == "franchise":
+        manquants += [k for k in ("mention",) if not tva.get(k)]
+    else:
+        manquants.append("tva.regime")
+    if manquants:
+        rapport.erreur(f"assets/emetteur.json, entité « {em.get('denomination') or em.get('nom_commercial')} » "
+                       f"active au devis : {', '.join(manquants)} à renseigner")
 
 
 # ── Contrôles ────────────────────────────────────────────────────────────
@@ -747,6 +837,7 @@ def verifier_donnees(d, etape, rapport):
         if q.get("bloquante") and not q.get("reponse"):
             (rapport.erreur if etape == "final" else rapport.alerte)(f"{q['id']} : question bloquante sans réponse")
     if etape == "final":
+        verifier_emetteur(d, rapport)
         c = d.get("client") or {}
         if not re.fullmatch(r"\d{9}", re.sub(r"\s", "", str(c.get("siren", "")))):
             rapport.erreur("client.siren absent ou invalide : obligatoire avant envoi du devis")
@@ -758,9 +849,9 @@ def verifier_coherence_site(d, rapport):
     racine = racine_depot()
     if not racine:
         return
-    em = emetteur()
+    em = emetteur_du(d)
     m = re.search(r"Version en vigueur au ([^<]+)", (racine / "cgv.html").read_text(encoding="utf-8"))
-    if m and m.group(1).strip() != em["cgv_version"]:
+    if m and em.get("cgv_version") and m.group(1).strip() != em["cgv_version"]:
         rapport.erreur(f"CGV du site en version « {m.group(1).strip()} », devis calé sur « {em['cgv_version']} » : "
                        "mettre à jour assets/emetteur.json et relire la section Conditions")
     bc = racine / "boutique-config.js"
@@ -846,6 +937,15 @@ def rendre_pdf(html_path, pdf_path, pied):
 
 # ── Commandes ────────────────────────────────────────────────────────────
 
+def exiger_ignore(dossier, racine):
+    """Dépôt public : un dossier d'audit suivi par git finirait en ligne. Hors dépôt git
+    (code de retour 128), rien à vérifier."""
+    r = subprocess.run(["git", "check-ignore", "-q", str(dossier)], capture_output=True)
+    if r.returncode == 1:
+        shutil.rmtree(dossier)
+        sortir(f"{dossier} n'est pas ignoré par git : ajouter « {racine}/ » au .gitignore avant tout audit")
+
+
 def cmd_init(a):
     racine = Path(a.racine)
     date = a.date or dt.date.today().isoformat()
@@ -854,14 +954,10 @@ def cmd_init(a):
     if dossier.exists():
         sortir(f"{dossier} existe déjà")
     dossier.mkdir(parents=True)
-    # Dépôt public : un dossier d'audit suivi par git finirait en ligne.
-    r = subprocess.run(["git", "check-ignore", "-q", str(dossier)], capture_output=True)
-    if r.returncode == 1:
-        shutil.rmtree(dossier)
-        sortir(f"{dossier} n'est pas ignoré par git : ajouter « {racine}/ » au .gitignore avant tout audit")
+    exiger_ignore(dossier, racine)
     squelette = {
         "meta": {"reference": ref, "date_entretien": date, "type_entretien": "", "duree_min": None,
-                 "participants_thinkup": ["Patrick Langlais"], "source": {"type": "", "ref": ""}, "mode": "complet"},
+                 "participants_thinkup": ["Patrick Langlais"], "source": {"type": "", "ref": ""}, "mode": ""},
         "client": {"raison_sociale": a.client, "forme_juridique": "", "siren": "", "adresse": "", "secteur": "",
                    "effectif": None, "outils_en_place": [], "interlocuteurs": []},
         "faits": [], "problemes": [], "hypotheses": [], "solutions": [],
@@ -972,6 +1068,38 @@ def cmd_construire(a):
     return rapport.afficher("Construction")
 
 
+def cmd_archiver(a):
+    dossier = Path(a.dossier).resolve()
+    if not (dossier / "dossier.json").exists():
+        sortir(f"{dossier} n'est pas un dossier d'audit (dossier.json absent)")
+    cible = dossier.parent / f"{dossier.name}.zip"
+    with zipfile.ZipFile(cible, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(dossier.rglob("*")):
+            if f.is_file():
+                z.write(f, Path(dossier.name) / f.relative_to(dossier))
+    print(cible)
+    return 0
+
+
+def cmd_restaurer(a):
+    racine = Path(a.racine)
+    with zipfile.ZipFile(a.archive) as z:
+        noms = z.namelist()
+        tetes = {Path(n).parts[0] for n in noms if n}
+        if len(tetes) != 1 or any(n.startswith("/") or ".." in Path(n).parts for n in noms):
+            sortir("archive inattendue : elle doit contenir un seul dossier d'audit")
+        dossier = racine / tetes.pop()
+        if not any(n.endswith("dossier.json") for n in noms):
+            sortir("archive inattendue : dossier.json absent")
+        if dossier.exists():
+            sortir(f"{dossier} existe déjà")
+        dossier.mkdir(parents=True)
+        exiger_ignore(dossier, racine)
+        z.extractall(racine)
+    print(dossier)
+    return 0
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = p.add_subparsers(dest="cmd", required=True)
@@ -988,9 +1116,14 @@ def main():
     b.add_argument("dossier")
     b.add_argument("--pdf", action="store_true")
     b.add_argument("--final", action="store_true", help="applique aussi les contrôles d'avant envoi")
+    z = sp.add_parser("archiver")
+    z.add_argument("dossier")
+    r = sp.add_parser("restaurer")
+    r.add_argument("archive")
+    r.add_argument("racine", nargs="?", default="audits")
     a = p.parse_args()
     return {"init": cmd_init, "calculer": cmd_calculer, "verifier": cmd_verifier,
-            "construire": cmd_construire}[a.cmd](a)
+            "construire": cmd_construire, "archiver": cmd_archiver, "restaurer": cmd_restaurer}[a.cmd](a)
 
 
 if __name__ == "__main__":

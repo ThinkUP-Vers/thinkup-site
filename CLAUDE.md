@@ -106,7 +106,8 @@ think-up.fr.
 Si `cgv.html` change de version ou si un prix change dans
 `boutique-config.js`, `audit.py verifier` le signale : mettre à jour
 `.claude/skills/audit-ia/assets/emetteur.json` et relire la section
-Conditions du devis généré. Contrôle de non-régression du script :
+Conditions du devis généré. Au passage en société (PL Holding, SASU), compléter et dater
+l'entité préparée dans ce même fichier : procédure dans `references/devis.md`. Contrôle de non-régression du script :
 
 ```
 python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit-ia/exemple --final

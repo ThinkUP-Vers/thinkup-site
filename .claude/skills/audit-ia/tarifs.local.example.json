@@ -7,5 +7,6 @@
     "développeur intégration / API": null,
     "data / IA": null
   },
-  "plancher_mission": null
+  "plancher_mission": null,
+  "seuil_relecture_complete": null
 }

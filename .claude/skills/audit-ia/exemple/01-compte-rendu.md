@@ -81,7 +81,7 @@ Trois semaines de mise en place, mesure à quatre-vingt-dix jours.
 
 # 9. Prochaines étapes
 
-Devis joint n° {{devis.numero}}, {{devis.total}} net, valable jusqu'au {{devis.date_validite}}.
+Devis joint n° {{devis.numero}}, {{devis.total}}, valable jusqu'au {{devis.date_validite}}.
 
 {{TABLEAU:questions}}
 

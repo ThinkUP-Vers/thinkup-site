@@ -17,12 +17,13 @@ Exemple complet et valide : `exemple/dossier.json`.
     "duree_min": 75,
     "participants_thinkup": ["Patrick Langlais"],
     "source": {"type": "noota | texte | audio | drive", "ref": "id Noota, chemin ou lien"},
-    "mode": "complet | express"
+    "mode": "complet | express"          // fixé à l'étape 6, devis chiffré
   },
   "client": {
     "raison_sociale": "", "forme_juridique": "", "siren": "", "adresse": "",
     "secteur": "", "effectif": 42, "chiffre_affaires": "6,5 M€ (déclaré)",
     "outils_en_place": ["Microsoft 365 Business Standard", "ERP Sage 100"],
+    "recupere_tva": true,               // false : activité exonérée, le business case compte le devis TTC
     "interlocuteurs": [{"nom": "", "fonction": "", "role": "décideur | prescripteur | utilisateur"}]
   },
   "faits": [{
@@ -133,7 +134,8 @@ temps interne du client.
 | `{{meta.date_entretien}}`, `{{meta.duree_min}}`… | champs simples du bloc meta (dates en toutes lettres) |
 | `{{bc.S1.gain_annuel.central}}` | grandeur calculée d'une solution, par scénario |
 | `{{bc.global.retour_mois.prudent}}` | idem pour l'ensemble des solutions retenues |
-| `{{devis.numero}}`, `{{devis.total}}`, `{{devis.total_options}}`, `{{devis.acompte}}` | devis |
+| `{{devis.numero}}`, `{{devis.total}}`, `{{devis.total_options}}`, `{{devis.acompte}}` | devis ; montants suivis de « net » (franchise de TVA) ou « HT » : ne pas l'écrire après la balise |
+| `{{devis.tva}}`, `{{devis.total_ttc}}` | TVA et total TTC (égal au net en franchise) |
 | `{{devis.date_emission}}`, `{{devis.date_validite}}`, `{{devis.validite_jours}}`, `{{devis.objet}}` | devis |
 | `{{devis.budget_tiers_min}}`, `{{devis.budget_tiers_max}}` | budget hors devis, hors options |
 | `{{sol.S1.titre}}`, `{{pb.P2.titre}}`, `{{hyp.H3.valeur}}` | libellés |

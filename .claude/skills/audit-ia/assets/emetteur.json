@@ -1,18 +1,46 @@
 {
-  "_note": "Identité reprise de cgv.html (article 1). Si les CGV changent de version, `audit.py verifier` le détecte : mettre à jour ce fichier et relire la section Conditions du devis.",
-  "nom_commercial": "Think'UP",
-  "representant": "Patrick Langlais",
-  "forme": "Entrepreneur individuel (nom commercial : Think'UP)",
-  "adresse": "22 rue Victor Hugo, 78000 Versailles",
-  "siren": "944 966 613",
-  "siret": "944 966 613 00019",
+  "_note": "Entités émettrices des devis. audit.py retient, à la date d'émission du devis, la dernière entité dont « a_compter_du » est atteint (« origine » pour la première). Une entité à « a_compter_du » null est préparée mais inactive : renseigner tous ses champs et sa date d'effet, faire valider le devis généré (protocole méta-agent, contenu réglementaire), mettre à jour cgv.html, puis activer. Si les CGV changent de version, `audit.py verifier` le détecte.",
   "email": "patrick@thinkupcom.com",
   "telephone": "07 82 48 43 54",
   "site": "https://think-up.fr",
-  "mention_tva": "TVA non applicable, art. 293 B du CGI",
   "cgv_url": "https://think-up.fr/cgv.html",
   "cgv_version": "5 octobre 2026",
   "validite_jours": 30,
   "acompte_pct": 30,
-  "delai_paiement_jours": 30
+  "delai_paiement_jours": 30,
+  "entites": [
+    {
+      "a_compter_du": "origine",
+      "_source": "cgv.html, article 1",
+      "nom_commercial": "Think'UP",
+      "representant": "Patrick Langlais",
+      "forme": "Entrepreneur individuel (nom commercial : Think'UP)",
+      "adresse": "22 rue Victor Hugo, 78000 Versailles",
+      "siren": "944 966 613",
+      "siret": "944 966 613 00019",
+      "tva": {
+        "regime": "franchise",
+        "mention": "TVA non applicable, art. 293 B du CGI"
+      }
+    },
+    {
+      "a_compter_du": null,
+      "_source": "à compléter depuis le Kbis de la société",
+      "denomination": "PL Holding",
+      "nom_commercial": "Think'UP",
+      "forme": "SASU",
+      "capital": null,
+      "adresse": null,
+      "siren": null,
+      "greffe": null,
+      "tva_intracom": null,
+      "representant": "Patrick Langlais",
+      "qualite": "Président",
+      "cgv_version": null,
+      "tva": {
+        "regime": "assujetti",
+        "taux": 20
+      }
+    }
+  ]
 }

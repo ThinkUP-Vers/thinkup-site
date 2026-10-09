@@ -4,7 +4,7 @@ description: >
   Transforme le compte rendu d'un audit ou d'un échange de découverte (transcription Noota, fichier
   audio, notes écrites, document Drive) en trois livrables Think'UP : le compte rendu d'audit complet
   à envoyer au prospect, le dossier de mise en œuvre de la solution IA (interne, pour Patrick) et le
-  devis. Rédaction en plusieurs passes avec relecture croisée par quatre relecteurs indépendants.
+  devis. Rédaction en plusieurs passes avec relecture croisée par deux à quatre relecteurs indépendants.
   Déclencher sur : « CR d'audit », « compte rendu d'audit », « transforme cet audit », « proposition
   après l'audit », « devis à partir de l'audit », « /audit-ia ». Ne pas déclencher pour : un post
   LinkedIn, une offre générique sans audit, une question ponctuelle sur l'IA.
@@ -52,8 +52,7 @@ participants, nature) :
 Si la source est une transcription d'entretien, rappeler à Patrick en une ligne que l'enregistrement et
 son traitement par des outils d'IA doivent avoir été annoncés aux participants.
 
-Mode : `complet` par défaut ; `express` si Patrick le demande (relecture réduite, voir étape 6).
-Renseigner `meta.mode` et `meta.source`.
+Renseigner `meta.source`. Le mode de relecture se choisit à l'étape 6, une fois le devis chiffré.
 
 ## Étape 1 — Extraction (lire `references/extraction.md`)
 
@@ -66,7 +65,8 @@ Poser **en un seul message** les questions qui bloquent réellement, et attendre
 - les questions Q de destinataire `Patrick` (il était dans la pièce : volumes, coûts, contexte non dit) ;
 - le mode de réalisation (direct : freelances payés par le client ; ou sous-traitance), s'il n'est pas évident ;
 - les tarifs internes si `$S/tarifs.local.json` et `THINKUP_TARIFS` sont absents (TJM cible, contingence) ;
-- le chiffre d'affaires déjà facturé dans l'année si le devis s'annonce important (franchise de TVA).
+- si l'entité émettrice active est en franchise de TVA et que le devis s'annonce important, le chiffre
+  d'affaires déjà facturé dans l'année (`references/devis.md`).
 
 Les choix fermés passent par AskUserQuestion. Chaque réponse devient un fait
 (`locuteur: "Patrick (complément du JJ/MM)"`) ou une hypothèse. Ce que Patrick ignore reste une
@@ -96,6 +96,16 @@ jamais dans les livrables générés.
 
 ## Étape 6 — Relecture croisée (lire `references/relectures.md`)
 
+Choisir le mode et l'inscrire dans `meta.mode` :
+- **complet** (R1 à R4, deux tours au plus) si le total ferme du devis atteint
+  `seuil_relecture_complete` de `tarifs.local.json` (5 000 € à défaut), si une solution traite des
+  données sensibles (santé, RH), prépare une décision sur des personnes ou relève d'un risque élevé au
+  sens de l'IA Act, ou si Patrick le demande ;
+- **express** (R1 et R4, un seul tour) sinon.
+
+Les relecteurs tournent sur Sonnet (champ `model` de l'agent) ; la rédaction reste sur le modèle de la
+session.
+
 1. **Tour 1** : lancer en parallèle, dans un seul message, les quatre relecteurs (agent
    `relecteur-audit`, rôles R1 à R4). En mode express : R1 et R4.
 2. **Correction** : traiter toute objection BLOQUANT et IMPORTANT ; les MINEUR au jugement. Une
@@ -123,12 +133,17 @@ d'envoi de fichiers de la session s'il existe, puis un message court :
 - le rappel : le dossier `-INTERNE` ne part jamais chez le client.
 
 Proposer ensuite, sans rien faire avant son accord explicite : création du devis en brouillon dans
-Qonto (procédure dans `references/devis.md`), dépôt des livrables sur Google Drive. Rappeler que le
-conteneur d'une session cloud est éphémère : les livrables doivent être récupérés, et le dossier
-`audits/` supprimé une fois la mission close ou archivé hors du dépôt.
+Qonto (procédure dans `references/devis.md`), dépôt des livrables sur Google Drive.
+
+**Session cloud** (claude.ai/code, application mobile) : le conteneur s'efface après la session, et
+`audits/` avec lui. À la fin de chaque séance de travail, pas seulement à la livraison :
+`python3 $S/scripts/audit.py archiver $A`, puis envoyer l'archive à Patrick en pièce jointe, pour
+qu'il la range avec le dossier du client.
 
 ## Reprendre un audit existant
 
-Si `$A` existe, lire `journal.md` pour savoir où on en est, et repartir de l'étape suivante. Pour une
+Si `$A` n'existe pas mais que Patrick fournit son archive :
+`python3 $S/scripts/audit.py restaurer archive.zip audits`. Puis lire `journal.md` pour savoir où on en
+est, et repartir de l'étape suivante. Pour une
 correction demandée par Patrick après livraison : modifier la source, reconstruire, relancer le seul
 relecteur concerné, mettre le journal à jour.
