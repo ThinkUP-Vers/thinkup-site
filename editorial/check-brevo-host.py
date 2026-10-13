@@ -21,18 +21,131 @@ brevo_key = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(brevo_key)
 
 
+# Incidents passagers (pare-feu ou surcharge côté Hostinger, API Brevo lente ou
+# indisponible, coupure réseau) : jusqu'à 3 essais. Jamais pour une preuve
+# invalide ni pour un expéditeur réellement inactif.
+ATTEMPTS = 3
+PAUSES = (5, 10)
+RETRY_HTTP = {403, 408, 425, 429, 500, 502, 503, 504}
+
+# Journal des tentatives, imprimé en cas d'échec. Il ne contient que des
+# codes, des noms de classe et des messages fixes : ni clé, ni signature, ni
+# identifiant FTP.
+journal = []
+
+
+class PreflightError(ValueError):
+    """Échec identifié ; le message est fixe ou ne contient que des codes."""
+
+
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):
         return None
 
 
 def proof_valid(data, nonce, sha, expiry, key):
-    if not isinstance(data, dict) or set(data) != {'active', 'nonce', 'sha', 'proof'}:
+    if not isinstance(data, dict) or set(data) != {'active', 'nonce', 'sha', 'api_status', 'api_errno', 'proof'}:
         return False
     if type(data['active']) is not bool or data['nonce'] != nonce or data['sha'] != sha or not isinstance(data['proof'], str):
         return False
-    payload = f"response\n{nonce}\n{sha}\n{expiry}\n{int(data['active'])}"
+    if type(data['api_status']) is not int or type(data['api_errno']) is not int:
+        return False
+    payload = f"response\n{nonce}\n{sha}\n{expiry}\n{int(data['active'])}\n{data['api_status']}\n{data['api_errno']}"
     return hmac.compare_digest(data['proof'], hmac.new(key.encode('ascii'), payload.encode('ascii'), hashlib.sha256).hexdigest())
+
+
+def pause(attempt):
+    if attempt < ATTEMPTS:
+        time.sleep(PAUSES[attempt - 1])
+
+
+def http_error(error):
+    """(code, refus du helper) : le helper refuse par un 403 au corps « {} » ;
+    un 403 en HTML vient d'un pare-feu."""
+    try:
+        body = error.read(64)
+    except Exception:
+        body = b''
+    return error.code, error.code == 403 and body.strip() == b'{}'
+
+
+def query_helper(opener, request, directory, nonce, sha, expiry, key):
+    """'absent' si le helper n'est pas servi depuis ce dossier, 'active' si
+    l'expéditeur est actif ; PreflightError sinon."""
+    last = 'aucune réponse'
+    for attempt in range(1, ATTEMPTS + 1):
+        step = f'helper {directory}, essai {attempt}'
+        try:
+            with opener.open(request, timeout=12) as response:
+                raw = response.read(4097)
+        except urllib.error.HTTPError as error:
+            code, denied = http_error(error)
+            journal.append(f'{step} : HTTP {code}' + (' (refus du helper)' if denied else ''))
+            if code in (404, 410) or denied:
+                return 'absent'
+            if code not in RETRY_HTTP:
+                raise PreflightError(f'helper : HTTP {code}')
+            last = f'HTTP {code}'
+            pause(attempt)
+            continue
+        except OSError as error:
+            reason = getattr(error, 'reason', None)
+            last = type(error).__name__ + (f' ({type(reason).__name__})' if reason is not None else '')
+            journal.append(f'{step} : {last}')
+            pause(attempt)
+            continue
+        try:
+            data = json.loads(raw)
+        except ValueError:
+            last = f'réponse non JSON ({len(raw)} octets)'
+            journal.append(f'{step} : {last}')
+            pause(attempt)
+            continue
+        if not proof_valid(data, nonce, sha, expiry, key):
+            journal.append(f'{step} : preuve invalide')
+            raise PreflightError('invalid host proof')
+        if data['active'] is True:
+            journal.append(f'{step} : expéditeur actif')
+            return 'active'
+        last = f"API Brevo : statut {data['api_status']}, erreur curl {data['api_errno']}"
+        journal.append(f'{step} : {last}')
+        if data['api_status'] == 200 and data['api_errno'] == 0:
+            raise PreflightError('inactive sender: contact@think-up.fr absent or inactive in Brevo (API answered 200)')
+        pause(attempt)
+    raise PreflightError(f'helper unavailable after {ATTEMPTS} attempts, last: {last}')
+
+
+def verify_removed(opener, request):
+    """Vrai si le helper ne répond plus (404 ou 410)."""
+    for attempt in range(1, ATTEMPTS + 1):
+        step = f'contrôle du retrait, essai {attempt}'
+        try:
+            with opener.open(request, timeout=12):
+                journal.append(f'{step} : helper encore servi')
+                return False
+        except urllib.error.HTTPError as error:
+            code, denied = http_error(error)
+            journal.append(f'{step} : HTTP {code}' + (' (refus du helper)' if denied else ''))
+            if code in (404, 410):
+                return True
+            if denied or code not in RETRY_HTTP:
+                return False
+        except OSError as error:
+            journal.append(f'{step} : {type(error).__name__}')
+        pause(attempt)
+    return False
+
+
+def describe(error):
+    """Cause imprimable, sans secret : message fixe, code HTTP ou FTP, nom de classe."""
+    if isinstance(error, PreflightError):
+        return str(error)
+    if isinstance(error, urllib.error.HTTPError):
+        return f'HTTP {error.code}'
+    if isinstance(error, ftplib.Error):
+        code = str(error)[:3]
+        return f'FTP {type(error).__name__}' + (f' {code}' if code.isdigit() else '')
+    return type(error).__name__
 
 
 def state_path():
@@ -85,12 +198,8 @@ def cleanup_saved():
         key = brevo_key.normalized_key()
         signature = hmac.new(key.encode('ascii'), f'{nonce}\n{sha}\n{expiry}'.encode('ascii'), hashlib.sha256).hexdigest()
         request = urllib.request.Request('https://think-up.fr/' + filename, headers={'X-Preflight-Signature':signature, 'Cache-Control':'no-cache'})
-        try:
-            with urllib.request.build_opener(NoRedirect()).open(request, timeout=12):
-                raise ValueError('helper still reachable')
-        except urllib.error.HTTPError as error:
-            if error.code not in (404, 410):
-                raise
+        if not verify_removed(urllib.request.build_opener(NoRedirect()), request):
+            raise PreflightError('cleanup not verified: helper still reachable or check unavailable')
         state['cleaned'] = True
         save_state(state)
     finally:
@@ -137,21 +246,12 @@ def main():
             state['uploaded'] = list(uploaded)
             save_state(state)
             ftp.storbinary('STOR ' + absolute, io.BytesIO(source))
-            try:
-                with opener.open(request, timeout=12) as response:
-                    data = json.loads(response.read(4097))
-            except urllib.error.HTTPError as error:
-                if error.code in (404, 403):
-                    continue
-                raise
-            if not proof_valid(data, nonce, sha, expiry, key):
-                raise ValueError('invalid host proof')
-            if data['active'] is not True:
-                raise ValueError('inactive sender or API unavailable')
+            if query_helper(opener, request, directory, nonce, sha, expiry, key) == 'absent':
+                continue
             selected = directory
             break
         if selected is None:
-            raise ValueError('no authenticated public path')
+            raise PreflightError('no authenticated public path')
     finally:
         if uploaded:
             for remote in uploaded:
@@ -161,20 +261,14 @@ def main():
                     save_state(state)
                 except Exception:
                     cleanup_ok = False
-            try:
-                with opener.open(request, timeout=12):
-                    cleanup_ok = False
-            except urllib.error.HTTPError as error:
-                cleanup_ok = cleanup_ok and error.code in (404, 410)
-            except Exception:
-                cleanup_ok = False
+            cleanup_ok = verify_removed(opener, request) and cleanup_ok
         if ftp is not None:
             try:
                 ftp.close()
             except Exception:
                 pass
         if not cleanup_ok:
-            raise RuntimeError('cleanup not verified')
+            raise PreflightError('cleanup not verified')
         if uploaded:
             state['cleaned'] = True
             save_state(state)
@@ -189,5 +283,8 @@ def main():
 if __name__ == '__main__':
     try:
         cleanup_saved() if sys.argv[1:] == ['--cleanup'] else main()
-    except Exception:
+    except Exception as error:
+        for line in journal:
+            print('  ' + line, file=sys.stderr)
+        print('Cause : ' + describe(error), file=sys.stderr)
         sys.exit('Brevo Hostinger preflight: verification or cleanup failed; deployment stopped (helper expires within 15 minutes)')
