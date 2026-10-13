@@ -94,7 +94,9 @@ applique pas.
 Le dépôt est PUBLIC. Donc :
 
 - les dossiers clients vivent dans `audits/`, ignoré par git — ne jamais le
-  committer, ni le forcer avec `git add -f` ; `audit.py init` refuse de créer
+  committer, ni le forcer avec `git add -f` ; `audits/` est lui-même un clone du dépôt
+  privé `ThinkUP-Vers/thinkup-audits` : on y committe avec `git -C audits`, jamais depuis
+  la racine ; `audit.py init` refuse de créer
   un dossier qui ne serait pas ignoré ;
 - les tarifs internes (TJM, coût des freelances) vivent dans
   `.claude/skills/audit-ia/tarifs.local.json` (ignoré) ou dans la variable

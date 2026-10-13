@@ -32,6 +32,12 @@ description: >
 
 ## Étape 0 — Récupérer la source
 
+**Stockage.** `audits/` est un clone du dépôt privé `ThinkUP-Vers/thinkup-audits` : c'est lui qui
+conserve les dossiers d'une session à l'autre. En session cloud, si `audits/` n'en est pas un clone
+(`git -C audits remote -v` vide) : attacher le dépôt à la session (`add_repo`, accès push), puis le
+cloner dans `audits/` avec la commande que renvoie `add_repo`. Sans accès au dépôt privé, continuer et
+passer par l'archive (étape 7).
+
 Demander, si ce n'est pas clair, le client concerné et la source. Puis :
 
 ```bash
@@ -135,15 +141,21 @@ d'envoi de fichiers de la session s'il existe, puis un message court :
 Proposer ensuite, sans rien faire avant son accord explicite : création du devis en brouillon dans
 Qonto (procédure dans `references/devis.md`), dépôt des livrables sur Google Drive.
 
-**Session cloud** (claude.ai/code, application mobile) : le conteneur s'efface après la session, et
-`audits/` avec lui. À la fin de chaque séance de travail, pas seulement à la livraison :
-`python3 $S/scripts/audit.py archiver $A`, puis envoyer l'archive à Patrick en pièce jointe, pour
-qu'il la range avec le dossier du client.
+**Sauvegarde, à la fin de chaque séance de travail** (pas seulement à la livraison) : le conteneur
+d'une session cloud s'efface, et `audits/` avec lui.
+- `audits/` clone du dépôt privé : `git -C audits add <dossier>`, `git -C audits commit -m "<dossier> :
+  <étape atteinte>"`, `git -C audits push`. Toujours avec `-C audits` : jamais de `git add` depuis la
+  racine du site pour ces fichiers.
+- Sinon : `python3 $S/scripts/audit.py archiver $A`, puis envoyer l'archive à Patrick en pièce jointe.
+
+**Clôture.** À l'échéance de conservation convenue avec le client, et sur instruction de Patrick
+seulement : supprimer le dossier du dépôt privé et purger l'historique (`git filter-repo`), ou
+supprimer et recréer le dépôt. Une simple suppression laisse les données dans l'historique.
 
 ## Reprendre un audit existant
 
-Si `$A` n'existe pas mais que Patrick fournit son archive :
-`python3 $S/scripts/audit.py restaurer archive.zip audits`. Puis lire `journal.md` pour savoir où on en
+Si `$A` n'existe pas : cloner le dépôt privé dans `audits/` (étape 0) ; à défaut, si Patrick fournit
+l'archive, `python3 $S/scripts/audit.py restaurer archive.zip audits`. Puis lire `journal.md` pour savoir où on en
 est, et repartir de l'étape suivante. Pour une
 correction demandée par Patrick après livraison : modifier la source, reconstruire, relancer le seul
 relecteur concerné, mettre le journal à jour.
