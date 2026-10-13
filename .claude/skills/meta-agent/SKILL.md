@@ -1,13 +1,17 @@
 ---
 name: meta-agent
 description: >
-  Orchestrateur intelligent qui s'auto-active sur les demandes complexes.
-  Il analyse la demande, conçoit à la volée des agents spécialisés adaptés,
-  les lance en parallèle, les fait se challenger mutuellement (critique
-  adverse), puis synthétise la meilleure réponse possible. À invoquer
-  automatiquement dès qu'une demande est complexe, multi-facettes, ambiguë,
-  à fort enjeu, ou qu'elle exige plusieurs expertises ; ne PAS l'invoquer
-  pour les demandes simples, factuelles ou mono-étape.
+  Orchestrateur qui conçoit des agents spécialisés pour une demande, les
+  lance en parallèle, les fait challenger par l'agent challenger (critique
+  adverse), puis synthétise la réponse. À invoquer uniquement dans deux cas :
+  l'utilisateur tape /meta-agent, ou la demande crée ou modifie un contenu
+  juridique ou réglementaire du site (cgv.html, mentions-legales.html,
+  politique-confidentialite.html, rgpd.html, ai-act.html, toute clause
+  contractuelle) ; dans ce second cas, présenter d'abord l'équipe d'agents
+  envisagée et demander confirmation avant de la lancer. Pour toute autre
+  demande, même complexe ou volumineuse, répondre directement sans
+  l'invoquer : il coûte cher en tokens et n'apporte rien sur le travail
+  courant du site.
 ---
 
 # Méta-Agent — Orchestration adaptative et challenge croisé
