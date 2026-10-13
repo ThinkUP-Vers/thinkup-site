@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "reference": "2026-10-06-menuiseries-exemple",
+    "date_entretien": "2026-10-06",
+    "type_entretien": "échange découverte",
+    "duree_min": 30,
+    "participants_thinkup": ["Patrick Langlais"],
+    "source": {"type": "texte", "ref": "exemple/00-source.md (cas fictif)"},
+    "mode": "express"
+  },
+  "client": {
+    "raison_sociale": "Menuiseries Exemple SAS",
+    "forme_juridique": "SAS (cas fictif)",
+    "siren": "000000000",
+    "adresse": "1 rue de l'Exemple, 78000 Versailles",
+    "secteur": "Agencement sur mesure",
+    "effectif": 28,
+    "outils_en_place": ["Microsoft 365 Business Standard (déclaré)", "logiciel de gestion (facturation)"],
+    "interlocuteurs": [{"nom": "Dirigeant Exemple", "fonction": "Dirigeant", "role": "décideur"}]
+  },
+  "faits": [
+    {"id": "F1", "type": "contexte", "texte": "28 salariés dont 4 au bureau ; agencement sur mesure de boutiques et cabinets médicaux", "citation": "On est vingt-huit, dont quatre au bureau.", "localisation": "00:01:10", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F2", "type": "chiffre", "texte": "Environ 60 devis par mois", "citation": "On sort à peu près soixante devis par mois.", "localisation": "00:03:42", "locuteur": "Dirigeant", "statut": "estimé"},
+    {"id": "F3", "type": "chiffre", "texte": "Un devis prend 1 h 30 à 2 h", "citation": "Un devis, c'est une heure et demie, parfois deux", "localisation": "00:04:05", "locuteur": "Dirigeant", "statut": "estimé"},
+    {"id": "F4", "type": "irritant", "texte": "Prix fournisseurs dispersés dans trois fichiers Excel et les courriels, versions divergentes", "citation": "Les prix fournisseurs, je les cherche dans trois fichiers Excel et dans les mails. Personne n'a la même version.", "localisation": "00:05:30", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F5", "type": "outil", "texte": "Microsoft 365 (Business Standard, à confirmer) et un logiciel de gestion", "citation": "On a Microsoft 365, la version Business Standard je crois, et un logiciel de gestion pour la facturation.", "localisation": "00:07:12", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F6", "type": "irritant", "texte": "Les devis ne sont pas relancés", "citation": "Les relances de devis, honnêtement, personne ne les fait vraiment.", "localisation": "00:09:48", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F7", "type": "chiffre", "texte": "Taux de transformation d'environ un devis sur quatre", "citation": "On transforme à peu près un devis sur quatre.", "localisation": "00:10:20", "locuteur": "Dirigeant", "statut": "estimé"},
+    {"id": "F8", "type": "contrainte", "texte": "Exigence de maîtrise des données clients", "citation": "Je ne veux pas que mes données clients partent n'importe où.", "localisation": "00:13:05", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F9", "type": "objectif", "texte": "Soulager l'assistante qui travaille le soir sur les devis", "citation": "Ce que je veux, c'est que l'assistante arrête de passer ses soirées sur les devis.", "localisation": "00:15:40", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F10", "type": "chiffre", "texte": "Coût chargé du chargé d'affaires : environ 55 000 € par an", "citation": "Le chargé d'affaires, il me coûte autour de cinquante-cinq mille euros chargés.", "localisation": "00:18:22", "locuteur": "Dirigeant", "statut": "estimé"},
+    {"id": "F11", "type": "budget", "texte": "Prêt à investir quelques milliers d'euros si retour dans l'année", "citation": "Si ça se rembourse dans l'année, je suis prêt à mettre quelques milliers d'euros.", "localisation": "00:21:10", "locuteur": "Dirigeant", "statut": "déclaré"},
+    {"id": "F12", "type": "objection", "texte": "Agent conversationnel jugé inutile : les clients appellent", "citation": "Un chatbot sur le site, on m'en a parlé, mais nos clients nous appellent, ils ne chattent pas.", "localisation": "00:23:55", "locuteur": "Dirigeant", "statut": "déclaré"}
+  ],
+  "problemes": [
+    {"id": "P1", "titre": "Chaque devis coûte 1 h 30 à 2 h, surtout en recherche de prix", "processus": "Devis", "zone": "immergée", "description": "La recherche des prix fournisseurs dans plusieurs fichiers non synchronisés allonge chaque devis et déborde sur les soirées de l'assistante.", "faits": ["F2", "F3", "F4", "F9"], "impact": "Environ 1 000 à 1 200 heures par an (estimation déclarée), risque d'erreur de prix", "cause_racine": "Pas de référentiel de prix unique", "certitude": "probable", "priorisation": {"impact": 5, "effort": 2, "risque": 1}, "hors_perimetre": null},
+    {"id": "P2", "titre": "Les devis envoyés ne sont pas relancés", "processus": "Commercial", "zone": "immergée", "description": "Aucune relance systématique alors qu'un devis sur quatre seulement est signé.", "faits": ["F6", "F7"], "impact": "Chiffre d'affaires potentiellement perdu, non chiffrable sans historique", "cause_racine": "Pas de suivi des devis envoyés", "certitude": "probable", "priorisation": {"impact": 3, "effort": 1, "risque": 2}, "hors_perimetre": null}
+  ],
+  "hypotheses": [
+    {"id": "H1", "texte": "Coût horaire chargé de la personne qui chiffre", "valeur": 34, "unite": "€/h", "origine": "F10 : 55 000 € / 1 600 h, base de l'article ROI Think'UP", "a_valider": true},
+    {"id": "H2", "texte": "Durée moyenne d'un devis", "valeur": {"prudent": 1.5, "central": 1.75}, "unite": "h", "origine": "F3", "a_valider": true},
+    {"id": "H3", "texte": "Nombre de devis par an (11 mois d'activité)", "valeur": 660, "unite": "devis", "origine": "F2 : 60 × 11 mois", "a_valider": true},
+    {"id": "H4", "texte": "Part du temps de devis prise en charge", "valeur": {"prudent": 0.4, "central": 0.55}, "unite": "", "origine": "Fourchette Think'UP « premiers jets » 40–65 %", "a_valider": true},
+    {"id": "H5", "texte": "Temps des équipes mobilisé par le projet", "valeur": 700, "unite": "€", "origine": "Patrick : environ 3 jours cumulés × H1", "a_valider": true}
+  ],
+  "solutions": [
+    {"id": "S1", "titre": "Référentiel de prix unique et modèle de devis assisté", "problemes": ["P1"], "statut": "retenue", "type": "IA + automatisation", "resume_client": "Un seul fichier de prix, tenu à jour, et un modèle de devis qui reprend les prix tout seul.", "alternatives_ecartees": [{"option": "Logiciel de devis spécialisé", "raison": "Changement d'outil disproportionné pour le volume"}], "realisation": "Patrick", "outils": [{"nom": "Microsoft 365 (Excel, SharePoint)", "usage": "Référentiel de prix et modèle", "cout_mensuel": 0, "quantite": 1, "unite": "mois", "hebergement": "à vérifier", "verifie_le": "2026-10-08", "source": "F5 (déclaré) — jeu d'essai, non vérifié", "note": "déjà payé par le client"}], "conformite": {"donnees_personnelles": false, "ia_act": "hors champ (pas de système d'IA à ce stade)", "points": []}, "business_case": {"volume": {"duree_h": "H2", "frequence_an": "H3", "personnes": 1}, "taux_automatisation": "H4", "taux_supervision": 0.2, "cout_horaire": "H1", "adoption_an1": 0.7, "cout_interne_client": "H5"}},
+    {"id": "S2", "titre": "Relances de devis préparées, validées par le chargé d'affaires", "problemes": ["P2"], "statut": "option", "type": "automatisation", "resume_client": "Chaque devis sans réponse après dix jours déclenche un brouillon de relance à valider.", "alternatives_ecartees": [{"option": "Relance entièrement automatique", "raison": "Relation client personnalisée, validation humaine préférée"}], "realisation": "Patrick", "outils": [], "conformite": {"donnees_personnelles": true, "ia_act": "à qualifier", "points": ["Coordonnées clients"]}, "gains_qualitatifs": ["Taux de transformation à mesurer après trois mois"]},
+    {"id": "S3", "titre": "Agent conversationnel sur le site", "problemes": ["P2"], "statut": "écartée", "raison_ecart": "Les clients appellent (F12) ; aucun constat ne le justifie", "outils": []}
+  ],
+  "devis": {
+    "numero": "D-20261006-MEN",
+    "date_emission": "2026-10-08",
+    "validite_jours": 30,
+    "objet": "Mise en place d'un référentiel de prix et d'un modèle de devis assisté",
+    "introduction": "Suite à notre échange du 6 octobre 2026.",
+    "lots": [
+      {"id": "L1", "titre": "Référentiel de prix et modèle de devis", "solutions": ["S1"], "description": "Consolidation des prix fournisseurs et modèle de devis relié.", "livrables": ["Référentiel de prix", "Modèle de devis", "Mode opératoire"], "duree": "3 semaines", "quantite": 1, "unite": "forfait", "prix_unitaire": 2400, "option": false, "chiffrage_interne": {"jours_thinkup": 3, "jours_freelance": 0, "cout_jour_freelance": 0}},
+      {"id": "L2", "titre": "Relances de devis", "solutions": ["S2"], "description": "Scénario de relance avec validation humaine.", "livrables": ["Scénario paramétré", "Modèles de relance"], "duree": "1 semaine", "quantite": 1, "unite": "forfait", "prix_unitaire": 1200, "option": true, "chiffrage_interne": {"jours_thinkup": 1.5, "jours_freelance": 0, "cout_jour_freelance": 0}},
+      {"id": "L3", "titre": "Formation et mesure à 90 jours", "solutions": [], "description": "Prise en main par l'équipe et mesure des gains.", "livrables": ["Session de formation", "Point de mesure à 90 jours"], "duree": "3 mois", "quantite": 1, "unite": "forfait", "prix_unitaire": 900, "option": false, "chiffrage_interne": {"jours_thinkup": 1, "jours_freelance": 0, "cout_jour_freelance": 0}}
+    ],
+    "budget_tiers": [
+      {"libelle": "Connexion du logiciel de gestion au référentiel (développeur, si le logiciel le permet)", "solutions": ["S1"], "min": 1500, "max": 3000, "option": false}
+    ],
+    "echeancier": [{"libelle": "Acompte à la commande", "pourcentage": 30}, {"libelle": "Solde à la livraison des livrables", "pourcentage": 70}],
+    "hypotheses_chiffrage": ["Trois fichiers de prix au plus", "Un modèle de devis"],
+    "exclusions": ["Licences et abonnements des éditeurs", "Travaux du développeur tiers"],
+    "conditions_particulieres": []
+  },
+  "questions_ouvertes": [
+    {"id": "Q1", "question": "Quelle est la version exacte de Microsoft 365 ?", "impact": "Détermine les fonctions disponibles sans surcoût", "destinataire": "client", "bloquante": false, "reponse": null},
+    {"id": "Q2", "question": "Combien de devis sont relancés aujourd'hui ?", "impact": "Point de départ de l'indicateur de transformation", "destinataire": "client", "bloquante": false, "reponse": null}
+  ]
+}
