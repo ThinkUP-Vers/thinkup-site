@@ -6,7 +6,9 @@ const consentKey = 'thinkup_analytics_consent';
    ailleurs sur le site.
 
    Les diagnostics de conformite affichent que les reponses ne quittent pas
-   le navigateur. Ni Clarity ni Google Tag Manager n'y sont charges.
+   le navigateur, et l'auto-diagnostic (diagnostic.html) qu'aucune donnee
+   n'est envoyee pendant le test. Ni Clarity ni Google Tag Manager n'y sont
+   charges.
    Clarity rejoue les clics et le DOM : il capterait donc les
    reponses au questionnaire — absence de base legale, conservation illimitee,
    transfert hors UE — et les enverrait chez Microsoft, hors Union europeenne.
@@ -15,7 +17,7 @@ const consentKey = 'thinkup_analytics_consent';
 
    Aucun traceur n'etant depose ici, aucune banniere de consentement n'est
    requise sur ces pages (article 82 de la loi Informatique et Libertes). */
-const noTrackPages = ['ai-act.html', 'rgpd.html'];
+const noTrackPages = ['ai-act.html', 'rgpd.html', 'diagnostic.html'];
 
 function isNoTrackPage(){
   const path = location.pathname.replace(/\/+$/, '');
