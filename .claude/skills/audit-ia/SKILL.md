@@ -32,10 +32,12 @@ description: >
 
 ## Étape 0 — Récupérer la source
 
-**Stockage.** `audits/` est un clone du dépôt privé `ThinkUP-Vers/thinkup-audits` : c'est lui qui
+**Stockage.** `audits/` est un clone du dépôt privé `thinkup-conseil/thinkup-audits` : c'est lui qui
 conserve les dossiers d'une session à l'autre. En session cloud, si `audits/` n'en est pas un clone
-(`git -C audits remote -v` vide) : attacher le dépôt à la session (`add_repo`, accès push), puis le
-cloner dans `audits/` avec la commande que renvoie `add_repo`. Sans accès au dépôt privé, continuer et
+(`git -C audits remote -v` vide) : attacher le dépôt à la session (`add_repo`, owner
+`thinkup-conseil`, accès push), puis le cloner dans `audits/` avec la commande que renvoie
+`add_repo`. L'ancienne adresse `ThinkUP-Vers/thinkup-audits` redirige vers lui : ne pas attacher
+les deux dans une même session (même nom, conflit). Sans accès au dépôt privé, continuer et
 passer par l'archive (étape 7).
 
 Demander, si ce n'est pas clair, le client concerné et la source. Puis :
