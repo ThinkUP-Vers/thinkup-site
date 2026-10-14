@@ -84,11 +84,9 @@ def controler(sel, config):
         if not s.get("nom") or not isinstance(s.get("ok"), bool):
             erreurs.append(f"sources[{i}] : « nom » et « ok » (true/false) obligatoires")
 
-    themes = {
-        "thinkup": set(config["publics"]["thinkup"]["themes"]),
-        "clients": set(config["publics"]["clients"]["themes"]),
-        "perso": set(sel["profil_perso"]),
-    }
+    # Les thèmes perso viennent de la consigne (selection.json), jamais du dépôt public.
+    themes = {k: set(sel["profil_perso"] if k == "perso" else v["themes"])
+              for k, v in config["publics"].items()}
     seuils, retenus, ids = config["seuils"], [], set()
     for i, o in enumerate(sel["outils"]):
         nom = o.get("nom") or f"outils[{i}]"
@@ -102,7 +100,7 @@ def controler(sel, config):
         if o.get("hebergement") not in HEBERGEMENTS:
             erreurs.append(f"{nom} : hebergement doit valoir {sorted(HEBERGEMENTS)}")
         if o.get("public") not in themes:
-            erreurs.append(f"{nom} : public doit valoir thinkup, clients ou perso")
+            erreurs.append(f"{nom} : public doit valoir {', '.join(themes)}")
         elif o.get("theme") not in themes[o["public"]]:
             erreurs.append(f"{nom} : thème « {o.get('theme')} » inconnu pour le public {o['public']} ; attendus : {sorted(themes[o['public']])}")
         if not str(o.get("url", "")).startswith("https://"):
@@ -131,8 +129,15 @@ def controler(sel, config):
             verdict = "Pour info"
         retenus.append(dict(o, score=score, verdict=verdict))
 
-    if len(retenus) > config["max_outils"]:
-        erreurs.append(f"{len(retenus)} outils retenus pour un maximum de {config['max_outils']} : garder les meilleurs scores")
+    # Un public peut avoir son propre plafond (« max ») ; les autres partagent max_outils.
+    plafonnes = {k: v["max"] for k, v in config["publics"].items() if "max" in v}
+    for public, plafond in plafonnes.items():
+        n = sum(1 for o in retenus if o["public"] == public)
+        if n > plafond:
+            erreurs.append(f"{n} outils retenus pour le public {public}, maximum {plafond} : garder les meilleurs scores")
+    n = sum(1 for o in retenus if o["public"] not in plafonnes)
+    if n > config["max_outils"]:
+        erreurs.append(f"{n} outils retenus pour un maximum de {config['max_outils']} : garder les meilleurs scores")
     for i, x in enumerate(sel.get("ecartes", [])):
         if not x.get("nom") or not x.get("motif"):
             erreurs.append(f"ecartes[{i}] : « nom » et « motif » obligatoires")
@@ -191,7 +196,7 @@ def construire(sel, config, retenus):
     else:
         h.append("<p>Aucun outil n'atteint le seuil « à tester » cette semaine.</p>")
 
-    for public in ["thinkup", "clients", "perso"]:
+    for public in config["publics"]:
         outils = [o for o in retenus if o["public"] == public]
         h.append(f"<h2>{e(libelles[public])}</h2>")
         if outils:

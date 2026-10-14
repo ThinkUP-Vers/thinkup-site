@@ -20,12 +20,6 @@
     ],
     "product_hunt_feed": "https://www.producthunt.com/feed",
     "product_hunt_hebdo": "https://www.producthunt.com/leaderboard/weekly/{annee}/{semaine}",
-    "pages_editeurs": [
-      "https://www.anthropic.com/news",
-      "https://mistral.ai/news",
-      "https://workspaceupdates.googleblog.com/",
-      "https://techcommunity.microsoft.com/category/microsoft365copilot/blog/microsoft365copilotblog"
-    ],
     "hacker_news": {
       "show_hn_points_min": 40,
       "articles_points_min": 150,
@@ -43,9 +37,15 @@
       ]
     },
     "recherches_web": [
-      "OpenAI ChatGPT nouvelle fonctionnalité annonce cette semaine",
       "nouvel outil IA PME France lancement",
       "outil IA souverain hébergé en Europe lancement"
+    ],
+    "sources_skills": [
+      "https://skills.sh/ (onglets Trending et Hot)",
+      "https://github.com/anthropics/skills/commits/main",
+      "https://github.com/anthropics/knowledge-work-plugins/commits/main",
+      "https://raw.githubusercontent.com/ComposioHQ/awesome-claude-skills/HEAD/README.md",
+      "https://raw.githubusercontent.com/travisvn/awesome-claude-skills/HEAD/README.md"
     ]
   },
   "publics": {
@@ -77,6 +77,18 @@
       "libelle": "Pour toi",
       "description": "Usage personnel de Patrick. Les thèmes viennent de la consigne de la tâche planifiée (champ profil_perso de selection.json).",
       "themes": []
+    },
+    "claude": {
+      "libelle": "Skills et plugins Claude",
+      "description": "Skills, plugins et serveurs MCP qui étendent Claude pour le travail de Patrick. Au plus 5 par édition ; ceux déjà installés (liste fournie par la consigne) sont exclus.",
+      "themes": [
+        "Contenu et LinkedIn",
+        "Livrables clients (documents, présentations, tableurs)",
+        "Conformité RGPD et AI Act",
+        "Prospection et offres",
+        "Automatisation et agents"
+      ],
+      "max": 5
     }
   },
   "exclusions": [
@@ -84,6 +96,7 @@
     "cryptomonnaies et trading spéculatif",
     "contenus « uncensored », NSFW ou deepfakes de personnes réelles",
     "outils dont l'usage normal enfreint la loi, le RGPD ou les conditions d'une plateforme",
-    "bibliothèques et outils réservés aux développeurs sans débouché concret pour un public de la veille"
+    "bibliothèques et outils réservés aux développeurs sans débouché concret pour un public de la veille",
+    "actualité des grands assistants (ChatGPT, Claude, Copilot, Gemini, Le Chat) : nouveaux modèles et nouvelles fonctions, couverts par la veille IA du lundi"
   ]
 }

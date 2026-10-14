@@ -1,14 +1,31 @@
 {
   "_lisez_moi": "Exemple FICTIF : sert de modèle de format et de test de non-régression de rapport.py. Aucun de ces outils n'existe.",
   "edition": "2026-10-19",
-  "periode": {"debut": "2026-10-12", "fin": "2026-10-19"},
-  "profil_perso": ["Gestion de la holding", "Productivité personnelle"],
+  "periode": {
+    "debut": "2026-10-12",
+    "fin": "2026-10-19"
+  },
+  "profil_perso": [
+    "Gestion de la holding",
+    "Productivité personnelle"
+  ],
   "candidats_examines": 142,
   "en_bref": "Semaine dominée par les assistants de réunion. Deux outils méritent un essai ; le troisième est à surveiller faute d’éditeur identifié.",
   "sources": [
-    {"nom": "GitHub Trending (hebdo)", "ok": true, "note": "3 pages lues"},
-    {"nom": "Hacker News", "ok": true},
-    {"nom": "Product Hunt (classement hebdo)", "ok": false, "note": "page inaccessible, flux quotidien utilisé à la place"}
+    {
+      "nom": "GitHub Trending (hebdo)",
+      "ok": true,
+      "note": "3 pages lues"
+    },
+    {
+      "nom": "Hacker News",
+      "ok": true
+    },
+    {
+      "nom": "Product Hunt (classement hebdo)",
+      "ok": false,
+      "note": "page inaccessible, flux quotidien utilisé à la place"
+    }
   ],
   "outils": [
     {
@@ -78,6 +95,28 @@
       "prochaine_etape": "Demander le tarif et vérifier la compatibilité avec la banque de la holding."
     },
     {
+      "nom": "devis-propre",
+      "id": "github:exemple/devis-propre",
+      "url": "https://github.com/exemple/devis-propre",
+      "editeur": "Exemple Studio (Nantes)",
+      "modele": "open-source",
+      "prix": "gratuit",
+      "licence": "MIT",
+      "fonction": "Skill Claude qui met en page un devis à partir d'un tableau de lignes et d'une charte graphique.",
+      "utilite": "Uniformiser la mise en page des devis produits après un audit.",
+      "public": "claude",
+      "theme": "Livrables clients (documents, présentations, tableurs)",
+      "pertinence": 3,
+      "accessibilite": 2,
+      "maturite": 2,
+      "risque": "faible",
+      "risque_motif": "fichiers de consignes, aucun accès réseau",
+      "hebergement": "local",
+      "signaux": "dépôt créé il y a 2 mois, 3 contributeurs, documentation en français",
+      "source": "skills.sh",
+      "prochaine_etape": "L'installer dans Claude Code et l'essayer sur le devis d'exemple."
+    },
+    {
       "nom": "Gadget sans intérêt",
       "id": "web:example.net",
       "url": "https://example.net",
@@ -101,6 +140,9 @@
     }
   ],
   "ecartes": [
-    {"nom": "Un émulateur de console très populaire", "motif": "hors sujet (jeu vidéo)"}
+    {
+      "nom": "Un émulateur de console très populaire",
+      "motif": "hors sujet (jeu vidéo)"
+    }
   ]
 }

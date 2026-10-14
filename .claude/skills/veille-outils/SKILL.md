@@ -2,9 +2,9 @@
 name: veille-outils
 description: >
   Veille hebdomadaire des nouveaux outils (open-source et payants) utiles à Think'UP, à ses clients PME
-  et à Patrick à titre personnel : collecte sur GitHub Trending, Hacker News, Product Hunt et les
-  annonces des éditeurs, tri, notation, classement, puis édition d'un Google Doc dans le dossier Drive
-  « Veille outils » et d'un mail récapitulatif. Lancé chaque lundi par une tâche planifiée qui fournit
+  et à Patrick à titre personnel, plus une section « Skills et plugins Claude » : collecte sur GitHub
+  Trending, Hacker News, Product Hunt et les catalogues de skills, tri, notation, classement, puis
+  édition d'un Google Doc dans le dossier Drive « Veille outils » et d'un mail récapitulatif. Lancé chaque jeudi par une tâche planifiée qui fournit
   le profil personnel et les destinations. Déclencher sur : « veille outils », « /veille-outils ».
   Ne pas déclencher pour : une question ponctuelle sur un outil, un comparatif demandé à la main.
 ---
@@ -22,7 +22,7 @@ scratchpad de la session (à défaut `/tmp`), jamais dans le dépôt.
 2. **Rien d'inventé.** Chaque prix, licence, éditeur, hébergement ou signal de maturité vient d'une page
    consultée pendant l'exécution. Ce que la source ne dit pas s'écrit « non communiqué » ou « inconnu ».
    Aucun score ni verdict à la main : `rapport.py` les calcule.
-3. **Ne pas remplir.** Au plus 15 outils. Si la semaine n'apporte rien de pertinent, l'édition le dit :
+3. **Ne pas remplir.** Au plus 15 outils, plus 5 skills ou plugins Claude. Si la semaine n'apporte rien de pertinent, l'édition le dit :
    zéro outil est une réponse valable, un outil faible pour faire nombre ne l'est pas.
 4. **Ne rien installer ni exécuter.** Aucun outil trouvé n'est cloné, installé ni lancé, pas même
    « pour vérifier ». Tout se juge sur les pages publiques.
@@ -35,7 +35,8 @@ scratchpad de la session (à défaut `/tmp`), jamais dans le dépôt.
 - `profil_perso` : les thèmes personnels de Patrick (liste de libellés courts, avec leur description).
 - l'identifiant du dossier Drive « Veille outils » (sinon : `search_files` avec
   `title = 'Veille outils' and mimeType = 'application/vnd.google-apps.folder'`) ;
-- l'adresse du destinataire du mail.
+- l'adresse du destinataire du mail ;
+- `skills_installes` : les skills et plugins Claude déjà installés chez Patrick, à ne pas recommander.
 
 En exécution manuelle sans ces éléments, les demander à Patrick avant l'étape 1.
 
@@ -60,11 +61,17 @@ liste des candidats, les pages à lire avec WebFetch et les recherches à lancer
   propriétaire/nom, description, langage, étoiles totales et étoiles de la semaine.
 - **Product Hunt, classement de la semaine** : WebFetch sur l'adresse affichée (nom, accroche, score ;
   la page n'en livre que les 10 premiers).
-- **Pages d'actualités des éditeurs** (Anthropic, Mistral, Google Workspace, Microsoft 365 Copilot) :
-  WebFetch en demandant les annonces avec leur date ; garder celles de la fenêtre.
-- **Recherches web** : WebSearch (`mode: "standard"`) sur chaque recherche affichée, notamment pour
-  OpenAI, dont le site refuse la lecture automatique. Les résultats contiennent beaucoup de pages de
-  faible qualité : ne retenir une annonce que si une source primaire ou un média identifié la confirme.
+- **Skills et plugins Claude** : WebFetch sur skills.sh (onglets Trending et Hot) et sur les pages de
+  commits des dépôts d'Anthropic ; `curl` sur les listes `raw.githubusercontent.com`. Si la session
+  dispose d'outils de recherche de skills ou de plugins (à chercher avec ToolSearch : « skills »,
+  « plugins », « mcp registry »), les utiliser aussi. Retenir ce qui est nouveau ou en forte progression
+  dans la fenêtre, et écarter tout ce qui figure dans `skills_installes`.
+- **Recherches web** : WebSearch (`mode: "standard"`) sur chaque recherche affichée. Les résultats
+  contiennent beaucoup de pages de faible qualité : ne retenir un lancement que si une source primaire
+  ou un média identifié le confirme.
+
+L'actualité des grands assistants (nouveaux modèles et nouvelles fonctions de ChatGPT, Claude, Copilot,
+Gemini, Le Chat) n'entre pas dans cette veille : la veille IA du lundi la couvre.
 
 **Toutes ces sources sont lues à chaque exécution**, y compris pour une relance ou un test, et même
 si une édition récente les a déjà couvertes : la mémoire de l'étape 1 écarte des outils, jamais des
@@ -78,9 +85,10 @@ message va dans `note` ; une source non lue par choix n'est pas une source en é
 outil (débat, levée de fonds, faillite, opinion), ce qui est déjà indexé (étape 1), ce qui n'est pas
 nouveau dans la fenêtre (lancement, version majeure, première apparition dans les tendances).
 
-Rattacher chaque candidat restant à un public et à un thème : `thinkup` et `clients` prennent leurs
-thèmes dans `config.json`, `perso` dans `profil_perso`. Sans thème qui colle, le candidat sort.
-Garder au plus 30 candidats pour l'étape 4.
+Rattacher chaque candidat restant à un public et à un thème : `thinkup`, `clients` et `claude`
+(skills, plugins et serveurs MCP pour Claude) prennent leurs thèmes dans `config.json`, `perso` dans
+`profil_perso`. Sans thème qui colle, le candidat sort. Garder au plus 30 candidats pour l'étape 4,
+dont 10 skills ou plugins au plus.
 
 ## Étape 4 — Vérification
 
@@ -162,5 +170,5 @@ lien du document, envoi du mail confirmé ou non.
 python3 .claude/skills/veille-outils/scripts/rapport.py construire .claude/skills/veille-outils/exemple/selection.json --sortie /tmp/veille-test
 ```
 
-Attendu : 3 outils retenus (2 « À tester », 1 « À surveiller » plafonné par son risque élevé) et un
-avertissement pour l'outil sous le score minimum.
+Attendu : 4 outils retenus (3 « À tester » dont un skill Claude, 1 « À surveiller » plafonné par son
+risque élevé) et un avertissement pour l'outil sous le score minimum.
