@@ -1,0 +1,89 @@
+{
+  "_lisez_moi": "Configuration PUBLIQUE de la veille (le dépôt est public). Le profil personnel de Patrick n'est jamais écrit ici : il est fourni par la consigne de la tâche planifiée.",
+  "fenetre_jours": 7,
+  "max_outils": 15,
+  "score_min": 5,
+  "seuils": {
+    "a_tester": 9,
+    "a_surveiller": 6
+  },
+  "editions_memoire": 4,
+  "drive": {
+    "dossier": "Veille outils",
+    "prefixe_titre": "Veille outils IA"
+  },
+  "sources": {
+    "github_trending": [
+      "https://github.com/trending?since=weekly",
+      "https://github.com/trending/python?since=weekly",
+      "https://github.com/trending/typescript?since=weekly"
+    ],
+    "product_hunt_feed": "https://www.producthunt.com/feed",
+    "product_hunt_hebdo": "https://www.producthunt.com/leaderboard/weekly/{annee}/{semaine}",
+    "pages_editeurs": [
+      "https://www.anthropic.com/news",
+      "https://mistral.ai/news",
+      "https://workspaceupdates.googleblog.com/",
+      "https://techcommunity.microsoft.com/category/microsoft365copilot/blog/microsoft365copilotblog"
+    ],
+    "hacker_news": {
+      "show_hn_points_min": 40,
+      "articles_points_min": 150,
+      "requetes": [
+        "AI",
+        "LLM",
+        "agent",
+        "MCP",
+        "Claude",
+        "GPT",
+        "Mistral",
+        "open source",
+        "automation",
+        "no-code"
+      ]
+    },
+    "recherches_web": [
+      "OpenAI ChatGPT nouvelle fonctionnalité annonce cette semaine",
+      "nouvel outil IA PME France lancement",
+      "outil IA souverain hébergé en Europe lancement"
+    ]
+  },
+  "publics": {
+    "thinkup": {
+      "libelle": "Pour Think'UP",
+      "description": "Cabinet de conseil en adoption de l'IA pour dirigeants de PME et ETI (France, Europe). Un consultant, non développeur, qui s'appuie sur Claude Code et des freelances pour la technique.",
+      "themes": [
+        "Prospection et contenu LinkedIn",
+        "Production des livrables (audits, comptes rendus, devis)",
+        "Site et visibilité (SEO, recherche par IA)",
+        "Outillage IA du consultant (Claude, agents, MCP)",
+        "Conformité RGPD et AI Act"
+      ]
+    },
+    "clients": {
+      "libelle": "Pour les clients PME",
+      "description": "Outils que Think'UP peut recommander ou déployer chez un client PME ou ETI, au besoin avec un freelance.",
+      "themes": [
+        "Automatisation administrative",
+        "Assistants et agents métier",
+        "Base de connaissances et recherche documentaire",
+        "Réunions et transcription",
+        "Relation client et commercial",
+        "IA souveraine ou hébergée en Europe",
+        "Formation des équipes"
+      ]
+    },
+    "perso": {
+      "libelle": "Pour toi",
+      "description": "Usage personnel de Patrick. Les thèmes viennent de la consigne de la tâche planifiée (champ profil_perso de selection.json).",
+      "themes": []
+    }
+  },
+  "exclusions": [
+    "jeux vidéo, émulation, triche",
+    "cryptomonnaies et trading spéculatif",
+    "contenus « uncensored », NSFW ou deepfakes de personnes réelles",
+    "outils dont l'usage normal enfreint la loi, le RGPD ou les conditions d'une plateforme",
+    "bibliothèques et outils réservés aux développeurs sans débouché concret pour un public de la veille"
+  ]
+}
