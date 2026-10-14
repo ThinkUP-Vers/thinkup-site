@@ -66,8 +66,11 @@ liste des candidats, les pages à lire avec WebFetch et les recherches à lancer
   OpenAI, dont le site refuse la lecture automatique. Les résultats contiennent beaucoup de pages de
   faible qualité : ne retenir une annonce que si une source primaire ou un média identifié la confirme.
 
-Noter pour chaque source si elle a répondu : une source en échec ne bloque pas l'édition, elle est
-signalée dans `sources` avec `ok: false`.
+**Toutes ces sources sont lues à chaque exécution**, y compris pour une relance ou un test, et même
+si une édition récente les a déjà couvertes : la mémoire de l'étape 1 écarte des outils, jamais des
+sources. `ok: false` est réservé à une erreur technique (refus, page vide, délai dépassé), dont le
+message va dans `note` ; une source non lue par choix n'est pas une source en échec. Une source en
+échec ne bloque pas l'édition.
 
 ## Étape 3 — Tri
 
@@ -134,7 +137,8 @@ et écrit `$W/rapport.html`.
    `contentMimeType` = `text/html`, `textContent` = le contenu exact de `$W/rapport.html` (le lire avec
    `cat` et le recopier sans le modifier). Ne pas passer `disableConversionToGoogleType` : Drive
    convertit en Google Doc, téléchargeable en .docx. Vérifier que la réponse porte
-   `mimeType: application/vnd.google-apps.document`. Si un document du même titre existe déjà
+   `mimeType: application/vnd.google-apps.document` ; le `fileSize` de 1 affiché pour un Google Doc
+   est normal. Si un document du même titre existe déjà
    (relance dans la même semaine), ajouter « (2) » au titre.
 2. **Mail** :
 
