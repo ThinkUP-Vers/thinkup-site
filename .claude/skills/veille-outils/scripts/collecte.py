@@ -5,8 +5,8 @@ Usage : python3 collecte.py --sortie DOSSIER [--config config.json] [--jours 7]
 
 Écrit DOSSIER/candidats.json et affiche une liste compacte des candidats.
 Les sources que ce script ne peut pas lire (GitHub Trending, classement
-hebdomadaire Product Hunt, annonces des éditeurs) sont lues par l'agent avec
-WebFetch et WebSearch : le script affiche les adresses à consulter.
+hebdomadaire Product Hunt, pages d'actualités des éditeurs) sont lues par
+l'agent avec WebFetch et WebSearch : le script affiche les adresses à consulter.
 
 Une source en échec n'arrête pas la collecte : elle est notée « ok: false »
 avec le message d'erreur, et doit apparaître dans la section « Méthode et
@@ -147,6 +147,8 @@ def main():
     for url in sources["github_trending"]:
         print(f"  {url}")
     print("  " + sources["product_hunt_hebdo"].format(annee=annee, semaine=semaine))
+    for url in sources["pages_editeurs"]:
+        print(f"  {url}")
     print("À chercher avec WebSearch :")
     for requete in sources["recherches_web"]:
         print(f"  {requete}")

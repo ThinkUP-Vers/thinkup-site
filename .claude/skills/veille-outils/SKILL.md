@@ -58,9 +58,13 @@ liste des candidats, les pages à lire avec WebFetch et les recherches à lancer
 
 - **GitHub Trending** : WebFetch sur chaque adresse affichée, en demandant pour chaque dépôt
   propriétaire/nom, description, langage, étoiles totales et étoiles de la semaine.
-- **Product Hunt, classement de la semaine** : WebFetch sur l'adresse affichée (nom, accroche, score).
-- **Annonces des éditeurs** : WebSearch (`mode: "standard"`) sur chaque recherche affichée ; ne garder
-  que ce qui a été annoncé ou lancé dans la fenêtre.
+- **Product Hunt, classement de la semaine** : WebFetch sur l'adresse affichée (nom, accroche, score ;
+  la page n'en livre que les 10 premiers).
+- **Pages d'actualités des éditeurs** (Anthropic, Mistral, Google Workspace, Microsoft 365 Copilot) :
+  WebFetch en demandant les annonces avec leur date ; garder celles de la fenêtre.
+- **Recherches web** : WebSearch (`mode: "standard"`) sur chaque recherche affichée, notamment pour
+  OpenAI, dont le site refuse la lecture automatique. Les résultats contiennent beaucoup de pages de
+  faible qualité : ne retenir une annonce que si une source primaire ou un média identifié la confirme.
 
 Noter pour chaque source si elle a répondu : une source en échec ne bloque pas l'édition, elle est
 signalée dans `sources` avec `ok: false`.

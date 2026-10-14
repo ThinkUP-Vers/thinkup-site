@@ -20,17 +20,30 @@
     ],
     "product_hunt_feed": "https://www.producthunt.com/feed",
     "product_hunt_hebdo": "https://www.producthunt.com/leaderboard/weekly/{annee}/{semaine}",
+    "pages_editeurs": [
+      "https://www.anthropic.com/news",
+      "https://mistral.ai/news",
+      "https://workspaceupdates.googleblog.com/",
+      "https://techcommunity.microsoft.com/category/microsoft365copilot/blog/microsoft365copilotblog"
+    ],
     "hacker_news": {
       "show_hn_points_min": 40,
       "articles_points_min": 150,
-      "requetes": ["AI", "LLM", "agent", "MCP", "Claude", "GPT", "Mistral", "open source", "automation", "no-code"]
+      "requetes": [
+        "AI",
+        "LLM",
+        "agent",
+        "MCP",
+        "Claude",
+        "GPT",
+        "Mistral",
+        "open source",
+        "automation",
+        "no-code"
+      ]
     },
     "recherches_web": [
-      "Anthropic Claude nouvelle fonctionnalité annonce cette semaine",
       "OpenAI ChatGPT nouvelle fonctionnalité annonce cette semaine",
-      "Mistral AI annonce nouveau produit",
-      "Google Gemini Workspace nouvelle fonctionnalité IA",
-      "Microsoft Copilot nouvelle fonctionnalité PME",
       "nouvel outil IA PME France lancement",
       "outil IA souverain hébergé en Europe lancement"
     ]
