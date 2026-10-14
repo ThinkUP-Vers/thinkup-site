@@ -4,7 +4,7 @@ description: >
   Veille hebdomadaire des nouveaux outils (open-source et payants) utiles à Think'UP, à ses clients PME
   et à Patrick à titre personnel : collecte sur GitHub Trending, Hacker News, Product Hunt et les
   annonces des éditeurs, tri, notation, classement, puis édition d'un Google Doc dans le dossier Drive
-  « Veille outils » et d'un mail récapitulatif. Lancé chaque lundi par une tâche planifiée qui fournit
+  « Veille outils » et d'un mail récapitulatif. Lancé chaque jeudi par une tâche planifiée qui fournit
   le profil personnel et les destinations. Déclencher sur : « veille outils », « /veille-outils ».
   Ne pas déclencher pour : une question ponctuelle sur un outil, un comparatif demandé à la main.
 ---

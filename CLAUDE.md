@@ -82,12 +82,12 @@ Dans le cas 2, présente d'abord l'équipe d'agents envisagée en quelques
 lignes et demande confirmation avant de lancer l'orchestration. Pour tout
 le reste, réponds directement.
 
-## Veille outils : tâche planifiée du lundi
+## Veille outils : tâche planifiée du jeudi
 
 Le skill `veille-outils` (`.claude/skills/veille-outils/`, invocable par `/veille-outils`) repère
 chaque semaine les nouveaux outils utiles à Think'UP, aux clients PME et à Patrick, les note, puis
 publie un Google Doc dans le dossier Drive « Veille outils » et envoie un mail récapitulatif. Une
-tâche planifiée (Routine claude.ai « Veille outils hebdo ») le lance le lundi à 6 h 57, heure de Paris.
+tâche planifiée (Routine claude.ai « Veille outils hebdo ») le lance le jeudi à 6 h 57, heure de Paris.
 
 Le profil personnel de Patrick et les destinations (dossier Drive, adresse du mail) vivent dans la
 consigne privée de cette tâche, jamais dans le dépôt : le dépôt est public. La veille ne modifie pas
