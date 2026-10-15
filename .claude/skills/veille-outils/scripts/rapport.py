@@ -118,6 +118,9 @@ def controler(sel, config):
         if not notes_ok:
             continue
         score = 2 * o["pertinence"] + o["accessibilite"] + o["maturite"]
+        if o["pertinence"] < config.get("pertinence_min", 0):
+            avert.append(f"{nom} retiré : pertinence {o['pertinence']}/3 sous le minimum {config['pertinence_min']}, à mettre dans « ecartes » si l'outil est très visible")
+            continue
         if score < config["score_min"]:
             avert.append(f"{nom} retiré : score {score}/12 sous le minimum {config['score_min']}")
             continue
@@ -218,7 +221,8 @@ def construire(sel, config, retenus):
         h.append(f"<li>{e(src['nom'])} : {etat}{e(note)}.</li>")
     h.append(f"<li>Score sur 12 = 2 × pertinence + accessibilité + maturité. « À tester » à partir de {s['a_tester']} "
              f"sans risque élevé, « à surveiller » à partir de {s['a_surveiller']}, en dessous de "
-             f"{config['score_min']} l'outil n'est pas retenu.</li>")
+             f"{config['score_min']} ou avec une pertinence inférieure à {config.get('pertinence_min', 0)}/3, "
+             f"l'outil n'est pas retenu.</li>")
     h.append("<li>Aucun outil n'a été installé ni essayé : les informations viennent des pages publiques consultées "
              "à la date de l'édition. Prix et fonctions changent vite, à revérifier avant toute recommandation à un client.</li>")
     h.append("<li>Un projet récent et populaire n'est pas un projet sûr. Avant d'installer un outil open-source, vérifier "

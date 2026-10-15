@@ -3,6 +3,7 @@
   "fenetre_jours": 7,
   "max_outils": 15,
   "score_min": 5,
+  "pertinence_min": 2,
   "seuils": {
     "a_tester": 9,
     "a_surveiller": 6
@@ -41,11 +42,11 @@
       "outil IA souverain hébergé en Europe lancement"
     ],
     "sources_skills": [
-      "https://skills.sh/ (onglets Trending et Hot)",
+      "https://github.com/search?q=claude+skill+created%3A%3E{debut}+stars%3A%3E30&type=repositories&s=stars&o=desc",
+      "https://github.com/search?q=claude+plugin+created%3A%3E{debut}+stars%3A%3E30&type=repositories&s=stars&o=desc",
+      "https://github.com/search?q=mcp+server+created%3A%3E{debut}+stars%3A%3E50&type=repositories&s=stars&o=desc",
       "https://github.com/anthropics/skills/commits/main",
-      "https://github.com/anthropics/knowledge-work-plugins/commits/main",
-      "https://raw.githubusercontent.com/ComposioHQ/awesome-claude-skills/HEAD/README.md",
-      "https://raw.githubusercontent.com/travisvn/awesome-claude-skills/HEAD/README.md"
+      "https://github.com/anthropics/knowledge-work-plugins/commits/main"
     ]
   },
   "publics": {
