@@ -61,11 +61,12 @@ liste des candidats, les pages à lire avec WebFetch et les recherches à lancer
   propriétaire/nom, description, langage, étoiles totales et étoiles de la semaine.
 - **Product Hunt, classement de la semaine** : WebFetch sur l'adresse affichée (nom, accroche, score ;
   la page n'en livre que les 10 premiers).
-- **Skills et plugins Claude** : WebFetch sur skills.sh (onglets Trending et Hot) et sur les pages de
-  commits des dépôts d'Anthropic ; `curl` sur les listes `raw.githubusercontent.com`. Si la session
-  dispose d'outils de recherche de skills ou de plugins (à chercher avec ToolSearch : « skills »,
-  « plugins », « mcp registry »), les utiliser aussi. Retenir ce qui est nouveau ou en forte progression
-  dans la fenêtre, et écarter tout ce qui figure dans `skills_installes`.
+- **Skills et plugins Claude** : WebFetch sur les recherches GitHub affichées (dépôts créés depuis le
+  début de la fenêtre, triés par étoiles ; la page de recherche se lit sans connexion) et sur les pages
+  de commits des dépôts d'Anthropic. Si la session dispose d'outils de recherche de skills ou de
+  plugins (à chercher avec ToolSearch : « skills », « plugins », « mcp registry »), les utiliser aussi.
+  Retenir ce qui est nouveau ou en forte progression dans la fenêtre, et écarter tout ce qui figure
+  dans `skills_installes`.
 - **Recherches web** : WebSearch (`mode: "standard"`) sur chaque recherche affichée. Les résultats
   contiennent beaucoup de pages de faible qualité : ne retenir un lancement que si une source primaire
   ou un média identifié le confirme.
@@ -118,7 +119,9 @@ ou un hébergement hors UE avec garanties standard ; **faible** sinon. `risque_m
 
 Score = 2 × pertinence + accessibilité + maturité, sur 12. `rapport.py` en tire le verdict : « À
 tester » à partir de 9 sans risque élevé, « À surveiller » à partir de 6, « Pour info » à 5, non
-retenu en dessous.
+retenu en dessous. Un outil de pertinence 0 ou 1 n'est jamais retenu, quel que soit son score : s'il
+est très visible, il va dans `ecartes` avec son motif. De même, un outil dont la seule prochaine étape
+honnête est « ne pas s'en servir » relève des écartés, pas des fiches.
 
 ## Étape 6 — Rédaction
 
@@ -171,4 +174,4 @@ python3 .claude/skills/veille-outils/scripts/rapport.py construire .claude/skill
 ```
 
 Attendu : 4 outils retenus (3 « À tester » dont un skill Claude, 1 « À surveiller » plafonné par son
-risque élevé) et un avertissement pour l'outil sous le score minimum.
+risque élevé) et un avertissement pour l'outil retiré faute de pertinence.

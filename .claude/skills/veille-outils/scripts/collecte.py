@@ -149,9 +149,9 @@ def main():
     print("  " + sources["product_hunt_hebdo"].format(annee=annee, semaine=semaine))
     for url in sources.get("pages_editeurs", []):
         print(f"  {url}")
-    print("Skills et plugins Claude, à lire avec WebFetch (curl pour les adresses raw.githubusercontent.com) :")
+    print("Skills et plugins Claude, à lire avec WebFetch :")
     for url in sources.get("sources_skills", []):
-        print(f"  {url}")
+        print("  " + url.replace("{debut}", resultat["fenetre"]["debut"]))
     print("À chercher avec WebSearch :")
     for requete in sources["recherches_web"]:
         print(f"  {requete}")
