@@ -15,3 +15,7 @@ audits/
 .claude/skills/audit-ia/exemple/livrables/
 .claude/skills/audit-ia/exemple/calculs.json
 __pycache__/
+
+# Outil agence-voyage : dossiers de voyage et profils des voyageurs (données personnelles, dépôt PUBLIC)
+voyages/
+.claude/skills/agence-voyage/exemple/livrables/

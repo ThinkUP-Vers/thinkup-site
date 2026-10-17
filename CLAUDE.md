@@ -132,3 +132,24 @@ l'entité préparée dans ce même fichier : procédure dans `references/devis.m
 ```
 python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit-ia/exemple --final
 ```
+
+## Outil agence-voyage : brief → proposition → carnet de voyage
+
+Le skill `agence-voyage` (`.claude/skills/agence-voyage/`, invocable par `/agence-voyage`) organise
+les voyages de Patrick, de ses proches et de ses collaborateurs comme une agence : entretien de
+découverte, conseil (sécurité, formalités, santé), recherche et comparaison en deux ou trois formules,
+suivi des réservations, carnet de voyage avec calendrier `.ics`, incidents et réclamations. Il peut
+lancer en parallèle l'agent `recherche-voyage` (un par poste) : cela fait partie de l'outil, la règle
+méta-agent ne s'y applique pas. Il ne réserve ni ne paie rien, et ne sert pas à vendre des voyages
+(immatriculation Atout France requise).
+
+Le dépôt est PUBLIC : les dossiers de voyage et les profils des voyageurs vivent dans `voyages/`,
+ignoré par git — ne jamais le committer, ni le forcer avec `git add -f` ; `voyage.py init` refuse de
+créer un dossier qui ne serait pas ignoré. Aucun numéro de document ou de carte dans les dossiers :
+le script les refuse. La conservation d'une session à l'autre passe par le dossier Drive « Voyages »
+ou par l'archive (`voyage.py archiver`). Contrôle de non-régression du script :
+
+```
+python3 .claude/skills/agence-voyage/scripts/voyage.py construire .claude/skills/agence-voyage/exemple --etape proposition --aujourdhui 2026-10-17
+python3 .claude/skills/agence-voyage/scripts/voyage.py construire .claude/skills/agence-voyage/exemple --aujourdhui 2026-10-17
+```
