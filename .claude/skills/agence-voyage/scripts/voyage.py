@@ -972,11 +972,156 @@ def md_vers_html(texte):
         r = subprocess.run(["pandoc", "-f", FORMAT_MD, "-t", "html5", "--columns=100000"],
                            input=texte, capture_output=True, text=True, check=True)
         return r.stdout
+    return blocs_html(blocs(texte))
+
+
+# Sans pandoc (environnement de l'application Claude, par exemple) : lecteur réduit au Markdown que ce
+# script produit lui-même — titres, paragraphes, listes, cases à cocher, citations, tableaux, gras, liens.
+INLINE_RE = re.compile(r"\*\*(.+?)\*\*|\[([^\]]+)\]\(([^)\s]+)\)")
+
+
+def blocs(texte):
+    out, para, lignes, i = [], [], texte.splitlines(), 0
+
+    def vider():
+        if para:
+            out.append(("para", " ".join(para)))
+            para.clear()
+
+    while i < len(lignes):
+        l = lignes[i]
+        if l.startswith("|"):
+            vider()
+            table = []
+            while i < len(lignes) and lignes[i].startswith("|"):
+                if not re.fullmatch(r"\|(-+\|)+", lignes[i].strip()):
+                    table.append([c.replace("\\|", "|").strip() for c in re.split(r"(?<!\\)\|", lignes[i].strip()[1:-1])])
+                i += 1
+            out.append(("table", table))
+            continue
+        m = re.match(r"(#{1,3}) (.*)", l)
+        if m or l.startswith(("> ", "- ")) or not l.strip():
+            vider()
+        if m:
+            out.append((f"h{len(m.group(1))}", m.group(2)))
+        elif l.startswith("> "):
+            out.append(("citation", l[2:]))
+        elif l.startswith("- "):
+            out.append(("puce", l[2:]))
+        elif l.strip():
+            para.append(l.strip())
+        i += 1
+    vider()
+    return out
+
+
+def inline_html(t):
+    morceaux, pos = [], 0
+    for m in INLINE_RE.finditer(t):
+        morceaux.append(html.escape(t[pos:m.start()]))
+        if m.group(1) is not None:
+            morceaux.append(f"<strong>{html.escape(m.group(1))}</strong>")
+        else:
+            morceaux.append(f'<a href="{html.escape(m.group(3))}">{html.escape(m.group(2))}</a>')
+        pos = m.end()
+    morceaux.append(html.escape(t[pos:]))
+    s = "".join(morceaux)
+    return f"<em>{s[1:-1]}</em>" if s.startswith("_") and s.endswith("_") else s
+
+
+def blocs_html(bs):
+    out, liste = [], False
+    for nature, contenu in bs:
+        if nature != "puce" and liste:
+            out.append("</ul>")
+            liste = False
+        if nature == "puce":
+            if not liste:
+                out.append("<ul>")
+                liste = True
+            c = re.sub(r"^\[x\] ", "☑ ", re.sub(r"^\[ \] ", "☐ ", contenu))
+            out.append(f"<li>{inline_html(c)}</li>")
+        elif nature == "table":
+            tete, *corps = contenu
+            out.append("<table><thead><tr>" + "".join(f"<th>{inline_html(c)}</th>" for c in tete) + "</tr></thead><tbody>"
+                       + "".join("<tr>" + "".join(f"<td>{inline_html(c)}</td>" for c in r) + "</tr>" for r in corps)
+                       + "</tbody></table>")
+        elif nature == "citation":
+            out.append(f"<blockquote>{inline_html(contenu)}</blockquote>")
+        elif nature == "para":
+            out.append(f"<p>{inline_html(contenu)}</p>")
+        else:
+            out.append(f"<{nature}>{inline_html(contenu)}</{nature}>")
+    if liste:
+        out.append("</ul>")
+    return "\n".join(out)
+
+
+def blocs_docx(bs, chemin):
+    """DOCX par python-docx ; renvoie False si le module manque."""
     try:
-        import markdown
+        from docx import Document
+        from docx.opc.constants import RELATIONSHIP_TYPE
+        from docx.oxml import OxmlElement
+        from docx.oxml.ns import qn
     except ImportError:
-        return None
-    return markdown.markdown(texte, extensions=["tables", "sane_lists"])
+        return False
+
+    def lien_docx(p, texte, url):
+        rid = p.part.relate_to(url, RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+        h = OxmlElement("w:hyperlink")
+        h.set(qn("r:id"), rid)
+        r, rpr = OxmlElement("w:r"), OxmlElement("w:rPr")
+        for balise, val in (("w:color", "1F5FBF"), ("w:u", "single")):
+            e = OxmlElement(balise)
+            e.set(qn("w:val"), val)
+            rpr.append(e)
+        t = OxmlElement("w:t")
+        t.text = texte
+        r.append(rpr)
+        r.append(t)
+        h.append(r)
+        p._p.append(h)
+
+    def remplir(p, t, gras=False):
+        italique = t.startswith("_") and t.endswith("_")
+        if italique:
+            t = t[1:-1]
+        pos = 0
+        for m in INLINE_RE.finditer(t):
+            if m.start() > pos:
+                r = p.add_run(t[pos:m.start()])
+                r.bold, r.italic = gras, italique
+            if m.group(1) is not None:
+                p.add_run(m.group(1)).bold = True
+            else:
+                lien_docx(p, m.group(2), m.group(3))
+            pos = m.end()
+        if pos < len(t):
+            r = p.add_run(t[pos:])
+            r.bold, r.italic = gras, italique
+
+    doc = Document()
+    for nature, contenu in bs:
+        if nature in ("h1", "h2", "h3"):
+            doc.add_heading(re.sub(r"\*\*", "", contenu), level=int(nature[1]))
+        elif nature == "puce":
+            c = re.sub(r"^\[x\] ", "☑ ", re.sub(r"^\[ \] ", "☐ ", contenu))
+            remplir(doc.add_paragraph(style="List Bullet"), c)
+        elif nature == "citation":
+            remplir(doc.add_paragraph(style="Intense Quote"), contenu)
+        elif nature == "table":
+            tete, *corps = contenu
+            tb = doc.add_table(rows=1 + len(corps), cols=len(tete))
+            tb.style = "Table Grid"
+            for j, ligne in enumerate([tete, *corps]):
+                for k, c in enumerate(ligne[:len(tete)]):
+                    cel = tb.rows[j].cells[k]
+                    remplir(cel.paragraphs[0], c, gras=j == 0)
+        else:
+            remplir(doc.add_paragraph(), contenu)
+    doc.save(str(chemin))
+    return True
 
 
 def page_html(corps, titre):
@@ -988,18 +1133,15 @@ def page_html(corps, titre):
 def ecrire(sortie, base, texte, titre, R):
     (sortie / f"{base}.md").write_text(texte, encoding="utf-8")
     print(f"  {sortie / base}.md")
-    corps = md_vers_html(texte)
-    if corps is None:
-        R.alerte("ni pandoc ni le module Python markdown : HTML non produit")
-    else:
-        (sortie / f"{base}.html").write_text(page_html(corps, titre), encoding="utf-8")
-        print(f"  {sortie / base}.html")
+    (sortie / f"{base}.html").write_text(page_html(md_vers_html(texte), titre), encoding="utf-8")
+    print(f"  {sortie / base}.html")
     if shutil.which("pandoc"):
         subprocess.run(["pandoc", "-f", FORMAT_MD, "-t", "docx", "-o", str(sortie / f"{base}.docx")],
                        input=texte, text=True, check=True)
-        print(f"  {sortie / base}.docx")
-    else:
-        R.alerte("pandoc absent : DOCX non produit")
+    elif not blocs_docx(blocs(texte), sortie / f"{base}.docx"):
+        R.alerte("ni pandoc ni python-docx : DOCX non produit")
+        return
+    print(f"  {sortie / base}.docx")
 
 
 # ── Commandes ────────────────────────────────────────────────────────────
@@ -1025,7 +1167,9 @@ def resume(an):
 
 def exiger_ignore(dossier, racine):
     """Dépôt public : un dossier de voyage suivi par git finirait en ligne. Hors dépôt git
-    (code de retour 128), rien à vérifier."""
+    (code de retour 128) ou sans git (application Claude), rien à vérifier."""
+    if not shutil.which("git"):
+        return
     r = subprocess.run(["git", "check-ignore", "-q", str(dossier)], capture_output=True)
     if r.returncode == 1:
         shutil.rmtree(dossier)

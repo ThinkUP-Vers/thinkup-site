@@ -19,8 +19,8 @@ la recherche ; le reste se décide avec une hypothèse écrite.
 ## Manière de faire
 
 - Un seul message, questions numérotées, regroupées par thème. Les choix fermés (formule de budget,
-  vol direct ou non, rythme) passent par AskUserQuestion.
-- Ce que `voyages/profils.json` dit déjà ne se redemande pas ; le rappeler en une ligne pour
+  vol direct ou non, rythme) passent par l'outil de questions à choix quand l'environnement en a un.
+- Ce que le profil (`profils.json`) dit déjà ne se redemande pas ; le rappeler en une ligne pour
   confirmation (« je pars sur : hublot, hôtel calme, Flying Blue »).
 - Ne demander une information de santé que si elle change le voyage (vaccin, altitude, accessibilité),
   et ne garder que la conséquence (« éviter les escaliers »), pas le diagnostic.

@@ -153,3 +153,13 @@ ou par l'archive (`voyage.py archiver`). Contrôle de non-régression du script 
 python3 .claude/skills/agence-voyage/scripts/voyage.py construire .claude/skills/agence-voyage/exemple --etape proposition --aujourdhui 2026-10-17
 python3 .claude/skills/agence-voyage/scripts/voyage.py construire .claude/skills/agence-voyage/exemple --aujourdhui 2026-10-17
 ```
+
+Version pour l'application Claude (claude.ai et application de bureau) : même script et mêmes
+références, seul `app/SKILL.md` diffère (pas d'agent, pas de dépôt, mémoire par Drive « Voyages » ou
+fichiers joints). Après toute modification de `references/`, `scripts/voyage.py`, `exemple/` ou
+`app/SKILL.md`, reconstruire le zip et le téléverser à nouveau dans Personnaliser > Skills, sinon
+l'application garde l'ancienne version :
+
+```
+python3 .claude/skills/agence-voyage/scripts/paquet_app.py --sortie /tmp/agence-voyage-app
+```

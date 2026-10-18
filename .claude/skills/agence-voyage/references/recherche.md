@@ -6,7 +6,7 @@ Constat du 17/10/2026, à réévaluer si les outils de la session changent :
 
 - Les comparateurs de vols et d'hôtels (Google Flights, Skyscanner, Kayak, Booking, Expedia) se
   construisent en JavaScript ou bloquent les robots : WebFetch n'en lit pas les prix, et un navigateur
-  sans interface lancé depuis la session cloud n'y a pas obtenu de résultats. Ne pas s'acharner.
+  sans interface n'y a pas obtenu de résultats. Ne pas s'acharner.
 - Se lisent souvent : pages tarifaires des hôtels indépendants, pages d'horaires des transporteurs
   régionaux, sites officiels des musées et sites (horaires, jours de fermeture, tarifs), offices de
   tourisme, pages des transports publics, conditions générales et pages bagages des compagnies.
@@ -58,11 +58,12 @@ deux philosophies (par exemple : tout en train, ou avion et voiture). Une presta
 plusieurs formules porte toutes leurs lettres dans `variantes`. La recommandation se justifie en une
 phrase par rapport au brief, pas par le prix seul.
 
-## Déléguer à l'agent recherche-voyage
+## Déléguer à l'agent recherche-voyage (Claude Code seulement)
 
-Pour plus de trois postes ou un voyage à plusieurs étapes, lancer en parallèle un agent
-`recherche-voyage` par poste. Le cahier des charges tient en quelques lignes et ne contient **aucun nom
-de voyageur, aucune référence de réservation, aucun numéro** :
+Là où l'agent `recherche-voyage` existe (Claude Code, dépôt du site), et pour plus de trois postes ou
+un voyage à plusieurs étapes, lancer en parallèle un agent `recherche-voyage` par poste. Le cahier des
+charges tient en quelques lignes et ne contient **aucun nom de voyageur, aucune référence de
+réservation, aucun numéro** :
 
 ```
 Poste : hébergement à Porto
