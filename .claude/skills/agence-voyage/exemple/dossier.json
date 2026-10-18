@@ -1,0 +1,187 @@
+{
+  "meta": {
+    "reference": "2027-03-11-lisbonne-porto",
+    "objet": "Lisbonne et Porto (EXEMPLE FICTIF : prestataires, prix et adresses inventés pour le test du script)",
+    "nature": "mixte",
+    "statut": "reservation",
+    "cree_le": "2026-10-10",
+    "fuseau_reference": "Europe/Paris"
+  },
+  "voyageurs": [
+    {
+      "id": "V1",
+      "nom": "Alex Exemple",
+      "categorie": "adulte",
+      "nationalite": "FR",
+      "document": {"type": "passeport", "expire_le": "2030-06-30"},
+      "fidelite": ["Programme Exemple"],
+      "preferences": ["hublot", "chambre calme"],
+      "contraintes": []
+    },
+    {
+      "id": "V2",
+      "nom": "Camille Exemple",
+      "categorie": "adulte",
+      "nationalite": "FR",
+      "document": {"type": "cni", "expire_le": "2027-04-02"},
+      "fidelite": [],
+      "preferences": ["végétarien"],
+      "contraintes": []
+    }
+  ],
+  "brief": {
+    "depart": "Paris",
+    "retour_a": "Paris",
+    "etapes": [
+      {"lieu": "Lisbonne", "pays": "PT", "du": "2027-03-11", "au": "2027-03-13", "fuseau": "Europe/Lisbon"},
+      {"lieu": "Porto", "pays": "PT", "du": "2027-03-13", "au": "2027-03-15", "fuseau": "Europe/Lisbon"}
+    ],
+    "date_aller": "2027-03-11",
+    "date_retour": "2027-03-15",
+    "flexibilite": "aucune à l'aller (séminaire le 11 après-midi), ± 1 jour au retour",
+    "budget": {"montant": 2400, "devise": "EUR", "base": "total", "plafond_strict": false},
+    "objectif": "Séminaire client à Lisbonne le 11, puis week-end à Porto",
+    "rythme": "tranquille, une visite par demi-journée au plus",
+    "hebergement": "hôtel central, chambre double calme",
+    "transport": "vols directs, train entre les deux villes",
+    "incontournables": ["dégustation dans une cave de Porto"],
+    "a_eviter": ["départ avant 6 h"],
+    "notes": ""
+  },
+  "variantes": [
+    {"id": "A", "nom": "Essentiel", "idee": "Vol économique depuis Orly, hôtels 3 étoiles bien situés, aucune activité réservée."},
+    {"id": "B", "nom": "Confort", "idee": "Vol régulier depuis Roissy en milieu de matinée, hôtels 4 étoiles, visite de cave réservée."}
+  ],
+  "prestations": [
+    {
+      "id": "P1", "type": "vol", "libelle": "Vol Paris-Orly → Lisbonne", "fournisseur": "Air Exemple Low Cost", "numero": "XL101",
+      "variantes": ["A"], "voyageurs": [],
+      "debut": "2027-03-11T07:00", "fin": "2027-03-11T08:40", "fuseau_debut": "Europe/Paris", "fuseau_fin": "Europe/Lisbon",
+      "lieu_debut": "Paris-Orly 1", "lieu_fin": "Lisbonne T2",
+      "prix": {"unitaire": 79, "unite": "par personne", "quantite": 2, "devise": "EUR", "nature": "constate",
+               "source": "https://air-low-cost.exemple.invalid/recherche", "releve_le": "2026-10-12T09:40", "inclus": "un sac sous le siège"},
+      "conditions": {"annulation": "non remboursable", "bagages": "bagage en soute en option"},
+      "statut": "proposee"
+    },
+    {
+      "id": "P2", "type": "vol", "libelle": "Vol Paris-CDG → Lisbonne", "fournisseur": "Air Exemple", "numero": "AX433",
+      "variantes": ["B"], "voyageurs": [],
+      "debut": "2027-03-11T09:30", "fin": "2027-03-11T11:05", "fuseau_debut": "Europe/Paris", "fuseau_fin": "Europe/Lisbon",
+      "lieu_debut": "Paris-CDG T2", "lieu_fin": "Lisbonne T1",
+      "prix": {"unitaire": 189, "unite": "par personne", "quantite": 2, "devise": "EUR", "nature": "constate",
+               "source": "https://air.exemple.invalid/reservation", "releve_le": "2026-10-15T10:20", "inclus": "bagage cabine 8 kg"},
+      "conditions": {"annulation": "modifiable avec frais, non remboursable", "bagages": "cabine 8 kg"},
+      "statut": "reservee",
+      "reservation": {"reference": "QZ7K2P", "reserve_le": "2026-10-16", "par": "Alex Exemple", "paye": 378, "reste_du": 0}
+    },
+    {
+      "id": "P3", "type": "hebergement", "libelle": "Hôtel Exemplo Baixa (3*)", "fournisseur": "Hôtel Exemplo Baixa",
+      "variantes": ["A"], "voyageurs": [],
+      "debut": "2027-03-11", "fin": "2027-03-13", "adresse": "Rua do Exemplo 10, Lisbonne",
+      "prix": {"unitaire": 95, "unite": "par nuit", "quantite": 2, "devise": "EUR", "nature": "indicatif",
+               "source": "https://hotel-baixa.exemple.invalid/tarifs (tarif de mars 2026, dates exactes non publiées)",
+               "releve_le": "2026-10-15T10:40"},
+      "conditions": {"annulation": "inconnue tant que les dates ne sont pas ouvertes"},
+      "statut": "proposee"
+    },
+    {
+      "id": "P4", "type": "hebergement", "libelle": "Hôtel Exemplo Chiado (4*)", "fournisseur": "Hôtel Exemplo Chiado",
+      "variantes": ["B"], "voyageurs": [],
+      "debut": "2027-03-11", "fin": "2027-03-13", "adresse": "Largo do Exemplo 2, Lisbonne",
+      "prix": {"unitaire": 160, "unite": "par nuit", "quantite": 2, "devise": "EUR", "nature": "constate",
+               "source": "https://hotel-chiado.exemple.invalid/reserver", "releve_le": "2026-10-15T10:45", "inclus": "petit-déjeuner"},
+      "conditions": {"annulation": "gratuite jusqu'à 48 h avant l'arrivée", "annulation_gratuite_jusqu_au": "2027-03-09T18:00"},
+      "statut": "reservee",
+      "reservation": {"reference": "BK-554201", "reserve_le": "2026-10-16", "par": "Alex Exemple", "paye": 0, "reste_du": 320, "solde_avant": "2027-03-11"}
+    },
+    {
+      "id": "P5", "type": "train", "libelle": "Train Lisbonne → Porto", "fournisseur": "Rail Exemple", "numero": "AP 125",
+      "variantes": ["A", "B"], "voyageurs": [],
+      "debut": "2027-03-13T10:39", "fin": "2027-03-13T13:35", "fuseau_debut": "Europe/Lisbon",
+      "lieu_debut": "Lisbonne Santa Apolónia", "lieu_fin": "Porto Campanhã",
+      "prix": {"unitaire": 31, "unite": "par personne", "quantite": 2, "devise": "EUR", "nature": "constate",
+               "source": "https://rail.exemple.invalid/billets", "releve_le": "2026-10-15T11:00"},
+      "conditions": {"annulation": "remboursable avec retenue de 15 %"},
+      "statut": "reservee",
+      "reservation": {"reference": "CP-88213", "reserve_le": "2026-10-16", "par": "Alex Exemple", "paye": 62, "reste_du": 0}
+    },
+    {
+      "id": "P6", "type": "hebergement", "libelle": "Pension Exemplo Ribeira", "fournisseur": "Pension Exemplo",
+      "variantes": ["A"], "voyageurs": [],
+      "debut": "2027-03-13", "fin": "2027-03-15", "adresse": "Cais do Exemplo 5, Porto",
+      "prix": {"unitaire": 85, "unite": "par nuit", "quantite": 2, "devise": "EUR", "nature": "estime",
+               "source": "moyenne de trois pensions comparables constatée pour mars 2026, aucune n'ouvrant encore mars 2027",
+               "releve_le": "2026-10-15T11:10"},
+      "statut": "proposee"
+    },
+    {
+      "id": "P7", "type": "hebergement", "libelle": "Hôtel Exemplo Porto (4*)", "fournisseur": "Hôtel Exemplo Porto",
+      "variantes": ["B"], "voyageurs": [],
+      "debut": "2027-03-13", "fin": "2027-03-15", "adresse": "Rua das Exemplas 40, Porto",
+      "prix": {"unitaire": 140, "unite": "par nuit", "quantite": 2, "devise": "EUR", "nature": "constate",
+               "source": "https://hotel-porto.exemple.invalid/reserver", "releve_le": "2026-10-15T11:15"},
+      "conditions": {"annulation": "tarif flexible : gratuite jusqu'au 19 octobre 2026 à midi, puis non remboursable",
+                     "annulation_gratuite_jusqu_au": "2026-10-19T12:00"},
+      "statut": "reservee",
+      "reservation": {"reference": "HP-2027-0311", "reserve_le": "2026-10-16", "par": "Alex Exemple", "paye": 280, "reste_du": 0}
+    },
+    {
+      "id": "P8", "type": "vol", "libelle": "Vol Porto → Paris-CDG", "fournisseur": "Air Exemple", "numero": "AX1956",
+      "variantes": ["A", "B"], "voyageurs": [],
+      "debut": "2027-03-15T18:05", "fin": "2027-03-15T21:30", "fuseau_debut": "Europe/Lisbon", "fuseau_fin": "Europe/Paris",
+      "lieu_debut": "Porto", "lieu_fin": "Paris-CDG T2",
+      "prix": {"unitaire": 98, "unite": "par personne", "quantite": 2, "devise": "EUR", "nature": "constate",
+               "source": "https://air.exemple.invalid/reservation", "releve_le": "2026-10-15T10:25", "inclus": "bagage cabine 8 kg"},
+      "conditions": {"annulation": "non remboursable", "bagages": "cabine 8 kg"},
+      "statut": "reservee",
+      "reservation": {"reference": "QZ7K2Q", "reserve_le": "2026-10-16", "par": "Alex Exemple", "paye": 196, "reste_du": 0}
+    },
+    {
+      "id": "P9", "type": "activite", "libelle": "Visite et dégustation, cave Exemplo", "fournisseur": "Cave Exemplo",
+      "variantes": ["B"], "voyageurs": [],
+      "debut": "2027-03-14T15:00", "fin": "2027-03-14T16:30", "fuseau_debut": "Europe/Lisbon", "lieu_debut": "Vila Nova de Gaia",
+      "prix": {"unitaire": 25, "unite": "par personne", "quantite": 2, "devise": "EUR", "nature": "indicatif",
+               "source": "https://cave.exemple.invalid/visites (tarif 2026)", "releve_le": "2026-10-15T11:30"},
+      "conditions": {"annulation": "à vérifier à la réservation"},
+      "statut": "retenue"
+    },
+    {
+      "id": "P10", "type": "transfert", "libelle": "Taxi hôtel → gare Santa Apolónia", "fournisseur": "taxi à héler ou VTC",
+      "variantes": ["B"], "voyageurs": [],
+      "debut": "2027-03-13T10:10", "fin": "2027-03-13T10:30", "fuseau_debut": "Europe/Lisbon",
+      "lieu_debut": "Hôtel Exemplo Chiado", "lieu_fin": "Lisbonne Santa Apolónia",
+      "prix": {"unitaire": 15, "unite": "la course", "quantite": 1, "devise": "EUR", "nature": "estime",
+               "source": "distance de 3 km au tarif urbain affiché par la ville (exemple)", "releve_le": "2026-10-15T11:40"},
+      "statut": "retenue"
+    }
+  ],
+  "formalites": [
+    {
+      "id": "F1", "voyageurs": [], "pays": "PT",
+      "exigence": "Carte nationale d'identité ou passeport en cours de validité pour la durée du séjour",
+      "validite_min_mois": 0, "statut": "ok",
+      "source": "https://diplomatie.exemple.invalid/conseils-aux-voyageurs/portugal", "verifie_le": "2026-10-15"
+    }
+  ],
+  "conseils": [
+    {"pays": "PT", "theme": "securite", "texte": "Pas de restriction particulière ; vigilance habituelle contre les vols à la tire dans les tramways.",
+     "source": "https://diplomatie.exemple.invalid/conseils-aux-voyageurs/portugal", "verifie_le": "2026-10-15"},
+    {"pays": "PT", "theme": "sante", "texte": "Emporter la carte européenne d'assurance maladie.",
+     "source": "https://assurance-maladie.exemple.invalid/ceam", "verifie_le": "2026-10-15"}
+  ],
+  "programme": [
+    {"date": "2027-03-11", "titre": "Arrivée et séminaire", "deroule": ["Déjeuner rapide près de l'hôtel", "Séminaire client de 14 h à 18 h"]},
+    {"date": "2027-03-12", "titre": "Lisbonne", "deroule": ["Matin : quartier de l'Alfama à pied", "Après-midi libre"]},
+    {"date": "2027-03-13", "titre": "Train pour Porto", "deroule": ["Après-midi : quais de la Ribeira"]},
+    {"date": "2027-03-14", "titre": "Porto", "deroule": ["Matin : marché et centre historique"]},
+    {"date": "2027-03-15", "titre": "Retour", "deroule": ["Libérer la chambre avant midi, bagagerie de l'hôtel jusqu'au départ"]}
+  ],
+  "contacts": [
+    {"nom": "Hôtel Exemplo Chiado", "role": "hébergement Lisbonne", "telephone": "+351 000 000 000", "email": "", "adresse": "Largo do Exemplo 2, Lisbonne"},
+    {"nom": "Assistance de la carte bancaire", "role": "assistance et rapatriement", "telephone": "numéro au dos de la carte", "email": "", "adresse": ""}
+  ],
+  "questions_ouvertes": [
+    {"id": "Q1", "question": "Le dîner du séminaire le 11 est-il organisé par le client ?", "pour": "Patrick", "bloquante": false, "reponse": ""}
+  ],
+  "incidents": []
+}
