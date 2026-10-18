@@ -34,8 +34,9 @@ question isolée sur un pays ou un aéroport : y répondre directement.
 4. **Rien ne part sans accord explicite.** Mail, brouillon, événement d'agenda, fichier sur Drive :
    proposer d'abord, agir ensuite, une action à la fois.
 5. **Données personnelles.** Ne jamais consigner de numéro de passeport ou de carte d'identité, de
-   numéro de carte bancaire, de code ou de mot de passe (le script les refuse). Aucune recherche web ne
-   contient le nom d'un voyageur ni une référence de réservation.
+   numéro de carte bancaire, de code ou de mot de passe (le script les refuse). Aucune recherche web ni
+   aucun connecteur de prix (Kiwi.com, Trivago) ne reçoit le nom d'un voyageur ni une référence de
+   réservation : seulement villes, dates, nombre et âge des voyageurs.
 6. **Sécurité d'abord.** Une destination déconseillée par le ministère des Affaires étrangères (zone
    rouge, ou orange sans raison impérative) se signale en tête de réponse ; aucune proposition n'est
    bâtie sans accord explicite après cet avertissement.
@@ -83,20 +84,28 @@ python3 "$S/scripts/voyage.py" verifier $V --etape brief
 Pour chaque pays : fiche « Conseils aux voyageurs » (sécurité, entrée et séjour, santé), formalités
 selon la nationalité de chaque voyageur, validité des documents, saison et météo, événements qui
 font monter les prix ou ferment les sites. Consigner `formalites` et `conseils` avec source et date.
+`references/sources.md` donne les sources de cette étape : tendances de prix hôteliers par mois
+(Trivago), jours fériés du pays, vacances scolaires françaises, climat aux mêmes dates.
 
 Puis contredire le projet s'il ne tient pas, avant de chercher quoi que ce soit : budget irréaliste
 pour la saison, durée trop courte pour la distance, document qui expire, visa hors délai, période de
 mousson ou de cyclones, correspondance impossible. Dire ce qui ne tient pas, puis la meilleure
 alternative réaliste ; attendre la réponse de Patrick si cela change le voyage.
 
-## Étape 3 — Recherche des prestations (lire `references/recherche.md`)
+## Étape 3 — Recherche des prestations (lire `references/recherche.md` et `references/sources.md`)
 
 Deux formules (`variantes`), trois si le budget le permet : par exemple Essentiel et Confort. Chercher
-par poste avec la recherche web et la lecture de pages : transport principal, transports sur place,
-hébergement, activités incontournables, assurance si nécessaire. Deux à trois options sérieuses par
-poste, comparées à périmètre égal (bagages, annulation, petit-déjeuner, temps porte à porte). Quand un
-prix ne peut pas être lu pour les dates exactes, demander à Patrick de coller le résultat de sa propre
-recherche. Chaque option entre dans `prestations` avec son prix, sa nature, sa source et l'heure du
+par poste : transport principal, transports sur place, hébergement, activités incontournables,
+assurance si nécessaire. Deux à trois options sérieuses par poste, comparées à périmètre égal
+(bagages, annulation, petit-déjeuner, temps porte à porte).
+
+Vols et hébergements passent d'abord par les connecteurs s'ils sont actifs : Kiwi.com
+(`search-flight`) et Trivago (`trivago-accommodation-search`, ou `-radius-search` autour d'un lieu de
+rendez-vous). Leurs prix sont vus pour les dates et le nombre de voyageurs exacts : `constate`, avec
+le lien renvoyé en source et l'heure de l'appel. Leurs limites (revendeur, billets séparés, conditions
+du site qui vend) sont dans `references/sources.md` et se signalent dans la proposition. Le reste
+passe par la recherche web et la lecture de pages ; quand un prix ne peut pas être lu pour les dates
+exactes, demander à Patrick de coller le résultat de sa propre recherche. Chaque option entre dans `prestations` avec son prix, sa nature, sa source et l'heure du
 relevé ; les options écartées gardent le statut `ecartee` et le motif en `notes`.
 
 ## Étape 4 — Proposition
@@ -163,8 +172,9 @@ reconstruire, signaler tout changement.
 
 D'abord la solution, ensuite le droit.
 1. Établir les faits en deux questions au plus (quoi, où, depuis quand, ce que propose le transporteur).
-2. Chercher tout de suite les solutions de remplacement réalistes (vol ou train suivant, nuit sur
-   place) et dire ce qu'il faut demander au comptoir.
+2. Chercher tout de suite les solutions de remplacement réalistes (vol suivant par Kiwi.com, train
+   suivant, nuit sur place par Trivago autour de l'aéroport ou de la gare) et dire ce qu'il faut
+   demander au comptoir : le réacheminement par la compagnie passe avant un billet racheté.
 3. Dire les droits applicables et les justificatifs à garder, en vérifiant le texte en vigueur.
 4. Consigner l'incident dans `incidents` ; préparer la réclamation (brouillon de mail avec accord) et
    l'échéance de relance.

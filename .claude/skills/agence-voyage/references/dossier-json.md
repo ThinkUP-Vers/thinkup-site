@@ -56,7 +56,9 @@ par_personne, plafond_strict}`), `objectif`, `rythme`, `hebergement`, `transport
 Le montant vaut `unitaire × quantite`, converti en euros par `taux_eur` si `devise` n'est pas `EUR`.
 `nature` : `constate`, `indicatif` ou `estime` (règle 1 du skill). `source` : l'adresse de la page,
 suivie si besoin d'un commentaire (« https://… (tarif 2026) »), ou la base d'une estimation.
-`releve_le` : date et heure du relevé. Gratuit ou déjà inclus : `unitaire: 0`.
+`releve_le` : date et heure du relevé. Gratuit ou déjà inclus : `unitaire: 0`. Un aller-retour payé
+d'un seul prix (Kiwi.com) : le prix total sur l'aller, `unitaire: 0` et « prix inclus dans P… » sur le
+retour.
 
 ## formalites[]
 
