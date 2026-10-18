@@ -2,7 +2,8 @@
 
 ## Ce que l'outil peut lire, et ce qu'il ne peut pas
 
-Constat du 17/10/2026, à réévaluer si les outils de la session changent :
+Les prix de vols et d'hôtels pour des dates exactes viennent des connecteurs Kiwi.com et Trivago
+quand ils sont actifs (`sources.md`). Sans eux, constat du 17/10/2026 :
 
 - Les comparateurs de vols et d'hôtels (Google Flights, Skyscanner, Kayak, Booking, Expedia) se
   construisent en JavaScript ou bloquent les robots : WebFetch n'en lit pas les prix, et un navigateur
@@ -19,17 +20,17 @@ Constat du 17/10/2026, à réévaluer si les outils de la session changent :
 
 | Poste | Sources à privilégier | À relever en plus du prix |
 |---|---|---|
-| Vol | site de la compagnie ; comparateurs à défaut, pour repérer les compagnies qui desservent la ligne | numéro de vol, aéroports et terminaux, durée, escales, bagages inclus, conditions de modification et de remboursement, compagnie qui opère le vol |
+| Vol | connecteur Kiwi.com ; site de la compagnie pour vérifier le prix du même vol en achat direct | numéro de vol, aéroports et terminaux, durée, escales, bagages inclus, conditions de modification et de remboursement, compagnie qui opère le vol |
 | Train | opérateur national ou régional (SNCF Connect, Trenitalia, Renfe, DB, CP, Eurostar…), revendeurs à défaut | gares exactes, réservation obligatoire ou non, échange et remboursement |
 | Car, bateau | opérateur | lieu de départ précis, bagages, fréquence en basse saison |
-| Hébergement | site de l'établissement ; plateformes pour les avis et pour repérer l'offre | adresse et quartier, distance à pied ou en transport du programme, petit-déjeuner, taxe de séjour, heure d'arrivée et de départ, annulation gratuite jusqu'à quand, avis récents |
+| Hébergement | connecteur Trivago (par destination, ou autour du lieu de rendez-vous) ; site de l'établissement pour les conditions et un éventuel meilleur prix direct | adresse et quartier, distance à pied ou en transport du programme, petit-déjeuner, taxe de séjour, heure d'arrivée et de départ, annulation gratuite jusqu'à quand, avis récents |
 | Transferts | transports publics officiels, puis taxis et navettes | durée réelle à l'heure prévue, fréquence la nuit et le week-end |
 | Location | loueurs ; vérifier franchise, carburant, kilométrage, conducteur additionnel, permis international | lieu et heure de prise et de restitution |
 | Activité | site officiel du lieu, billetterie officielle | jours de fermeture, réservation obligatoire, créneau, durée |
 | Assurance | d'abord la notice de la carte bancaire du payeur ; puis contrats annulation et assistance | plafonds de frais médicaux et de rapatriement, franchise, exclusions |
 
 Les prix en devise étrangère portent `devise`, `taux_eur` (valeur d'une unité en euros) et
-`taux_source` (source et date du taux, par exemple la Banque centrale européenne).
+`taux_source` (source et date du taux : BCE via Frankfurter, voir `sources.md`).
 
 ## Comparer honnêtement
 

@@ -141,7 +141,9 @@ personnels, seul ou accompagné) : entretien de découverte, conseil (sécurité
 recherche et comparaison en deux ou trois formules, suivi des réservations, carnet de voyage avec
 calendrier `.ics`, incidents et réclamations. Il peut lancer en parallèle l'agent `recherche-voyage`
 (un par poste) : cela fait partie de l'outil, la règle méta-agent ne s'y applique pas. Il ne réserve
-ni ne paie rien.
+ni ne paie rien. Prix réels des vols et des hôtels par les connecteurs Kiwi.com et Trivago quand ils
+sont actifs ; les autres sources (change BCE, jours fériés, vacances scolaires, régularité TGV,
+Légifrance) et les connecteurs recommandés sont dans `references/sources.md`.
 
 Le dépôt est PUBLIC : les dossiers de voyage et les profils des voyageurs vivent dans `voyages/`,
 ignoré par git — ne jamais le committer, ni le forcer avec `git add -f` ; `voyage.py init` refuse de
