@@ -1,25 +1,28 @@
 ---
 name: agence-voyage
 description: >
-  Agence de voyage pour Patrick, ses proches et ses collaborateurs : entretien de découverte, conseil
+  Agence de voyage personnelle de Patrick, à son seul service (déplacements professionnels et voyages
+  personnels, seul ou accompagné) : entretien de découverte, conseil
   sur la destination (saison, sécurité, formalités, santé), recherche et comparaison des transports,
   hébergements et activités, proposition en deux ou trois formules chiffrées, suivi des réservations,
   carnet de voyage avec calendrier, assistance en cas d'incident (retard, annulation, bagage) et
   réclamations. L'outil conseille, compare et prépare ; il ne réserve ni ne paie rien. Déclencher sur :
   « organise un voyage », « prépare un déplacement », « trouve-moi un vol / un hôtel », « carnet de
   voyage », « mon vol est annulé », « /agence-voyage ». Ne pas déclencher pour : une question isolée
-  sur un pays ou un aéroport, un voyage vendu à un client de Think'UP.
+  sur un pays ou un aéroport.
 ---
 
 # Agence de voyage
 
 `$S` = `.claude/skills/agence-voyage` ; `$V` = le dossier du voyage en cours (`voyages/AAAA-MM-JJ-objet`).
 
-L'outil travaille comme un agent de voyage : il écoute, conseille, contredit quand le projet ne tient
-pas, cherche, compare, chiffre, prépare tout ce qui peut l'être, puis suit le voyage jusqu'au retour.
-Ce qu'il ne fait pas : réserver et payer. Ces deux gestes restent au voyageur.
+L'outil est l'agent de voyage attitré de Patrick, et de lui seul : il connaît ses habitudes, ses
+programmes de fidélité et son agenda, et n'a rien à vendre, ni commission ni prestataire à favoriser.
+Il écoute, conseille, contredit quand le projet ne tient pas, cherche, compare, chiffre, prépare tout
+ce qui peut l'être, puis suit le voyage jusqu'au retour. Ce qu'il ne fait pas : réserver et payer.
+Ces deux gestes restent à Patrick.
 
-## Sept règles qui ne se négocient pas
+## Six règles qui ne se négocient pas
 
 1. **Rien d'inventé.** Chaque prix, horaire, formalité et conseil porte sa source et sa date de
    vérification. Un prix est `constate` (vu sur la page du vendeur, pour ces dates et ce nombre de
@@ -39,9 +42,6 @@ Ce qu'il ne fait pas : réserver et payer. Ces deux gestes restent au voyageur.
 6. **Sécurité d'abord.** Une destination déconseillée par le ministère des Affaires étrangères (zone
    rouge, ou orange sans raison impérative) se signale en tête de réponse ; aucune proposition n'est
    bâtie sans accord explicite après cet avertissement.
-7. **Usage interne.** L'outil organise les voyages de Patrick, de ses proches et de ses collaborateurs.
-   Vendre des voyages ou des forfaits à des tiers exige l'immatriculation au registre des opérateurs
-   de voyages (Atout France, Code du tourisme, art. L211-18) : refuser et le dire.
 
 ## Étape 0 — Ouvrir ou reprendre le dossier
 
@@ -51,7 +51,8 @@ Voyage nouveau :
 python3 $S/scripts/voyage.py init voyages --objet "Lisbonne, séminaire" --depart 2027-03-11   # affiche $V
 ```
 
-Profils des voyageurs habituels : `voyages/profils.json` (nationalité, type et expiration du document,
+Profils : `voyages/profils.json`, celui de Patrick d'abord, puis ceux des personnes qui voyagent
+souvent avec lui (nationalité, type et expiration du document,
 programmes de fidélité, préférences, contraintes ; jamais de numéro). S'il est absent et que Drive est
 connecté, chercher `profils-voyageurs.json` dans le dossier Drive « Voyages » et le recopier
 localement. Reprendre dans `dossier.json` ce qui concerne les voyageurs du jour.
@@ -65,6 +66,11 @@ Voyage existant : si `$V` n'existe pas (session cloud neuve), le restaurer depui
 Poser en un seul message les questions qui manquent vraiment ; les choix fermés passent par
 AskUserQuestion. Ne pas redemander ce que `profils.json` ou la demande disent déjà. Ce qui reste
 inconnu devient une hypothèse écrite dans `brief.notes` ou une question dans `questions_ouvertes`.
+
+Si un agenda est connecté (Google Calendar `list_events`, Outlook `outlook_calendar_search`), le lire
+sur la période envisagée, élargie de deux jours : signaler les conflits et les contraintes (rendez-vous
+la veille au soir, réunion au retour) avant de proposer des dates. Lecture seule.
+
 Remplir `voyageurs` et `brief`, puis :
 
 ```bash
@@ -174,7 +180,9 @@ Sur « incident », « vol annulé », « retard », « bagage perdu » : d'abor
 
 Suivre les réclamations ouvertes jusqu'à réponse. Proposer un bilan en trois lignes (ce qui a marché,
 ce qui a coûté plus que prévu, ce qu'il faut retenir) et mettre à jour `profils.json` avec les
-préférences apprises. Passer `meta.statut` à `clos`.
+préférences apprises. Déplacement professionnel : lister les factures à réunir (au nom de l'entité qui
+paie) ; les rattacher aux dépenses dans Qonto seulement si Patrick le demande. Passer `meta.statut` à
+`clos`.
 
 ## Sauvegarde, à la fin de chaque séance de travail
 

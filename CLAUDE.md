@@ -135,13 +135,13 @@ python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit
 
 ## Outil agence-voyage : brief → proposition → carnet de voyage
 
-Le skill `agence-voyage` (`.claude/skills/agence-voyage/`, invocable par `/agence-voyage`) organise
-les voyages de Patrick, de ses proches et de ses collaborateurs comme une agence : entretien de
-découverte, conseil (sécurité, formalités, santé), recherche et comparaison en deux ou trois formules,
-suivi des réservations, carnet de voyage avec calendrier `.ics`, incidents et réclamations. Il peut
-lancer en parallèle l'agent `recherche-voyage` (un par poste) : cela fait partie de l'outil, la règle
-méta-agent ne s'y applique pas. Il ne réserve ni ne paie rien, et ne sert pas à vendre des voyages
-(immatriculation Atout France requise).
+Le skill `agence-voyage` (`.claude/skills/agence-voyage/`, invocable par `/agence-voyage`) est
+l'agence de voyage personnelle de Patrick, à son seul service (déplacements professionnels et voyages
+personnels, seul ou accompagné) : entretien de découverte, conseil (sécurité, formalités, santé),
+recherche et comparaison en deux ou trois formules, suivi des réservations, carnet de voyage avec
+calendrier `.ics`, incidents et réclamations. Il peut lancer en parallèle l'agent `recherche-voyage`
+(un par poste) : cela fait partie de l'outil, la règle méta-agent ne s'y applique pas. Il ne réserve
+ni ne paie rien.
 
 Le dépôt est PUBLIC : les dossiers de voyage et les profils des voyageurs vivent dans `voyages/`,
 ignoré par git — ne jamais le committer, ni le forcer avec `git add -f` ; `voyage.py init` refuse de
