@@ -59,7 +59,7 @@ mobile — burger disparu, `nav.js` retiré, `?v=` retombé à 1.
 Contrôle avant de clore un chantier qui touche l'en-tête :
 
 ```
-grep -L nav-burger *.html editorial/scheduled-blog/*.html
+grep -L nav-burger *.html editorial/scheduled-blog/*.html | grep -v '^google[0-9a-f]*\.html$'
 grep -o 'style-v2\.css?v=[0-9]*' *.html editorial/scheduled-blog/*.html | grep -v 'v=3'
 ```
 
@@ -81,6 +81,36 @@ Il s'active uniquement dans deux cas :
 Dans le cas 2, présente d'abord l'équipe d'agents envisagée en quelques
 lignes et demande confirmation avant de lancer l'orchestration. Pour tout
 le reste, réponds directement.
+
+## Aiguillage des modèles : chaque demande au modèle le moins cher qui la réussit
+
+Le tri se fait dans la session principale, sans lancer d'agent pour décider : classer une demande
+coûte quelques dizaines de tokens, un agent de tri en coûterait des milliers à son démarrage. Seule
+l'exécution se délègue, aux agents `executant-haiku` et `executant-sonnet`.
+
+| Niveau | Signes | Modèle |
+|---|---|---|
+| 1 Mécanique | résultat vérifiable sans jugement : rechercher, compter, extraire, remplacer en série, reformater, contrôles grep, `?v=` | Haiku |
+| 2 Standard | rédaction ou code sur consigne claire : article de blog, section ou modification de pages, synthèse, recherche web | Sonnet |
+| 3 Complexe | jugement, arbitrage, conformité : contenus juridiques, audit-ia, devis, stratégie, offre, bug sans cause évidente | Opus |
+
+Fable est réservé à une demande explicite ou à une tâche très difficile qui a échoué sur Opus.
+
+1. Classer la demande. En cas de doute entre deux niveaux, prendre le plus haut : un échec suivi
+   d'une reprise coûte plus qu'un niveau au-dessus.
+2. Session plus puissante que le niveau : tâche courte (repère : cinq appels d'outils au plus), la
+   traiter directement, déléguer coûterait plus que l'économie ; tâche plus longue et autonome, la
+   déléguer à l'exécutant du niveau. Si la session ne sert visiblement qu'à des demandes de niveau 1
+   ou 2, le dire une fois par session, en une ligne : « Sonnet suffit ici : `/model sonnet` ».
+3. Session au bon niveau : traiter directement.
+4. Session moins puissante que le niveau : niveau 2, déléguer à `executant-sonnet` ; niveau 3,
+   l'annoncer en une ligne et attendre que Patrick bascule (`/model opus`) ou confirme.
+5. La consigne de délégation est autonome : fichiers concernés, résultat attendu, contrôle à faire.
+   Au retour, vérifier le résultat (diff, grep) avant de l'annoncer ; sur `HORS PÉRIMÈTRE`, reprendre
+   au niveau supérieur.
+
+Aucune ligne d'en-tête ni annonce du niveau à chaque réponse. Les skills qui fixent leurs propres
+agents (audit-ia, agence-voyage, meta-agent) gardent leurs modèles.
 
 ## Veille outils : tâche planifiée du jeudi
 
