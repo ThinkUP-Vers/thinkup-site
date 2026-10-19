@@ -85,22 +85,23 @@ Recherche d'entreprises. En cas de désaccord, la spec OpenAPI en ligne fait foi
    sauf demande contraire. Une entreprise dont le président est une société (holding) reste dans la
    liste : à cette taille c'est fréquent. Cherche alors la personne physique derrière (dirigeants
    de la holding via son SIREN) ; si tu ne la trouves pas, note « dirigeant à identifier ».
-4. Note chaque entreprise sur 10 avec des critères lisibles, puis classe-les :
-   - taille : 20 à 249 salariés = pleine note ; 250 à 999 = bonne note mais décision plus lente
-     (comité, DSI, achats) ; 10 à 19 = moyen ; `NN` = à vérifier ;
-   - dirigeant : un président ou gérant personne physique, décisionnaire, vaut plus qu'un directeur
-     général salarié d'un groupe ; une holding sans personne physique identifiée vaut moins ;
-   - santé : chiffre d'affaires et résultat net publiés et positifs ; absence de finances = neutre,
-     jamais pénalisant (beaucoup de PME ne publient pas) ;
-   - secteur : cohérent avec la demande (ex. activités à fort volume documentaire ou de saisie :
-     services, négoce, industrie légère, immobilier, comptabilité) ;
-   - ancienneté : plus de 3 ans, signe d'une organisation stable.
-5. Pour chaque entreprise retenue, formule une hypothèse de besoin IA en une phrase, marquée comme
-   hypothèse, fondée sur le secteur et la taille, pas sur de l'invention.
+4. Ne note pas à la main : enregistre les pages JSON collectées dans un répertoire temporaire (une page
+   par fichier `.json`) et lance
+   `python3 -I .claude/outils/prospection-score.py <répertoire> --dept <dpt> --tranches <codes> --out prospection/AAAA-MM-JJ-<slug> --top <n>`.
+   Le script filtre (siège dans le département, active, diffusion complète, hors grandes entreprises),
+   note sur 100 et écrit le CSV et le fichier `.txt` (ciblage, barème, décompte). Barème : taille 25,
+   dirigeant 25, santé financière 20 (marge nette, proportionnelle), fraîcheur des comptes 10,
+   ancienneté 10, structure (nombre d'établissements) 10 ; départage par chiffre d'affaires. Il suppose
+   un seul département par appel : lance-le une fois par département. Si tu changes un critère,
+   modifie le script et dis-le dans le compte rendu, ne contourne pas le barème.
+5. Le script rédige une hypothèse de besoin générique par code NAF (section 41 à 43 du BTP) ; pour un
+   autre secteur, complète le dictionnaire `HYP` du script avec une hypothèse prudente, marquée comme
+   hypothèse. Une société présidente est notée « dirigeant à identifier » : cherche alors la personne
+   physique derrière (dirigeants de la société via son SIREN) avant de livrer les 10 premières lignes.
 
 ## Sortie
 
-Écris un fichier CSV (séparateur point-virgule, UTF-8 avec BOM, lisible dans Excel) dans
+Le script produit un fichier CSV (séparateur point-virgule, UTF-8 avec BOM, lisible dans Excel) dans
 `prospection/AAAA-MM-JJ-<slug-du-ciblage>.csv` (pas de ligne de commentaire dans ce fichier : le ciblage et
 le barème vont dans `prospection/AAAA-MM-JJ-<slug-du-ciblage>.txt`), colonnes :
 `score; siren; nom; ville; departement; naf; effectif; ca; resultat_net; dirigeant; qualite; date_creation; hypothese_besoin; url_annuaire`
