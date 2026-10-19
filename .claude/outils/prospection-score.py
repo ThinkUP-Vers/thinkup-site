@@ -4,7 +4,7 @@
 Usage : python3 -I prospection-score.py PAGES_DIR --dept 78 --tranches 12,21 --out prospection/AAAA-MM-JJ-slug [--top 30]
 Écrit <out>.csv (colonnes de prospection-b2b) et <out>.txt (ciblage, barème, décompte).
 """
-import argparse, csv, datetime, glob, json, os
+import argparse, csv, datetime, glob, json, os, re
 
 TAILLE = {"11": 8, "12": 18, "21": 25, "22": 25, "31": 25, "32": 20, "41": 12}  # /25 ; NN = 10
 BAREME = ("score /100 = taille 25 (50-249 salariés = 25, 250-499 = 20, 20-49 = 18, 500-999 = 12, 10-19 = 8, NN = 10)"
@@ -12,16 +12,25 @@ BAREME = ("score /100 = taille 25 (50-249 salariés = 25, 250-499 = 20, 20-49 = 
           " + santé 20 (marge nette proportionnelle de 0 à 20 entre 0 %% et 8 %% ou plus, négative = 0, non publiée = 8)"
           " + fraîcheur des comptes 10 (publiés N-1 = 10, N-2 = 8, N-3 = 5, plus ancien = 2, aucun = 3)"
           " + ancienneté 10 (plus de 10 ans = 10, 3 à 10 ans = 6, moins de 3 ans = 0)"
-          " + structure 10 (3 établissements ouverts ou plus = 10, 2 = 7, 1 = 4) ; départage par chiffre d'affaires.")
+          " + structure 10 (établissements ouverts de l'entreprise, tous départements : 3 ou plus = 10, 2 = 7, 1 = 4) ; départage par chiffre d'affaires puis SIREN ; un chiffre d'affaires nul est traité comme non publié.")
 HYP = {"41": "promotion/construction avec forte charge documentaire (permis, contrats, suivi de chantiers) ; l'IA pourrait aider à la rédaction et au classement",
        "42": "travaux publics avec dossiers d'appels d'offres et rapports de chantier répétitifs ; l'IA pourrait aider à la réponse aux AO et aux comptes rendus",
        "43": "devis, factures, relevés de chantier et réponses clients saisis à la main ; l'IA pourrait aider à chiffrer, rédiger et classer"}
 
 
+SOCIETE = re.compile(r"\b(SAS|SASU|SARL|EURL|SCI|SA|HOLDING|GROUPE|FINANCIERE)\b")
+
+
+def est_personne(d):
+    """Vraie personne physique : type déclaré, année de naissance présente, nom sans forme sociale."""
+    nom = f"{d.get('prenoms') or ''} {d.get('nom') or ''}".upper()
+    return d["type_dirigeant"] == "personne physique" and bool(d.get("annee_de_naissance")) and not SOCIETE.search(nom)
+
+
 def dirigeant(r):
     """Meilleur dirigeant décisionnaire : (dirigeant, points) ou None."""
     ds = [d for d in r.get("dirigeants") or [] if d.get("qualite", "").startswith(("Président", "Gérant", "Directeur Général"))]
-    pp = [d for d in ds if d["type_dirigeant"] == "personne physique"]
+    pp = [d for d in ds if est_personne(d)]
     top = [d for d in pp if d["qualite"].startswith(("Président", "Gérant"))]
     if top:
         return top[0], 25
@@ -39,7 +48,7 @@ def note(r, today):
     yr = max(f) if f else None
     ca = f[yr].get("ca") if yr else None
     rn = f[yr].get("resultat_net") if yr else None
-    if ca and rn is not None:
+    if ca and ca > 0 and rn is not None:  # CA nul ou absent = non publié
         m = rn / ca
         s += round(20 * min(max(m, 0), .08) / .08)
     else:
@@ -77,7 +86,7 @@ def main():
             if not n:
                 stats["sans_dirigeant"] += 1; continue
             rows.append((n, r))
-    rows.sort(key=lambda x: (-x[0][0], -(x[0][3] or 0)))
+    rows.sort(key=lambda x: (-x[0][0], -(x[0][3] or 0), x[1]["siren"]))
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     with open(a.out + ".csv", "w", encoding="utf-8-sig", newline="") as fh:
         w = csv.writer(fh, delimiter=";")
@@ -94,6 +103,9 @@ def main():
     with open(a.out + ".txt", "w", encoding="utf-8") as fh:
         fh.write(f"Ciblage : siège dans le {a.dept}, tranches {a.tranches}, actives, diffusion complète ; requête du {a.today}\n")
         fh.write(f"Décompte : {stats} ; retenues après filtres : {len(rows)} ; fichier : {min(a.top, len(rows))} meilleures\n")
+        if len(rows) > a.top and rows[a.top][0][0] == rows[a.top - 1][0][0]:
+            ex = sum(1 for x in rows[a.top:] if x[0][0] == rows[a.top - 1][0][0])
+            fh.write(f"Attention : {ex} autre(s) entreprise(s) à égalité de score ({rows[a.top - 1][0][0]}) avec la dernière ligne, hors fichier.\n")
         fh.write(BAREME.replace("%%", "%") + "\n")
     print(stats, len(rows))
     for (s, d, *_), r in rows[:a.top]:
