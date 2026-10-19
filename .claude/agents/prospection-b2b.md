@@ -21,7 +21,13 @@ dans le compte rendu.
 ## Source principale : API Recherche d'entreprises (data.gouv.fr)
 
 Base `https://recherche-entreprises.api.gouv.fr`, sans clé, environ 7 appels par seconde au maximum.
-Appelle-la avec WebFetch, endpoint `GET /search`. Le MCP data.gouv.fr ne l'appelle pas : il sert à
+Endpoint `GET /search`. N'utilise PAS WebFetch pour la collecte : une page complète pèse environ
+126 000 caractères, WebFetch la tronque et la résume (pas de JSON brut). Appelle l'API avec `curl` dans
+Bash, enregistre chaque page dans le répertoire temporaire, puis traite-les avec Python (`python3 -I`).
+Environ 60 % des appels `curl` ont fini en « Connection reset by peer » lors de l'essai du 19/10/2026
+(proxy du conteneur) : réessaie avec une pause, sans limite de bon sens, jusqu'à avoir toutes les pages ;
+aucun 429 constaté. WebFetch reste utile pour un seul appel de vérification. Le MCP data.gouv.fr ne
+l'appelle pas : il sert à
 retrouver la documentation (`get_dataservice_openapi_spec`, identifiant `672cf684c3488a0c533f7094`) et à
 explorer le catalogue quand un besoin sort de l'API.
 
@@ -31,10 +37,22 @@ Paramètres vérifiés (appel réel le 19/10/2026) :
 - `tranche_effectif_salarie=21,22` (valeurs multiples séparées par des virgules : accepté) ;
 - `etat_administratif=A` (actives uniquement), `categorie_entreprise=PME`, `nature_juridique` ;
 - `ca_min`, `ca_max`, `resultat_net_min`, `resultat_net_max` ;
-- `per_page`, `page`, `minimal=true` (réponse allégée), `sort_by_size=true`.
+- `per_page` : 25 au maximum (26 et 100 renvoient HTTP 400, vérifié le 19/10/2026), `page`,
+  `sort_by_size=true`. `minimal=true` est accepté mais supprime `siege`, `dirigeants` et `finances` :
+  inutilisable pour la prospection.
 
-Non vérifiés lors de la rédaction : la valeur maximale de `per_page` (à tester, 25 d'abord), la limite
-de 7 appels par seconde et le plafond de pages ci-dessous, repris de la documentation de l'API.
+Piège vérifié : `departement` filtre sur n'importe quel établissement, pas sur le siège. Sur 358
+résultats d'un essai dans le 78, 186 avaient leur siège hors du département. Filtre toujours côté client
+sur `siege.departement` (ou `siege.code_postal`) et ne cite jamais `total_results` comme nombre
+d'entreprises de la zone. Pour la même raison, la tranche d'effectif de l'entreprise (`tranche_effectif_salarie`)
+est celle de l'unité légale, pas du siège.
+
+Non vérifiés : la limite de 7 appels par seconde et le plafond de pages ci-dessous, repris de la
+documentation de l'API. L'essai a pourtant parcouru 15 pages sans blocage.
+
+Dirigeants : la liste mélange président, gérant, directeur général, administrateurs, commissaires aux
+comptes et personnes morales. Filtre sur `qualite` et `type_dirigeant`, ignore les commissaires aux
+comptes. Un prénom peut être null ; un nom peut porter un nom d'usage entre parenthèses.
 
 À ne pas faire : `include=dirigeants,finances` renvoie une erreur 400. En réponse complète (sans
 `minimal`), `dirigeants`, `finances` (CA et résultat net du dernier exercice publié) et `complements`
@@ -83,7 +101,8 @@ Recherche d'entreprises. En cas de désaccord, la spec OpenAPI en ligne fait foi
 ## Sortie
 
 Écris un fichier CSV (séparateur point-virgule, UTF-8 avec BOM, lisible dans Excel) dans
-`prospection/AAAA-MM-JJ-<slug-du-ciblage>.csv`, colonnes :
+`prospection/AAAA-MM-JJ-<slug-du-ciblage>.csv` (pas de ligne de commentaire dans ce fichier : le ciblage et
+le barème vont dans `prospection/AAAA-MM-JJ-<slug-du-ciblage>.txt`), colonnes :
 `score; siren; nom; ville; departement; naf; effectif; ca; resultat_net; dirigeant; qualite; date_creation; hypothese_besoin; url_annuaire`
 où `url_annuaire` = `https://annuaire-entreprises.data.gouv.fr/entreprise/<siren>`.
 
