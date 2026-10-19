@@ -104,11 +104,18 @@ rendez-vous). Leurs prix sont vus pour les dates et le nombre de voyageurs exact
 le lien renvoyé en source et l'heure de l'appel. Leurs limites (revendeur, billets séparés, conditions
 du site qui vend) sont dans `references/sources.md` et se signalent dans la proposition.
 
+Ensuite, pour le transport principal et l'hébergement : balayage des agences en ligne, discounters,
+dénicheurs de bons plans, ventes privées et comparateurs listés dans `references/sources.md`
+(procédure : `references/recherche.md`, section « Balayage des sites de voyage »). Chaque site a sa
+ligne dans `journal.md` : lu par l'outil, couvert par un connecteur, ou à vérifier par Patrick avec un
+lien prérempli. Une offre qui bat la meilleure option à périmètre égal entre dans `prestations`.
+
 Plus de trois postes à chercher, ou plusieurs étapes : lancer en parallèle, dans un seul message, un
 agent `recherche-voyage` par poste, avec un cahier des charges sans aucun nom de voyageur
-(`references/recherche.md`, section « Déléguer à l'agent recherche-voyage »). Sinon, chercher
-directement. Chaque option retenue entre dans `prestations` avec son prix, sa nature, sa source et
-l'heure du relevé ; les options écartées gardent le statut `ecartee` et le motif en `notes`.
+(`references/recherche.md`, section « Déléguer à l'agent recherche-voyage ») ; pour les vols et
+l'hébergement, l'agent fait aussi le balayage de son poste. Sinon, chercher directement. Chaque
+option retenue entre dans `prestations` avec son prix, sa nature, sa source et l'heure du relevé ; les
+options écartées gardent le statut `ecartee` et le motif en `notes`.
 
 ## Étape 4 — Proposition
 
@@ -129,11 +136,13 @@ Contrôle qualité avant de présenter, à cocher dans `journal.md` :
 - horaires compatibles avec le programme (séminaire, rendez-vous, arrivée tardive à l'hôtel) ;
 - jours de fermeture et réservations obligatoires des activités vérifiés ;
 - billets séparés signalés (correspondance non protégée) ;
+- balayage des sites consigné dans `journal.md`, chaque site avec son résultat ;
 - formalités et sécurité à jour pour chaque voyageur.
 
 Livrer à Patrick : le `.docx` (et le `.html`) avec l'outil d'envoi de fichiers de la session, puis
 trois à cinq lignes : les formules et leur total, la recommandation et pourquoi, ce qui reste à
-confirmer, la date limite pour décider (prix qui bougent, annulation gratuite, places limitées).
+confirmer, la date limite pour décider (prix qui bougent, annulation gratuite, places limitées) ;
+puis les sites du balayage à vérifier par lui-même, avec leurs liens et les critères à saisir.
 
 ## Étape 5 — Réservation par le voyageur
 

@@ -7,7 +7,11 @@ quand ils sont actifs (`sources.md`). Sans eux, constat du 17/10/2026 :
 
 - Les comparateurs de vols et d'hôtels (Google Flights, Skyscanner, Kayak, Booking, Expedia) se
   construisent en JavaScript ou bloquent les robots : WebFetch n'en lit pas les prix, et un navigateur
-  sans interface n'y a pas obtenu de résultats. Ne pas s'acharner.
+  sans interface n'y a pas obtenu de résultats. Ne pas s'acharner. Test élargi du 19/10/2026 à dix-neuf
+  agences en ligne, discounters, ventes privées et comparateurs : aucun prix daté lisible ; huit pages
+  d'accueil lisibles, avec des prix d'appel ou des bons plans datés. Le détail par site, et la manière
+  de couvrir chacun, sont dans `sources.md` ; la procédure est la section « Balayage des sites de
+  voyage » ci-dessous.
 - Se lisent souvent : pages tarifaires des hôtels indépendants, pages d'horaires des transporteurs
   régionaux, sites officiels des musées et sites (horaires, jours de fermeture, tarifs), offices de
   tourisme, pages des transports publics, conditions générales et pages bagages des compagnies.
@@ -52,6 +56,33 @@ Les prix en devise étrangère portent `devise`, `taux_eur` (valeur d'une unité
   avant un vol, 15 min avant un train) ; le temps minimum de correspondance publié par l'aéroport fait
   foi pour un changement d'avion.
 
+## Balayage des sites de voyage
+
+Les connecteurs donnent les meilleurs prix datés, pas tous les vendeurs. Avant de présenter une
+proposition, passer en revue les agences en ligne, discounters, dénicheurs de bons plans, ventes
+privées et comparateurs listés dans `sources.md`, pour le transport principal et l'hébergement (les
+activités et les transferts n'en relèvent pas).
+
+1. **Après les connecteurs**, quand la meilleure option de chaque formule est connue : c'est elle que
+   le balayage cherche à battre, à périmètre égal.
+2. **Site par site, selon son mode** (`sources.md`) :
+   - `lu` : WebSearch `site:<domaine> <destination> <mois> <année>` (pour VoyagesPirates, ajouter la
+     ville de départ), puis WebFetch des pages trouvées ; relever toute offre de vol, d'hôtel ou de
+     vol + hôtel pour la destination, la période et le nombre de voyageurs ;
+   - `connecteur` : dans les résultats Trivago de l'hôtel retenu, relever le prix de chaque site de la
+     liste qui y figure comme vendeur ;
+   - `patrick` : écrire le lien de recherche prérempli, ou la page d'accueil et les critères.
+3. **Tout consigner** dans `journal.md`, tableau « Balayage » : site, mode, résultat (offre avec prix,
+   nature et lien ; « rien de mieux » ; « non lu » et la raison), heure. Chaque site de la liste a sa
+   ligne, même vide : un site passé sous silence est un site non vérifié.
+4. **Une offre qui bat la meilleure option** à périmètre égal (prix final, bagages, annulation,
+   petit-déjeuner, temps porte à porte) entre dans `prestations` avec la nature de son prix ; une offre
+   moins bonne n'y entre pas, sa ligne au journal suffit.
+5. **Remettre à Patrick, avec la proposition**, la liste des sites `patrick` avec leurs liens et
+   critères, et lui demander de coller ce qu'il voit : un prix collé pour les dates et les voyageurs
+   exacts devient `constate`. Les ventes privées se consultent avec son propre compte ; l'outil n'en
+   crée aucun (règle 3 du skill).
+
 ## Formules
 
 Deux formules par défaut (Essentiel, Confort), trois si le budget est large ou si Patrick hésite entre
@@ -73,9 +104,11 @@ Voyageurs : 2 adultes, une chambre double
 Formules : A = 3 étoiles ou pension bien notée, 100 € la nuit au plus ; B = 4 étoiles, 180 € au plus
 Contraintes : centre historique ou Ribeira, calme, annulation gratuite souhaitée
 Programme à desservir : gare de Campanhã à l'arrivée, caves de Vila Nova de Gaia le 14
+Balayage des sites de voyage : oui (sites et modes de sources.md)
 Date et heure du relevé : 2026-10-15T11:00 (Europe/Paris)
 ```
 
-L'agent renvoie des prestations au format de `dossier-json.md`, prêtes à coller. Les relire avant de
-les intégrer : une source qui ne mène pas à la page du prix, ou un prix `constate` sans dates exactes,
-se requalifie.
+L'agent renvoie des prestations au format de `dossier-json.md`, prêtes à coller ; pour un poste de
+vols ou d'hébergement, il fait aussi le balayage de son poste et rend son tableau, à reporter dans
+`journal.md`, avec les liens à transmettre à Patrick. Les relire avant de les intégrer : une source
+qui ne mène pas à la page du prix, ou un prix `constate` sans dates exactes, se requalifie.

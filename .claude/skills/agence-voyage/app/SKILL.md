@@ -105,8 +105,17 @@ rendez-vous). Leurs prix sont vus pour les dates et le nombre de voyageurs exact
 le lien renvoyé en source et l'heure de l'appel. Leurs limites (revendeur, billets séparés, conditions
 du site qui vend) sont dans `references/sources.md` et se signalent dans la proposition. Le reste
 passe par la recherche web et la lecture de pages ; quand un prix ne peut pas être lu pour les dates
-exactes, demander à Patrick de coller le résultat de sa propre recherche. Chaque option entre dans `prestations` avec son prix, sa nature, sa source et l'heure du
-relevé ; les options écartées gardent le statut `ecartee` et le motif en `notes`.
+exactes, demander à Patrick de coller le résultat de sa propre recherche.
+
+Ensuite, pour le transport principal et l'hébergement : balayage des agences en ligne, discounters,
+dénicheurs de bons plans, ventes privées et comparateurs listés dans `references/sources.md`
+(procédure : `references/recherche.md`, section « Balayage des sites de voyage »). Chaque site a sa
+ligne dans le tableau « Balayage » du `journal.md` du dossier, repris dans la réponse à Patrick : lu
+par l'outil, couvert par un connecteur, ou à vérifier par Patrick avec un lien prérempli. Une offre
+qui bat la meilleure option à périmètre égal entre dans `prestations`.
+
+Chaque option entre dans `prestations` avec son prix, sa nature, sa source et l'heure du relevé ; les
+options écartées gardent le statut `ecartee` et le motif en `notes`.
 
 ## Étape 4 — Proposition
 
@@ -127,11 +136,13 @@ Contrôle avant de présenter :
 - horaires compatibles avec le programme (rendez-vous, arrivée tardive à l'hôtel) ;
 - jours de fermeture et réservations obligatoires des activités vérifiés ;
 - billets séparés signalés (correspondance non protégée) ;
+- balayage des sites fait, chaque site avec son résultat ;
 - formalités et sécurité à jour pour chaque voyageur.
 
 Remettre le `.docx` en téléchargement (dans claude.ai, le copier dans le dossier de sortie de
 l'environnement, `/mnt/user-data/outputs` s'il existe), puis trois à cinq lignes : les formules et
-leur total, la recommandation et pourquoi, ce qui reste à confirmer, la date limite pour décider.
+leur total, la recommandation et pourquoi, ce qui reste à confirmer, la date limite pour décider ;
+puis les sites du balayage à vérifier par lui-même, avec leurs liens et les critères à saisir.
 
 ## Étape 5 — Réservation par Patrick
 
