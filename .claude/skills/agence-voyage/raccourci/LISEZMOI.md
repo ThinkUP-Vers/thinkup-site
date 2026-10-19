@@ -6,6 +6,23 @@ sélectionné et `/agence-voyage` est déjà tapé dans la zone de saisie. Il re
 Ce préremplissage repose sur les paramètres d'adresse documentés de claude.ai/code (`prompt`,
 `repositories`) ; si un jour ils changeaient, le raccourci ouvrirait simplement Claude Code vide.
 
+## Méthode la plus simple : glisser le raccourci sur le bureau
+
+Rien ne s'installe tout seul : le raccourci se pose sur l'ordinateur, à la main ou par un installeur.
+
+- **Windows** (méthode qui a fonctionné le 19/10/2026) : clic droit sur le bureau, « Nouveau »,
+  « Raccourci », coller l'adresse
+  `https://claude.ai/code?prompt=/agence-voyage%20&repositories=ThinkUP-Vers/thinkup-site`, nommer
+  « Agence de voyage », « Terminer ». Le fichier `Agence de voyage.url` fait la même chose, mais un
+  téléchargement peut en altérer l'extension : Windows ne propose alors que des éditeurs de code pour
+  l'ouvrir. Pour l'icône Think'UP : copier
+  `agence-voyage.ico` dans un dossier qui restera (par exemple Documents), puis clic droit sur le
+  raccourci, « Propriétés », onglet « Document Web », « Changer d'icône », « Parcourir », choisir le
+  fichier `.ico`, « OK ».
+- **Mac** : faire glisser `Agence de voyage.webloc` sur le bureau. Pour l'icône Think'UP : ouvrir
+  `agence-voyage.png` dans Aperçu, Cmd-A puis Cmd-C ; sélectionner le raccourci sur le bureau, Cmd-I,
+  cliquer la petite icône en haut à gauche de la fenêtre d'informations, Cmd-V.
+
 ## Installation automatique
 
 - **Windows** : double-cliquer sur `installer-windows.cmd`. Si Windows affiche « Windows a protégé
