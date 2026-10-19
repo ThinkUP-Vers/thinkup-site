@@ -19,3 +19,6 @@ __pycache__/
 # Outil agence-voyage : dossiers de voyage et profils des voyageurs (données personnelles, dépôt PUBLIC)
 voyages/
 .claude/skills/agence-voyage/exemple/livrables/
+
+# Outil prospection-b2b : listes de prospects (noms de dirigeants, dépôt PUBLIC, ne jamais versionner)
+prospection/
