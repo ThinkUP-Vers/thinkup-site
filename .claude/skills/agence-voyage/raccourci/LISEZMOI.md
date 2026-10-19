@@ -10,7 +10,12 @@ Ce préremplissage repose sur les paramètres d'adresse documentés de claude.ai
 
 Rien ne s'installe tout seul : le raccourci se pose sur l'ordinateur, à la main ou par un installeur.
 
-- **Windows** : faire glisser `Agence de voyage.url` sur le bureau. Pour l'icône Think'UP : copier
+- **Windows** (méthode qui a fonctionné le 19/10/2026) : clic droit sur le bureau, « Nouveau »,
+  « Raccourci », coller l'adresse
+  `https://claude.ai/code?prompt=/agence-voyage%20&repositories=ThinkUP-Vers/thinkup-site`, nommer
+  « Agence de voyage », « Terminer ». Le fichier `Agence de voyage.url` fait la même chose, mais un
+  téléchargement peut en altérer l'extension : Windows ne propose alors que des éditeurs de code pour
+  l'ouvrir. Pour l'icône Think'UP : copier
   `agence-voyage.ico` dans un dossier qui restera (par exemple Documents), puis clic droit sur le
   raccourci, « Propriétés », onglet « Document Web », « Changer d'icône », « Parcourir », choisir le
   fichier `.ico`, « OK ».
