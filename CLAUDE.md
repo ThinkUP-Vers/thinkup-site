@@ -163,6 +163,15 @@ l'entité préparée dans ce même fichier : procédure dans `references/devis.m
 python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit-ia/exemple --final
 ```
 
+## Outil prospection-b2b : ciblage → liste de prospects (data.gouv.fr)
+
+L'agent `prospection-b2b` (`.claude/agents/`) construit des listes d'entreprises à approcher depuis
+l'API Recherche d'entreprises (Sirene, RNE), en s'appuyant sur le skill `datagouv-apis` (référence
+officielle Etalab, copie de https://github.com/etalab-ia/skills) et sur le MCP data.gouv.fr. Il ne cherche
+ni e-mail ni téléphone et ne contacte personne. Les listes contiennent des noms de dirigeants et le dépôt
+est PUBLIC : elles vivent dans `prospection/`, ignoré par git — ne jamais le committer, ni le forcer
+avec `git add -f`.
+
 ## Outil agence-voyage : brief → proposition → carnet de voyage
 
 Le skill `agence-voyage` (`.claude/skills/agence-voyage/`, invocable par `/agence-voyage`) est

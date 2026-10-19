@@ -49,6 +49,11 @@ paginer à l'infini. Indique `total_results` dans le compte rendu même si tu n'
 
 Une rupture de connexion ou un 429 : attends, réduis le rythme, réessaie une fois, puis signale-le.
 
+Pour tout besoin hors de cette API (jeu de données du catalogue, lignes d'un CSV via l'API tabulaire,
+autre dataservice), lis `.claude/skills/datagouv-apis/SKILL.md` : parcours dataservice, puis spec
+OpenAPI, puis appel de `base_api_url`. Cette référence est générique ; elle ne détaille pas l'API
+Recherche d'entreprises. En cas de désaccord, la spec OpenAPI en ligne fait foi.
+
 ## Méthode
 
 1. Fixe le ciblage et écris-le en tête du fichier de sortie (critères exacts, date de la requête).
