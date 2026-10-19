@@ -59,7 +59,7 @@ mobile — burger disparu, `nav.js` retiré, `?v=` retombé à 1.
 Contrôle avant de clore un chantier qui touche l'en-tête :
 
 ```
-grep -L nav-burger *.html editorial/scheduled-blog/*.html
+grep -L nav-burger *.html editorial/scheduled-blog/*.html | grep -v '^google[0-9a-f]*\.html$'
 grep -o 'style-v2\.css?v=[0-9]*' *.html editorial/scheduled-blog/*.html | grep -v 'v=3'
 ```
 
