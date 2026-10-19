@@ -45,7 +45,8 @@ question isolée sur un pays ou un aéroport : y répondre directement.
 
 L'environnement d'exécution repart de zéro à chaque conversation. Deux fichiers portent la mémoire :
 `profils.json` (Patrick et les personnes qui voyagent souvent avec lui : nationalité, type et
-expiration du document, programmes de fidélité, préférences, contraintes ; jamais de numéro) et le
+expiration du document, programmes de fidélité, sites de voyage dont il reçoit les alertes par mail,
+préférences, contraintes ; jamais de numéro ni de mot de passe) et le
 `dossier.json` de chaque voyage.
 
 - **Au début** : les chercher dans le dossier Google Drive « Voyages » si le connecteur Drive est
@@ -111,8 +112,9 @@ Ensuite, pour le transport principal et l'hébergement : balayage des agences en
 dénicheurs de bons plans, ventes privées et comparateurs listés dans `references/sources.md`
 (procédure : `references/recherche.md`, section « Balayage des sites de voyage »). Chaque site a sa
 ligne dans le tableau « Balayage » du `journal.md` du dossier, repris dans la réponse à Patrick : lu
-par l'outil, couvert par un connecteur, ou à vérifier par Patrick avec un lien prérempli. Une offre
-qui bat la meilleure option à périmètre égal entre dans `prestations`.
+par l'outil, couvert par un connecteur, lu dans les mails d'alerte de Patrick (avec son accord, sans
+jamais ouvrir leurs liens), ou à vérifier par lui avec un lien prérempli. Une offre qui bat la
+meilleure option à périmètre égal entre dans `prestations`.
 
 Chaque option entre dans `prestations` avec son prix, sa nature, sa source et l'heure du relevé ; les
 options écartées gardent le statut `ecartee` et le motif en `notes`.

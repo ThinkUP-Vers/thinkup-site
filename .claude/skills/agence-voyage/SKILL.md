@@ -53,10 +53,10 @@ python3 $S/scripts/voyage.py init voyages --objet "Lisbonne, séminaire" --depar
 ```
 
 Profils : `voyages/profils.json`, celui de Patrick d'abord, puis ceux des personnes qui voyagent
-souvent avec lui (nationalité, type et expiration du document,
-programmes de fidélité, préférences, contraintes ; jamais de numéro). S'il est absent et que Drive est
-connecté, chercher `profils-voyageurs.json` dans le dossier Drive « Voyages » et le recopier
-localement. Reprendre dans `dossier.json` ce qui concerne les voyageurs du jour.
+souvent avec lui (nationalité, type et expiration du document, programmes de fidélité, sites de voyage
+dont il reçoit les alertes par mail, préférences, contraintes ; jamais de numéro ni de mot de passe).
+S'il est absent et que Drive est connecté, chercher `profils-voyageurs.json` dans le dossier Drive
+« Voyages » et le recopier localement. Reprendre dans `dossier.json` ce qui concerne les voyageurs du jour.
 
 Voyage existant : si `$V` n'existe pas (session cloud neuve), le restaurer depuis Drive (dossier
 « Voyages », fichier `<référence>-dossier.json`) ou depuis l'archive fournie par Patrick
@@ -107,8 +107,9 @@ du site qui vend) sont dans `references/sources.md` et se signalent dans la prop
 Ensuite, pour le transport principal et l'hébergement : balayage des agences en ligne, discounters,
 dénicheurs de bons plans, ventes privées et comparateurs listés dans `references/sources.md`
 (procédure : `references/recherche.md`, section « Balayage des sites de voyage »). Chaque site a sa
-ligne dans `journal.md` : lu par l'outil, couvert par un connecteur, ou à vérifier par Patrick avec un
-lien prérempli. Une offre qui bat la meilleure option à périmètre égal entre dans `prestations`.
+ligne dans `journal.md` : lu par l'outil, couvert par un connecteur, lu dans les mails d'alerte de
+Patrick (avec son accord, sans jamais ouvrir leurs liens), ou à vérifier par lui avec un lien
+prérempli. Une offre qui bat la meilleure option à périmètre égal entre dans `prestations`.
 
 Plus de trois postes à chercher, ou plusieurs étapes : lancer en parallèle, dans un seul message, un
 agent `recherche-voyage` par poste, avec un cahier des charges sans aucun nom de voyageur

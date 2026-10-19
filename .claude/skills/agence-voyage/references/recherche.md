@@ -71,6 +71,9 @@ activités et les transferts n'en relèvent pas).
      vol + hôtel pour la destination, la période et le nombre de voyageurs ;
    - `connecteur` : dans les résultats Trivago de l'hôtel retenu, relever le prix de chaque site de la
      liste qui y figure comme vendeur ;
+   - `mail` : avec l'accord de Patrick, lire dans sa messagerie les mails d'alerte des sites auxquels il
+     est inscrit (`profils.json`), selon les règles de `sources.md` ; ne jamais ouvrir un lien de ces
+     mails ;
    - `patrick` : écrire le lien de recherche prérempli, ou la page d'accueil et les critères.
 3. **Tout consigner** dans `journal.md`, tableau « Balayage » : site, mode, résultat (offre avec prix,
    nature et lien ; « rien de mieux » ; « non lu » et la raison), heure. Chaque site de la liste a sa
@@ -80,8 +83,9 @@ activités et les transferts n'en relèvent pas).
    moins bonne n'y entre pas, sa ligne au journal suffit.
 5. **Remettre à Patrick, avec la proposition**, la liste des sites `patrick` avec leurs liens et
    critères, et lui demander de coller ce qu'il voit : un prix collé pour les dates et les voyageurs
-   exacts devient `constate`. Les ventes privées se consultent avec son propre compte ; l'outil n'en
-   crée aucun (règle 3 du skill).
+   exacts devient `constate`. Une vente repérée dans un mail lui est donnée par son nom, à ouvrir
+   lui-même. Les ventes privées se consultent avec son propre compte ; l'outil n'en crée aucun et ne
+   s'y connecte pas (règle 3 du skill).
 
 ## Formules
 

@@ -27,7 +27,8 @@ voyage ; tu trouves les meilleures options réelles et tu prouves chacune.
    balayage des sites de voyage (procédure : `recherche.md`, section « Balayage des sites de
    voyage » ; liste, modes et liens préremplis : `sources.md`). Chaque site de la liste a sa ligne
    dans ton tableau, même « non lu » ; une offre qui bat ta meilleure option à périmètre égal devient
-   une option.
+   une option. Mode `mail` : tu n'as pas accès à la messagerie ; inscris la ligne « à lire par le skill
+   dans les mails d'alerte » et passe au site suivant.
 4. Pour chaque formule demandée, retiens deux à trois options sérieuses, pas davantage.
 
 Règles :
