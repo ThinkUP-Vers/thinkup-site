@@ -21,7 +21,8 @@ Principes retenus pour l'outil (hypothèses de travail, à faire valider une foi
    purger la ligne du registre au terme de la durée.
 6. Aucune donnée sensible, aucune donnée sur la vie privée, aucune adresse personnelle.
 
-Modèle de mention à ajouter à un premier e-mail (à adapter) :
+Modèle de mention à ajouter à un premier e-mail (à adapter à l'origine réelle de l'adresse : retire « et de
+votre site » si l'adresse n'y figure pas ; si elle vient de Clay, dis-le) :
 « Vos coordonnées professionnelles proviennent du répertoire public des entreprises et de votre site. Je
 les utilise uniquement pour vous proposer un échange sur l'IA dans votre activité. Pour ne plus recevoir de
 message, répondez "stop" : je ne vous écrirai plus. Patrick Langlais, Think'UP. »

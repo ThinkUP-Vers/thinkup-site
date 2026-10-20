@@ -30,9 +30,11 @@ sans aucun critère de tri).
    - déjà en relation ou en séquence : Yadulink (`get_crm_overview`, `list_outreach_sequences`) ;
    - `prospection/registre.csv` : toute entreprise ou personne marquée `opposition` ou `ne_pas_contacter`
      est retirée définitivement.
-3. **Fiches** : agent `prospection-fiche` sur les 10 premières lignes restantes (pas plus par lot).
-   Il ajoute les signaux publics (BODACC), le site web, l'offre Think'UP recommandée, l'angle et deux
-   brouillons d'approche. Sortie : `prospection/AAAA-MM-JJ-<slug>-fiches.md`.
+3. **Fiches** : agent `prospection-fiche` sur les 15 premières lignes restantes, pour 10 fiches livrées
+   (il écarte les entreprises en procédure collective : le barème ne les voit pas, une première du
+   classement l'était lors du test du 20/10/2026). Il ajoute les signaux publics (BODACC), le site web,
+   l'offre Think'UP recommandée, l'angle et les brouillons d'approche ; une fiche sans site est marquée
+   « incomplète ». Sortie : `prospection/AAAA-MM-JJ-<slug>-fiches.md`.
 4. **Revue** : présente à Patrick le top 10 en tableau (entreprise, dirigeant, score, signal, offre,
    angle). Patrick retire, corrige, valide. Rien ne part avant ce point.
 5. **Enrichissement des contacts, sur confirmation explicite** de Patrick et après avoir annoncé le coût :

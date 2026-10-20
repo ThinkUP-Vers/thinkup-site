@@ -4,8 +4,8 @@ Source : `offres.html` (relue le 20/10/2026). Si la page change, la page fait fo
 
 | Offre | Durée | Public visé sur la page | Quand la proposer en premier |
 |---|---|---|---|
-| Atelier Déclic IA | 2 à 3 h, visio ou sur site | dirigeant de TPE ou PME, comité de direction, décideur sans culture technique | entreprise de 20 à 99 salariés, dirigeant seul décideur, pas de projet IA connu |
-| Diagnostic et cadrage Index Iceberg | 3 à 6 semaines, rapport et restitution au CODIR | PME de 10 à 250 salariés, ETI en transformation, direction, DAF, responsables métiers | entreprise de 100 à 999 salariés, ou PME qui a déjà essayé des outils sans cadrage |
+| Atelier Déclic IA | 2 à 3 h, visio ou sur site | dirigeant de TPE ou PME, comité de direction, décideur sans culture technique | moins de 100 salariés (tranches Insee 11, 12 et 21), dirigeant seul décideur, pas de projet IA connu |
+| Diagnostic et cadrage Index Iceberg | 3 à 6 semaines, rapport et restitution au CODIR | PME de 10 à 250 salariés, ETI en transformation, direction, DAF, responsables métiers | entreprise de 100 à 999 salariés (tranches 22, 31, 32 et 41), ou PME qui a déjà essayé des outils sans cadrage |
 | Pilotage IA et réseau de freelances | forfait ou régie | diagnostic déjà réalisé, projet IA bloqué à relancer | jamais en approche à froid : seulement sur signal explicite |
 
 Ces correspondances taille/offre sont un jugement de travail, pas une règle commerciale arrêtée : Patrick
