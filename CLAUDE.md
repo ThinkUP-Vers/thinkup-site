@@ -172,6 +172,13 @@ ni e-mail ni téléphone et ne contacte personne. Les listes contiennent des nom
 est PUBLIC : elles vivent dans `prospection/`, ignoré par git — ne jamais le committer, ni le forcer
 avec `git add -f`.
 
+Le skill `prospection-thinkup` (`/prospection-thinkup`) orchestre la chaîne : ciblage et notation
+(`prospection-b2b`, script `.claude/outils/prospection-score.py`), exclusions (clients Qonto, CRM Yadulink,
+registre d'opposition), fiches avec signaux BODACC, site et brouillons (`prospection-fiche`), puis, sur
+confirmation de Patrick, enrichissement des contacts (Clay, Yadulink) et séquence préparée. Rien n'est
+envoyé ni lancé sans validation, et le coût en crédits est annoncé avant chaque étape payante. Cette
+chaîne se pilote depuis la session principale ; les deux agents ne dépendent pas de la règle méta-agent.
+
 ## Outil agence-voyage : brief → proposition → carnet de voyage
 
 Le skill `agence-voyage` (`.claude/skills/agence-voyage/`, invocable par `/agence-voyage`) est
