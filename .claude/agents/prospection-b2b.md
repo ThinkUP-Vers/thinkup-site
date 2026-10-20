@@ -47,8 +47,8 @@ sur `siege.departement` (ou `siege.code_postal`) et ne cite jamais `total_result
 d'entreprises de la zone. Pour la même raison, la tranche d'effectif de l'entreprise (`tranche_effectif_salarie`)
 est celle de l'unité légale, pas du siège.
 
-Non vérifiés : la limite de 7 appels par seconde et le plafond de pages ci-dessous, repris de la
-documentation de l'API. L'essai a pourtant parcouru 15 pages sans blocage.
+Non vérifié : la limite de 7 appels par seconde, reprise de la documentation de l'API (le conteneur ne
+permet pas de la mesurer : environ 6 appels par minute en pratique à cause du proxy).
 
 Dirigeants : la liste mélange président, gérant, directeur général, administrateurs, commissaires aux
 comptes et personnes morales. Filtre sur `qualite` et `type_dirigeant`, ignore les commissaires aux
@@ -64,9 +64,15 @@ Les tranches sont des fourchettes : « 20 à 100 » = 12 et 21 (la tranche 22 co
 = tranches jusqu'à 41 incluse. Dis-le dans le compte rendu quand une borne tombe en milieu de tranche.
 Section BTP = `F` (construction, NAF 41 à 43) ; ajoute `activite_principale` pour affiner.
 
-Pagination : l'API n'expose qu'un nombre limité de pages par requête (de l'ordre de 400 résultats). Pour
-une cible plus large, découpe par département, par code NAF ou par tranche d'effectif plutôt que de
-paginer à l'infini. Indique `total_results` dans le compte rendu même si tu n'en retiens qu'une partie.
+Pagination (vérifiée le 20/10/2026) : le plafond est `page × per_page` ≤ 10 000, soit la page 400 à
+25 par page ; la page 401 renvoie HTTP 400 et une page au-delà du dernier résultat renvoie `results`
+vide en HTTP 200. `total_results` est lui-même plafonné à 10 000 : une valeur de 10000 pile signifie « au
+moins ». Pour dépasser, découpe par code NAF ou par tranche d'effectif. `activite_principale` accepte une
+liste séparée par des virgules ; un code inexistant (par exemple 46.74Z) renvoie HTTP 400 avec la liste
+des codes valides. Contrôle une découpe : la somme des `total_results` des sous-requêtes doit égaler le
+nombre de SIREN distincts collectés. Un filtre de section (par exemple G) ramène aussi les codes voisins
+(45 et 47 pour le commerce de gros) : utilise `activite_principale` avec les codes voulus, et `--naf`
+dans le script. Indique `total_results` dans le compte rendu même si tu n'en retiens qu'une partie.
 
 Une rupture de connexion ou un 429 : attends, réduis le rythme, réessaie une fois, puis signale-le.
 
@@ -87,13 +93,18 @@ Recherche d'entreprises. En cas de désaccord, la spec OpenAPI en ligne fait foi
    de la holding via son SIREN) ; si tu ne la trouves pas, note « dirigeant à identifier ».
 4. Ne note pas à la main : enregistre les pages JSON collectées dans un répertoire temporaire (une page
    par fichier `.json`) et lance
-   `python3 -I .claude/outils/prospection-score.py <répertoire> --dept <dpt> --tranches <codes> --out prospection/AAAA-MM-JJ-<slug> --top <n>`.
+   `python3 -I .claude/outils/prospection-score.py <répertoire> --dept <dpt> --tranches <codes> [--naf <préfixes>] --out prospection/AAAA-MM-JJ-<slug> --top <n>`.
    Le script filtre (siège dans le département, active, diffusion complète, hors grandes entreprises),
    note sur 100 et écrit le CSV et le fichier `.txt` (ciblage, barème, décompte). Barème : taille 25,
    dirigeant 25, santé financière 20 (marge nette, proportionnelle), fraîcheur des comptes 10,
    ancienneté 10, structure (nombre d'établissements) 10 ; départage par chiffre d'affaires. Il suppose
    un seul département par appel : lance-le une fois par département. Si tu changes un critère,
    modifie le script et dis-le dans le compte rendu, ne contourne pas le barème.
+   Filiales : l'API ne donne ni la nationalité ni le groupe (nationalité nulle dans 219 dirigeants sur 219).
+   Le script plafonne à 12 points le dirigeant d'une entreprise dont le nom contient « FRANCE » et le
+   signale dans la colonne dirigeant : indice faible, qui manque beaucoup de filiales (Kaeser, Eurotherm,
+   Bolle l'ont échappé lors de l'essai du Rhône). Dis-le dans le compte rendu et ne présente pas ces
+   lignes comme sûres.
 5. Le script rédige une hypothèse de besoin générique par code NAF (section 41 à 43 du BTP) ; pour un
    autre secteur, complète le dictionnaire `HYP` du script avec une hypothèse prudente, marquée comme
    hypothèse. Une société présidente est notée « dirigeant à identifier » : cherche alors la personne
