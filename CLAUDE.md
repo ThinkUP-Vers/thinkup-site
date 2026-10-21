@@ -226,3 +226,21 @@ l'application garde l'ancienne version :
 ```
 python3 .claude/skills/agence-voyage/scripts/paquet_app.py --sortie /tmp/agence-voyage-app
 ```
+
+## Outil improve-system : sessions de la semaine → propositions de skills
+
+Le skill `improve-system` (`.claude/skills/improve-system/`, `/improve-system [jours]`, lancement manuel
+uniquement) lit les transcripts `~/.claude/projects/**/*.jsonl` des 7 derniers jours, repère échecs,
+corrections répétées et tâches récurrentes, et propose des skills (ou une règle, un hook) appuyés chacun sur
+deux exemples datés de deux sessions. Rapport `.docx` (et `.md`) dans `~/rapports-improve-system/`, jamais dans un dépôt : le
+script refuse d'y écrire, les extraits pouvant contenir des données clients. Rien n'est installé sans l'accord
+de Patrick.
+
+Il ne sert que sur le poste local : en session cloud, le conteneur ne contient que la session en cours et le
+skill s'arrête. Pour l'avoir dans tous les projets du poste : `cp -r .claude/skills/improve-system ~/.claude/skills/`.
+Contrôle de non-régression :
+
+```
+python3 .claude/skills/improve-system/scripts/analyser.py extraire --racine .claude/skills/improve-system/exemple/projects --aujourdhui 2026-10-21 --sortie /tmp/improve-test
+python3 .claude/skills/improve-system/scripts/analyser.py rapport .claude/skills/improve-system/exemple/propositions.json --signaux /tmp/improve-test/signaux.json --sortie /tmp/improve-test/rapports
+```

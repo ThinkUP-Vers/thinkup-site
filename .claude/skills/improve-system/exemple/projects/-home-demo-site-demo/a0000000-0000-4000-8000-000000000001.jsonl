@@ -1,0 +1,1 @@
+{"type": "user", "sessionId": "a0000000-0000-4000-8000-000000000001", "uuid": "741f4363-2921-52b1-ad6a-44d795c5d61a", "parentUuid": null, "timestamp": "2026-10-01T08:00:00.000Z", "cwd": "/home/demo/site-demo", "isSidechain": false, "userType": "external", "message": {"role": "user", "content": "Rédige un post LinkedIn sur les agents IA"}, "origin": {"kind": "human"}}
