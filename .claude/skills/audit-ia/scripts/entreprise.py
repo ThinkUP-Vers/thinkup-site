@@ -210,7 +210,9 @@ def pappers(siren, brut=None):
     for x in d.get("finances") or []:
         if isinstance(x, dict):
             exercices.append({k: x.get(k) for k in ("annee", "date_cloture_exercice", "chiffre_affaires", "resultat", "effectif",
-                                                    "excedent_brut_exploitation", "fonds_propres", "endettement") if x.get(k) is not None})
+                                                    "excedent_brut_exploitation", "fonds_propres", "dettes_financieres", "tresorerie",
+                                                    "capacite_autofinancement", "BFR_jours_CA", "delai_paiement_clients_jours",
+                                                    "autonomie_financiere") if x.get(k) is not None})
     exercices.sort(key=lambda x: x.get("annee") or 0, reverse=True)
     return {"exercices": exercices[:5], "capital": d.get("capital"), "effectif": d.get("effectif") or d.get("tranche_effectif"),
             "procedure_en_cours": d.get("procedure_collective_en_cours"), "procedure_existe": d.get("procedure_collective_existe"),
