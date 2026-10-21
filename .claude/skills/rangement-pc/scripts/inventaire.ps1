@@ -67,6 +67,10 @@ $fichiers = New-Object System.Collections.Generic.List[object]
 $dossiers = New-Object System.Collections.Generic.List[string]
 $depotsGit = New-Object System.Collections.Generic.List[string]
 $ignores = 0
+$ignoresListe = New-Object System.Collections.Generic.List[string]
+$racineOneDrive = $env:OneDrive
+# Attributs des fichiers OneDrive 'a la demande' : ils portent ReparsePoint mais sont de vrais fichiers
+$masqueCloud = 0x5C0000
 
 Write-Host "Parcours en cours (peut prendre plusieurs minutes)..."
 foreach ($racine in $aParcourir) {
@@ -79,7 +83,11 @@ foreach ($racine in $aParcourir) {
         try { $entrees = $info.EnumerateFileSystemInfos() } catch { continue }
         foreach ($e in $entrees) {
             try {
-                if ($e.Attributes -band [IO.FileAttributes]::ReparsePoint) { $ignores++; continue }
+                if ($e.Attributes -band [IO.FileAttributes]::ReparsePoint) {
+                    $nuage = (([int]$e.Attributes) -band $masqueCloud) -ne 0
+                    $sousOneDrive = $racineOneDrive -and $e.FullName.StartsWith($racineOneDrive + '\', [StringComparison]::OrdinalIgnoreCase)
+                    if (-not $nuage -and -not $sousOneDrive) { $ignores++; if ($ignoresListe.Count -lt 100) { $ignoresListe.Add($e.FullName) }; continue }
+                }
                 if ($e.Attributes -band [IO.FileAttributes]::Directory) {
                     if ($e.Name -eq '.git') { $depotsGit.Add($dir); continue }
                     $dossiers.Add($e.FullName)
@@ -92,7 +100,7 @@ foreach ($racine in $aParcourir) {
         }
     }
 }
-Write-Host ("{0} fichiers, {1} dossiers." -f $fichiers.Count, $dossiers.Count)
+Write-Host ("{0} fichiers, {1} dossiers, {2} elements ignores (liens, node_modules, .git...)." -f $fichiers.Count, $dossiers.Count, $ignores)
 
 # --- Empreintes : seulement pour les fichiers dont la taille existe en plusieurs exemplaires ---
 if (-not $SansEmpreintes) {
@@ -133,7 +141,7 @@ $w.Write(',"applications":[' + (($apps | ForEach-Object {
 $w.Write(',"demarrage":[' + (($demarrage | ForEach-Object { '{"nom":' + (Json-Texte $_.nom) + ',"commande":' + (Json-Texte $_.commande) + '}' }) -join ',') + ']')
 $w.Write(',"claude_skills":[' + (($skills | ForEach-Object { Json-Texte $_ }) -join ',') + ']')
 $w.Write(',"depots_git":[' + (($depotsGit | ForEach-Object { Json-Texte $_ }) -join ',') + ']')
-$w.Write(',"ignores":' + $ignores)
+$w.Write(',"ignores":' + $ignores + ',"ignores_liste":[' + (($ignoresListe | ForEach-Object { Json-Texte $_ }) -join ',') + ']')
 $w.Write(',"dossiers":[')
 $premier = $true
 foreach ($d in $dossiers) { if (-not $premier) { $w.Write(',') }; $w.Write((Json-Texte $d)); $premier = $false }

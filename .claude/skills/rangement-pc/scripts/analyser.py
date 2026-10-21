@@ -361,6 +361,10 @@ def rapport_blocs(inv, fichiers, racines, grp, plan, vides, bureau_dossiers, auj
         "Reprends l'inventaire dans un mois : le Bureau et Téléchargements se re-remplissent si la règle « vidé chaque semaine » n'est pas tenue.",
     ]:
         b.append(("ol", etape))
+    if inv.get("ignores_liste"):
+        b.append(("h1", "Éléments ignorés par l'inventaire"))
+        b.append(("p", "%d éléments (liens symboliques, jonctions) n'ont pas été parcourus, ce qui peut cacher des dossiers entiers : %s."
+                  % (inv.get("ignores", 0), " ; ".join(inv["ignores_liste"][:15]))))
     b.append(("h1", "10. Limites"))
     for l in [
         "Les doublons ne sont détectés qu'entre fichiers de même taille et de même empreinte SHA-256 tronquée à 96 bits : fiable, mais une copie modifiée d'un octet n'est pas un doublon.",
