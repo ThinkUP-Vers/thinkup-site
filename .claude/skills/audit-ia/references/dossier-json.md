@@ -23,6 +23,7 @@ Exemple complet et valide : `exemple/dossier.json`.
     "raison_sociale": "", "forme_juridique": "", "siren": "", "adresse": "",
     "secteur": "", "effectif": 42, "chiffre_affaires": "6,5 M€ (déclaré)",
     "outils_en_place": ["Microsoft 365 Business Standard", "ERP Sage 100"],
+    "verification_arbitree": false,     // true : Patrick a arbitré une procédure collective signalée par « audit.py entreprise » (décision au journal)
     "recupere_tva": true,               // false : activité exonérée, le business case compte le devis TTC
     "interlocuteurs": [{"nom": "", "fonction": "", "role": "décideur | prescripteur | utilisateur"}]
   },

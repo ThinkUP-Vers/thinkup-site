@@ -163,6 +163,37 @@ l'entité préparée dans ce même fichier : procédure dans `references/devis.m
 python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit-ia/exemple --final
 ```
 
+## Vérification officielle des entreprises : script, agent et contrôle d'audit
+
+`.claude/skills/audit-ia/scripts/entreprise.py` interroge uniquement les registres publics (API Recherche
+d'entreprises : Sirene et RNE, et BODACC) à partir d'un SIREN : identité, forme juridique, siège, effectif
+(tranche), derniers comptes publiés, dirigeants, procédure collective. Il sert à deux endroits :
+
+- dans `audit-ia` : `audit.py entreprise <dossier> --siren N --appliquer` écrit `verification-entreprise.json`
+  dans le dossier du client, renseigne les champs client vides et signale les écarts avec ce que le client a
+  déclaré ; le contrôle final (`--final`) bloque l'envoi du devis si une procédure collective est probable et
+  non arbitrée par Patrick (`client.verification_arbitree`), et alerte si la vérification manque ou a plus de
+  30 jours ;
+- hors audit : l'agent `verification-entreprise` (`.claude/agents/`) lance le même script avant un devis, un
+  rendez-vous ou une signature. Il ne prospecte pas, ne note pas, ne contacte personne et n'écrit rien dans le dépôt.
+
+Option `--pappers` (script et `audit.py entreprise`) : ajoute l'API Pappers, service commercial tiers, avec la clé
+dans la variable d'environnement `PAPPERS_API_KEY` (jamais dans le dépôt) et 1 crédit par appel, avec l'accord de
+Patrick pour chaque client ; le site pappers.fr bloque les accès automatisés. Format de réponse non vérifié sans clé
+(le 21/10/2026, seule l'existence de l'endpoint l'est) : contrôler le premier appel réel.
+
+Un SIREN est exigé : la recherche par nom (`--chercher`) envoie le nom à l'API officielle et n'est lancée qu'avec
+l'accord de Patrick, les dossiers d'audit étant confidentiels. L'ancien outil de prospection (ciblage, notation,
+fiches, séquences LinkedIn) a été retiré le 21/10/2026 : il est dans l'historique git. Le skill `datagouv-apis`
+(référence officielle Etalab, copie de https://github.com/etalab-ia/skills) reste disponible pour explorer le
+catalogue data.gouv.fr. Contrôle de non-régression (une alerte « verification-entreprise.json absent » est normale
+sur l'exemple) :
+
+```
+python3 .claude/skills/audit-ia/scripts/audit.py construire .claude/skills/audit-ia/exemple --final
+python3 .claude/skills/audit-ia/scripts/entreprise.py 438025306
+```
+
 ## Outil agence-voyage : brief → proposition → carnet de voyage
 
 Le skill `agence-voyage` (`.claude/skills/agence-voyage/`, invocable par `/agence-voyage`) est
