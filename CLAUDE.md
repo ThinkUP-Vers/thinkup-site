@@ -227,6 +227,18 @@ l'application garde l'ancienne version :
 python3 .claude/skills/agence-voyage/scripts/paquet_app.py --sortie /tmp/agence-voyage-app
 ```
 
+## Poste de Patrick : instructions utilisables depuis Windows
+
+Patrick travaille sous Windows, dans l'application de bureau Claude Code, en environnement Cloud. Le
+conteneur cloud ne peut rien créer sur son poste (icône de bureau, fichier local) et un chemin `/tmp`
+n'existe pas chez lui.
+
+- Un fichier se remet avec SendUserFile, jamais par un chemin à ouvrir à la main.
+- Ne pas proposer d'icône de bureau, de commande `cp` ou de script local sans dire d'abord que le
+  conteneur ne peut pas le faire à sa place.
+- Toute procédure est une liste numérotée de clics (menu, bouton), une action par ligne, avec le
+  résultat attendu à chaque étape.
+
 ## Outil improve-system : sessions de la semaine → propositions de skills
 
 Le skill `improve-system` (`.claude/skills/improve-system/`, `/improve-system [jours]`, lancement manuel
