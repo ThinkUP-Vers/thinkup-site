@@ -4,11 +4,12 @@
 Sources, toutes publiques et sans clé : API Recherche d'entreprises (data.gouv.fr) et annonces BODACC
 (DILA). Rien d'autre n'est interrogé : pas de moteur de recherche, pas de site tiers.
 
-  entreprise.py SIREN [--json sortie.json] [--md sortie.md] [--client dossier.json] [--pappers]
+  entreprise.py SIREN [--json sortie.json] [--md sortie.md] [--client dossier.json] [--pappers [--pappers-brut brut.json]]
   entreprise.py --chercher "Nom" [--departement 78]     # liste de candidats, à confirmer par Patrick
 
 --pappers ajoute les données de l'API Pappers (service commercial tiers, clé dans PAPPERS_API_KEY, 1 crédit par
-entreprise) : option désactivée par défaut, SIREN seul transmis. Réponse non testée sans clé : voir references.
+entreprise) : option désactivée par défaut, SIREN seul transmis. Format vérifié le 21/10/2026 (SIREN 438025306).
+--pappers-brut FICHIER y enregistre la réponse JSON complète de Pappers, pour l'inspecter sans repayer un crédit.
 Un SIREN est obligatoire pour la vérification. La recherche par nom envoie le nom à l'API officielle :
 elle n'est lancée que sur demande explicite (--chercher), car les dossiers d'audit sont confidentiels.
 Code de sortie : 0 si la vérification a abouti, 1 sinon (réseau, SIREN introuvable).
@@ -194,14 +195,17 @@ def verifier(siren):
     return fiche
 
 
-def pappers(siren):
+def pappers(siren, brut=None):
     """Données de l'API Pappers (option). Lève ErreurReseau si la clé manque ou si l'appel échoue.
 
-    Champs lus avec prudence (.get partout) : le format n'a pas été vérifié sans clé le 21/10/2026."""
+    Champs lus avec prudence (.get partout) : format vérifié le 21/10/2026.
+    Si `brut` est un chemin, la réponse complète y est écrite telle quelle."""
     cle = os.environ.get("PAPPERS_API_KEY")
     if not cle:
         raise ErreurReseau("PAPPERS_API_KEY absente : créer une clé sur pappers.fr/api et la déclarer comme variable d'environnement")
     d = _get("https://api.pappers.fr/v2/entreprise?" + urllib.parse.urlencode({"api_token": cle, "siren": siren}), essais=3)
+    if brut:
+        json.dump(d, open(brut, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     exercices = []
     for x in d.get("finances") or []:
         if isinstance(x, dict):
@@ -215,10 +219,10 @@ def pappers(siren):
             "cles_recues": sorted(d.keys())[:40]}
 
 
-def ajouter_pappers(fiche):
+def ajouter_pappers(fiche, brut=None):
     """Greffe les données Pappers sur la fiche et recoupe avec les registres officiels."""
     try:
-        p = pappers(fiche["siren"])
+        p = pappers(fiche["siren"], brut)
     except ErreurReseau as e:
         fiche["pappers"] = None
         fiche["alertes"].append(f"Pappers non consulté ({_masque(e)})")
@@ -312,6 +316,7 @@ def main():
     p.add_argument("--json")
     p.add_argument("--md")
     p.add_argument("--pappers", action="store_true", help="ajoute l'API Pappers (clé PAPPERS_API_KEY, 1 crédit)")
+    p.add_argument("--pappers-brut", metavar="FICHIER", help="avec --pappers : enregistre la réponse JSON complète")
     p.add_argument("--client", help="dossier.json d'un audit : compare le bloc client au registre")
     a = p.parse_args()
     try:
@@ -323,7 +328,7 @@ def main():
             p.error("SIREN requis (ou --chercher)")
         fiche = verifier(a.siren)
         if a.pappers:
-            ajouter_pappers(fiche)
+            ajouter_pappers(fiche, a.pappers_brut)
     except ErreurReseau as e:
         print(f"ERREUR  {_masque(e)}", file=sys.stderr)
         return 1

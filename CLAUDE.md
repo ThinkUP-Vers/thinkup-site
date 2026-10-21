@@ -179,8 +179,10 @@ d'entreprises : Sirene et RNE, et BODACC) à partir d'un SIREN : identité, form
 
 Option `--pappers` (script et `audit.py entreprise`) : ajoute l'API Pappers, service commercial tiers, avec la clé
 dans la variable d'environnement `PAPPERS_API_KEY` (jamais dans le dépôt) et 1 crédit par appel, avec l'accord de
-Patrick pour chaque client ; le site pappers.fr bloque les accès automatisés. Format de réponse non vérifié sans clé
-(le 21/10/2026, seule l'existence de l'endpoint l'est) : contrôler le premier appel réel.
+Patrick pour chaque client ; le site pappers.fr bloque les accès automatisés. Format de réponse vérifié le 21/10/2026
+sur un appel réel (comptes sur cinq ans, capital, effectif, procédure : concordants avec Sirene). L'option
+`--pappers-brut FICHIER` du script enregistre la réponse complète pour l'inspecter sans repayer un crédit ;
+ne jamais la placer dans le dépôt, qui est public.
 
 Un SIREN est exigé : la recherche par nom (`--chercher`) envoie le nom à l'API officielle et n'est lancée qu'avec
 l'accord de Patrick, les dossiers d'audit étant confidentiels. L'ancien outil de prospection (ciblage, notation,
