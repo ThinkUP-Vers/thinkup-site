@@ -1,0 +1,43 @@
+{
+ "synthese": "Semaine cloud fictive de démonstration. Les posts LinkedIn reviennent dans les deux sessions et la même correction sur les liens y est faite deux fois. Le tour d'audit est le plus coûteux de la période et s'est arrêté avant la fin.",
+ "propositions": [
+  {
+   "nom": "linkedin-sans-lien",
+   "forme": "regle",
+   "natures": [
+    "correction"
+   ],
+   "constat": "Les posts LinkedIn sortent avec un lien dans le corps, corrigé dans deux sessions distinctes.",
+   "solution": "Une règle courte dans les préférences : aucun lien dans le corps, lien en commentaire épinglé.",
+   "etapes": [
+    "Ajouter la règle aux préférences claude.ai"
+   ],
+   "gain": "Évite une correction par post, soit deux cette semaine.",
+   "limite": "Une règle suffit, un skill dédié serait disproportionné.",
+   "priorite": "haute",
+   "certitude": "confirmé",
+   "exemples": [
+    "D-a1000002",
+    "D-b1000002"
+   ],
+   "occurrences": [
+    "D-a1000002",
+    "D-b1000002"
+   ]
+  }
+ ],
+ "a_surveiller": [
+  {
+   "sujet": "Publication Buffer refusée",
+   "ids": [
+    "R-buffer01"
+   ]
+  },
+  {
+   "sujet": "Tour d'audit arrêté avant la fin",
+   "ids": [
+    "I-b1000003"
+   ]
+  }
+ ]
+}
