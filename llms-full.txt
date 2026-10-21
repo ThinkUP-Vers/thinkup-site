@@ -59,6 +59,7 @@ Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-ho
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
+- Budget IA 2027 : construire une enveloppe défendable: https://think-up.fr/budget-ia-2027.html
 - L'IA transforme les métiers : le plan manager: https://think-up.fr/ia-transforme-les-metiers-plan-manager.html
 - Quels processus automatiser en premier ?: https://think-up.fr/quels-processus-automatiser.html
 - ROI IA : le tableau de bord des 90 premiers jours: https://think-up.fr/tableau-de-bord-roi-ia-90-jours.html
