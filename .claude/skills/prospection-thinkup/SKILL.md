@@ -37,18 +37,42 @@ sans aucun critère de tri).
    « incomplète ». Sortie : `prospection/AAAA-MM-JJ-<slug>-fiches.md`.
 4. **Revue** : présente à Patrick le top 10 en tableau (entreprise, dirigeant, score, signal, offre,
    angle). Patrick retire, corrige, valide. Rien ne part avant ce point.
-5. **Enrichissement des contacts, sur confirmation explicite** de Patrick et après avoir annoncé le coût :
-   - Clay (`search-contacts`, fonction `Work Email`) pour l'e-mail professionnel : consomme des crédits
-     Clay, dont je ne connais pas le solde depuis ici ; annonce le nombre d'appels avant de lancer ;
-   - Yadulink : profil LinkedIn et création de leads (1 crédit par lead, séquence = 5 crédits, invitation ou
-     message = 10 crédits ; 150 crédits restants au 20/10/2026, renouvelés le 01/11). Consulte
-     `get_my_api_credit_balance` avant de proposer un volume.
-6. **Séquence préparée, jamais lancée** : `create_prepared_outreach_sequence`. Le lancement
-   (`launch_outreach_sequence`), l'envoi d'invitation ou de message LinkedIn, et tout e-mail exigent une
-   confirmation de Patrick pour chaque lot, avec le texte exact. Les brouillons e-mail vont dans Gmail
-   en brouillon (`create_draft`), jamais envoyés.
+5. **Contacts : LinkedIn via Yadulink** (canal choisi par Patrick le 20/10/2026 ; l'e-mail via Clay, fonction
+   `Work Email`, vient en second, seulement si Patrick le demande, avec le nombre d'appels annoncé).
+   - Aperçu : `preview_outreach_search` avec `companies` (les noms des entreprises), `keywords`
+     (« président OR gérant OR directeur général »), `locations`, `target_count` et
+     `exclude_past_sequence_leads=true`. Il renvoie le devis exact en crédits ; vérifie qu'il ne facture
+     rien lui-même.
+   - Rapprochement : une personne trouvée n'est retenue que si nom, entreprise et ville concordent avec le
+     dirigeant du registre ; les homonymes sont écartés. En cas de doute, la ligne reste « profil à vérifier ».
+   - Après confirmation de Patrick (devis annoncé, `max_credits` fixé) : `execute_outreach_search` crée la
+     liste (1 crédit) et importe les contacts (1 crédit chacun). Consulte `get_my_api_credit_balance`
+     avant : 150 crédits restants au 20/10/2026, renouvelés le 01/11.
+   - Brief individuel facultatif sur 3 à 5 prospects : `prepare_prospect_brief` (profil LinkedIn, signaux,
+     objections), en complément de la fiche et jamais à sa place.
+6. **Séquence préparée, jamais lancée** : `create_prepared_outreach_sequence` (5 crédits, séquence en pause),
+   note d'invitation de 200 caractères au plus (le plafond de l'outil est 300), message, une relance. Reprends
+   le ton des séquences existantes de Patrick (sobre, « je reviens une fois, sans insister »). Le lancement
+   (`launch_outreach_sequence`), l'envoi d'invitation ou de message et tout e-mail exigent une confirmation de
+   Patrick pour chaque lot, avec le texte exact. Les brouillons e-mail vont dans Gmail en brouillon
+   (`create_draft`), jamais envoyés.
 7. **Registre** : après chaque action, ajoute ou mets à jour `prospection/registre.csv`
    (`siren;entreprise;dirigeant;canal;statut;date_action;prochaine_action;source_donnee;opposition`).
+
+## Articulation avec les outils existants (vérifiée le 20/10/2026)
+
+- La recherche de personnes de Yadulink (`execute_outreach_search`) et les skills Apollo (`prospect`,
+  `enrich-lead`, `sequence-load`) découvrent des profils à partir de LinkedIn ou d'une base commerciale :
+  ni effectif exact, ni santé financière, ni contrôle de procédure collective. Ce skill part du registre
+  officiel (Sirene, BODACC) puis retrouve la personne : ne pas dupliquer la recherche de profils. Apollo
+  n'est pas authentifié dans cet environnement.
+- `prepare_prospect_brief` (Yadulink) prépare une conversation à partir d'un profil LinkedIn. Il recoupe
+  les brouillons de la fiche mais pas le reste (BODACC, site, offre Think'UP) : complémentaire.
+- Aucun skill du dépôt ni de claude.ai (`linkedin-post-writer-pl`, `linkedin-analytics`) ne fait de
+  prospection : ils traitent les publications.
+- Les statistiques de messages de Yadulink (`get_linkedin_message_statistics`) ne sont pas fiables pour
+  mesurer une performance : 0 lu et 0 réponse sur 993 messages envoyés, alors que le CRM contient des
+  réponses (constaté le 21/10/2026). Mesure sur les statuts du CRM et sur le tunnel des séquences.
 
 ## Règles
 
