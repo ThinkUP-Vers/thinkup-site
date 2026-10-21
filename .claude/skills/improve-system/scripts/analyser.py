@@ -8,11 +8,23 @@
       Chaque signal porte un identifiant stable : D demande, C commande,
       E erreur d'outil, R refus d'une action, I interruption, A erreur d'API.
 
+  python3 analyser.py cloud-sessions LISTE [LISTE…] [--jours 7] --sortie DOSSIER_CLOUD
+      Mode cloud : lit la sortie enregistrée de list_sessions, garde les sessions actives
+      sur la période (hors session en cours) et écrit DOSSIER_CLOUD/sessions-cloud.json.
+
+  python3 analyser.py extraire --cloud DOSSIER_CLOUD [--jours 7] --sortie DOSSIER
+      Mode cloud : même sortie que ci-dessus, à partir des tours écrits par les agents
+      lecteurs (agent lecteur-session-cloud), un fichier .jsonl par session.
+
   python3 analyser.py rapport PROPOSITIONS.json --signaux DOSSIER/signaux.json
                               --sortie ~/rapports-improve-system
       Contrôle les propositions (deux exemples tirés des signaux, de deux
       sessions distinctes) et écrit improve-system-AAAA-MM-JJ.md et .json.
       Code retour 1 et liste des erreurs si le fichier n'est pas conforme.
+
+  python3 analyser.py paquet DOSSIER_SKILL --sortie DOSSIER
+      Contrôle l'en-tête d'un skill (nom, description d'une ligne de 200 caractères au plus)
+      et écrit DOSSIER/<nom>.zip, à téléverser dans claude.ai (Personnaliser > Skills).
 
 Aucune date ni citation n'est saisie à la main : elles viennent des
 transcripts. Le script n'écrit jamais dans un dépôt git : les extraits
@@ -26,6 +38,7 @@ import json
 import os
 import re
 import sys
+import zipfile
 import zlib
 from pathlib import Path
 
@@ -256,17 +269,162 @@ def inventaire_skills(projets):
 
 # --------------------------------------------------------------------------- extraire
 
-def extraire(args):
-    racine_defaut = args.racine is None
-    racine = Path(args.racine or "~/.claude/projects").expanduser()
+def periode(args):
     if args.aujourdhui:
         fin = dt.datetime.combine(dt.date.fromisoformat(args.aujourdhui), dt.time(23, 59, 59)).astimezone()
     else:
         fin = dt.datetime.now().astimezone()
-    debut = fin - dt.timedelta(days=args.jours)
+    return fin - dt.timedelta(days=args.jours), fin
+
+
+def libelle(s):
+    return s.get("libelle") or (Path(s["projet"]).name if s.get("projet") else "")
+
+
+def arrondi(cout):
+    return round(cout, 2) if cout is not None else None
+
+
+def lire_cloud(dossier, debut, fin, sessions, ajouter, commandes):
+    """Tours des sessions cloud écrits par les agents lecteurs. Renvoie le nombre de lignes illisibles."""
+    if not dossier.is_dir():
+        sys.exit("Dossier introuvable : %s" % dossier)
+    titres, invalides = {}, 0
+    try:
+        titres = {s["id"]: s.get("titre", "")
+                  for s in json.loads((dossier / "sessions-cloud.json").read_text(encoding="utf-8"))}
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    par_session = collections.defaultdict(list)
+    for fichier in sorted(dossier.glob("*.jsonl")):
+        with open(fichier, encoding="utf-8", errors="replace") as flux:
+            for ligne in flux:
+                if not ligne.strip():
+                    continue
+                try:
+                    r = json.loads(ligne)
+                except ValueError:
+                    r = None
+                quand = horodatage(r.get("horodatage")) if isinstance(r, dict) else None
+                if quand is None or not r.get("session"):
+                    invalides += 1
+                elif debut <= quand <= fin:
+                    par_session[str(r["session"])].append((quand, r))
+
+    for sid, tours in sorted(par_session.items()):
+        tours.sort(key=lambda t: t[0])
+        titre = titres.get(sid) or str(tours[0][1].get("titre") or "")
+        s = sessions.setdefault(sid, {"id": "S-" + sid.split("_", 1)[-1][:8], "session": sid, "projet": "",
+                                      "libelle": couper(titre, 40) if titre else "cloud", "debut": tours[0][0],
+                                      "fin": tours[-1][0], "demandes": 0, "premiere_demande": ""})
+        rang, question, cumul = 0, False, None
+        for quand, r in tours:
+            ident = str(r.get("uuid") or "")[:8] or "%08x" % zlib.crc32(json.dumps(r, sort_keys=True).encode())
+            # Le coût est cumulé par processus : l'écart entre deux tours donne celui du tour.
+            cout = None
+            try:
+                total = float(r["cout_cumule"])
+            except (KeyError, TypeError, ValueError):
+                total = None
+            if total is not None:
+                if cumul is not None:
+                    cout = total - cumul if total >= cumul else total
+                elif not r.get("tour_processus"):
+                    cout = total
+                cumul = total
+
+            brut = str(r.get("demande") or "") if r.get("origine") in (None, "", "human") else ""
+            texte, demande = nettoyer(brut), None
+            balise = RE_COMMANDE.search(brut)
+            barre = None if balise else re.match(r"/([\w:.-]+)(?:\s+(.*))?$", texte, re.S)
+            if balise or barre:
+                nom = (balise or barre).group(1).strip("/")
+                arguments = RE_ARGUMENTS.search(brut) if balise else None
+                reste = (arguments.group(1) if arguments else "") if balise else (barre.group(2) or "")
+                if nom != "improve-system":
+                    commandes[nom] += 1
+                    demande = "C-" + ident
+                    ajouter("commande", demande, quand, sid, s, commande=nom, integree=nom in COMMANDES_INTEGREES,
+                            texte=couper(nettoyer(reste), 300), cout=arrondi(cout), uuid=r.get("uuid"))
+            elif texte:
+                rang += 1
+                motifs = []
+                if rang > 1:
+                    motifs = sorted({etiquette for motif, etiquette in CORRECTIONS if motif.search(texte)})
+                    if question and motifs == ["non"]:
+                        motifs = []
+                s["demandes"] += 1
+                if not s["premiere_demande"]:
+                    s["premiere_demande"] = couper(texte, 90)
+                demande = "D-" + ident
+                ajouter("demande", demande, quand, sid, s, rang=rang, texte=couper(texte, 300), longueur=len(texte),
+                        correction=motifs, apres_question=question, cout=arrondi(cout), uuid=r.get("uuid"))
+
+            for x in r.get("refus") or []:
+                if isinstance(x, dict):
+                    ajouter("refus", "R-" + str(x.get("tool_use_id") or ident)[-8:], quand, sid, s,
+                            outil=str(x.get("outil") or "?"), entree=couper(nettoyer(str(x.get("entree") or "")), 140),
+                            sous_agent=False, commentaire="")
+            if r.get("is_error") or r.get("api_error_status"):
+                statut = " (statut %s)" % r["api_error_status"] if r.get("api_error_status") else ""
+                ajouter("erreur_api", "A-" + ident, quand, sid, s,
+                        texte=couper(nettoyer("Tour en échec%s : %s" % (statut, r.get("reponse_debut") or "")), 300))
+            elif r.get("fin") not in (None, "", "completed"):
+                ajouter("interruption", "I-" + ident, quand, sid, s, outil="tour", entree="arrêt : %s" % r["fin"],
+                        apres=demande)
+            if texte:
+                question = "?" in str(r.get("reponse_fin") or "")[-300:]
+    return invalides
+
+
+def cloud_sessions(args):
+    debut, _ = periode(args)
     sortie = Path(args.sortie).expanduser()
     refuser_si_depot(sortie)
-    if not racine.is_dir():
+    liste, page = [], {}
+    for fichier in args.fichiers:
+        try:
+            texte = Path(fichier).expanduser().read_text(encoding="utf-8", errors="replace")
+            i = texte.find('{"ccr"')
+            donnees = json.JSONDecoder().raw_decode(texte[i if i >= 0 else texte.find("{"):])[0]
+        except (OSError, ValueError) as e:
+            sys.exit("Liste des sessions illisible (%s) : %s" % (fichier, e))
+        page = donnees.get("ccr", donnees)
+        liste += page.get("data") or []
+    courante = os.environ.get("CLAUDE_CODE_REMOTE_SESSION_ID", "").split("_", 1)[-1]
+    retenues, creations, vues = [], [], set()
+    for s in liste:
+        creee, active = horodatage(s.get("created_at")), horodatage(s.get("updated_at"))
+        if creee:
+            creations.append(creee)
+        sid = str(s.get("id") or "")
+        if not sid or sid in vues or not (active or creee) or (active or creee) < debut:
+            continue
+        vues.add(sid)
+        if courante and sid.split("_", 1)[-1] == courante:
+            print("Session en cours exclue : %s" % sid)
+            continue
+        retenues.append({"id": sid, "titre": s.get("title") or "", "creee": date_fr(creee) if creee else "",
+                         "active": date_fr(active or creee)})
+    sortie.mkdir(parents=True, exist_ok=True)
+    (sortie / "sessions-cloud.json").write_text(json.dumps(retenues, ensure_ascii=False, indent=1), encoding="utf-8")
+    for s in retenues:
+        print("%s | créée %s | active %s | %s" % (s["id"], s["creee"], s["active"], s["titre"]))
+    print("%d session(s) active(s) depuis le %s. Écrit : %s" % (len(retenues), date_fr(debut),
+                                                               sortie / "sessions-cloud.json"))
+    if page.get("has_more") and creations and min(creations) >= debut:
+        print("ATTENTION : la liste continue. Rappeler list_sessions avec after_id=%s, puis relancer cette "
+              "commande avec tous les fichiers de pages." % page.get("last_id"))
+
+
+def extraire(args):
+    racine_defaut = args.racine is None
+    lire_local = not args.cloud or not racine_defaut
+    racine = Path(args.racine or "~/.claude/projects").expanduser()
+    debut, fin = periode(args)
+    sortie = Path(args.sortie).expanduser()
+    refuser_si_depot(sortie)
+    if lire_local and not racine.is_dir():
         sys.exit("Dossier introuvable : %s" % racine)
 
     exclue = os.environ.get("CLAUDE_CODE_SESSION_ID", "")
@@ -276,8 +434,8 @@ def extraire(args):
     nb_fichiers = lignes_invalides = 0
 
     def session(sid, entree, quand):
-        s = sessions.setdefault(sid, {"id": "S-" + sid[:8], "session": sid, "projet": "", "debut": quand,
-                                      "fin": quand, "demandes": 0, "premiere_demande": ""})
+        s = sessions.setdefault(sid, {"id": "S-" + sid[:8], "session": sid, "projet": "", "libelle": "",
+                                      "debut": quand, "fin": quand, "demandes": 0, "premiere_demande": ""})
         if entree.get("cwd") and not s["projet"]:
             s["projet"] = entree["cwd"]
         s["debut"], s["fin"] = min(s["debut"], quand), max(s["fin"], quand)
@@ -286,9 +444,9 @@ def extraire(args):
     def ajouter(type_, ident, quand, sid, s, **champs):
         signaux.append(dict({"id": ident, "type": type_, "horodatage": quand.isoformat(timespec="minutes"),
                              "date": date_fr(quand), "session": s["id"],
-                             "projet": Path(s["projet"]).name if s["projet"] else ""}, **champs))
+                             "projet": libelle(s)}, **champs))
 
-    for fichier in sorted(racine.rglob("*.jsonl")):
+    for fichier in sorted(racine.rglob("*.jsonl")) if lire_local else []:
         try:
             if dt.datetime.fromtimestamp(fichier.stat().st_mtime).astimezone() < debut:
                 continue
@@ -395,6 +553,9 @@ def extraire(args):
                         longueur=len(texte), correction=motifs, apres_question=etat["question"])
                 etat["demande"], etat["question"] = "D-" + uuid, False
 
+    invalides_cloud = lire_cloud(Path(args.cloud).expanduser(), debut, fin, sessions, ajouter, commandes) \
+        if args.cloud else 0
+
     signaux.sort(key=lambda x: (x["horodatage"], x["id"]))
     liste_sessions = sorted(sessions.values(), key=lambda x: x["debut"])
     for s in liste_sessions:
@@ -418,10 +579,16 @@ def extraire(args):
                      for m, v in par_mot.items() if len(v) >= 2), key=lambda t: (-t["sessions"], t["mot"]))[:30]
 
     avertissements = []
-    if racine_defaut and os.environ.get("CLAUDE_CODE_REMOTE") == "true":
+    if racine_defaut and not args.cloud and os.environ.get("CLAUDE_CODE_REMOTE") == "true":
         avertissements.append("Session cloud : ~/.claude/projects ne contient ici que les sessions de ce conteneur. "
                               "Tes autres sessions (poste local, autres sessions cloud) ne sont pas lues.")
-    if exclue:
+    if args.cloud:
+        avertissements.append("Sessions cloud lues par l'API des sessions : les erreurs d'outil une à une n'y "
+                              "figurent pas, seulement les actions refusées, les tours en échec et les tours "
+                              "inachevés. Coûts au tarif public indicatif, pas la facturation réelle.")
+    if invalides_cloud:
+        avertissements.append("%d enregistrement(s) cloud illisible(s) ignoré(s)." % invalides_cloud)
+    if exclue and lire_local:
         avertissements.append("La session en cours (%s) est exclue de l'analyse." % ("S-" + exclue[:8]))
     if len(liste_sessions) < 3:
         avertissements.append("Seulement %d session(s) sur la période : trop peu pour parler de récurrence."
@@ -432,12 +599,17 @@ def extraire(args):
     compte = collections.Counter(x["type"] for x in signaux)
     corrections = sum(1 for x in signaux if x.get("correction"))
     meta = {"genere": dt.datetime.now().astimezone().isoformat(timespec="minutes"),
-            "debut": date_fr(debut), "fin": date_fr(fin), "jours": args.jours, "racine": str(racine),
+            "debut": date_fr(debut), "fin": date_fr(fin), "jours": args.jours,
+            "source": "+".join(n for n, oui in (("local", lire_local), ("cloud", bool(args.cloud))) if oui),
+            "racine": str(racine) if lire_local else "", "cloud": str(args.cloud or ""),
+            "cout_total": round(sum(x.get("cout") or 0 for x in signaux), 2),
             "fichiers_lus": nb_fichiers, "sessions": len(liste_sessions), "demandes": compte["demande"],
             "corrections_presumees": corrections, "erreurs": compte["erreur"], "refus": compte["refus"],
             "interruptions": compte["interruption"], "erreurs_api": compte["erreur_api"],
             "commandes": compte["commande"]}
     projets = {s["projet"] for s in liste_sessions if s["projet"] and Path(s["projet"]).is_dir()}
+    if (Path.cwd() / ".claude" / "skills").is_dir():
+        projets.add(str(Path.cwd()))
     donnees = {"meta": meta, "avertissements": avertissements, "sessions": liste_sessions, "signaux": signaux,
                "groupes_erreurs": groupes_erreurs, "themes": themes, "commandes": dict(commandes.most_common()),
                "skills_utilises": dict(skills_utilises.most_common()),
@@ -465,7 +637,7 @@ def vue_compacte(d):
     lignes += ["", "SESSIONS"]
     for s in d["sessions"]:
         lignes.append("%s | %s → %s | %s | %d demandes | « %s »" % (
-            s["id"], s["debut"], s["fin"][-5:], Path(s["projet"]).name if s["projet"] else "?",
+            s["id"], s["debut"], s["fin"][-5:], libelle(s) or "?",
             s["demandes"], s["premiere_demande"]))
     sig = d["signaux"]
     lignes += ["", "DEMANDES (#rang dans la session ; CORR = correction présumée ; ?= suit une question de Claude)"]
@@ -473,8 +645,9 @@ def vue_compacte(d):
         if x["type"] == "demande":
             drapeaux = (" CORR[%s]" % ", ".join(x["correction"]) if x["correction"] else "") + \
                        (" ?" if x["apres_question"] else "")
-            lignes.append("%s | %s | %s #%d%s | %s" % (x["id"], x["date"], x["session"], x["rang"], drapeaux,
-                                                      x["texte"]))
+            cout = " | %.2f $" % x["cout"] if x.get("cout") is not None else ""
+            lignes.append("%s | %s | %s #%d%s%s | %s" % (x["id"], x["date"], x["session"], x["rang"], drapeaux,
+                                                        cout, x["texte"]))
     lignes += ["", "COMMANDES ET SKILLS (hors commandes intégrées)"]
     for x in sig:
         if x["type"] == "commande" and not x["integree"]:
@@ -496,6 +669,11 @@ def vue_compacte(d):
     lignes += ["", "ERREURS D'API"]
     lignes += ["%s | %s | %s | %s" % (x["id"], x["date"], x["session"], x["texte"])
                for x in sig if x["type"] == "erreur_api"]
+    couteux = sorted((x for x in sig if x.get("cout")), key=lambda x: -x["cout"])[:10]
+    if couteux:
+        lignes += ["", "TOURS LES PLUS COÛTEUX (tarif public indicatif ; total période %.2f $)" % m["cout_total"]]
+        lignes += ["%s | %s | %s | %.2f $ | %s" % (x["id"], x["date"], x["session"], x["cout"], couper(x["texte"], 120))
+                   for x in couteux]
     lignes += ["", "THÈMES (mot présent dans au moins 2 sessions · ids)"]
     lignes += ["%s (%d sessions) : %s" % (t["mot"], t["sessions"], " ".join(t["ids"])) for t in d["themes"]]
     lignes += ["", "SKILLS EXISTANTS"]
@@ -616,10 +794,12 @@ def construire_blocs(props, donnees, jour):
         occurrences = sorted(set(p.get("occurrences") or []) | set(p["exemples"]),
                              key=lambda e: index[e]["horodatage"])
         sessions = {index[e]["session"] for e in occurrences}
+        cout = sum(index[e].get("cout") or 0 for e in occurrences)
         b += [("h2", "%d. `%s` — %s" % (i, p["nom"], FORMES[p["forme"]])),
               ("p", "Priorité %s · %s · %s. %d occurrence(s) dans %d session(s), du %s au %s." % (
                   p["priorite"], p["certitude"], ", ".join(NATURES[n] for n in p["natures"]), len(occurrences),
-                  len(sessions), index[occurrences[0]]["date"][:10], index[occurrences[-1]]["date"][:10])),
+                  len(sessions), index[occurrences[0]]["date"][:10], index[occurrences[-1]]["date"][:10])
+                  + (" Coût indicatif cumulé : %.2f $." % cout if cout else "")),
               ("p", "**Constat.** " + p["constat"].strip()),
               ("p", "**Ce que ferait la solution.** " + p["solution"].strip())]
         if p.get("declencheurs"):
@@ -645,8 +825,11 @@ def construire_blocs(props, donnees, jour):
         b.append(("p", "Les autres propositions restent à décider."))
     else:
         b.append(("p", "Rien n'a été installé. Pour installer, réponds avec les numéros retenus (par exemple "
-                       "« installe 1 et 3 »). Destination par défaut : `~/.claude/skills/<nom>/`. Un dossier "
-                       "existant n'est jamais écrasé sans ton accord."))
+                       "« installe 1 et 3 »). " + (
+                           "Un skill est remis en zip, à téléverser dans claude.ai (Personnaliser > Skills)."
+                           if "cloud" in m.get("source", "") else
+                           "Destination par défaut : `~/.claude/skills/<nom>/`. Un dossier existant n'est jamais "
+                           "écrasé sans ton accord.")))
     return b
 
 
@@ -761,7 +944,6 @@ def tableau(entetes, rangees, largeurs):
 
 def en_docx(blocs_rapport, chemin, titre):
     """DOCX écrit avec la bibliothèque standard : aucune dépendance à installer sur le poste."""
-    import zipfile
     corps, listes, precedent = [], 0, None
     for bloc in blocs_rapport:
         genre = bloc[0]
@@ -857,6 +1039,42 @@ def rapport(args):
     print("Propositions : %s" % (sortie / (base + ".json")))
 
 
+def paquet(args):
+    dossier = Path(args.dossier).expanduser().resolve()
+    try:
+        texte = (dossier / "SKILL.md").read_text(encoding="utf-8")
+    except OSError:
+        sys.exit("SKILL.md introuvable dans %s" % dossier)
+    erreurs, entete = [], re.match(r"---\r?\n(.*?)\r?\n---\r?\n", texte, re.S)
+    if not entete:
+        erreurs.append("en-tête YAML absent.")
+    else:
+        champs = dict(re.findall(r"^([\w-]+):[ \t]*(.*)$", entete.group(1), re.M))
+        nom = champs.get("name", "").strip()
+        if nom != dossier.name or not re.fullmatch(r"[a-z0-9-]{1,64}", nom):
+            erreurs.append("name doit valoir « %s » (minuscules, chiffres, tirets)." % dossier.name)
+        description = champs.get("description", "").strip().strip("'\"")
+        if not description or description in (">", "|", ">-", "|-"):
+            erreurs.append("description absente ou sur plusieurs lignes : l'écrire sur une seule ligne.")
+        elif len(description) > 200:
+            erreurs.append("description de %d caractères, 200 au plus pour claude.ai." % len(description))
+    if erreurs:
+        print("NON CONFORME (%d) :" % len(erreurs))
+        for e in erreurs:
+            print("- " + e)
+        sys.exit(1)
+    sortie = Path(args.sortie).expanduser()
+    refuser_si_depot(sortie)
+    sortie.mkdir(parents=True, exist_ok=True)
+    cible, fichiers = sortie / (dossier.name + ".zip"), 0
+    with zipfile.ZipFile(cible, "w", zipfile.ZIP_DEFLATED) as z:
+        for f in sorted(dossier.rglob("*")):
+            if f.is_file() and "__pycache__" not in f.parts:
+                z.write(f, "%s/%s" % (dossier.name, f.relative_to(dossier).as_posix()))
+                fichiers += 1
+    print("Paquet : %s (%d fichier(s)), à téléverser dans claude.ai > Personnaliser > Skills." % (cible, fichiers))
+
+
 def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -866,18 +1084,24 @@ def main():
     e.add_argument("--jours", type=int, default=7)
     e.add_argument("--racine", help="dossier des transcripts (défaut ~/.claude/projects)")
     e.add_argument("--aujourdhui", help="AAAA-MM-JJ, fin de période (tests)")
+    e.add_argument("--cloud", help="dossier des tours écrits par les agents lecteurs (mode cloud)")
     e.add_argument("--sortie", required=True)
+    c = sous.add_parser("cloud-sessions")
+    c.add_argument("fichiers", nargs="+", help="sortie(s) de list_sessions enregistrée(s) dans un fichier")
+    c.add_argument("--jours", type=int, default=7)
+    c.add_argument("--aujourdhui", help="AAAA-MM-JJ, fin de période (tests)")
+    c.add_argument("--sortie", required=True)
+    k = sous.add_parser("paquet")
+    k.add_argument("dossier")
+    k.add_argument("--sortie", required=True)
     r = sous.add_parser("rapport")
     r.add_argument("propositions")
     r.add_argument("--signaux", required=True)
     r.add_argument("--sortie", default="~/rapports-improve-system")
     args = p.parse_args()
-    if args.action == "extraire":
-        if not 1 <= args.jours <= 60:
-            sys.exit("--jours entre 1 et 60.")
-        extraire(args)
-    else:
-        rapport(args)
+    if args.action in ("extraire", "cloud-sessions") and not 1 <= args.jours <= 60:
+        sys.exit("--jours entre 1 et 60.")
+    {"extraire": extraire, "cloud-sessions": cloud_sessions, "paquet": paquet, "rapport": rapport}[args.action](args)
 
 
 if __name__ == "__main__":
