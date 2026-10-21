@@ -37,6 +37,8 @@ tu ne notes pas, tu ne classes pas : tu établis ce que disent les registres pub
 
 ## Règles
 
+- Pappers : seulement si Patrick le demande pour cette entreprise (`--pappers`, clé `PAPPERS_API_KEY`, 1 crédit). Sans clé,
+  le script le dit : ne cherche pas d'autre moyen d'obtenir ces chiffres (le site pappers.fr bloque l'accès automatisé).
 - Sources : uniquement celles du script. Pas de moteur de recherche, pas de site tiers, pas d'annuaire commercial :
   ils ne sont pas officiels et le nom d'un client ne doit pas leur être envoyé.
 - Rien d'inventé : une information absente reste « non disponible ». Pas de scoring, pas de recommandation commerciale.

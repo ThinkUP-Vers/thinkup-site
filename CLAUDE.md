@@ -177,6 +177,11 @@ d'entreprises : Sirene et RNE, et BODACC) à partir d'un SIREN : identité, form
 - hors audit : l'agent `verification-entreprise` (`.claude/agents/`) lance le même script avant un devis, un
   rendez-vous ou une signature. Il ne prospecte pas, ne note pas, ne contacte personne et n'écrit rien dans le dépôt.
 
+Option `--pappers` (script et `audit.py entreprise`) : ajoute l'API Pappers, service commercial tiers, avec la clé
+dans la variable d'environnement `PAPPERS_API_KEY` (jamais dans le dépôt) et 1 crédit par appel, avec l'accord de
+Patrick pour chaque client ; le site pappers.fr bloque les accès automatisés. Format de réponse non vérifié sans clé
+(le 21/10/2026, seule l'existence de l'endpoint l'est) : contrôler le premier appel réel.
+
 Un SIREN est exigé : la recherche par nom (`--chercher`) envoie le nom à l'API officielle et n'est lancée qu'avec
 l'accord de Patrick, les dossiers d'audit étant confidentiels. L'ancien outil de prospection (ciblage, notation,
 fiches, séquences LinkedIn) a été retiré le 21/10/2026 : il est dans l'historique git. Le skill `datagouv-apis`

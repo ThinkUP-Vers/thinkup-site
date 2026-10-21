@@ -4,9 +4,11 @@
 Sources, toutes publiques et sans clé : API Recherche d'entreprises (data.gouv.fr) et annonces BODACC
 (DILA). Rien d'autre n'est interrogé : pas de moteur de recherche, pas de site tiers.
 
-  entreprise.py SIREN [--json sortie.json] [--md sortie.md] [--client dossier.json]
+  entreprise.py SIREN [--json sortie.json] [--md sortie.md] [--client dossier.json] [--pappers]
   entreprise.py --chercher "Nom" [--departement 78]     # liste de candidats, à confirmer par Patrick
 
+--pappers ajoute les données de l'API Pappers (service commercial tiers, clé dans PAPPERS_API_KEY, 1 crédit par
+entreprise) : option désactivée par défaut, SIREN seul transmis. Réponse non testée sans clé : voir references.
 Un SIREN est obligatoire pour la vérification. La recherche par nom envoie le nom à l'API officielle :
 elle n'est lancée que sur demande explicite (--chercher), car les dossiers d'audit sont confidentiels.
 Code de sortie : 0 si la vérification a abouti, 1 sinon (réseau, SIREN introuvable).
@@ -14,6 +16,7 @@ Code de sortie : 0 si la vérification a abouti, 1 sinon (réseau, SIREN introuv
 import argparse
 import datetime as dt
 import json
+import os
 import re
 import sys
 import time
@@ -40,6 +43,11 @@ class ErreurReseau(Exception):
     pass
 
 
+def _masque(texte):
+    """Retire tout jeton d'API d'un message d'erreur."""
+    return re.sub(r"(api_token=)[^&\s)]+", r"\1***", str(texte))
+
+
 def _get(url, essais=10, pause=2):
     """GET JSON avec réessais : les ruptures de connexion sont fréquentes derrière certains proxys."""
     dernier = None
@@ -49,13 +57,13 @@ def _get(url, essais=10, pause=2):
             with urllib.request.urlopen(req, timeout=30) as r:
                 return json.loads(r.read().decode("utf-8"))
         except urllib.error.HTTPError as e:
-            if e.code in (400, 404):
-                raise ErreurReseau(f"HTTP {e.code} sur {url}")
+            if e.code in (400, 401, 402, 403, 404):
+                raise ErreurReseau(f"HTTP {e.code} sur {_masque(url)}")
             dernier = e
         except (urllib.error.URLError, ConnectionError, TimeoutError, OSError, json.JSONDecodeError) as e:
             dernier = e
         time.sleep(pause)
-    raise ErreurReseau(f"{essais} essais sans réponse ({dernier})")
+    raise ErreurReseau(f"{essais} essais sans réponse ({_masque(dernier)})")
 
 
 def siren_valide(s):
@@ -186,6 +194,51 @@ def verifier(siren):
     return fiche
 
 
+def pappers(siren):
+    """Données de l'API Pappers (option). Lève ErreurReseau si la clé manque ou si l'appel échoue.
+
+    Champs lus avec prudence (.get partout) : le format n'a pas été vérifié sans clé le 21/10/2026."""
+    cle = os.environ.get("PAPPERS_API_KEY")
+    if not cle:
+        raise ErreurReseau("PAPPERS_API_KEY absente : créer une clé sur pappers.fr/api et la déclarer comme variable d'environnement")
+    d = _get("https://api.pappers.fr/v2/entreprise?" + urllib.parse.urlencode({"api_token": cle, "siren": siren}), essais=3)
+    exercices = []
+    for x in d.get("finances") or []:
+        if isinstance(x, dict):
+            exercices.append({k: x.get(k) for k in ("annee", "date_cloture_exercice", "chiffre_affaires", "resultat", "effectif",
+                                                    "excedent_brut_exploitation", "fonds_propres", "endettement") if x.get(k) is not None})
+    exercices.sort(key=lambda x: x.get("annee") or 0, reverse=True)
+    return {"exercices": exercices[:5], "capital": d.get("capital"), "effectif": d.get("effectif") or d.get("tranche_effectif"),
+            "procedure_en_cours": d.get("procedure_collective_en_cours"), "procedure_existe": d.get("procedure_collective_existe"),
+            "entreprise_cessee": d.get("entreprise_cessee"),
+            "beneficiaires_effectifs": len(d.get("beneficiaires_effectifs") or []) or None,
+            "cles_recues": sorted(d.keys())[:40]}
+
+
+def ajouter_pappers(fiche):
+    """Greffe les données Pappers sur la fiche et recoupe avec les registres officiels."""
+    try:
+        p = pappers(fiche["siren"])
+    except ErreurReseau as e:
+        fiche["pappers"] = None
+        fiche["alertes"].append(f"Pappers non consulté ({_masque(e)})")
+        return
+    fiche["pappers"] = p
+    fiche["sources"].append("https://api.pappers.fr/v2/entreprise")
+    off = fiche["finances"]
+    ex = next((x for x in p["exercices"] if x.get("annee") == off["annee"]), None)
+    if ex and off["ca"] and ex.get("chiffre_affaires") and abs(ex["chiffre_affaires"] - off["ca"]) > 0.02 * off["ca"]:
+        fiche["alertes"].append(f"Chiffre d'affaires {off['annee']} différent : {off['ca']} (Sirene) contre {ex['chiffre_affaires']} (Pappers)")
+    pc = fiche.get("procedure_collective")
+    if p["procedure_en_cours"] is True and not (pc and pc.get("ouverte")):
+        fiche["procedure_collective"] = {"date": None, "nature": "signalée en cours par Pappers", "url": None, "ouverte": True}
+        fiche["alertes"].append("PROCÉDURE COLLECTIVE EN COURS PROBABLE : signalée par Pappers, absente du BODACC des 24 derniers mois")
+    elif p["procedure_en_cours"] is False and pc and pc.get("ouverte"):
+        fiche["alertes"].append("BODACC signale une procédure ouverte que Pappers donne comme terminée : vérifier au greffe, ne pas lever le blocage sur cette seule base")
+    if p["entreprise_cessee"] is True and fiche["identite"]["etat"] == "A":
+        fiche["alertes"].append("Pappers donne l'entreprise comme cessée alors que Sirene la donne active")
+
+
 def comparer(client, fiche):
     """Écarts entre ce que le client a déclaré (bloc client du dossier) et le registre. Liste d'alertes."""
     ecarts = []
@@ -231,6 +284,17 @@ def en_markdown(fiche, ecarts=None):
           "## Dirigeants"]
     L += [f"- {x['nom']} — {x['qualite']}" + ("" if x["personne_physique"] else f" (société{' SIREN ' + x['siren'] if x.get('siren') else ''})")
           for x in fiche["dirigeants"]] or ["- aucun renseigné"]
+    pp = fiche.get("pappers")
+    if pp:
+        L += ["", "## Pappers (service commercial tiers, option)"]
+        for x in pp["exercices"]:
+            L.append("- " + " · ".join(f"{k} {v}" for k, v in x.items()))
+        if pp["capital"] is not None:
+            L.append(f"- Capital : {pp['capital']}")
+        if pp["beneficiaires_effectifs"]:
+            L.append(f"- Bénéficiaires effectifs déclarés : {pp['beneficiaires_effectifs']}")
+        if not pp["exercices"]:
+            L.append("- aucun exercice renvoyé (champs reçus : " + ", ".join(pp["cles_recues"]) + ")")
     L += ["", "## BODACC (24 mois)"]
     if fiche["bodacc"] is None:
         L.append("- non consulté")
@@ -247,6 +311,7 @@ def main():
     p.add_argument("--departement")
     p.add_argument("--json")
     p.add_argument("--md")
+    p.add_argument("--pappers", action="store_true", help="ajoute l'API Pappers (clé PAPPERS_API_KEY, 1 crédit)")
     p.add_argument("--client", help="dossier.json d'un audit : compare le bloc client au registre")
     a = p.parse_args()
     try:
@@ -257,8 +322,10 @@ def main():
         if not a.siren:
             p.error("SIREN requis (ou --chercher)")
         fiche = verifier(a.siren)
+        if a.pappers:
+            ajouter_pappers(fiche)
     except ErreurReseau as e:
-        print(f"ERREUR  {e}", file=sys.stderr)
+        print(f"ERREUR  {_masque(e)}", file=sys.stderr)
         return 1
     ecarts = []
     if a.client:

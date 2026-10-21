@@ -78,6 +78,15 @@ tranche, comptes parfois anciens). Sans SIREN, ne cherche pas le client par son 
 envoie ce nom à l'API officielle, avec l'accord de Patrick seulement. Une procédure collective probable
 bloque le contrôle final : Patrick arbitre, puis `client.verification_arbitree: true` et la décision au journal.
 
+**Option Pappers (service commercial tiers).** `--pappers` ajoute l'API Pappers : plusieurs exercices de
+comptes, capital, bénéficiaires effectifs (nombre seulement) et un statut de procédure collective plus à jour
+que le BODACC. Le site pappers.fr refuse l'accès automatisé (HTTP 403) : seule l'API, avec clé, est utilisée.
+La clé vit dans la variable d'environnement `PAPPERS_API_KEY`, jamais dans un fichier. Seul le SIREN est transmis ;
+Pappers est une société privée, hors de l'exception « registres officiels » de la règle 5 : ne l'utilise
+qu'avec l'accord de Patrick pour ce client. Chaque appel consomme 1 crédit. Si Pappers signale une procédure en
+cours que le BODACC n'a pas, le blocage s'applique ; s'il la dit terminée alors que le BODACC la dit ouverte, le
+blocage reste (vérification au greffe).
+
 ## Étape 1 — Extraction (lire `references/extraction.md`)
 
 Remplir dans `dossier.json` : `meta`, `client`, `faits`, `problemes` (sans solution), `hypotheses`,

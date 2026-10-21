@@ -9,7 +9,7 @@ appelle par des balises {{...}} (voir references/dossier-json.md).
   audit.py calculer <dossier>
   audit.py verifier <dossier> [--etape extraction|redaction|final]
   audit.py construire <dossier> [--pdf] [--final]
-  audit.py entreprise <dossier> [--siren N] [--appliquer]   # vérifie le client dans les registres officiels
+  audit.py entreprise <dossier> [--siren N] [--appliquer] [--pappers]   # vérifie le client dans les registres officiels
   audit.py archiver <dossier>                       # zip du dossier, à côté de lui
   audit.py restaurer <archive.zip> [racine]
 
@@ -888,8 +888,10 @@ def cmd_entreprise(a):
             sortir("SIREN requis (--siren, ou client.siren du dossier) : le demander à Patrick (Kbis, bon de commande). "
                    "--chercher liste des candidats mais envoie le nom du client à l'API officielle : seulement avec l'accord de Patrick")
         fiche = E.verifier(siren)
+        if a.pappers:
+            E.ajouter_pappers(fiche)
     except E.ErreurReseau as e:
-        sortir(str(e))
+        sortir(E._masque(e))
     ecarts = E.comparer(c, fiche)
     dossier = Path(a.dossier)
     (dossier / "verification-entreprise.json").write_text(
@@ -1188,6 +1190,7 @@ def main():
     e.add_argument("--siren")
     e.add_argument("--appliquer", action="store_true", help="renseigne siren, forme juridique et adresse du client s'ils sont vides")
     e.add_argument("--chercher", action="store_true", help="liste les candidats par raison sociale (envoie le nom à l'API officielle)")
+    e.add_argument("--pappers", action="store_true", help="ajoute l'API Pappers (service commercial tiers ; clé PAPPERS_API_KEY ; 1 crédit)")
     e.add_argument("--departement")
     z = sp.add_parser("archiver")
     z.add_argument("dossier")
