@@ -520,7 +520,7 @@ def citation(x):
 
 
 def ligne_exemple(x):
-    return "- %s · %s · session %s (%s) — %s" % (x["date"], x["projet"] or "?", x["session"], x["id"],
+    return "%s · %s · session %s (%s) — %s" % (x["date"], x["projet"] or "?", x["session"], x["id"],
                                                  citation(x).replace("\n", " "))
 
 
@@ -583,6 +583,13 @@ def controler(props, donnees):
         if index[exemples[0]]["session"] == index[exemples[1]]["session"]:
             erreurs.append(ici + " : les 2 exemples viennent de la même session (%s) ; un cas isolé va dans "
                                  "« a_surveiller »." % index[exemples[0]]["session"])
+    if props.get("rapport") and (not re.fullmatch(r"improve-system-\d{4}-\d{2}-\d{2}(?:-\d+)?", str(props["rapport"]))
+                                 or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(props.get("genere_le", "")))):
+        erreurs.append("« rapport » et « genere_le » sont écrits par le script : ne pas les modifier.")
+    for j, x in enumerate(props.get("installations") or [], 1):
+        if (not isinstance(x, dict) or not re.fullmatch(r"\d{2}/\d{2}/\d{4}", str(x.get("date", "")))
+                or not isinstance(x.get("noms"), list) or not x["noms"] or any(n not in noms for n in x["noms"])):
+            erreurs.append("Installation %d : objet {date : JJ/MM/AAAA, noms : [noms de propositions]} attendu." % j)
     for j, a in enumerate(props.get("a_surveiller") or [], 1):
         if not isinstance(a, dict) or not a.get("sujet") or not isinstance(a.get("ids"), list) or not a["ids"]:
             erreurs.append("À surveiller %d : objet {sujet, ids} attendu." % j)
@@ -591,8 +598,234 @@ def controler(props, donnees):
     return erreurs, alertes
 
 
+def construire_blocs(props, donnees, jour):
+    """Contenu du rapport, commun aux sorties Markdown et DOCX. Le texte porte les marques en ligne
+    **gras** et `code`."""
+    index, m = {x["id"]: x for x in donnees["signaux"]}, donnees["meta"]
+    b = [("titre", "Améliorer le système — rapport du %s" % jour.strftime("%d/%m/%Y")),
+         ("p", "Période analysée : %s → %s (%d jours) · %d sessions · %d demandes · %d corrections présumées · "
+               "%d erreurs d'outil · %d refus · %d interruptions." % (
+                   m["debut"], m["fin"], m["jours"], m["sessions"], m["demandes"], m["corrections_presumees"],
+                   m["erreurs"], m["refus"], m["interruptions"]))]
+    if donnees["avertissements"]:
+        b += [("p", "Limites de la lecture :")] + [("li", a) for a in donnees["avertissements"]]
+    b += [("h1", "Synthèse"), ("p", props["synthese"].strip()), ("h1", "Propositions")]
+    if not props["propositions"]:
+        b.append(("p", "Aucun schéma ne revient dans au moins deux sessions : rien à proposer cette fois."))
+    for i, p in enumerate(props["propositions"], 1):
+        occurrences = sorted(set(p.get("occurrences") or []) | set(p["exemples"]),
+                             key=lambda e: index[e]["horodatage"])
+        sessions = {index[e]["session"] for e in occurrences}
+        b += [("h2", "%d. `%s` — %s" % (i, p["nom"], FORMES[p["forme"]])),
+              ("p", "Priorité %s · %s · %s. %d occurrence(s) dans %d session(s), du %s au %s." % (
+                  p["priorite"], p["certitude"], ", ".join(NATURES[n] for n in p["natures"]), len(occurrences),
+                  len(sessions), index[occurrences[0]]["date"][:10], index[occurrences[-1]]["date"][:10])),
+              ("p", "**Constat.** " + p["constat"].strip()),
+              ("p", "**Ce que ferait la solution.** " + p["solution"].strip())]
+        if p.get("declencheurs"):
+            b.append(("p", "**Déclencheurs.** " + " ; ".join("« %s »" % d for d in p["declencheurs"])))
+        b += [("p", "**Étapes envisagées.**")] + [("ol", e) for e in p["etapes"]]
+        b += [("p", "**Exemples datés.**")] + [("li", ligne_exemple(index[e])) for e in p["exemples"]]
+        b += [("p", "**Gain attendu.** " + p["gain"].strip()), ("p", "**Limite.** " + p["limite"].strip())]
+    if props.get("a_surveiller"):
+        b.append(("h1", "À surveiller (cas isolés, pas encore une tendance)"))
+        for a in props["a_surveiller"]:
+            premier = index[a["ids"][0]]
+            b.append(("li", "%s — %s, %s" % (a["sujet"], premier["date"][:10], citation(premier))))
+    groupes = [g for g in donnees["groupes_erreurs"] if g["occurrences"] >= 2][:10]
+    if groupes:
+        b += [("h1", "Échecs d'outils les plus fréquents (données brutes)"),
+              ("table", ["Outil", "Erreur", "Occurrences", "Sessions"],
+               [[g["outil"], g["signature"], str(g["occurrences"]), str(g["sessions"])] for g in groupes],
+               [1300, 5338, 1700, 1300])]
+    b.append(("h1", "Installation"))
+    if props.get("installations"):
+        b += [("li", "Installé le %s : %s." % (x["date"], ", ".join("`%s`" % n for n in x["noms"])))
+              for x in props["installations"]]
+        b.append(("p", "Les autres propositions restent à décider."))
+    else:
+        b.append(("p", "Rien n'a été installé. Pour installer, réponds avec les numéros retenus (par exemple "
+                       "« installe 1 et 3 »). Destination par défaut : `~/.claude/skills/<nom>/`. Un dossier "
+                       "existant n'est jamais écrasé sans ton accord."))
+    return b
+
+
+def en_markdown(blocs_rapport):
+    lignes, precedent, rang = [], None, 0
+    for bloc in blocs_rapport:
+        genre = bloc[0]
+        rang = rang + 1 if genre == "ol" and precedent == "ol" else 1
+        if lignes and not (genre in ("li", "ol") and precedent == genre):
+            lignes.append("")
+        if genre == "titre":
+            lignes.append("# " + bloc[1])
+        elif genre in ("h1", "h2"):
+            lignes.append(("## " if genre == "h1" else "### ") + bloc[1])
+        elif genre == "li":
+            lignes.append("- " + bloc[1])
+        elif genre == "ol":
+            lignes.append("%d. %s" % (rang, bloc[1]))
+        elif genre == "table":
+            lignes.append("| " + " | ".join(bloc[1]) + " |")
+            lignes.append("|" + "---|" * len(bloc[1]))
+            lignes += ["| " + " | ".join(c.replace("|", "/") for c in rangee) + " |" for rangee in bloc[2]]
+        else:
+            lignes.append(bloc[1])
+        precedent = genre
+    return "\n".join(lignes) + "\n"
+
+
+W_NS = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+REL_NS = "http://schemas.openxmlformats.org/package/2006/relationships"
+OFFICE_REL = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/"
+BORDURE = '<w:%s w:val="single" w:sz="4" w:space="0" w:color="BFBFBF"/>'
+STYLES = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="%s">'
+          '<w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:eastAsia="Calibri" '
+          'w:cs="Calibri"/><w:sz w:val="22"/><w:szCs w:val="22"/><w:lang w:val="fr-FR"/></w:rPr></w:rPrDefault>'
+          '<w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="264" w:lineRule="auto"/></w:pPr></w:pPrDefault>'
+          '</w:docDefaults>'
+          '<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:qFormat/></w:style>'
+          '<w:style w:type="paragraph" w:styleId="Titre"><w:name w:val="Title"/><w:basedOn w:val="Normal"/>'
+          '<w:next w:val="Normal"/><w:qFormat/><w:pPr><w:spacing w:after="240"/></w:pPr><w:rPr><w:b/>'
+          '<w:color w:val="1F3864"/><w:sz w:val="36"/><w:szCs w:val="36"/></w:rPr></w:style>'
+          '<w:style w:type="paragraph" w:styleId="Titre1"><w:name w:val="heading 1"/><w:basedOn w:val="Normal"/>'
+          '<w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="360" w:after="120"/>'
+          '<w:outlineLvl w:val="0"/></w:pPr><w:rPr><w:b/><w:color w:val="1F3864"/><w:sz w:val="30"/>'
+          '<w:szCs w:val="30"/></w:rPr></w:style>'
+          '<w:style w:type="paragraph" w:styleId="Titre2"><w:name w:val="heading 2"/><w:basedOn w:val="Normal"/>'
+          '<w:next w:val="Normal"/><w:qFormat/><w:pPr><w:keepNext/><w:spacing w:before="280" w:after="100"/>'
+          '<w:outlineLvl w:val="1"/></w:pPr><w:rPr><w:b/><w:color w:val="2F5496"/><w:sz w:val="26"/>'
+          '<w:szCs w:val="26"/></w:rPr></w:style>'
+          '<w:style w:type="paragraph" w:styleId="Paragraphedeliste"><w:name w:val="List Paragraph"/>'
+          '<w:basedOn w:val="Normal"/><w:qFormat/><w:pPr><w:spacing w:after="60"/><w:ind w:left="720"/>'
+          '<w:contextualSpacing/></w:pPr></w:style>'
+          '<w:style w:type="character" w:styleId="Code"><w:name w:val="Code"/><w:rPr><w:rFonts w:ascii="Consolas" '
+          'w:hAnsi="Consolas" w:cs="Consolas"/><w:sz w:val="20"/><w:szCs w:val="20"/></w:rPr></w:style>'
+          '<w:style w:type="table" w:styleId="Grille"><w:name w:val="Table Grid"/><w:tblPr><w:tblBorders>%s'
+          '</w:tblBorders><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="100" w:type="dxa"/>'
+          '<w:bottom w:w="40" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style>'
+          '</w:styles>') % (W_NS, "".join(BORDURE % c for c in ("top", "left", "bottom", "right", "insideH",
+                                                                "insideV")))
+NIVEAU = ('<w:abstractNum w:abstractNumId="%d"><w:multiLevelType w:val="singleLevel"/><w:lvl w:ilvl="0">'
+          '<w:start w:val="1"/><w:numFmt w:val="%s"/><w:lvlText w:val="%s"/><w:lvlJc w:val="left"/>'
+          '<w:pPr><w:ind w:left="720" w:hanging="360"/></w:pPr></w:lvl></w:abstractNum>')
+
+
+def xml(texte):
+    texte = re.sub("[\x00-\x08\x0b\x0c\x0e-\x1f￾￿]", "", texte)
+    return texte.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
+
+
+def runs(texte, gras=False):
+    sortie = []
+    for morceau in re.split(r"(\*\*[^*\n]+?\*\*|`[^`\n]+`)", texte):
+        if not morceau:
+            continue
+        proprietes = []
+        if len(morceau) > 2 and morceau[0] == morceau[-1] == "`":
+            morceau = morceau[1:-1]
+            proprietes.append('<w:rStyle w:val="Code"/>')
+        elif len(morceau) > 4 and morceau.startswith("**") and morceau.endswith("**"):
+            morceau = morceau[2:-2]
+            proprietes.append("<w:b/>")
+        if gras and "<w:b/>" not in proprietes:
+            proprietes.append("<w:b/>")
+        rpr = "<w:rPr>%s</w:rPr>" % "".join(proprietes) if proprietes else ""
+        sortie.append('<w:r>%s<w:t xml:space="preserve">%s</w:t></w:r>' % (rpr, xml(morceau)))
+    return "".join(sortie)
+
+
+def paragraphe(contenu, style=None, numero=None, apres=None):
+    ppr = ""
+    if style:
+        ppr += '<w:pStyle w:val="%s"/>' % style
+    if numero:
+        ppr += '<w:numPr><w:ilvl w:val="0"/><w:numId w:val="%d"/></w:numPr>' % numero
+    if apres is not None:
+        ppr += '<w:spacing w:after="%d"/>' % apres
+    return "<w:p>%s%s</w:p>" % ("<w:pPr>%s</w:pPr>" % ppr if ppr else "", contenu)
+
+
+def tableau(entetes, rangees, largeurs):
+    def cellule(texte, largeur, entete):
+        fond = '<w:shd w:val="clear" w:color="auto" w:fill="E8ECF4"/>' if entete else ""
+        return '<w:tc><w:tcPr><w:tcW w:w="%d" w:type="dxa"/>%s</w:tcPr>%s</w:tc>' % (
+            largeur, fond, paragraphe(runs(texte, gras=entete), apres=0))
+    lignes = ['<w:tr><w:trPr><w:tblHeader/></w:trPr>%s</w:tr>'
+              % "".join(cellule(t, l, True) for t, l in zip(entetes, largeurs))]
+    lignes += ["<w:tr>%s</w:tr>" % "".join(cellule(t, l, False) for t, l in zip(r, largeurs)) for r in rangees]
+    return ('<w:tbl><w:tblPr><w:tblStyle w:val="Grille"/><w:tblW w:w="%d" w:type="dxa"/></w:tblPr>'
+            '<w:tblGrid>%s</w:tblGrid>%s</w:tbl>' % (sum(largeurs), "".join('<w:gridCol w:w="%d"/>' % l
+                                                                           for l in largeurs), "".join(lignes)))
+
+
+def en_docx(blocs_rapport, chemin, titre):
+    """DOCX écrit avec la bibliothèque standard : aucune dépendance à installer sur le poste."""
+    import zipfile
+    corps, listes, precedent = [], 0, None
+    for bloc in blocs_rapport:
+        genre = bloc[0]
+        if genre == "titre":
+            corps.append(paragraphe(runs(bloc[1]), "Titre"))
+        elif genre in ("h1", "h2"):
+            corps.append(paragraphe(runs(bloc[1]), "Titre1" if genre == "h1" else "Titre2"))
+        elif genre == "li":
+            corps.append(paragraphe(runs(bloc[1]), "Paragraphedeliste", 1))
+        elif genre == "ol":
+            if precedent != "ol":
+                listes += 1
+            corps.append(paragraphe(runs(bloc[1]), "Paragraphedeliste", 1 + listes))
+        elif genre == "table":
+            corps += [tableau(bloc[1], bloc[2], bloc[3]), paragraphe("", apres=0)]
+        else:
+            corps.append(paragraphe(runs(bloc[1])))
+        precedent = genre
+    document = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="%s"><w:body>%s'
+                '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" '
+                'w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr></w:body></w:document>'
+                % (W_NS, "".join(corps)))
+    numerotation = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:numbering xmlns:w="%s">%s%s'
+                    '<w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num>%s</w:numbering>' % (
+                        W_NS, NIVEAU % (0, "bullet", "•"), NIVEAU % (1, "decimal", "%1."),
+                        "".join('<w:num w:numId="%d"><w:abstractNumId w:val="1"/><w:lvlOverride w:ilvl="0">'
+                                '<w:startOverride w:val="1"/></w:lvlOverride></w:num>' % (2 + k)
+                                for k in range(listes))))
+    types = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org'
+             '/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-'
+             'package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'
+             '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.'
+             'wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/'
+             'vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/numbering.'
+             'xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/>'
+             '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-'
+             'properties+xml"/></Types>')
+    racine = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="%s">'
+              '<Relationship Id="rId1" Type="%sofficeDocument" Target="word/document.xml"/>'
+              '<Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/'
+              'core-properties" Target="docProps/core.xml"/></Relationships>' % (REL_NS, OFFICE_REL))
+    liens = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="%s">'
+             '<Relationship Id="rId1" Type="%sstyles" Target="styles.xml"/>'
+             '<Relationship Id="rId2" Type="%snumbering" Target="numbering.xml"/></Relationships>'
+             % (REL_NS, OFFICE_REL, OFFICE_REL))
+    proprietes = ('<?xml version="1.0" encoding="UTF-8" standalone="yes"?><cp:coreProperties xmlns:cp="http://'
+                  'schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/'
+                  'elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/'
+                  'XMLSchema-instance"><dc:title>%s</dc:title><dc:creator>improve-system</dc:creator>'
+                  '<dc:language>fr-FR</dc:language><dcterms:created xsi:type="dcterms:W3CDTF">%s</dcterms:created>'
+                  '</cp:coreProperties>' % (xml(titre), dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")))
+    with zipfile.ZipFile(chemin, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("[Content_Types].xml", types)
+        z.writestr("_rels/.rels", racine)
+        z.writestr("word/document.xml", document)
+        z.writestr("word/styles.xml", STYLES)
+        z.writestr("word/numbering.xml", numerotation)
+        z.writestr("word/_rels/document.xml.rels", liens)
+        z.writestr("docProps/core.xml", proprietes)
+
+
 def rapport(args):
-    props = json.loads(Path(args.propositions).expanduser().read_text(encoding="utf-8"))
+    source = Path(args.propositions).expanduser()
+    props = json.loads(source.read_text(encoding="utf-8"))
     donnees = json.loads(Path(args.signaux).expanduser().read_text(encoding="utf-8"))
     sortie = Path(args.sortie).expanduser()
     refuser_si_depot(sortie)
@@ -605,60 +838,22 @@ def rapport(args):
             print("- " + e)
         sys.exit(1)
 
-    index, m = {x["id"]: x for x in donnees["signaux"]}, donnees["meta"]
-    aujourd_hui = dt.date.today()
-    lignes = ["# Améliorer le système — rapport du %s" % aujourd_hui.strftime("%d/%m/%Y"), "",
-              "Période analysée : %s → %s (%d jours) · %d sessions · %d demandes · %d corrections présumées · "
-              "%d erreurs d'outil · %d refus · %d interruptions." % (
-                  m["debut"], m["fin"], m["jours"], m["sessions"], m["demandes"], m["corrections_presumees"],
-                  m["erreurs"], m["refus"], m["interruptions"]), ""]
-    if donnees["avertissements"]:
-        lignes += ["Limites de la lecture :"] + ["- " + a for a in donnees["avertissements"]] + [""]
-    lignes += ["## Synthèse", "", props["synthese"].strip(), "", "## Propositions", ""]
-    if not props["propositions"]:
-        lignes += ["Aucun schéma ne revient dans au moins deux sessions : rien à proposer cette fois.", ""]
-    for i, p in enumerate(props["propositions"], 1):
-        occurrences = sorted(set(p.get("occurrences") or []) | set(p["exemples"]),
-                             key=lambda e: index[e]["horodatage"])
-        sessions = {index[e]["session"] for e in occurrences}
-        lignes += [
-            "### %d. `%s` — %s" % (i, p["nom"], FORMES[p["forme"]]), "",
-            "Priorité %s · %s · %s. %d occurrence(s) dans %d session(s), du %s au %s." % (
-                p["priorite"], p["certitude"], ", ".join(NATURES[n] for n in p["natures"]), len(occurrences),
-                len(sessions), index[occurrences[0]]["date"][:10], index[occurrences[-1]]["date"][:10]), "",
-            "**Constat.** " + p["constat"].strip(), "",
-            "**Ce que ferait la solution.** " + p["solution"].strip(), ""]
-        if p.get("declencheurs"):
-            lignes += ["**Déclencheurs.** " + " ; ".join("« %s »" % d for d in p["declencheurs"]), ""]
-        lignes += ["**Étapes envisagées.**", ""] + ["%d. %s" % (k, e) for k, e in enumerate(p["etapes"], 1)] + [""]
-        lignes += ["**Exemples datés.**", ""] + [ligne_exemple(index[e]) for e in p["exemples"]] + [""]
-        lignes += ["**Gain attendu.** " + p["gain"].strip(), "", "**Limite.** " + p["limite"].strip(), ""]
-    if props.get("a_surveiller"):
-        lignes += ["## À surveiller (cas isolés, pas encore une tendance)", ""]
-        for a in props["a_surveiller"]:
-            premier = index[a["ids"][0]]
-            lignes.append("- %s — %s, %s" % (a["sujet"], premier["date"][:10], citation(premier)))
-        lignes.append("")
-    groupes = [g for g in donnees["groupes_erreurs"] if g["occurrences"] >= 2][:10]
-    if groupes:
-        lignes += ["## Échecs d'outils les plus fréquents (données brutes)", "",
-                   "| Outil | Erreur | Occurrences | Sessions |", "|---|---|---|---|"]
-        lignes += ["| %s | %s | %d | %d |" % (g["outil"], g["signature"].replace("|", "/"), g["occurrences"],
-                                              g["sessions"]) for g in groupes]
-        lignes.append("")
-    lignes += ["## Installation", "",
-               "Rien n'a été installé. Pour installer, réponds avec les numéros retenus (par exemple « installe 1 "
-               "et 3 »). Destination par défaut : `~/.claude/skills/<nom>/`. Un dossier existant n'est jamais "
-               "écrasé sans ton accord.", ""]
-
     sortie.mkdir(parents=True, exist_ok=True)
-    base, n = "improve-system-%s" % aujourd_hui.isoformat(), 1
-    while (sortie / (base + ".md")).exists():
-        n += 1
-        base = "improve-system-%s-%d" % (aujourd_hui.isoformat(), n)
-    (sortie / (base + ".md")).write_text("\n".join(lignes), encoding="utf-8")
+    if props.get("rapport"):
+        base, jour = props["rapport"], dt.date.fromisoformat(props["genere_le"])
+    else:
+        jour = dt.date.today()
+        base, n = "improve-system-%s" % jour.isoformat(), 1
+        while any((sortie / (base + ext)).exists() for ext in (".md", ".docx", ".json")):
+            n += 1
+            base = "improve-system-%s-%d" % (jour.isoformat(), n)
+        props["rapport"], props["genere_le"] = base, jour.isoformat()
+    blocs_rapport = construire_blocs(props, donnees, jour)
+    (sortie / (base + ".md")).write_text(en_markdown(blocs_rapport), encoding="utf-8")
+    en_docx(blocs_rapport, sortie / (base + ".docx"), blocs_rapport[0][1])
     (sortie / (base + ".json")).write_text(json.dumps(props, ensure_ascii=False, indent=1), encoding="utf-8")
-    print("Rapport : %s" % (sortie / (base + ".md")))
+    print("Rapport : %s" % (sortie / (base + ".docx")))
+    print("Version texte : %s" % (sortie / (base + ".md")))
     print("Propositions : %s" % (sortie / (base + ".json")))
 
 

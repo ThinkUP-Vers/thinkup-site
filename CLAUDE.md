@@ -232,7 +232,7 @@ python3 .claude/skills/agence-voyage/scripts/paquet_app.py --sortie /tmp/agence-
 Le skill `improve-system` (`.claude/skills/improve-system/`, `/improve-system [jours]`, lancement manuel
 uniquement) lit les transcripts `~/.claude/projects/**/*.jsonl` des 7 derniers jours, repère échecs,
 corrections répétées et tâches récurrentes, et propose des skills (ou une règle, un hook) appuyés chacun sur
-deux exemples datés de deux sessions. Rapport dans `~/rapports-improve-system/`, jamais dans un dépôt : le
+deux exemples datés de deux sessions. Rapport `.docx` (et `.md`) dans `~/rapports-improve-system/`, jamais dans un dépôt : le
 script refuse d'y écrire, les extraits pouvant contenir des données clients. Rien n'est installé sans l'accord
 de Patrick.
 

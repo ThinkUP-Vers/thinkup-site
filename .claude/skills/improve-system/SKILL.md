@@ -4,7 +4,7 @@ description: >
   Analyse les sessions Claude Code des derniers jours (7 par défaut, transcripts .jsonl de
   ~/.claude/projects) pour repérer les échecs, les corrections répétées et les tâches récurrentes,
   puis propose des skills à créer (ou, quand c'est plus juste, une règle, un hook ou l'amélioration
-  d'un skill existant), chacun appuyé sur deux exemples datés tirés de deux sessions. Rapport dans
+  d'un skill existant), chacun appuyé sur deux exemples datés tirés de deux sessions. Rapport DOCX dans
   ~/rapports-improve-system/. N'installe rien sans accord explicite. Lancement manuel uniquement :
   « /improve-system [jours] ».
 argument-hint: "[jours, 7 par défaut]"
@@ -120,12 +120,15 @@ python3 $S/scripts/analyser.py rapport $W/propositions.json --signaux $W/signaux
 ```
 
 Corriger `propositions.json` jusqu'à ce que le contrôle passe ; ne jamais retoucher à la main `signaux.json` ni
-le rapport généré. Le script écrit `$R/improve-system-AAAA-MM-JJ.md` (le rapport) et `.json` (les
-propositions, pour une installation ultérieure).
+le rapport généré. Le script écrit, sous le même nom `$R/improve-system-AAAA-MM-JJ` :
+
+- `.docx` : le rapport à lire, mis en forme, sans dépendance à installer ;
+- `.md` : le même contenu en texte ;
+- `.json` : les propositions, avec le nom du rapport, pour une installation ultérieure.
 
 ## 5. Présenter
 
-Dans la conversation : le chemin du rapport, une ligne par proposition (numéro, nom, forme, occurrences,
+Dans la conversation : le chemin du `.docx`, une ligne par proposition (numéro, nom, forme, occurrences,
 priorité), puis la question : lesquelles installer ? Rien d'autre ne se fait avant la réponse.
 
 ## 6. Installer, après accord seulement
@@ -143,8 +146,16 @@ Pour chaque proposition désignée :
 - `hook` : passer par le skill `update-config` et montrer la configuration avant de l'écrire.
 
 Ensuite : lister les fichiers créés ou modifiés avec la commande d'annulation (`rm -r ~/.claude/skills/<nom>`),
-et ajouter en fin de rapport une section « Installé le JJ/MM/AAAA » avec les noms. Un nouveau skill est
-disponible au plus tard à la session suivante.
+puis consigner l'installation dans le rapport. Ajouter à `$R/improve-system-AAAA-MM-JJ.json` une entrée
+`"installations": [{"date": "JJ/MM/AAAA", "noms": ["<nom>"]}]` (à la suite des entrées existantes), puis
+relancer :
+
+```
+python3 $S/scripts/analyser.py rapport $R/improve-system-AAAA-MM-JJ.json --signaux $R/travail/AAAA-MM-JJ/signaux.json --sortie $R
+```
+
+Le `.docx` et le `.md` sont réécrits sous le même nom. Un nouveau skill est disponible au plus tard à la
+session suivante.
 
 Si Patrick y revient plus tard (« installe la 2 du rapport du 21/10 »), relire
 `$R/improve-system-AAAA-MM-JJ.json` plutôt que de relancer l'analyse.
