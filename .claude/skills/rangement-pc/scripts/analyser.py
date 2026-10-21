@@ -146,14 +146,18 @@ def doublons(fichiers):
 
 
 def construire_plan(fichiers, racines, grp_doublons, aujourdhui):
-    docs = racine_de(racines, "documents") or (norm(racines[0]["chemin"]) if racines else "C:\\")
+    # Destination locale, hors OneDrive : y déplacer des Go les ferait synchroniser dans le nuage.
+    dl = racine_de(racines, "telechargements")
+    base = norm(str(PureWindowsPath(dl).parent)) + "\\Rangement" if dl else racine_de(racines, "documents") + "\\Rangement"
     jour = aujourdhui.isoformat()
-    quarantaine = "%s\\_Quarantaine\\%s" % (docs, jour)
-    a_trier = "%s\\_A-trier\\%s" % (docs, jour)
+    quarantaine = "%s\\_Quarantaine\\%s" % (base, jour)
+    a_trier = "%s\\_A-trier\\%s" % (base, jour)
     plan, pris = [], set()
 
     def ajouter(f, type_, dest, raison):
-        if f["chemin"] in pris or f["age"] < JOURS_RECENT or f["git"]:
+        # Seuls les fichiers posés à la racine d'un dossier suivi sont déplacés : les sous-dossiers
+        # (projets, archives décompressées) se décident à la main, sinon on les casse.
+        if f["chemin"] in pris or f["age"] < JOURS_RECENT or f["git"] or f["dossier"].casefold() != (f["racine"] or "").casefold():
             return
         pris.add(f["chemin"])
         plan.append({"type": type_, "source": f["chemin"], "destination": dest, "taille": f["taille"], "raison": raison})
@@ -348,11 +352,10 @@ def rapport_blocs(inv, fichiers, racines, grp, plan, vides, bureau_dossiers, auj
     b.append(("h1", "9. Marche à suivre"))
     for etape in [
         "Dans le dossier du rapport, ouvre plan.csv avec Excel : une ligne par déplacement proposé (type, source, destination, raison). Supprime les lignes que tu ne veux pas, enregistre.",
-        "Mets OneDrive en pause : clic sur l'icône nuage de la barre des tâches, puis Aide et paramètres, puis Suspendre la synchronisation. Résultat attendu : icône barrée.",
         "Ferme Word, Excel et PowerPoint (les fichiers ouverts ne se déplacent pas).",
         "Simulation : ouvre PowerShell (menu Démarrer, tape PowerShell, Entrée), puis lance : powershell -ExecutionPolicy Bypass -File \"<chemin>\\appliquer-plan.ps1\". Résultat attendu : la liste des déplacements, marquée SIMULATION, rien n'a bougé.",
         "Exécution réelle : même commande avec -Appliquer à la fin. Résultat attendu : un fichier journal-deplacements.csv à côté du script.",
-        "Contrôle : ouvre %s et %s, vérifie que ce qui s'y trouve est bien à sa place. Le Bureau doit n'avoir plus que les raccourcis et tes dossiers actifs." % (quarantaine, a_trier),
+        "Contrôle : ouvre %s et %s, vérifie que ce qui s'y trouve est bien à sa place." % (quarantaine, a_trier),
         "Retour arrière si besoin : même commande avec -Annuler à la fin ; chaque déplacement du journal est rejoué en sens inverse.",
         "Attendre 30 jours, puis supprimer toi-même le dossier _Quarantaine s'il n'a rien fait manquer. Le script ne supprime jamais rien.",
         "Reprends l'inventaire dans un mois : le Bureau et Téléchargements se re-remplissent si la règle « vidé chaque semaine » n'est pas tenue.",
