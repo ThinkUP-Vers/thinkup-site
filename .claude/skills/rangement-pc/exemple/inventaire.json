@@ -1,0 +1,225 @@
+{
+ "version": 1,
+ "genere": "2026-10-21T09:00:00",
+ "os": "Windows 11",
+ "racines": [
+  {
+   "chemin": "C:\\Users\\demo\\Desktop",
+   "role": "bureau"
+  },
+  {
+   "chemin": "C:\\Users\\demo\\Documents",
+   "role": "documents"
+  },
+  {
+   "chemin": "C:\\Users\\demo\\Downloads",
+   "role": "telechargements"
+  }
+ ],
+ "disques": [
+  {
+   "lettre": "C:",
+   "taille": 512000000000,
+   "libre": 60000000000
+  }
+ ],
+ "applications": [
+  {
+   "nom": "Python 3.11",
+   "version": "3.11",
+   "editeur": "PSF",
+   "taille_mo": 100,
+   "installe": "20230101"
+  },
+  {
+   "nom": "Python 3.12",
+   "version": "3.12",
+   "editeur": "PSF",
+   "taille_mo": 110,
+   "installe": "20240101"
+  },
+  {
+   "nom": "Zoom",
+   "version": "6",
+   "editeur": "Zoom",
+   "taille_mo": 300,
+   "installe": "20240101"
+  }
+ ],
+ "demarrage": [
+  {
+   "nom": "Zoom",
+   "commande": "C:\\Zoom\\zoom.exe --start"
+  }
+ ],
+ "claude_skills": [
+  "morning"
+ ],
+ "depots_git": [
+  "C:\\Users\\demo\\Documents\\projets\\site"
+ ],
+ "ignores": 3,
+ "dossiers": [
+  "C:\\Users\\demo\\Desktop\\Anciens",
+  "C:\\Users\\demo\\Documents\\VideVide",
+  "C:\\Users\\demo\\Documents\\Clients\\A"
+ ],
+ "fichiers": [
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc0.docx",
+   "t": 30000,
+   "m": "2026-01-10",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc1.docx",
+   "t": 30001,
+   "m": "2026-02-11",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc2.docx",
+   "t": 30002,
+   "m": "2026-03-12",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc3.docx",
+   "t": 30003,
+   "m": "2026-04-13",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc4.docx",
+   "t": 30004,
+   "m": "2026-05-14",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc5.docx",
+   "t": 30005,
+   "m": "2026-01-15",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc6.docx",
+   "t": 30006,
+   "m": "2026-02-16",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc7.docx",
+   "t": 30007,
+   "m": "2026-03-17",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc8.docx",
+   "t": 30008,
+   "m": "2026-04-18",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc9.docx",
+   "t": 30009,
+   "m": "2026-05-10",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc10.docx",
+   "t": 30010,
+   "m": "2026-01-11",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Doc11.docx",
+   "t": 30011,
+   "m": "2026-02-12",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Devis client A (1).pdf",
+   "t": 250000,
+   "m": "2026-03-04",
+   "h": "aaa111"
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Facture.xlsx",
+   "t": 90000,
+   "m": "2026-10-18",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Outlook.lnk",
+   "t": 1000,
+   "m": "2025-01-01",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Anciens\\scan1.jpg",
+   "t": 900000,
+   "m": "2023-02-01",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Desktop\\Anciens\\notes.txt",
+   "t": 2000,
+   "m": "2023-02-01",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Documents\\Clients\\A\\Devis client A.pdf",
+   "t": 250000,
+   "m": "2026-03-04",
+   "h": "aaa111"
+  },
+  {
+   "c": "C:\\Users\\demo\\Documents\\Clients\\A\\Presentation final v2.pptx",
+   "t": 5000000,
+   "m": "2022-05-05",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Documents\\Ancien\\vieux.docx",
+   "t": 40000,
+   "m": "2020-01-01",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Downloads\\setup_zoom.exe",
+   "t": 90000000,
+   "m": "2025-11-01",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Downloads\\setup_zoom (1).exe",
+   "t": 90000000,
+   "m": "2025-11-02",
+   "h": "bbb222"
+  },
+  {
+   "c": "C:\\Users\\demo\\Downloads\\setup_zoom.exe.bak",
+   "t": 90000000,
+   "m": "2025-11-02",
+   "h": "bbb222"
+  },
+  {
+   "c": "C:\\Users\\demo\\Downloads\\rapport.pdf",
+   "t": 400000,
+   "m": "2026-01-10",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Downloads\\~$temp.docx",
+   "t": 162,
+   "m": "2026-01-10",
+   "h": null
+  },
+  {
+   "c": "C:\\Users\\demo\\Documents\\projets\\site\\index.html",
+   "t": 5000,
+   "m": "2026-01-01",
+   "h": null
+  }
+ ]
+}
