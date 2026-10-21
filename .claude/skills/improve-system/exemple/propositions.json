@@ -1,0 +1,51 @@
+{
+ "synthese": "Semaine fictive de démonstration. Deux attentes reviennent : les posts LinkedIn sans lien ni markdown, corrigés dans deux sessions, et le contrôle du ?v= des feuilles de style, redemandé deux fois avec des mots différents. Un échec d'environnement (npm absent) a coûté une tentative dans deux sessions.",
+ "propositions": [
+  {
+   "nom": "controle-version-css",
+   "forme": "nouveau-skill",
+   "natures": ["recurrence"],
+   "constat": "Le contrôle du ?v= de style-v2.css sur toutes les pages et dans editorial/scheduled-blog/ est redemandé à chaque modification de feuille, avec une consigne réécrite à chaque fois.",
+   "solution": "Un skill qui lance les deux grep du CLAUDE.md, compare le ?v= de chaque page au dernier commit qui a touché la feuille et propose la commande sed de correction.",
+   "declencheurs": ["vérifie le ?v=", "contrôle les feuilles de style", "après modif de style-v2.css"],
+   "etapes": ["Repérer le dernier commit qui modifie chaque feuille", "Lister les pages et gabarits dont le ?v= diffère", "Proposer la commande sed, l'appliquer après accord"],
+   "gain": "Deux demandes en six jours ; supprime la consigne à réécrire et l'oubli des gabarits de scheduled-blog.",
+   "limite": "Redondant si la vérification est intégrée à un hook avant commit.",
+   "priorite": "moyenne",
+   "certitude": "probable",
+   "exemples": ["D-44da02b2", "D-8665d33c"],
+   "occurrences": ["D-44da02b2", "D-8665d33c"]
+  },
+  {
+   "nom": "linkedin-sans-lien",
+   "forme": "regle",
+   "natures": ["correction"],
+   "constat": "Les posts LinkedIn sortent avec un lien dans le corps et du markdown, corrigés dans deux sessions distinctes.",
+   "solution": "Une règle courte dans les préférences : aucun lien dans le corps, appel à l'action en commentaire épinglé, pas de markdown.",
+   "etapes": ["Ajouter la règle aux préférences ou au skill de rédaction LinkedIn existant"],
+   "gain": "Évite une correction par post.",
+   "limite": "Une règle suffit, un skill dédié serait disproportionné.",
+   "priorite": "haute",
+   "certitude": "confirmé",
+   "exemples": ["D-1acf3b32", "D-b43de7bb"],
+   "occurrences": ["D-1acf3b32", "D-b43de7bb"]
+  },
+  {
+   "nom": "environnement-sans-npm",
+   "forme": "regle",
+   "natures": ["echec"],
+   "constat": "Claude lance npm alors que l'environnement ne l'a pas : échec identique dans deux sessions.",
+   "solution": "Indiquer dans CLAUDE.md que le site est statique, sans npm ni build.",
+   "etapes": ["Ajouter une ligne dans CLAUDE.md"],
+   "gain": "Une tentative perdue en moins par session concernée.",
+   "limite": "Aucune.",
+   "priorite": "basse",
+   "certitude": "confirmé",
+   "exemples": ["E-1_bash01", "E-2_bash02"]
+  }
+ ],
+ "a_surveiller": [
+  {"sujet": "Suppression de brouillons proposée puis refusée", "ids": ["R-2_bash01"]},
+  {"sujet": "Recherche web interrompue en cours de rédaction", "ids": ["I-35c4c70a"]}
+ ]
+}
