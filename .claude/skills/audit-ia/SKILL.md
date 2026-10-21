@@ -28,7 +28,8 @@ description: >
    jamais rien au prospect, ne crée rien dans Qonto ou Drive sans accord explicite.
 5. **Confidentialité : le dépôt est public.** Tout le travail reste dans `audits/` (ignoré par git).
    Ne jamais committer ce dossier, ni copier un élément du client ailleurs, ni mettre le nom du client,
-   de ses salariés ou ses chiffres dans une recherche web.
+   de ses salariés ou ses chiffres dans une recherche web. Seule exception : le SIREN du client, interrogé
+   dans les registres officiels par `audit.py entreprise` (voir étape 0) ; jamais son nom sans accord de Patrick.
 
 ## Étape 0 — Récupérer la source
 
@@ -61,6 +62,21 @@ Si la source est une transcription d'entretien, rappeler à Patrick en une ligne
 son traitement par des outils d'IA doivent avoir été annoncés aux participants.
 
 Renseigner `meta.source`. Le mode de relecture se choisit à l'étape 6, une fois le devis chiffré.
+
+**Vérification officielle du client.** Dès que Patrick donne le SIREN (Kbis, bon de commande) :
+
+```bash
+python3 $S/scripts/audit.py entreprise $A --siren 123456789 --appliquer
+```
+
+Le script interroge uniquement les registres publics (Recherche d'entreprises : Sirene et RNE ; BODACC),
+écrit `verification-entreprise.json` et `.md` dans `$A`, renseigne `client.siren`, `forme_juridique` et
+`adresse` s'ils sont vides (jamais d'écrasement) et signale : écarts entre ce que le client a dit et le
+registre, effectif ou comptes absents ou anciens, dirigeant à identifier, et toute procédure collective.
+Les chiffres officiels recoupent les faits F de l'entretien, ils ne les remplacent pas (effectif en
+tranche, comptes parfois anciens). Sans SIREN, ne cherche pas le client par son nom : `--chercher`
+envoie ce nom à l'API officielle, avec l'accord de Patrick seulement. Une procédure collective probable
+bloque le contrôle final : Patrick arbitre, puis `client.verification_arbitree: true` et la décision au journal.
 
 ## Étape 1 — Extraction (lire `references/extraction.md`)
 
@@ -130,8 +146,9 @@ session.
 python3 $S/scripts/audit.py construire $A --final --pdf
 ```
 
-Zéro erreur exigé (le contrôle final bloque notamment un SIREN client absent et une question bloquante
-sans réponse). Dérouler la liste du contrôle final de `references/relectures.md` et la cocher dans
+Zéro erreur exigé (le contrôle final bloque notamment un SIREN client absent, une question bloquante
+sans réponse et une procédure collective probable non arbitrée ; relancer `audit.py entreprise` si la
+vérification officielle a plus de 30 jours). Dérouler la liste du contrôle final de `references/relectures.md` et la cocher dans
 `journal.md`.
 
 Livrer à Patrick : envoyer les fichiers de `$A/livrables/` (PDF, et HTML en secours) avec l'outil

@@ -9,6 +9,7 @@ appelle par des balises {{...}} (voir references/dossier-json.md).
   audit.py calculer <dossier>
   audit.py verifier <dossier> [--etape extraction|redaction|final]
   audit.py construire <dossier> [--pdf] [--final]
+  audit.py entreprise <dossier> [--siren N] [--appliquer]   # vérifie le client dans les registres officiels
   audit.py archiver <dossier>                       # zip du dossier, à côté de lui
   audit.py restaurer <archive.zip> [racine]
 
@@ -845,6 +846,70 @@ def verifier_donnees(d, etape, rapport):
             rapport.erreur("client.adresse absente")
 
 
+def verifier_entreprise_officielle(d, dossier, rapport):
+    """Contrôle d'avant envoi : la vérification officielle du client existe, est récente et sans procédure collective."""
+    f = Path(dossier) / "verification-entreprise.json"
+    if not f.exists():
+        rapport.alerte("verification-entreprise.json absent : lancer « audit.py entreprise <dossier> » avant l'envoi du devis")
+        return
+    sys.path.insert(0, str(ICI))
+    import entreprise as E
+    v = json.loads(f.read_text(encoding="utf-8"))
+    c = d.get("client") or {}
+    if re.sub(r"\s", "", str(c.get("siren", ""))) != v.get("siren"):
+        rapport.erreur(f"verification-entreprise.json porte le SIREN {v.get('siren')}, le dossier {c.get('siren')} : relancer la vérification")
+        return
+    age = (dt.date.today() - dt.date.fromisoformat(v["interroge_le"])).days
+    if age > 30:
+        rapport.alerte(f"Vérification officielle datée de {age} jours : relancer « audit.py entreprise »")
+    pc = v.get("procedure_collective")
+    if pc and pc.get("ouverte") and not c.get("verification_arbitree"):
+        rapport.erreur(f"Procédure collective probable chez le client ({pc.get('nature')}, {pc.get('date')}) : arbitrage de Patrick requis "
+                       "avant tout devis ; inscrire client.verification_arbitree: true et la décision au journal")
+    for m in v.get("alertes", []):
+        if "PROCÉDURE" not in m:
+            rapport.alerte(f"Vérification officielle : {m}")
+    for m in E.comparer(c, v):
+        rapport.alerte(f"Écart client / registre : {m}")
+
+
+def cmd_entreprise(a):
+    sys.path.insert(0, str(ICI))
+    import entreprise as E
+    d = charger(a.dossier)
+    c = d.get("client") or {}
+    try:
+        if a.chercher:
+            for x in E.chercher(c.get("raison_sociale", ""), a.departement):
+                print(f"{x['siren']}  {x['nom']}  {x['ville']} ({x['departement']})  état {x['etat']}  effectif {x['effectif']}")
+            return 0
+        siren = re.sub(r"\s", "", a.siren or str(c.get("siren", "")))
+        if not siren:
+            sortir("SIREN requis (--siren, ou client.siren du dossier) : le demander à Patrick (Kbis, bon de commande). "
+                   "--chercher liste des candidats mais envoie le nom du client à l'API officielle : seulement avec l'accord de Patrick")
+        fiche = E.verifier(siren)
+    except E.ErreurReseau as e:
+        sortir(str(e))
+    ecarts = E.comparer(c, fiche)
+    dossier = Path(a.dossier)
+    (dossier / "verification-entreprise.json").write_text(
+        json.dumps({**fiche, "ecarts_client": ecarts}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    md = E.en_markdown(fiche, ecarts)
+    (dossier / "verification-entreprise.md").write_text(md, encoding="utf-8")
+    print(md)
+    if a.appliquer:
+        i, rempli = fiche["identite"], []
+        for cle, val in (("siren", fiche["siren"]), ("forme_juridique", i["forme"]),
+                         ("adresse", f"{i['adresse']}" if i["adresse"] else None)):
+            if val and not c.get(cle):
+                c[cle] = val
+                rempli.append(cle)
+        d["client"] = c
+        (dossier / "dossier.json").write_text(json.dumps(d, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"Champs client renseignés (vides jusque-là) : {', '.join(rempli) or 'aucun'}. Les valeurs déjà saisies ne sont jamais écrasées.")
+    return 0
+
+
 def verifier_coherence_site(d, rapport):
     racine = racine_depot()
     if not racine:
@@ -993,6 +1058,8 @@ def produire(dossier, etape, rapport):
     """Calcule, interpole et contrôle ; renvoie les textes finaux sans rien écrire."""
     d = charger(dossier)
     verifier_donnees(d, etape, rapport)
+    if etape == "final":
+        verifier_entreprise_officielle(d, dossier, rapport)
     verifier_coherence_site(d, rapport)
     if etape == "extraction":
         return d, None, {}
@@ -1116,6 +1183,12 @@ def main():
     b.add_argument("dossier")
     b.add_argument("--pdf", action="store_true")
     b.add_argument("--final", action="store_true", help="applique aussi les contrôles d'avant envoi")
+    e = sp.add_parser("entreprise")
+    e.add_argument("dossier")
+    e.add_argument("--siren")
+    e.add_argument("--appliquer", action="store_true", help="renseigne siren, forme juridique et adresse du client s'ils sont vides")
+    e.add_argument("--chercher", action="store_true", help="liste les candidats par raison sociale (envoie le nom à l'API officielle)")
+    e.add_argument("--departement")
     z = sp.add_parser("archiver")
     z.add_argument("dossier")
     r = sp.add_parser("restaurer")
@@ -1123,7 +1196,7 @@ def main():
     r.add_argument("racine", nargs="?", default="audits")
     a = p.parse_args()
     return {"init": cmd_init, "calculer": cmd_calculer, "verifier": cmd_verifier,
-            "construire": cmd_construire, "archiver": cmd_archiver, "restaurer": cmd_restaurer}[a.cmd](a)
+            "construire": cmd_construire, "entreprise": cmd_entreprise, "archiver": cmd_archiver, "restaurer": cmd_restaurer}[a.cmd](a)
 
 
 if __name__ == "__main__":
