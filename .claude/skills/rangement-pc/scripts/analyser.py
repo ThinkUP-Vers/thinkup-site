@@ -138,8 +138,9 @@ def doublons(fichiers):
     for (taille, h), lot in groupes.items():
         if len(lot) < 2:
             continue
-        zone = {"bureau": 2, "telechargements": 2, "autre": 1}
-        lot.sort(key=lambda f: (zone.get(f["role"], 0), f["chemin"].count("\\"), len(f["chemin"])))
+        def vrac(f):
+            return f["role"] in ("bureau", "telechargements") and f["dossier"].casefold() == (f["racine"] or "").casefold()
+        lot.sort(key=lambda f: (vrac(f), f["role"] == "telechargements", -f["chemin"].count("\\"), len(f["chemin"])))
         sortie.append({"taille": taille, "hash": h, "garder": lot[0], "autres": lot[1:]})
     sortie.sort(key=lambda g: -g["taille"] * len(g["autres"]))
     return sortie
@@ -172,7 +173,7 @@ def construire_plan(fichiers, racines, grp_doublons, aujourdhui):
             ajouter(f, "doublon", "%s\\doublons\\%s_%s" % (quarantaine, g["hash"][:8], f["nom"]),
                     "copie identique de %s" % g["garder"]["chemin"])
     for f in fichiers:
-        if f["nom"].casefold() in IGNORES or f["ext"] == "lnk":
+        if f["nom"].casefold() in IGNORES or f["ext"] in ("lnk", "url", "bat", "cmd"):
             continue
         if f["role"] == "telechargements" and f["cat"] == "Installeurs" and f["age"] > JOURS_INSTALLEUR:
             ajouter(f, "installeur", "%s\\installeurs\\%s" % (quarantaine, f["nom"]),
@@ -226,6 +227,24 @@ def poids_dossiers(fichiers):
             haut = rel.split("\\", 1)[0] if "\\" in rel else "(à la racine)"
             cumul["%s\\%s" % (f["racine"], haut) if haut != "(à la racine)" else f["racine"] + " (en vrac)"] += f["taille"]
     return cumul.most_common(10)
+
+
+SENSIBLES = re.compile(r"(credential|secret|token|api[_-]?key|\.env$|id_rsa|\.pem$|\.pfx$|\.p12$|\.kdbx$|\.pst$|password|mot ?de ?passe|\bmdp\b|"
+                       r"passeport|passport|carte.?d.?identit|\bcni\b|avis.?d.?imposition|\brib\b|\biban\b|\bsepa\b|mandat|\bkbis\b|acte.?de.?(naissance|d[eé]c[eè]s))", re.I)
+
+
+def sensibles_nuage(fichiers):
+    """Noms évoquant des secrets ou des pièces d'identité/bancaires dans un dossier synchronisé OneDrive."""
+    code = {"php", "js", "mjs", "css", "map", "ts", "tsx", "py", "pyc", "html", "htm", "md", "twig", "scss", "less", "svg", "po", "mo"}
+    bruit = ("\\vendor\\", "\\node_modules\\", "\\wp-includes\\", "\\wp-content\\", "\\site-packages\\")
+    sortie = []
+    for f in fichiers:
+        c = f["chemin"].casefold()
+        if f["git"] or "\\onedrive\\" not in c:
+            continue
+        if f["nom"].casefold() == "wp-config.php" or (f["ext"] not in code and not any(b in c for b in bruit) and SENSIBLES.search(f["nom"])):
+            sortie.append(f)
+    return sortie
 
 
 def apps_a_revoir(apps):
@@ -301,7 +320,7 @@ def rapport_blocs(inv, fichiers, racines, grp, plan, vides, bureau_dossiers, auj
         b.append(("table", ["Taille", "Copies", "Copie conservée", "Copies à mettre en quarantaine"],
                   [[taille_h(g["taille"]), str(len(g["autres"]) + 1), g["garder"]["chemin"], "; ".join(f["chemin"] for f in g["autres"][:3]) +
                     (" …" if len(g["autres"]) > 3 else "")] for g in grp[:15]], [1200, 900, 3600, 3900]))
-        b.append(("p", "La copie conservée est celle qui est la plus profondément rangée, hors Bureau et Téléchargements. "
+        b.append(("p", "La copie conservée est celle qui est rangée (hors vrac à la racine du Bureau ou de Téléchargements), la plus profonde en cas d'égalité. Seules les copies à la racine du Bureau, de Téléchargements ou de Documents sont déplacées. "
                   "Vérifie les cas où deux copies sont dans des dossiers de clients différents : l'identité du contenu ne dit pas laquelle fait foi."))
     else:
         b.append(("p", "Aucun doublon détecté. Si l'inventaire a été lancé avec -SansEmpreintes, cette analyse est vide par construction."))
@@ -316,6 +335,21 @@ def rapport_blocs(inv, fichiers, racines, grp, plan, vides, bureau_dossiers, auj
               "les ranger dans 90_Archives\\AAAA après ton coup d'œil, pas les supprimer sur la seule ancienneté."
               % (len(dormants), taille_h(sum(f["taille"] for f in dormants)), JOURS_ARCHIVE // 365)))
     b.append(("p", "%d dossiers vides détectés (liste dans stats.json) : suppression sans risque après vérification." % len(vides)))
+
+    # Sensibles
+    sens = sensibles_nuage(fichiers)
+    b.append(("h1", "Fichiers au nom sensible dans OneDrive"))
+    if sens:
+        b.append(("p", "%d fichiers dont le nom évoque un secret, une pièce d'identité ou un document bancaire sont dans un dossier synchronisé "
+                  "dans le nuage. Le contenu n'a pas été lu : un nom ne prouve rien, mais les fichiers de type credentials, clés et .pst sont "
+                  "à sortir de OneDrive d'abord." % len(sens)))
+        secret = re.compile(r"(credential|secret|token|api[_-]?key|\.env$|id_rsa|\.pem$|\.pfx$|\.p12$|\.kdbx$|\.pst$|wp-config|password|mot ?de ?passe|\bmdp\b)", re.I)
+        sens.sort(key=lambda f: (not secret.search(f["nom"]), f["chemin"]))
+        b.append(("table", ["Fichier", "Modifié"], [[f["chemin"], f["modifie"] or "?"] for f in sens[:60]], [8000, 1600]))
+        if len(sens) > 60:
+            b.append(("p", "%d autres fichiers du même type non listés." % (len(sens) - 60)))
+    else:
+        b.append(("p", "Aucun nom de ce type détecté."))
 
     # Nommage
     b.append(("h1", "6. Nommage"))
