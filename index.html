@@ -103,6 +103,13 @@
   .hero-grid { grid-template-columns: 1fr; gap: 34px }
   .portrait-frame { order: -1; max-width: 300px }
 }
+@media (max-width: 560px) {
+  .hero-grid { gap: 26px }
+  .portrait-frame { max-width: 150px }
+  .portrait-frame img { height: auto }
+  .portrait-frame::after { inset: 10px -10px -10px 10px }
+  .portrait-cap { margin-top: 14px; font-size: 0.78rem }
+}
 @media (max-width: 760px) {
   .berg { grid-template-columns: 1fr }
   .berg-half.above { border-right: none; border-bottom: 1px solid var(--rule-deep) }
