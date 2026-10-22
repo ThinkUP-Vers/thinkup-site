@@ -95,6 +95,12 @@
   .cookie-btn:hover { border-color: var(--accent); color: var(--accent) }
   .cookie-btn.primary { background: var(--accent); border-color: var(--accent); color: var(--paper) }
   .cookie-btn.primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--paper) }
+  @media (max-width: 560px) {
+    .cookie-banner { bottom: 8px; width: calc(100% - 16px); gap: 10px; padding: 10px 12px; flex-wrap: nowrap }
+    .cookie-banner p { flex: 1 1 0; min-width: 0; font-size: 0.76rem; line-height: 1.35 }
+    .cookie-actions { flex-direction: column; gap: 6px }
+    .cookie-btn { padding: 6px 14px; font-size: 0.8rem }
+  }
 
 /* L'accordeon de FAQ n'existait que sur Offres. Il sert desormais aussi sur
    l'accueil et sur Methode, dont les maquettes avaient perdu la FAQ que la
