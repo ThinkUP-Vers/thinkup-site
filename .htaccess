@@ -7,13 +7,15 @@ RewriteEngine On
 AddDefaultCharset UTF-8
 AddCharset UTF-8 .html .css .js .xml .txt
 
-# 1. Forcer HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-# 2. Forcer le non-www (canonique = https://think-up.fr)
+# 1. Forcer le non-www (canonique = https://think-up.fr), en http comme en https.
+# Placé AVANT la règle HTTPS : http://www passe ainsi par une seule redirection
+# au lieu de deux (http://www -> https://www -> https://think-up.fr).
 RewriteCond %{HTTP_HOST} ^www\.think-up\.fr$ [NC]
 RewriteRule ^ https://think-up.fr%{REQUEST_URI} [L,R=301]
+
+# 2. Forcer HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # 2b. Rediriger l'ancienne arborescence /thinkup-site/ vers la racine
 RewriteRule ^thinkup-site/?$ https://think-up.fr/ [L,R=301]
