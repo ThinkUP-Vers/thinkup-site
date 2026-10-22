@@ -158,6 +158,8 @@ def construire_plan(fichiers, racines, grp_doublons, aujourdhui):
     def ajouter(f, type_, dest, raison):
         # Seuls les fichiers posés à la racine d'un dossier suivi sont déplacés : les sous-dossiers
         # (projets, archives décompressées) se décident à la main, sinon on les casse.
+        if SECRET_FICHIER.match(f["nom"]):
+            return  # traité par le plan de sécurité, jamais par le plan général
         if f["chemin"] in pris or f["age"] < JOURS_RECENT or f["git"] or f["dossier"].casefold() != (f["racine"] or "").casefold():
             return
         pris.add(f["chemin"])
@@ -184,6 +186,26 @@ def construire_plan(fichiers, racines, grp_doublons, aujourdhui):
             ajouter(f, "telechargement", "%s\\Telechargements\\%s\\%s" % (a_trier, f["cat"], f["nom"]),
                     "téléchargement de plus de %d jours" % JOURS_VIEUX_TELECH)
     return plan, quarantaine, a_trier
+
+
+def plan_securite(fichiers, racines):
+    """Secrets (jetons, clés) hors OneDrive et Téléchargements ; .pst hors OneDrive. Déplacements seulement."""
+    dl = racine_de(racines, "telechargements")
+    profil = norm(str(PureWindowsPath(dl).parent)) if dl else "C:\\Users"
+    bruit = ("\\vendor\\", "\\node_modules\\", "\\wp-includes\\", "\\wp-content\\", "\\site-packages\\")
+    plan = []
+    for f in fichiers:
+        c = f["chemin"].casefold()
+        if f["git"] or any(b in c for b in bruit):
+            continue
+        dans_nuage = "\\onedrive\\" in c
+        if SECRET_FICHIER.match(f["nom"]) and (dans_nuage or f["role"] == "telechargements"):
+            plan.append({"type": "secret", "source": f["chemin"], "destination": "%s\\.secrets\\a-classer\\%s_%s" % (profil, f["modifie"], f["nom"]),
+                         "taille": f["taille"], "raison": "secret ou clé hors dossier synchronisé"})
+        elif f["ext"] == "pst" and dans_nuage:
+            plan.append({"type": "pst", "source": f["chemin"], "destination": "%s\\Sauvegardes-locales\\pst\\%s" % (profil, f["nom"]),
+                         "taille": f["taille"], "raison": "archive Outlook : à garder hors OneDrive (Outlook fermé)"})
+    return plan
 
 
 def dossiers_vides(inv, fichiers):
@@ -231,6 +253,9 @@ def poids_dossiers(fichiers):
 
 SENSIBLES = re.compile(r"(credential|secret|token|api[_-]?key|\.env$|id_rsa|\.pem$|\.pfx$|\.p12$|\.kdbx$|\.pst$|password|mot ?de ?passe|\bmdp\b|"
                        r"passeport|passport|carte.?d.?identit|\bcni\b|avis.?d.?imposition|\brib\b|\biban\b|\bsepa\b|mandat|\bkbis\b|acte.?de.?(naissance|d[eé]c[eè]s))", re.I)
+
+
+SECRET_FICHIER = re.compile(r"^(credentials?([ _-]?\(\d+\))?\.json|token([ _-]?\(\d+\))?\.json|client_secrets?\.json|\.env|id_rsa|id_ed25519|.*\.(pem|pfx|p12|kdbx|key))$", re.I)
 
 
 def sensibles_nuage(fichiers):
@@ -559,11 +584,19 @@ def commande_analyser(args):
         w.writeheader()
         w.writerows(plan)
     (sortie / "appliquer-plan.ps1").write_text(PS_APPLIQUER, encoding="ascii")
+    securite = plan_securite(fichiers, racines)
+    if securite:
+        (sortie / "securite").mkdir(exist_ok=True)
+        with open(sortie / "securite" / "plan.csv", "w", encoding="utf-8-sig", newline="") as fh:
+            w = csv.DictWriter(fh, fieldnames=["type", "source", "destination", "taille", "raison"])
+            w.writeheader()
+            w.writerows(securite)
+        (sortie / "securite" / "appliquer-plan.ps1").write_text(PS_APPLIQUER, encoding="ascii")
     (sortie / "stats.json").write_text(json.dumps({
         "fichiers": len(fichiers), "plan": len(plan), "doublons_groupes": len(grp), "dossiers_vides": vides[:200],
         "quarantaine": quarantaine, "a_trier": a_trier}, ensure_ascii=False, indent=1), encoding="utf-8")
-    print("OK : %d fichiers analysés, %d déplacements proposés, %d groupes de doublons, %d dossiers vides -> %s"
-          % (len(fichiers), len(plan), len(grp), len(vides), sortie))
+    print("OK : %d fichiers analysés, %d déplacements proposés, %d groupes de doublons, %d dossiers vides, %d déplacements de sécurité -> %s"
+          % (len(fichiers), len(plan), len(grp), len(vides), len(securite), sortie))
 
 
 def main():
