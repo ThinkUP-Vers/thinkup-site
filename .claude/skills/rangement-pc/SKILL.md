@@ -46,7 +46,7 @@ Si Patrick n'a pas encore d'inventaire récent (moins de 7 jours) :
    1. Sur la carte du fichier, clic sur Enregistrer, choisir Téléchargements. Résultat : `inventaire.ps1` dans Téléchargements.
    2. Clic droit sur le fichier, Propriétés, cocher « Débloquer » en bas, OK. Résultat : Windows ne bloque plus le script.
    3. Menu Démarrer, taper `PowerShell`, Entrée. Résultat : une fenêtre bleue s'ouvre.
-   4. Taper `powershell -ExecutionPolicy Bypass -File ` (avec l'espace final), puis glisser le fichier `inventaire.ps1` dans la fenêtre, puis Entrée. Résultat : « Parcours en cours ».
+   4. Coller en UNE SEULE ligne (jamais de retour à la ligne : il fait échouer `-File`) : `powershell -ExecutionPolicy Bypass -File "<chemin complet>\inventaire.ps1"`. Le chemin complet se trouve avec `Get-ChildItem -Path $HOME -Recurse -Filter inventaire.ps1 -ErrorAction SilentlyContinue | Select-Object FullName` (Documents est souvent dans OneDrive : `C:\Users\<nom>\OneDrive\Documents`). Un fichier téléchargé peut être refusé en lecture (« accès refusé ») alors que sa copie faite depuis l'Explorateur passe : copier le fichier (ou le dossier) vers un dossier local, par exemple `C:\Users\<nom>\etape 1`, et lancer la copie. Résultat : « Parcours en cours ».
    5. Attendre la ligne « Terminé en N min » (de quelques minutes à une demi-heure selon le volume ; ne pas fermer la fenêtre). Résultat : l'Explorateur s'ouvre sur `inventaire-AAAA-MM-JJ.zip`.
    6. Glisser ce `.zip` dans la conversation.
    Si `$ARGUMENTS` contient un dossier : ajouter `-RacinesSupplementaires "<dossier>"` à la commande de l'étape 4.
@@ -94,6 +94,18 @@ Avant de livrer :
 3. Proposer d'office une seconde version du rapport (livrable important) après ses retours sur le plan.
 4. Après exécution par Patrick : proposer une nouvelle passe dans un mois pour mesurer ce qui s'est
    re-rempli.
+
+## Enseignements du premier passage (22/10/2026)
+
+- Le Bureau et Documents de Patrick sont dans OneDrive : l'inventaire doit parcourir les fichiers « à la demande »
+  (attribut ReparsePoint), sinon il est faux. Vérifier la ligne « éléments ignorés » du rapport.
+- Faire exécuter par étapes, chacune dans son dossier : 0 sécurité (secrets, `.pst`), 1 doublons et installeurs,
+  2 téléchargements anciens, 3 dossiers du Bureau, 4 tri thématique par nom. Une simulation puis `-Appliquer`,
+  `-Annuler` en retour arrière. Ne jamais demander de trier un plan ligne par ligne.
+- Les destinations vont hors OneDrive (`C:\Users\<nom>\Rangement`) sauf le tri thématique, qui range vers les
+  dossiers d'entité. OneDrive doit tourner : un dossier « en ligne uniquement » ne se déplace pas sans lui.
+- Hors script, toujours rappeler : révoquer les jetons et clients OAuth trouvés (un déplacement ne suffit pas, la
+  corbeille OneDrive les garde ~30 jours), sortir les dépôts git de OneDrive, supprimer la quarantaine après 30 jours.
 
 ## Contrôle de non-régression
 
