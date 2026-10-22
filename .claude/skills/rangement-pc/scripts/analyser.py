@@ -255,7 +255,7 @@ SENSIBLES = re.compile(r"(credential|secret|token|api[_-]?key|\.env$|id_rsa|\.pe
                        r"passeport|passport|carte.?d.?identit|\bcni\b|avis.?d.?imposition|\brib\b|\biban\b|\bsepa\b|mandat|\bkbis\b|acte.?de.?(naissance|d[eé]c[eè]s))", re.I)
 
 
-SECRET_FICHIER = re.compile(r"^(credentials?([ _-]?\(\d+\))?\.json|token([ _-]?\(\d+\))?\.json|client_secrets?\.json|\.env|id_rsa|id_ed25519|.*\.(pem|pfx|p12|kdbx|key))$", re.I)
+SECRET_FICHIER = re.compile(r"^(credentials?([ _-]?\(\d+\))?\.json|token([ _-]?\(\d+\))?\.json|client_secrets?[^\\]*\.json|\.env|id_rsa|id_ed25519|.*\.(pem|pfx|p12|kdbx|key))$", re.I)
 
 
 def sensibles_nuage(fichiers):
