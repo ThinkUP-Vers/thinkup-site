@@ -265,3 +265,16 @@ python3 .claude/skills/improve-system/scripts/analyser.py rapport .claude/skills
 python3 .claude/skills/improve-system/scripts/analyser.py extraire --cloud .claude/skills/improve-system/exemple/cloud --aujourdhui 2026-10-21 --sortie /tmp/improve-test-cloud
 python3 .claude/skills/improve-system/scripts/analyser.py rapport .claude/skills/improve-system/exemple/propositions-cloud.json --signaux /tmp/improve-test-cloud/signaux.json --sortie /tmp/improve-test-cloud/rapports
 ```
+
+## Outil visibilite-site : audit SEO et GEO, plan d'actions
+
+L'agent `visibilite-site` (`.claude/agents/`, lancé par le skill `/visibilite-site`) audite le référencement et
+la visibilité dans les réponses des IA, priorise au plus 10 actions et applique celles qui touchent le dépôt.
+Outils gratuits ou open source uniquement ; aucun envoi, inscription ni publication (Buffer, Yadulink, mails) sans
+l'accord de Patrick : il rédige des brouillons. Il ne touche pas aux pages juridiques (règle méta-agent ci-dessus).
+Le dépôt est public : aucun nom de client ni donnée de session dans ses fichiers. Contrôle de non-régression
+(aucun constat `[haute]` attendu) :
+
+```
+python3 -I .claude/skills/visibilite-site/scripts/controle_seo.py
+```
