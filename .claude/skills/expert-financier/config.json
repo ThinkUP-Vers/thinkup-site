@@ -1,0 +1,42 @@
+{
+  "_lisez_moi": "Paramètres par défaut de l'expert financier. Aucun secret ni donnée personnelle ici (dépôt public) : les frais réels du courtier, les dates d'ouverture du PEA et de l'assurance-vie vont dans finance/config.local.json (ignoré par git), qui surcharge ce fichier clé par clé. Les règles de risque ne changent que sur décision de Patrick, jamais par l'auto-amélioration.",
+  "budgets": [1000, 5000, 10000],
+  "seuil_perte_max": 0.75,
+  "proba_max_plancher": 0.05,
+  "risque_max_par_ligne": {"court": 0.02, "moyen": 0.05, "long": null},
+  "poids_max_levier": 0.10,
+  "horizons_jours": {"court": 60, "moyen": 365, "long": 1826},
+  "taux_sans_risque": {
+    "valeur": 0.025,
+    "libelle": "taux de la facilité de dépôt de la BCE",
+    "verifie_le": "2026-10-23",
+    "source": "sources secondaires concordantes (hausse au 16/09/2026) ; prochaine réunion BCE le 29/10/2026 : à revérifier"
+  },
+  "courtier": {
+    "nom": "grille générique prudente, à remplacer par celle du courtier de Patrick",
+    "frais_fixes": 1.0,
+    "frais_pct": 0.002,
+    "frais_min": 0.0,
+    "spread": 0.001,
+    "verifie_le": null
+  },
+  "ttf": {
+    "taux": 0.004,
+    "champ": "achats d'actions de sociétés françaises de plus d'un milliard d'euros de capitalisation (liste annuelle BOFiP)",
+    "verifie_le": "2026-10-23",
+    "source": "taux de 0,4 % depuis le 01/04/2025 ; liste 2026 publiée au BOFiP le 17/12/2025"
+  },
+  "fiscalite": {
+    "verifie_le": "2026-10-23",
+    "source": "LFSS 2026 (loi n° 2025-1403 du 30/12/2025) : CSG portée de 9,2 % à 10,6 % sur les revenus du capital ; sources secondaires concordantes, texte officiel à relire avant toute décision fiscale",
+    "CTO": {"taux": 0.314, "note": "PFU : 12,8 % d'impôt + 18,6 % de prélèvements sociaux"},
+    "PEA": {"avant_5_ans": 0.314, "apres_5_ans": 0.186, "note": "le délai de 5 ans court depuis l'ouverture du plan (pea_ouvert_le), pas depuis l'achat"},
+    "AV": {"avant_8_ans": 0.30, "apres_8_ans": 0.172, "note": "après 8 ans, 17,2 % de prélèvements sociaux seuls tant que le gain reste sous l'abattement annuel (4 600 € par personne) ; au-delà, 7,5 % d'impôt en plus"},
+    "pea_ouvert_le": null,
+    "av_ouverte_le": null
+  },
+  "simulation": {"chemins": 2000, "bloc_jours": 20, "graine": 7, "historique_min_annees": 3},
+  "backtest": {"entrainement_jours": 756, "test_jours": 252},
+  "types_autorises": ["action", "etf", "fonds", "obligation", "matiere_premiere", "devise", "crypto", "produit_levier", "indice", "liquidites"],
+  "types_interdits": ["cfd", "future", "option_vendue", "vente_decouvert", "forex_marge"]
+}

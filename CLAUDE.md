@@ -227,6 +227,35 @@ l'application garde l'ancienne version :
 python3 .claude/skills/agence-voyage/scripts/paquet_app.py --sortie /tmp/agence-voyage-app
 ```
 
+## Outil expert-financier : analyse, stratégie par horizon et par budget, journal des prévisions
+
+Le skill `expert-financier` (`.claude/skills/expert-financier/`, invocable par `/expert-financier`) est l'expert
+financier personnel de Patrick, à son seul usage : il analyse un marché ou un instrument (action, ETF, obligation,
+matière première, devise, crypto-actif), recense les événements exogènes avec une parade décidée à l'avance, teste
+des modèles hors échantillon et construit une stratégie court, moyen et long terme pour 1 000, 5 000 et 10 000 €.
+Tous les chiffres viennent de `scripts/finance.py` (numpy requis). Il peut lancer en parallèle l'agent
+`veille-marche` (un par instrument) : cela fait partie de l'outil, la règle méta-agent ne s'y applique pas. Il ne
+passe aucun ordre.
+
+Règles fixées par Patrick dans `config.json`, que l'auto-amélioration ne touche jamais : plancher de perte de 75 %
+de la mise, stratégie refusée si la probabilité de l'atteindre dépasse 5 %, produits à perte supérieure à la mise
+interdits. L'auto-amélioration passe par un journal de prévisions chiffrées, notées à l'échéance contre un modèle
+statistique (score de Brier), et par des leçons que Patrick valide.
+
+Le dépôt est PUBLIC : analyses, positions, frais réels du courtier et journal vivent dans `finance/`, ignoré par
+git — ne jamais le committer, ni le forcer avec `git add -f` ; `finance.py init` refuse un dossier non ignoré. La
+mémoire d'une session cloud à l'autre passe par le dossier Drive « Finance » ou par `finance.py archiver`. Le réseau
+de l'environnement cloud bloque au 23/10/2026 les sources de cours (Yahoo, Stooq, FRED) : import CSV en attendant
+que Patrick autorise les domaines (`references/donnees.md`). Contrôle de non-régression (données synthétiques) :
+
+```
+rm -rf /tmp/finance-test
+python3 .claude/skills/expert-financier/scripts/finance.py backtest .claude/skills/expert-financier/exemple --aujourdhui 2025-10-01 --journal /tmp/finance-test
+python3 .claude/skills/expert-financier/scripts/finance.py construire .claude/skills/expert-financier/exemple --final --aujourdhui 2025-10-01 --journal /tmp/finance-test
+python3 .claude/skills/expert-financier/scripts/finance.py evaluer --journal /tmp/finance-test --aujourdhui 2026-10-22
+python3 .claude/skills/expert-financier/scripts/finance.py bilan --journal /tmp/finance-test --aujourdhui 2026-10-22
+```
+
 ## Poste de Patrick : instructions utilisables depuis Windows
 
 Patrick travaille sous Windows, dans l'application de bureau Claude Code, en environnement Cloud. Le

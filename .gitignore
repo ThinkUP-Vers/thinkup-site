@@ -22,3 +22,10 @@ voyages/
 
 # Anciennes listes de prospects (noms de dirigeants, dépôt PUBLIC, ne jamais versionner)
 prospection/
+
+# Outil expert-financier : analyses, positions, journal des prévisions (données personnelles, dépôt PUBLIC)
+finance/
+.claude/skills/expert-financier/exemple/livrables/
+.claude/skills/expert-financier/exemple/calculs.json
+.claude/skills/expert-financier/exemple/backtest.json
+.claude/skills/expert-financier/exemple/analyse-quant.json

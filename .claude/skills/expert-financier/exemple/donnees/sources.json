@@ -1,0 +1,5 @@
+{
+  "donnees/action-x.csv": {"source": "série générée pour l'exemple (aucun marché réel)", "recupere_le": "2026-10-23", "synthetique": true},
+  "donnees/indice-monde.csv": {"source": "série générée pour l'exemple (aucun marché réel)", "recupere_le": "2026-10-23", "synthetique": true},
+  "donnees/obligations.csv": {"source": "série générée pour l'exemple (aucun marché réel)", "recupere_le": "2026-10-23", "synthetique": true}
+}

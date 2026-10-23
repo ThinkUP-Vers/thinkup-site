@@ -1,0 +1,275 @@
+{
+  "meta": {
+    "reference": "2025-10-01-action-x",
+    "date": "2025-10-01",
+    "demande": "EXEMPLE FICTIF sur données synthétiques : analyser l'action X et proposer une stratégie court, moyen et long terme pour 1 000, 5 000 et 10 000 €.",
+    "statut": "final"
+  },
+  "parametres": {
+    "enveloppe": "PEA",
+    "fiscalite": {
+      "pea_ouvert_le": "2019-03-01"
+    }
+  },
+  "instrument": {
+    "nom": "Action X (synthétique)",
+    "type": "action",
+    "symbole": "X.PA",
+    "isin": "",
+    "place": "Euronext Paris (fictif)",
+    "devise": "EUR",
+    "eligible_pea": true,
+    "fichier": "donnees/action-x.csv",
+    "prix": 216.54,
+    "prix_date": "2025-10-01",
+    "prix_source": "série synthétique de l'exemple"
+  },
+  "reference_passive": {
+    "nom": "ETF monde (synthétique)",
+    "fichier": "donnees/indice-monde.csv"
+  },
+  "analyse": {
+    "these": "Action X a perdu la moitié de sa valeur en trois ans et reste sous sa moyenne mobile à 200 jours : la tendance de fond est baissière. La valorisation redevient raisonnable, mais rien ne prouve encore le retournement. D'où une exposition limitée à X, encadrée par des stops, et un cœur de portefeuille en ETF monde pour le long terme.",
+    "fondamental": [
+      {
+        "point": "Chiffre d'affaires en hausse de 6 % sur un an, marge opérationnelle stable à 18 %.",
+        "source": "exemple fictif",
+        "date": "2025-09-15"
+      },
+      {
+        "point": "Endettement net de 1,2 fois l'excédent brut d'exploitation, sans échéance lourde avant 2028.",
+        "source": "exemple fictif",
+        "date": "2025-09-15"
+      }
+    ],
+    "valorisation": [
+      {
+        "indicateur": "PER des 12 prochains mois",
+        "valeur": "13",
+        "comparaison": "moyenne sur 10 ans : 18",
+        "source": "exemple fictif",
+        "date": "2025-09-30"
+      },
+      {
+        "indicateur": "Rendement du dividende",
+        "valeur": "2,1 %",
+        "comparaison": "secteur : 2,6 %",
+        "source": "exemple fictif",
+        "date": "2025-09-30"
+      }
+    ],
+    "technique": "Cours sous la moyenne mobile à 200 jours mais au-dessus de celle à 50 jours : rebond de court terme dans une tendance baissière, momentum 12 mois négatif. Hors échantillon, le suivi de tendance a ramené la perte maximale de -62 % à -37 % pour un rendement un peu inférieur : c'est le signal attendu pour renforcer X (retour au-dessus de la moyenne mobile à 200 jours, vers 241 €).",
+    "premortem": [
+      "La baisse de trois ans peut refléter une dégradation durable de l'activité (piège de valeur) et non un excès de marché.",
+      "Avec un bêta de 1,3, l'action amplifie toute baisse du marché en cas de ralentissement mondial.",
+      "Les stops serrés du court terme peuvent être déclenchés par du simple bruit de marché, avec des frais à chaque aller-retour."
+    ]
+  },
+  "evenements": [
+    {
+      "evenement": "Réunion de politique monétaire de la banque centrale",
+      "date": "2025-10-30",
+      "type": "banque_centrale",
+      "probabilite": "certaine",
+      "sens": "incertain",
+      "ampleur_estimee": "±3 %",
+      "parade": "aucune entrée nouvelle la veille ; stops maintenus",
+      "source": "exemple fictif",
+      "verifie_le": "2025-10-01"
+    },
+    {
+      "evenement": "Publication des résultats annuels de X",
+      "date": "2026-02-12",
+      "type": "resultats",
+      "probabilite": "certaine",
+      "sens": "incertain",
+      "ampleur_estimee": "±8 %",
+      "parade": "ligne court terme soldée avant la publication",
+      "source": "exemple fictif",
+      "verifie_le": "2025-10-01"
+    },
+    {
+      "evenement": "Hausse des droits de douane sur le secteur de X",
+      "date": "",
+      "type": "geopolitique",
+      "probabilite": "moyenne",
+      "sens": "baisse",
+      "ampleur_estimee": "-10 à -20 %",
+      "parade": "pas de renforcement sur la ligne X tant que le risque n'est pas levé ; le stop moyen terme fait le reste",
+      "source": "exemple fictif",
+      "verifie_le": "2025-10-01"
+    }
+  ],
+  "scenarios": [
+    {
+      "nom": "Central",
+      "probabilite": 0.55,
+      "rendement": 0.08,
+      "description": "croissance modeste, taux stables"
+    },
+    {
+      "nom": "Haussier",
+      "probabilite": 0.2,
+      "rendement": 0.25,
+      "description": "reprise industrielle et baisse des taux"
+    },
+    {
+      "nom": "Baissier",
+      "probabilite": 0.25,
+      "rendement": -0.2,
+      "description": "récession ou choc tarifaire"
+    }
+  ],
+  "strategies": {
+    "court": {
+      "objectif": "Pari de rebond court, risque limité à 2 % du budget.",
+      "horizon_jours": 60,
+      "entree": "achat au cours de référence tant que le cours reste au-dessus de sa moyenne mobile à 50 jours",
+      "invalidation": "clôture sous la moyenne mobile à 50 jours ou stop atteint",
+      "sortie": "objectif atteint, stop, ou au plus tard la veille des résultats",
+      "lignes": [
+        {
+          "nom": "Action X",
+          "type": "action",
+          "fichier": "donnees/action-x.csv",
+          "poids": 0.25,
+          "prix": 216.54,
+          "stop": 0.08,
+          "objectif": 0.16,
+          "ttf": true
+        }
+      ],
+      "liquidites": 0.75
+    },
+    "moyen": {
+      "objectif": "Exposition réduite à X adossée à l'ETF monde ; liquidités gardées pour renforcer X si sa tendance se retourne.",
+      "horizon_jours": 365,
+      "entree": "lignes ouvertes tout de suite ; renfort de X avec les liquidités seulement au-dessus de sa moyenne mobile à 200 jours",
+      "invalidation": "résultats annuels sous le consensus et marge en recul",
+      "sortie": "stop suiveur de 12 % sur chaque ligne",
+      "lignes": [
+        {
+          "nom": "Action X",
+          "type": "action",
+          "fichier": "donnees/action-x.csv",
+          "poids": 0.25,
+          "prix": 216.54,
+          "stop": 0.12,
+          "stop_suiveur": true,
+          "objectif": 0.3,
+          "ttf": true
+        },
+        {
+          "nom": "ETF monde",
+          "type": "etf",
+          "fichier": "donnees/indice-monde.csv",
+          "poids": 0.4,
+          "prix": 513.83,
+          "stop": 0.12,
+          "stop_suiveur": true,
+          "fractionnable": true
+        }
+      ],
+      "liquidites": 0.35
+    },
+    "long": {
+      "objectif": "Cœur de portefeuille diversifié, rééquilibré chaque année, sans stop.",
+      "horizon_jours": 1826,
+      "enveloppe": "CTO",
+      "entree": "achat en une fois (l'étalement réduit le regret, pas le risque)",
+      "invalidation": "aucune sur le cœur ; revue annuelle des poids",
+      "reequilibrage_annuel": true,
+      "lignes": [
+        {
+          "nom": "ETF monde",
+          "type": "etf",
+          "fichier": "donnees/indice-monde.csv",
+          "poids": 0.6,
+          "prix": 513.83,
+          "fractionnable": true
+        },
+        {
+          "nom": "ETF obligations",
+          "type": "etf",
+          "fichier": "donnees/obligations.csv",
+          "poids": 0.25,
+          "prix": 143.56
+        },
+        {
+          "nom": "Action X",
+          "type": "action",
+          "fichier": "donnees/action-x.csv",
+          "poids": 0.15,
+          "prix": 216.54,
+          "ttf": true
+        }
+      ],
+      "liquidites": 0.0
+    }
+  },
+  "previsions": [
+    {
+      "id": "P1",
+      "horizon": "court",
+      "enonce": "Action X clôture au-dessus de 225 € le 1er décembre 2025",
+      "symbole": "X.PA",
+      "fichier": "donnees/action-x.csv",
+      "echeance": "2025-12-01",
+      "condition": {
+        "type": "au_dessus",
+        "seuil": 225
+      },
+      "probabilite": 0.4,
+      "strategie": "court"
+    },
+    {
+      "id": "P2",
+      "horizon": "moyen",
+      "enonce": "Action X au-dessus de son cours actuel (216,54 €) le 1er octobre 2026",
+      "symbole": "X.PA",
+      "fichier": "donnees/action-x.csv",
+      "echeance": "2026-10-01",
+      "condition": {
+        "type": "au_dessus",
+        "seuil": 216.54
+      },
+      "probabilite": 0.55,
+      "strategie": "moyen"
+    },
+    {
+      "id": "P3",
+      "horizon": "moyen",
+      "enonce": "ETF monde sous 470 € le 1er avril 2026",
+      "symbole": "MONDE",
+      "fichier": "donnees/indice-monde.csv",
+      "echeance": "2026-04-01",
+      "condition": {
+        "type": "en_dessous",
+        "seuil": 470
+      },
+      "probabilite": 0.15,
+      "strategie": "moyen"
+    },
+    {
+      "id": "P4",
+      "horizon": "long",
+      "enonce": "ETF monde au-dessus de 513,83 € le 1er octobre 2030",
+      "symbole": "MONDE",
+      "fichier": "donnees/indice-monde.csv",
+      "echeance": "2030-10-01",
+      "condition": {
+        "type": "au_dessus",
+        "seuil": 513.83
+      },
+      "probabilite": 0.75,
+      "strategie": "long"
+    }
+  ],
+  "recommandation": "Avec 1 000 €, s'en tenir à la stratégie long terme : la ligne court terme coûte plus de 1 % en frais par ordre. À partir de 5 000 €, les trois horizons sont praticables ; le court terme reste un satellite, jamais le cœur.",
+  "suivi": [
+    "Alertes de cours à poser chez le courtier aux niveaux de stop et d'objectif du tableau des lignes.",
+    "Revue le 30 octobre (banque centrale) et la veille des résultats annuels.",
+    "Évaluation des prévisions à chaque échéance (finance.py evaluer)."
+  ],
+  "lecons_appliquees": []
+}
