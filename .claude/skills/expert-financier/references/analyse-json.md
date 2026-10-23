@@ -33,7 +33,7 @@ sensibilité à un point de taux.
 
 ## reference_passive
 
-`nom` et `fichier` de l'ETF large auquel chaque stratégie est comparée (monde, ou indice du marché
+`nom`, `fichier` et `classe` (par défaut `actions`) de l'ETF large auquel chaque stratégie est comparée (monde, ou indice du marché
 étudié). Obligatoire en pratique : sans lui, la note ne dit pas si la stratégie vaut l'effort.
 
 ## analyse
@@ -76,14 +76,25 @@ Ligne : `nom`, `type`, `fichier` (ou `proxy` : série de substitution déclarée
 de référence, pour les quantités et les niveaux), `stop` (perte depuis l'entrée qui déclenche la
 sortie ; obligatoire en court et moyen terme), `stop_suiveur` (le stop suit le plus haut atteint),
 `objectif` (gain qui déclenche la prise de bénéfice), `ttf` (`true` pour une action française de plus
-d'un milliard de capitalisation), `fractionnable` (`true` si le courtier vend des fractions de part).
+d'un milliard de capitalisation), `fractionnable` (`true` si le courtier vend des fractions de part),
+`classe` (`actions`, `obligations`, `immobilier`, `monetaire`, `matieres_premieres`, `devises`,
+`crypto` ; obligatoire pour un ETF, un fonds ou un indice, déduite du type sinon : elle fixe la prime
+de risque du cas central), `levier` (obligatoire pour un `produit_levier`, entre 1 et 20).
 
 ## previsions[]
 
 `{id, horizon, enonce, symbole, fichier, echeance, condition: {type: au_dessus|en_dessous, seuil},
-probabilite, strategie}`. `prix_reference` facultatif (par défaut, le dernier cours de la série).
+probabilite, strategie}`. `prix_reference` facultatif (par défaut, le dernier cours de la série) ;
+`classe` facultative (par défaut, celle de la ligne ou de l'instrument qui partage le fichier).
 L'énoncé doit être tranché à l'échéance sans discussion possible : un cours de clôture, un seuil, une
 date. Probabilité entre 0,01 et 0,99.
+
+## repartition (facultatif)
+
+Répartition recommandée de chaque budget entre les horizons, parts sommant à 1 :
+`{"1000": {"long": 1.0}, "5000": {"long": 0.8, "moyen": 0.2}}`. La note la présente en montants.
+Chaque stratégie reste simulée sur la totalité du budget : pour une poche de 1 000 € dans un budget
+de 5 000 €, lire la ligne 1 000 € de la stratégie concernée.
 
 ## recommandation, suivi[], lecons_appliquees[]
 

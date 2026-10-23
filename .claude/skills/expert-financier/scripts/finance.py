@@ -252,8 +252,8 @@ def nombre(texte):
     return v if math.isfinite(v) else None
 
 
-def normaliser_csv(texte, colonne=None):
-    """Lit un CSV d'origine quelconque ; renvoie [(date, cours)] croissant, sans doublon."""
+def normaliser_csv(texte, colonne=None, positif=True):
+    """Lit un CSV d'origine quelconque ; renvoie ([(date, valeur)] croissant sans doublon, colonne retenue)."""
     texte = texte.lstrip("﻿")
     echantillon = texte[:4096]
     try:
@@ -295,11 +295,11 @@ def normaliser_csv(texte, colonne=None):
     serie = {}
     for d, (_, v) in zip(choix, brutes):
         x = nombre(v)
-        if x is not None and x > 0:
+        if x is not None and (x > 0 or not positif):
             serie[d] = x
     if len(serie) < 2:
         sortir("aucun cours exploitable")
-    return sorted(serie.items())
+    return sorted(serie.items()), lignes[0][i_prix].strip()
 
 
 def ecrire_serie(chemin, points):
@@ -344,16 +344,17 @@ def telecharger(source, symbole, debut):
                 or res["indicators"]["quote"][0]["close"]
             points = {dt.datetime.fromtimestamp(t + decalage, dt.timezone.utc).date(): float(v)
                       for t, v in zip(res["timestamp"], cours) if v}
+            ajuste = bool((res["indicators"].get("adjclose") or [{}])[0].get("adjclose"))
         except (KeyError, IndexError, TypeError, json.JSONDecodeError):
             sortir(f"réponse Yahoo inattendue pour {symbole} (symbole inconnu ou format changé)")
-        return sorted(points.items()), "Yahoo Finance (API chart non officielle), cours ajustés des dividendes"
+        return sorted(points.items()), "Yahoo Finance (API chart non officielle)", ajuste
     if source == "stooq":
         url = f"https://stooq.com/q/d/l/?s={urllib.parse.quote(symbole.lower())}&i=d&d1={debut:%Y%m%d}"
-        return normaliser_csv(http(url)), "Stooq (CSV quotidien)"
+        return normaliser_csv(http(url))[0], "Stooq (CSV quotidien)", None
     if source == "fred":
         url = (f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={urllib.parse.quote(symbole)}"
                f"&cosd={debut.isoformat()}")
-        return normaliser_csv(http(url)), "FRED, Federal Reserve Bank of St. Louis"
+        return normaliser_csv(http(url), positif=False)[0], "FRED, Federal Reserve Bank of St. Louis", None
     sortir(f"source inconnue : {source}")
 
 
@@ -575,6 +576,9 @@ def charger_modeles(dossiers, R):
             mod = importlib.util.module_from_spec(spec)
             try:
                 spec.loader.exec_module(mod)
+                if mod.NOM in STRATEGIES or mod.NOM in modeles:
+                    R.erreur(f"modèle {f} : le nom {mod.NOM} est déjà pris, modèle ignoré")
+                    continue
                 modeles[mod.NOM] = {"fn": mod.expositions, "grille": list(mod.GRILLE) or [{}],
                                     "horizons": list(mod.HORIZONS), "libelle": mod.LIBELLE, "fichier": str(f)}
             except Exception as e:  # un modèle cassé ne doit pas bloquer les autres
@@ -752,10 +756,32 @@ def bloc_effectif(H, cfg):
     return max(cfg["simulation"]["bloc_jours"], min(126, H // 10))
 
 
-def ajuster_derive(lr, mode, rf):
+CLASSE_PAR_TYPE = {"action": "actions", "obligation": "obligations", "matiere_premiere": "matieres_premieres",
+                   "devise": "devises", "crypto": "crypto", "liquidites": "monetaire", "produit_levier": "monetaire"}
+MODES = ("central", "neutre", "historique")
+
+
+def classe_de(element, cfg):
+    """Classe d'actif d'une ligne : explicite, sinon déduite du type (None si indéterminable : ETF, fonds, indice)."""
+    c = element.get("classe") or CLASSE_PAR_TYPE.get(element.get("type"))
+    return c if c in cfg["primes_de_risque"] else None
+
+
+def ajuster_derive(lr, mode, rf, primes=None):
+    """Recentre la tendance de chaque colonne : en valeur médiane, chaque actif croît au taux sans risque
+    (neutre), au taux sans risque plus la prime prudente de sa classe (central), ou garde sa tendance passée."""
     if mode == "historique":
         return lr
-    return lr - lr.mean(axis=0) + math.log1p(rf) / JOURS_BOURSE
+    primes = np.zeros(lr.shape[1]) if mode == "neutre" or primes is None else np.asarray(primes, dtype=float)
+    return lr - lr.mean(axis=0) + np.log1p(rf + primes) / JOURS_BOURSE
+
+
+def appliquer_levier(lr, leviers):
+    """Produit à levier quotidien constant (approximation) : rendement simple multiplié, perte bornée à la mise."""
+    if all(l == 1 for l in leviers):
+        return lr
+    r = np.expm1(lr) * np.asarray(leviers, dtype=float)
+    return np.log1p(np.maximum(r, -0.9999))
 
 
 def simuler(lr, idx, lignes, alloc, liquidites, budget, cfg, rf, reequilibrage, lr_ref=None):
@@ -794,10 +820,11 @@ def simuler(lr, idx, lignes, alloc, liquidites, budget, cfg, rf, reequilibrage, 
             val = np.where(sortie, 0.0, val)
             ouvert = ouvert & ~sortie
         if reequilibrage and (t + 1) % JOURS_BOURSE == 0 and t + 1 < H:
-            complet = ouvert.all(axis=1) & ~touche
+            # Lignes infaisables pour ce budget (montant nul) hors du rééquilibrage : leur part reste en liquidités.
+            complet = (ouvert | (m0 <= 0)).all(axis=1) & ~touche
             if complet.any():
                 V = val.sum(axis=1) + cash
-                cible = V[:, None] * poids_cible[None, :]
+                cible = V[:, None] * np.where(m0 > 0, poids_cible, 0.0)[None, :]
                 ecart = np.abs(cible - val)
                 cout = (frais_ordre(ecart, courtier) * (ecart > 0.01 * V[:, None])).sum(axis=1)
                 val = np.where(complet[:, None], cible, val)
@@ -829,11 +856,12 @@ def simuler(lr, idx, lignes, alloc, liquidites, budget, cfg, rf, reequilibrage, 
     return res
 
 
-def proba_modele(lr, H, ratio, sens, cfg, rf):
-    """Probabilité, sous une marche aléatoire à dérive neutre, que le cours finisse au-dessus (ou en dessous) du seuil."""
+def proba_modele(lr, H, ratio, sens, cfg, rf, prime=0.0):
+    """Probabilité que le cours finisse au-dessus (ou en dessous) du seuil, si sa tendance médiane est le taux sans
+    risque plus la prime prudente de sa classe et son risque celui de son historique."""
     s = cfg["simulation"]
-    lr_n = ajuster_derive(lr.reshape(-1, 1), "neutre", rf)[:, 0]
-    idx = tirages(len(lr_n), H, max(s["chemins"], 4000), s["bloc_jours"], s["graine"] + 1)
+    lr_n = ajuster_derive(lr.reshape(-1, 1), "central", rf, [prime])[:, 0]
+    idx = tirages(len(lr_n), H, max(s["chemins"], 4000), bloc_effectif(H, cfg), s["graine"] + 1)
     final = lr_n[idx].sum(axis=1)
     seuil = math.log(ratio)
     return float((final > seuil).mean()) if sens == "au_dessus" else float((final < seuil).mean())
@@ -901,6 +929,18 @@ def controler(analyse, cfg, series, asof, R, journal):
         if (dates[-1] - dates[0]).days < 365 * cfg["simulation"]["historique_min_annees"]:
             R.alerte(f"historique de {inst['fichier']} inférieur à {cfg['simulation']['historique_min_annees']} ans : "
                      "statistiques et simulations peu fiables")
+    if inst.get("devise") and inst["devise"] != "EUR":
+        R.alerte(f"instrument coté en {inst['devise']} : le risque de change n'est compté que si la série est "
+                 "convertie en euros")
+    rep = analyse.get("repartition") or {}
+    for b, parts in rep.items():
+        if b not in {str(x) for x in cfg["budgets"]}:
+            R.erreur(f"repartition.{b} : budget absent de la configuration ({', '.join(map(str, cfg['budgets']))})")
+        if abs(sum(parts.values()) - 1) > 0.001:
+            R.erreur(f"repartition.{b} : les parts doivent sommer à 1")
+        for h_ in parts:
+            if h_ not in (analyse.get("strategies") or {}):
+                R.erreur(f"repartition.{b} : horizon {h_} sans stratégie")
     if not (analyse.get("reference_passive") or {}).get("fichier"):
         R.alerte("aucune référence passive : impossible de dire si la stratégie bat un simple ETF")
     an = analyse.get("analyse", {})
@@ -956,7 +996,14 @@ def controler(analyse, cfg, series, asof, R, journal):
                 R.erreur(f"{h} / {nom} : produit à perte potentiellement supérieure à la mise, interdit")
             elif typ not in cfg["types_autorises"]:
                 R.erreur(f"{h} / {nom} : type « {typ} » inconnu")
+            if l.get("classe") and l["classe"] not in cfg["primes_de_risque"]:
+                R.erreur(f"{h} / {nom} : classe « {l['classe']} » inconnue ({', '.join(k for k in cfg['primes_de_risque'] if not k.startswith('_'))})")
+            elif typ in ("etf", "fonds", "indice") and not classe_de(l, cfg):
+                R.erreur(f"{h} / {nom} : classe d'actif obligatoire pour un {typ} (actions, obligations...), "
+                         "elle fixe la prime de risque du cas central")
             if typ == "produit_levier":
+                if not fini(l.get("levier")) or not 1 < l["levier"] <= 20:
+                    R.erreur(f"{h} / {nom} : levier (entre 1 et 20) obligatoire pour un produit à levier")
                 if h != "court":
                     R.erreur(f"{h} / {nom} : produit à levier réservé au court terme")
                 if l.get("poids", 0) > cfg["poids_max_levier"]:
@@ -1041,12 +1088,18 @@ def calculer(dossier, analyse, cfg, asof, R, journal, chemins=None):
         if (dates[-1] - dates[0]).days < 365 * s_cfg["historique_min_annees"]:
             R.alerte(f"strategies.{h} : historique commun de {(dates[-1] - dates[0]).days // 365} an(s) seulement")
         lr_tout = np.log(mat[1:] / mat[:-1])
+        primes_cfg = cfg["primes_de_risque"]
+        primes = [primes_cfg.get(classe_de(l, cfg), 0.0) for l in lignes] + \
+            ([primes_cfg.get(classe_de(ref, cfg) or "actions", 0.0)] if avec_ref else [])
+        leviers = [float(l.get("levier") or 1) if l.get("type") == "produit_levier" else 1.0 for l in lignes] + \
+            ([1.0] if avec_ref else [])
         jours = s.get("horizon_jours") or cfg["horizons_jours"][h]
         H = jours_bourse(jours)
         bloc = bloc_effectif(H, cfg)
         idx = tirages(len(lr_tout), H, n, bloc, s_cfg["graine"])
         rejeu = fenetres_historiques(len(lr_tout), H)
         sortie = {"horizon_jours": jours, "jours_bourse": H, "historique": [dates[0], dates[-1]], "budgets": {},
+                  "primes": {l["nom"]: p for l, p in zip(lignes, primes)},
                   "bloc_jours": bloc, "fenetres_rejouees": 0 if rejeu is None else len(rejeu)}
         date_sortie = asof + dt.timedelta(days=jours)
         taux, motif = taux_impot(s.get("enveloppe") or analyse.get("parametres", {}).get("enveloppe", "CTO"),
@@ -1061,20 +1114,20 @@ def calculer(dossier, analyse, cfg, asof, R, journal, chemins=None):
                     R.alerte(f"{h} / {l['nom']} avec {eur(budget)} : frais d'achat de {pct(a['frais_pct'])} de l'ordre "
                              "(au-delà de 1 %, la ligne est trop petite pour ce budget)")
             res = {"allocation": alloc, "liquidites": liquidites}
-            for mode in ("neutre", "historique"):
-                lr = ajuster_derive(lr_tout, mode, rf)
+            for mode in MODES:
+                lr = appliquer_levier(ajuster_derive(lr_tout, mode, rf, primes), leviers)
                 res[mode] = simuler(lr[:, :len(lignes)], idx, lignes, alloc, liquidites, budget, cfg, rf,
                                     bool(s.get("reequilibrage_annuel")), lr[:, -1] if avec_ref else None)
             if rejeu is not None:
-                res["rejeu"] = simuler(lr_tout[:, :len(lignes)], rejeu, lignes, alloc, liquidites, budget, cfg, rf,
-                                       bool(s.get("reequilibrage_annuel")), lr_tout[:, -1] if avec_ref else None)
-            pire = max(res["neutre"]["proba_plancher"], res["historique"]["proba_plancher"],
-                       res.get("rejeu", {}).get("proba_plancher", 0))
+                lr = appliquer_levier(lr_tout, leviers)
+                res["rejeu"] = simuler(lr[:, :len(lignes)], rejeu, lignes, alloc, liquidites, budget, cfg, rf,
+                                       bool(s.get("reequilibrage_annuel")), lr[:, -1] if avec_ref else None)
+            pire = max([res[m]["proba_plancher"] for m in MODES] + [res.get("rejeu", {}).get("proba_plancher", 0)])
             res["proba_plancher_max"] = pire
             if pire > cfg["proba_max_plancher"]:
                 R.erreur(f"{h} avec {eur(budget)} : probabilité {pct(pire)} de perdre "
                          f"{pct(cfg['seuil_perte_max'], 0)} de la mise, plafond {pct(cfg['proba_max_plancher'], 0)}")
-            gain = res["neutre"]["mediane"] - budget
+            gain = res["central"]["mediane"] - budget
             res["gain_median_net_impot"] = gain * (1 - taux) if gain > 0 else gain
             sortie["budgets"][str(budget)] = res
         calc["strategies"][h] = sortie
@@ -1088,9 +1141,13 @@ def calculer(dossier, analyse, cfg, asof, R, journal, chemins=None):
             continue
         prix_ref = p.get("prix_reference") or float(prix[-1])
         lr = np.log(prix[1:] / prix[:-1])
+        classe = classe_prevision(p, analyse, cfg)
+        if classe is None:
+            R.alerte(f"prévision {p['id']} : classe d'actif inconnue (champ classe), modèle sans prime de risque")
+        prime = cfg["primes_de_risque"].get(classe, 0.0)
         pm = proba_modele(lr, jours_bourse((e - asof).days), p["condition"]["seuil"] / prix_ref,
-                          p["condition"]["type"], cfg, rf)
-        calc["previsions"][p["id"]] = {"probabilite_modele": pm, "prix_reference": prix_ref,
+                          p["condition"]["type"], cfg, rf, prime)
+        calc["previsions"][p["id"]] = {"probabilite_modele": pm, "prix_reference": prix_ref, "classe": classe,
                                        "ecart": p["probabilite"] - pm}
         if abs(p["probabilite"] - pm) >= 0.25:
             R.alerte(f"prévision {p['id']} : {pct(p['probabilite'], 0)} contre {pct(pm, 0)} pour le modèle "
@@ -1098,8 +1155,24 @@ def calculer(dossier, analyse, cfg, asof, R, journal, chemins=None):
     return calc, series
 
 
+def classe_prevision(p, analyse, cfg):
+    """Classe d'actif de la série d'une prévision : explicite, sinon celle de la ligne, de l'instrument ou de la
+    référence qui partage son fichier."""
+    if p.get("classe") in cfg["primes_de_risque"]:
+        return p["classe"]
+    f = p.get("fichier")
+    candidats = [l for s in (analyse.get("strategies") or {}).values() for l in (s or {}).get("lignes", [])
+                 if (l.get("proxy") or l.get("fichier")) == f]
+    candidats += [x for x in (analyse.get("instrument") or {}, analyse.get("reference_passive") or {})
+                  if x.get("fichier") == f]
+    for c in candidats:
+        if classe_de(c, cfg):
+            return classe_de(c, cfg)
+    return "actions" if (analyse.get("reference_passive") or {}).get("fichier") == f else None
+
+
 def ligne_budget(budget, res):
-    n = res["neutre"]
+    n = res["central"]
     return [eur(budget), eur(n["mediane"]), f"{eur(n['p05'])} à {eur(n['p95'])}", pct(n["proba_perte"], 0),
             pct(res["proba_plancher_max"], 1), eur(n.get("reference_mediane")), pct(n.get("proba_bat_reference"), 0)]
 
@@ -1122,14 +1195,19 @@ def note_md(analyse, calc, cfg, R, backtest, sources):
         c = calc["strategies"].get(h)
         if not s or not c:
             continue
-        medianes = ", ".join(f"{eur(float(b))} → {eur(r['neutre']['mediane'])}" for b, r in c["budgets"].items())
-        n = (c["budgets"].get("5000") or next(iter(c["budgets"].values())))["neutre"]
+        medianes = ", ".join(f"{eur(float(b))} → {eur(r['central']['mediane'])}" for b, r in c["budgets"].items())
+        n = (c["budgets"].get("5000") or next(iter(c["budgets"].values())))["central"]
         out.append(f"- **{LIBELLE_HORIZON[h]} ({duree(c['horizon_jours'])}).** {s.get('objectif', '')} "
-                   f"Valeurs médianes simulées : {medianes}. Pour 5 000 € : 5 % des cas sous {eur(n['p05'])}, "
-                   f"probabilité de perte {pct(n['proba_perte'], 0)}, de battre la référence passive "
-                   f"{pct(n.get('proba_bat_reference'), 0)}.")
+                   f"Valeurs médianes simulées (cas central) : {medianes}. Pour 5 000 € : 5 % des cas sous "
+                   f"{eur(n['p05'])}, probabilité de perte {pct(n['proba_perte'], 0)}.")
     if analyse.get("recommandation"):
         out += ["", f"**Recommandation.** {analyse['recommandation']}"]
+    rep = analyse.get("repartition") or {}
+    if rep:
+        hs = [h for h in HORIZONS if any(h in p for p in rep.values())]
+        out += ["", tableau(["Budget"] + [LIBELLE_HORIZON[h] for h in hs],
+                            [[eur(float(b))] + [eur(float(b) * p.get(h, 0)) if p.get(h) else "—" for h in hs]
+                             for b, p in rep.items()])]
     out.append("")
     if R.alertes or R.erreurs:
         out += ["## Points d'attention", ""]
@@ -1273,11 +1351,16 @@ def note_md(analyse, calc, cfg, R, backtest, sources):
         out += [tableau(["Budget", "Quantités", "Investi", "Frais d'achat (part du budget)", "Liquidités"], alloc_l), ""]
         out += [f"Résultats simulés à {duree(c['horizon_jours'])} ({c['jours_bourse']} séances), "
                 f"{cfg['simulation']['chemins']} chemins tirés par blocs de {c['bloc_jours']} séances "
-                f"dans l'historique du {c['historique'][0]} au {c['historique'][1]}, dérive ramenée au taux sans risque :",
+                f"dans l'historique du {c['historique'][0]} au {c['historique'][1]}. Cas central : risque de "
+                f"l'historique, tendance médiane égale au taux sans risque plus une prime prudente par classe d'actif ("
+                + ", ".join(f"{k} {pct(v, 1, True)}" for k, v in c["primes"].items()) + ").",
                 "",
                 tableau(["Budget", "Valeur médiane", "Fourchette 5 % – 95 %", "Probabilité de perte",
-                         "Probabilité du plancher", "Référence passive (médiane)", "Bat la référence"],
-                        [ligne_budget(float(b), r) for b, r in c["budgets"].items()]), ""]
+                         "Probabilité du plancher (pire hypothèse)", "Référence passive (médiane)",
+                         "Fait mieux que la référence"],
+                        [ligne_budget(float(b), r) for b, r in c["budgets"].items()]),
+                "", "La dernière colonne compare à hypothèses égales : elle mesure l'effet du risque, des frais et des "
+                    "stops, pas un avantage que l'analyse aurait sur le marché.", ""]
         r5 = c["budgets"].get("5000") or next(iter(c["budgets"].values()))
         if r5.get("rejeu"):
             rj = r5["rejeu"]
@@ -1285,9 +1368,9 @@ def note_md(analyse, calc, cfg, R, backtest, sources):
                     f"(une tous les 5 jours, crises comprises, dans leur ordre) pour 5 000 € : médiane "
                     f"{eur(rj['mediane'])}, pire cas {eur(rj['pire_valeur'])}, perte dans {pct(rj['proba_perte'], 0)} "
                     f"des fenêtres, plancher atteint dans {pct(rj['proba_plancher'], 1)}.", ""]
-        out += [f"Avec la dérive historique de l'instrument, la médiane pour 5 000 € passe à "
-                f"{eur(r5['historique']['mediane'])} : hypothèse optimiste, les tendances passées ne se prolongent pas "
-                f"d'elles-mêmes. Pire repli en cours de route (1 cas sur 20) : {pct(r5['neutre']['perte_max_p95'])}. "
+        out += [f"Pour 5 000 €, la médiane vaut {eur(r5['neutre']['mediane'])} sans aucune prime de risque, et "
+                f"{eur(r5['historique']['mediane'])} si chaque ligne prolongeait sa tendance passée (hypothèse "
+                f"optimiste). Pire repli en cours de route (1 cas sur 20) : {pct(r5['central']['perte_max_p95'])}. "
                 + (f"Imposition des gains : {pct(c['impot']['taux'])} ({c['impot']['motif']}), soit un gain médian net "
                    f"de {eur(r5['gain_median_net_impot'])} pour 5 000 €." if r5["gain_median_net_impot"] > 0 else
                    f"Perte médiane de {eur(-r5['gain_median_net_impot'])} pour 5 000 € : pas d'impôt, le scénario "
@@ -1739,22 +1822,26 @@ def cmd_init(a):
 def cmd_donnees(a):
     dossier = Path(a.dossier)
     debut = dt.date.fromisoformat(a.debut)
-    points, source = telecharger(a.source, a.symbole, debut)
+    points, source, ajuste = telecharger(a.source, a.symbole, debut)
     nom = a.nom or slug(a.symbole)
     ecrire_serie(dossier / "donnees" / f"{nom}.csv", points)
     noter_source(dossier, nom, {"source": source, "symbole": a.symbole, "recupere_le": dt.date.today().isoformat(),
-                                "debut": points[0][0], "fin": points[-1][0]})
+                                "debut": points[0][0], "fin": points[-1][0], "ajuste_dividendes": ajuste})
     print(f"{dossier / 'donnees' / nom}.csv : {len(points)} cours du {points[0][0]} au {points[-1][0]}")
     return 0
 
 
 def cmd_importer(a):
     dossier = Path(a.dossier)
-    points = normaliser_csv(Path(a.fichier).read_text(encoding="utf-8-sig", errors="replace"), a.colonne)
+    points, colonne = normaliser_csv(Path(a.fichier).read_text(encoding="utf-8-sig", errors="replace"), a.colonne)
+    ajuste = True if re.search(r"adj|ajust", sans_accent(colonne)) else a.ajuste
     ecrire_serie(dossier / "donnees" / f"{a.nom}.csv", points)
     noter_source(dossier, a.nom, {"source": a.source or f"import de {Path(a.fichier).name}",
                                   "recupere_le": dt.date.today().isoformat(), "debut": points[0][0],
-                                  "fin": points[-1][0]})
+                                  "fin": points[-1][0], "colonne": colonne, "ajuste_dividendes": ajuste})
+    if not ajuste:
+        print(f"Colonne retenue : « {colonne} ». Cours non ajustés des dividendes, sauf indication contraire "
+              "(--ajuste si la source les ajuste).")
     print(f"{dossier / 'donnees' / a.nom}.csv : {len(points)} cours du {points[0][0]} au {points[-1][0]}")
     return 0
 
@@ -1802,7 +1889,8 @@ def cmd_backtest(a):
     strategies = dict(STRATEGIES)
     strategies.update(charger_modeles([SKILL / "modeles", Path("finance/modeles")] + (a.modeles or []), R))
     if a.signaux:
-        pts = dict(normaliser_csv(Path(a.signaux).read_text(encoding="utf-8-sig"), a.colonne_signaux))
+        pts = dict(normaliser_csv(Path(a.signaux).read_text(encoding="utf-8-sig"), a.colonne_signaux,
+                                  positif=False)[0])
         e = np.nan_to_num(np.array([pts.get(d, np.nan) for d in dates]))
         strategies["signaux_externes"] = {"fn": None, "grille": [{}], "horizons": ["?"],
                                           "libelle": f"Signaux importés ({Path(a.signaux).name})", "expo": e}
@@ -1874,6 +1962,13 @@ def cmd_construire(a):
     for f in {analyse.get("instrument", {}).get("fichier"), (analyse.get("reference_passive") or {}).get("fichier")}:
         if f and f not in sources:
             R.alerte(f"origine de {f} non documentée (donnees/sources.json)")
+    actions = {l.get("proxy") or l.get("fichier") for s in (analyse.get("strategies") or {}).values()
+               for l in (s or {}).get("lignes", []) if classe_de(l, cfg) == "actions"}
+    actions |= {(analyse.get("reference_passive") or {}).get("fichier")}
+    for f in sorted(x for x in actions if x and x in sources):
+        if not sources[f].get("synthetique") and sources[f].get("ajuste_dividendes") is not True:
+            R.alerte(f"{f} : cours non ajustés des dividendes (ou inconnu) ; l'historique, le rejeu et l'hypothèse "
+                     "historique sous-estiment le rendement, pas le cas central")
     bt_f = dossier / "backtest.json"
     backtest = json.loads(bt_f.read_text(encoding="utf-8")) if bt_f.exists() else None
     if backtest and backtest.get("date_arrete") != asof.isoformat():
@@ -1961,6 +2056,8 @@ def main():
     x.add_argument("--nom", required=True)
     x.add_argument("--colonne")
     x.add_argument("--source")
+    x.add_argument("--ajuste", action="store_const", const=True, default=None,
+                   help="la source fournit des cours ajustés des dividendes")
     for nom in ("analyser", "backtest", "construire"):
         x = sp.add_parser(nom)
         x.add_argument("dossier")

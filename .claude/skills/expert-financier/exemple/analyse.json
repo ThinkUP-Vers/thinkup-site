@@ -26,7 +26,8 @@
   },
   "reference_passive": {
     "nom": "ETF monde (synthétique)",
-    "fichier": "donnees/indice-monde.csv"
+    "fichier": "donnees/indice-monde.csv",
+    "classe": "actions"
   },
   "analyse": {
     "these": "Action X a perdu la moitié de sa valeur en trois ans et reste sous sa moyenne mobile à 200 jours : la tendance de fond est baissière. La valorisation redevient raisonnable, mais rien ne prouve encore le retournement. D'où une exposition limitée à X, encadrée par des stops, et un cœur de portefeuille en ETF monde pour le long terme.",
@@ -167,7 +168,8 @@
           "prix": 513.83,
           "stop": 0.12,
           "stop_suiveur": true,
-          "fractionnable": true
+          "fractionnable": true,
+          "classe": "actions"
         }
       ],
       "liquidites": 0.35
@@ -186,14 +188,16 @@
           "fichier": "donnees/indice-monde.csv",
           "poids": 0.6,
           "prix": 513.83,
-          "fractionnable": true
+          "fractionnable": true,
+          "classe": "actions"
         },
         {
           "nom": "ETF obligations",
           "type": "etf",
           "fichier": "donnees/obligations.csv",
           "poids": 0.25,
-          "prix": 143.56
+          "prix": 143.56,
+          "classe": "obligations"
         },
         {
           "nom": "Action X",
@@ -265,11 +269,25 @@
       "strategie": "long"
     }
   ],
-  "recommandation": "Avec 1 000 €, s'en tenir à la stratégie long terme : la ligne court terme coûte plus de 1 % en frais par ordre. À partir de 5 000 €, les trois horizons sont praticables ; le court terme reste un satellite, jamais le cœur.",
+  "recommandation": "Avec 1 000 €, tout en long terme : la ligne court terme coûterait plus de 1 % de frais par ordre et l'action X y est infaisable. À 5 000 €, un satellite moyen terme est possible ; à 10 000 €, une petite poche court terme, jamais le cœur.",
   "suivi": [
     "Alertes de cours à poser chez le courtier aux niveaux de stop et d'objectif du tableau des lignes.",
     "Revue le 30 octobre (banque centrale) et la veille des résultats annuels.",
     "Évaluation des prévisions à chaque échéance (finance.py evaluer)."
   ],
-  "lecons_appliquees": []
+  "lecons_appliquees": [],
+  "repartition": {
+    "1000": {
+      "long": 1.0
+    },
+    "5000": {
+      "long": 0.8,
+      "moyen": 0.2
+    },
+    "10000": {
+      "long": 0.7,
+      "moyen": 0.2,
+      "court": 0.1
+    }
+  }
 }

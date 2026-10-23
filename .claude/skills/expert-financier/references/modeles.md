@@ -11,7 +11,9 @@ prévisions (`references/auto-amelioration.md`).
 sont choisis sur trois ans (756 séances, meilleur ratio de Sharpe), puis appliqués tels quels à l'année
 suivante, qui n'a pas servi au choix. Seules ces années de test comptent. Frais du plus petit budget
 compris (le plus pénalisé par les frais fixes), liquidités rémunérées au taux sans risque, position
-décidée à la clôture et appliquée à la séance suivante.
+décidée à la clôture et appliquée à la séance suivante. Deux approximations, à garder en tête pour les
+petits écarts : les frais fixes sont rapportés au budget de départ (pas à la valeur du moment), et le
+changement de paramètres entre deux fenêtres n'est pas facturé.
 
 Lecture :
 - un modèle qui ne bat pas l'achat-conservation hors échantillon, en rendement ou en perte maximale à

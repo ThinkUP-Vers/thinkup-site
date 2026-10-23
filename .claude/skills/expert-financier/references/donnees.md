@@ -32,7 +32,9 @@ Accepte les exports courants : Yahoo (`Adj Close` retenu), Boursorama et ABC Bou
 virgule décimale, dates jj/mm/aaaa), Investing.com (dates américaines, séparateurs de milliers), FRED,
 ou tout CSV à deux colonnes. Le script choisit le format de date qui donne une suite ordonnée, retient
 la clôture ajustée quand elle existe, écarte les valeurs vides, trie et dédoublonne. `--colonne` force
-la colonne de cours.
+la colonne de cours. La colonne retenue et l'ajustement des dividendes sont notés dans
+`donnees/sources.json` : ajusté si la colonne l'indique (« Adj Close »), inconnu sinon ; `--ajuste`
+le déclare quand la source le garantit. Une série d'actions non ajustée déclenche une alerte.
 
 Export depuis le site d'un courtier ou d'un portail, procédure type pour Patrick :
 

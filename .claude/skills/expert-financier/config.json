@@ -35,6 +35,16 @@
     "pea_ouvert_le": null,
     "av_ouverte_le": null
   },
+  "primes_de_risque": {
+    "_note": "Hypothèse prudente du cas central : surcroît de rendement médian annuel attendu au-dessus du taux sans risque, par classe d'actif. Volontairement inférieur aux primes historiques de long terme ; rien n'est garanti.",
+    "actions": 0.03,
+    "obligations": 0.01,
+    "immobilier": 0.02,
+    "monetaire": 0.0,
+    "matieres_premieres": 0.0,
+    "devises": 0.0,
+    "crypto": 0.0
+  },
   "simulation": {"chemins": 2000, "bloc_jours": 20, "graine": 7, "historique_min_annees": 3},
   "backtest": {"entrainement_jours": 756, "test_jours": 252},
   "types_autorises": ["action", "etf", "fonds", "obligation", "matiere_premiere", "devise", "crypto", "produit_levier", "indice", "liquidites"],

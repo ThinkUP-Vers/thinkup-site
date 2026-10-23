@@ -13,9 +13,10 @@ Une amélioration qui ne se mesure pas n'existe pas. La boucle repose sur quatre
 ## 1. Prévoir de façon vérifiable
 
 Chaque horizon de chaque analyse porte au moins une prévision : un cours, un seuil, une date, une
-probabilité. Le script calcule à côté la probabilité d'un modèle statistique simple (marche aléatoire
-rééchantillonnée, dérive au taux sans risque). L'écart entre les deux est ce que l'analyse prétend
-apporter.
+probabilité. Le script calcule à côté la probabilité d'un modèle statistique simple : l'historique de
+la série rééchantillonné par blocs, avec la tendance du cas central (taux sans risque plus la prime
+prudente de sa classe d'actif). Ce modèle sait déjà que les actions montent en moyenne : l'écart entre
+les deux probabilités est ce que l'analyse prétend apporter en plus.
 
 ## 2. Noter
 

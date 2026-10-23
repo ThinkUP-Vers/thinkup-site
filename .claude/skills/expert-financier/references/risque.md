@@ -6,8 +6,8 @@
 rien n'est réinvesti sans décision de Patrick. C'est un seuil de ruine, pas une gestion du risque :
 après -75 %, il faut +300 % pour revenir à la mise. Le script l'applique dans chaque simulation et
 refuse toute stratégie dont la probabilité de l'atteindre dépasse `proba_max_plancher` (5 %), en
-retenant la plus défavorable de trois mesures : tirage par blocs à dérive neutre, tirage par blocs à
-dérive historique, rejeu de toutes les fenêtres réelles de l'historique.
+retenant la plus défavorable de quatre mesures : les trois hypothèses de tendance ci-dessous et le
+rejeu de toutes les fenêtres réelles de l'historique.
 
 Le risque se pilote bien avant le plancher, par trois leviers :
 
@@ -40,12 +40,25 @@ découvert, change sur marge. Une ligne marquée `perte_illimitee` est refusée 
 
 ## Lire les simulations
 
-- **Dérive neutre** (cas central de la note) : la tendance de l'instrument est ramenée au taux sans
-  risque ; seule la forme du risque passé est conservée. Hypothèse prudente.
-- **Dérive historique** : prolonge la tendance passée. Optimiste pour un gagnant d'hier.
+Les trois hypothèses gardent le risque de l'historique (volatilité, queues de distribution,
+corrélations entre lignes) et ne changent que la tendance médiane de chaque ligne :
+
+- **Cas central** (tableaux de la note) : taux sans risque plus une prime prudente par classe d'actif
+  (`primes_de_risque` dans `config.json` : 3 % pour les actions, 1 % pour les obligations, 0 pour les
+  matières premières, devises et crypto-actifs). Ne pas supposer de prime reviendrait à dire que les
+  actions ne rapportent pas plus qu'un livret, et pousserait toujours vers les liquidités.
+- **Neutre** : aucune prime, chaque ligne croît au taux sans risque en valeur médiane. Test de
+  résistance : la stratégie tient-elle si le marché ne rémunère pas le risque sur l'horizon ?
+- **Historique** : prolonge la tendance passée de chaque ligne. Optimiste pour un gagnant d'hier.
 - **Rejeu** : les fenêtres réelles, crises comprises, dans leur ordre. Ne contient aucune crise plus
   grave que celles déjà vécues par la série : un historique court qui ignore 2008 sous-estime le risque.
 - Les blocs s'allongent avec l'horizon (jusqu'à 126 séances) pour garder la durée des crises.
+- « Fait mieux que la référence » compare la stratégie et l'ETF de référence sous les mêmes
+  hypothèses : le chiffre traduit l'effet du risque, des frais et des stops, jamais un avantage de
+  l'analyse. L'avantage revendiqué se mesure ailleurs : dans les prévisions et leur score.
+- Produit à levier : simulé comme un levier quotidien constant sur sa série sous-jacente (`levier`),
+  perte bornée à la mise. Approximation : un turbo a un levier qui varie avec le cours et une barrière
+  désactivante ; vérifier la fiche du produit.
 
 ## Ce qui reste hors modèle
 
