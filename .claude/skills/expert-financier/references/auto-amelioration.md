@@ -35,7 +35,9 @@ issue)², pour l'agent et pour le modèle. 0 est parfait, 0,25 est le score d'un
 - la ventilation par horizon et par type d'instrument, les causes d'échec, l'écart moyen avec la
   référence passive, le classement des modèles du registre.
 
-Sous vingt prévisions évaluées, aucune conclusion statistique : le bilan le dit.
+Sous vingt prévisions évaluées, aucune conclusion statistique : le bilan le dit. Les premiers bilans
+ne portent que sur le court terme (les prévisions à cinq ans n'arrivent à échéance qu'au bout de cinq
+ans) : ne pas étendre au long terme une leçon tirée du court terme.
 
 ## 4. Apprendre, sous contrôle
 
@@ -56,7 +58,14 @@ Patrick, dans `config.json` ou `finance/config.local.json`.
 
 ## 5. Garde-fous contre la fausse amélioration
 
-- Ne pas réécrire une prévision après coup : le script refuse de remplacer une prévision évaluée.
+- Ne pas réécrire une prévision après coup : une fois inscrite (`construire --final`), sa probabilité,
+  sa condition, son échéance et sa série ne bougent plus, le script refuse. Une révision devient une
+  nouvelle prévision, datée du jour.
+- Mesurer le jugement avant l'ancrage : le script garde la première probabilité écrite, avant que
+  l'agent voie celle du modèle. Le bilan donne l'apport avant et après ancrage ; s'aligner sur le modèle
+  améliore le score mais n'apprend rien sur la valeur de l'analyse.
+- Ne pas s'entraîner sur le passé connu : rejouer 2008 ou 2020 à date ne mesure pas le jugement de
+  l'agent, qui connaît l'issue (`references/modeles.md`).
 - Ne pas multiplier les prévisions faciles (à 95 % sur une évidence) pour embellir le score :
   l'apport se juge contre le modèle, qui les réussit aussi.
 - Ne pas changer de modèle après une mauvaise année : le registre juge sur plusieurs instruments.

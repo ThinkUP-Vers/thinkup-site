@@ -31,8 +31,9 @@ régulateur, banque centrale, agence statistique), la presse ensuite, les forums
   (remboursement anticipé, perpétuelle).
 - Rendement actuariel, écart de rendement avec l'État de même durée, duration et convexité (le script
   les calcule), sensibilité à un point de taux.
-- Liquidité : taille de l'émission, coupure minimale (souvent 100 000 € : inaccessible avec ces
-  budgets ; passer alors par un ETF obligataire et le dire).
+- Liquidité : taille de l'émission, coupure minimale (souvent 100 000 € pour une obligation
+  d'entreprise : inaccessible avec ces budgets ; passer alors par un ETF obligataire et le dire ; les
+  emprunts d'État se négocient par petites coupures).
 
 ### Marché ou indice
 - Niveau de valorisation agrégé, croissance attendue des bénéfices, concentration sectorielle.

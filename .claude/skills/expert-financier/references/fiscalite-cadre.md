@@ -10,7 +10,8 @@ sécurité sociale (décembre), et après toute annonce.
 | Enveloppe | Imposition des gains (au 23/10/2026) | À savoir |
 |---|---|---|
 | Compte-titres ordinaire | 31,4 % (12,8 % d'impôt + 18,6 % de prélèvements sociaux) | tout instrument ; moins-values imputables sur les plus-values pendant 10 ans |
-| PEA | 31,4 % avant 5 ans ; 18,6 % de prélèvements sociaux seuls après 5 ans | actions européennes et ETF éligibles ; plafond de versements 150 000 € ; le délai court depuis l'ouverture du plan ; un retrait avant 5 ans clôture le plan |
+| PEA | 31,4 % avant 5 ans ; 18,6 % de prélèvements sociaux seuls après 5 ans | actions européennes et ETF éligibles ; plafond de versements 150 000 € ; le délai court depuis l'ouverture du plan ; un retrait avant 5 ans clôture le plan, sauf exceptions légales |
+| Société à l'IS (holding) | IS : 25 %, ou 15 % jusqu'à 42 500 € de bénéfice pour une PME éligible ; la distribution ultérieure à l'associé est imposée en plus | ni PEA ni assurance-vie ordinaire (contrat de capitalisation possible) ; certains fonds et ETF y sont imposés chaque année sur leurs gains latents (article 209-0 A du CGI, fonds investis à 90 % au moins en actions exclus, à vérifier) ; décision et fiscalité à valider avec l'expert-comptable |
 | Assurance-vie | 30 % avant 8 ans ; après 8 ans, 17,2 % de prélèvements sociaux sous l'abattement annuel (4 600 € par personne), 7,5 % d'impôt en plus au-delà | supports limités au contrat ; frais de gestion annuels à compter |
 
 Hausse de la CSG (LFSS 2026, loi n° 2025-1403 du 30/12/2025) : prélèvements sociaux de 17,2 % à

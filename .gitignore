@@ -29,3 +29,4 @@ finance/
 .claude/skills/expert-financier/exemple/calculs.json
 .claude/skills/expert-financier/exemple/backtest.json
 .claude/skills/expert-financier/exemple/analyse-quant.json
+.claude/skills/expert-financier/exemple/previsions-initiales.json

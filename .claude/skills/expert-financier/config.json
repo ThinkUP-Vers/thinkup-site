@@ -32,6 +32,7 @@
     "CTO": {"taux": 0.314, "note": "PFU : 12,8 % d'impôt + 18,6 % de prélèvements sociaux"},
     "PEA": {"avant_5_ans": 0.314, "apres_5_ans": 0.186, "note": "le délai de 5 ans court depuis l'ouverture du plan (pea_ouvert_le), pas depuis l'achat"},
     "AV": {"avant_8_ans": 0.30, "apres_8_ans": 0.172, "note": "après 8 ans, 17,2 % de prélèvements sociaux seuls tant que le gain reste sous l'abattement annuel (4 600 € par personne) ; au-delà, 7,5 % d'impôt en plus"},
+    "SOCIETE": {"taux": 0.25, "note": "placement par une société à l'IS (holding) : gains imposés à l'IS, 25 % au taux normal, 15 % jusqu'à 42 500 € de bénéfice pour une PME éligible ; la distribution ultérieure à l'associé est imposée en plus ; à valider avec l'expert-comptable"},
     "pea_ouvert_le": null,
     "av_ouverte_le": null
   },

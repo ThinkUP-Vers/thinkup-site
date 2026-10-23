@@ -16,7 +16,7 @@ poids s'écrivent en fraction (0,08 pour 8 %).
 ## parametres (facultatif)
 
 Surcharge `config.json` et `finance/config.local.json` pour cette analyse seulement, clé par clé :
-`enveloppe` (`PEA`, `CTO`, `AV`), `budgets`, `courtier`, `fiscalite`... Les règles de risque
+`enveloppe` (`PEA`, `CTO`, `AV`, `SOCIETE`), `budgets`, `courtier`, `fiscalite`... Les règles de risque
 (`seuil_perte_max`, `proba_max_plancher`, `types_interdits`) ne se surchargent que sur demande
 explicite de Patrick, consignée dans `meta.demande`.
 

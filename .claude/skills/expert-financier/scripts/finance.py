@@ -731,6 +731,8 @@ def taux_impot(enveloppe, date_sortie, cfg):
         if ouverte and (date_sortie - dt.date.fromisoformat(ouverte)).days / 365.25 >= 8:
             return fisc["AV"]["apres_8_ans"], "assurance-vie de plus de 8 ans, gain sous l'abattement"
         return fisc["AV"]["avant_8_ans"], "assurance-vie de moins de 8 ans (ou date d'ouverture inconnue)"
+    if enveloppe == "SOCIETE":
+        return fisc["SOCIETE"]["taux"], "compte-titres d'une société à l'IS (hors distribution à l'associé)"
     return fisc["CTO"]["taux"], "compte-titres ordinaire (PFU)"
 
 
@@ -759,6 +761,7 @@ def bloc_effectif(H, cfg):
 CLASSE_PAR_TYPE = {"action": "actions", "obligation": "obligations", "matiere_premiere": "matieres_premieres",
                    "devise": "devises", "crypto": "crypto", "liquidites": "monetaire", "produit_levier": "monetaire"}
 MODES = ("central", "neutre", "historique")
+ENVELOPPES = ("PEA", "CTO", "AV", "SOCIETE")
 
 
 def classe_de(element, cfg):
@@ -984,6 +987,15 @@ def controler(analyse, cfg, series, asof, R, journal):
             R.erreur(f"strategies.{h} : poids + liquidités = {somme:.3f}, 1 attendu")
         if not s.get("invalidation"):
             R.erreur(f"strategies.{h}.invalidation manquante : ce qui prouverait que la thèse est fausse")
+        env = s.get("enveloppe") or (analyse.get("parametres") or {}).get("enveloppe", "CTO")
+        if env not in ENVELOPPES:
+            R.erreur(f"strategies.{h} : enveloppe « {env} » inconnue ({', '.join(ENVELOPPES)})")
+        if env == "PEA":
+            for l in lignes:
+                if l.get("type") in ("obligation", "crypto", "matiere_premiere", "devise") or \
+                        classe_de(l, cfg) in ("obligations", "matieres_premieres", "crypto", "devises"):
+                    R.alerte(f"{h} / {l.get('nom')} : a priori non éligible au PEA (actions européennes et ETF "
+                             "éligibles seulement) ; changer d'enveloppe ou de support")
         for l in lignes:
             nom = l.get("nom", "?")
             typ = l.get("type", inst.get("type"))
@@ -1543,7 +1555,25 @@ def ecrire_journal(dossier_journal, entrees):
         "".join(json.dumps(e, ensure_ascii=False, default=_json_defaut) + "\n" for e in entrees), encoding="utf-8")
 
 
-def journaliser(dossier, analyse, calc, journal, R):
+VERROUILLES = ("probabilite", "condition", "echeance", "fichier")
+
+
+def memoriser_initiales(dossier, analyse):
+    """Garde la première probabilité écrite pour chaque prévision, avant que l'agent voie celle du modèle."""
+    chemin = dossier / "previsions-initiales.json"
+    initiales = json.loads(chemin.read_text(encoding="utf-8")) if chemin.exists() else {}
+    nouveau = False
+    for p in analyse.get("previsions") or []:
+        if p.get("id") and p["id"] not in initiales and fini(p.get("probabilite")):
+            initiales[p["id"]] = {"probabilite": p["probabilite"],
+                                  "le": dt.datetime.now().isoformat(timespec="seconds")}
+            nouveau = True
+    if nouveau:
+        ecrire_json(chemin, initiales)
+    return initiales
+
+
+def journaliser(dossier, analyse, calc, journal, R, initiales):
     entrees = lire_journal(journal)
     par_id = {e["id"]: i for i, e in enumerate(entrees)}
     ref = analyse.get("reference_passive") or {}
@@ -1560,11 +1590,20 @@ def journaliser(dossier, analyse, calc, journal, R):
                   "probabilite_modele": c.get("probabilite_modele"), "prix_reference": c.get("prix_reference"),
                   "reference_passive": {"fichier": ref.get("fichier"), "nom": ref.get("nom")},
                   "strategie": p.get("strategie"), "lecons_appliquees": analyse.get("lecons_appliquees", []),
-                  "statut": "ouverte"}
+                  "probabilite_initiale": initiales.get(p["id"], {}).get("probabilite"), "statut": "ouverte"}
         if ident in par_id:
-            if entrees[par_id[ident]].get("statut") != "ouverte":
+            ancien = entrees[par_id[ident]]
+            if ancien.get("statut") != "ouverte":
                 R.alerte(f"prévision {ident} déjà évaluée : non remplacée")
                 continue
+            modifies = [k for k in VERROUILLES if ancien.get(k) != entree[k]]
+            if modifies:
+                R.erreur(f"prévision {ident} inscrite le {ancien.get('cree_le')} : {', '.join(modifies)} ne se "
+                         "modifie plus, le score serait faussé ; créer une nouvelle prévision (nouvel identifiant)")
+                continue
+            # Les valeurs du jour d'inscription restent celles qui seront notées.
+            entree.update({k: ancien[k] for k in ("cree_le", "probabilite_modele", "prix_reference",
+                                                    "probabilite_initiale") if k in ancien})
             entrees[par_id[ident]] = entree
         else:
             entrees.append(entree)
@@ -1626,6 +1665,8 @@ def cmd_evaluer(a):
         e.update({"statut": "evaluee", "evaluee_le": jour.isoformat(), "prix_realise": prix,
                   "date_prix_realise": date_prix, "issue": issue,
                   "brier_agent": (e["probabilite"] - issue) ** 2,
+                  "brier_agent_initial": (e["probabilite_initiale"] - issue) ** 2
+                  if e.get("probabilite_initiale") is not None else None,
                   "brier_modele": (e["probabilite_modele"] - issue) ** 2 if e.get("probabilite_modele") is not None else None,
                   "rendement_realise": prix / e["prix_reference"] - 1 if e.get("prix_reference") else None})
         rp = e.get("reference_passive") or {}
@@ -1684,13 +1725,18 @@ def cmd_bilan(a):
         comp = [e for e in ev if e.get("brier_modele") is not None]
         ba_c = brier(comp, "brier_agent")
         habilete = 1 - ba_c / bm if bm and ba_c is not None and bm > 0 else None
+        ini = [e for e in comp if e.get("brier_agent_initial") is not None]
         out += ["## Qualité des prévisions", "",
                 tableau(["Mesure", "Valeur"], [
                     ["Prévisions évaluées", str(len(ev))],
                     ["Taux de réussite", pct(sum(e["issue"] for e in ev) / len(ev), 0)],
                     ["Score de Brier de l'agent (0 = parfait, 0,25 = pile ou face)", nb(ba, 3)],
                     ["Score de Brier du modèle statistique", nb(bm, 3)],
-                    ["Apport de l'analyse (1 − Brier agent / Brier modèle)", pct(habilete, 0, True)]]), ""]
+                    ["Apport de l'analyse (1 − Brier agent / Brier modèle)", pct(habilete, 0, True)]]
+                    + ([["Brier de l'agent avant d'avoir vu le modèle", nb(brier(ini, "brier_agent_initial"), 3)],
+                        ["Apport du jugement seul, avant ancrage sur le modèle",
+                         pct(1 - brier(ini, "brier_agent_initial") / brier(ini, "brier_modele"), 0, True)
+                         if brier(ini, "brier_modele") else "n.d."]] if ini else [])), ""]
         tranches = [(0, .2), (.2, .4), (.4, .6), (.6, .8), (.8, 1.01)]
         lig = []
         for lo, hi in tranches:
@@ -1956,6 +2002,7 @@ def cmd_construire(a):
     asof = aujourdhui(a)
     cfg = charger_config(analyse)
     R = Rapport()
+    initiales = memoriser_initiales(dossier, analyse)
     calc, _ = calculer(dossier, analyse, cfg, asof, R, a.journal, a.chemins)
     sources_f = dossier / "donnees" / "sources.json"
     sources = json.loads(sources_f.read_text(encoding="utf-8")) if sources_f.exists() else {}
@@ -1984,7 +2031,7 @@ def cmd_construire(a):
         if R.erreurs:
             print("\nNote non finale : erreurs à corriger, rien n'est inscrit au journal.")
         else:
-            journaliser(dossier, analyse, calc, a.journal, R)
+            journaliser(dossier, analyse, calc, a.journal, R, initiales)
     R.afficher()
     return 1 if R.erreurs else 0
 

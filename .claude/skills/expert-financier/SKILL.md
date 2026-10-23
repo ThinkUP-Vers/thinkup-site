@@ -9,7 +9,7 @@ description: >
   chiffrées et s'évalue sur leurs résultats pour s'améliorer. Ne passe aucun ordre. Déclencher sur :
   « analyse cette action », « que faire de 5 000 € », « stratégie d'investissement », « marché
   obligataire », « bilan de mes prévisions », « /expert-financier ». Ne pas déclencher pour : la
-  trésorerie de l'entreprise, la comptabilité, une question de cours isolée.
+  trésorerie d'exploitation de Think'UP, la comptabilité, une question de cours isolée.
 ---
 
 # Expert financier
@@ -39,8 +39,9 @@ conclure : c'est le rôle du pré-mortem et de la comparaison avec le modèle st
    indice du marché concerné) aux mêmes frais. Si la référence fait aussi bien pour moins de risque,
    la recommandation est de prendre la référence, et elle se dit en premier.
 5. **Une recommandation sans prévision chiffrée ne compte pas.** Chaque horizon porte au moins une
-   prévision datée et probabilisée, inscrite au journal et notée à l'échéance. C'est le socle de
-   l'auto-amélioration (`references/auto-amelioration.md`).
+   prévision datée et probabilisée, inscrite au journal et notée à l'échéance. Une fois inscrite, elle
+   ne se retouche plus : le script refuse. C'est le socle de l'auto-amélioration
+   (`references/auto-amelioration.md`).
 6. **Dépôt public.** Tout le travail vit dans `finance/`, ignoré par git : ne jamais le committer ni le
    forcer avec `git add -f`. Positions, montants et patrimoine de Patrick ne partent dans aucune
    recherche web ni aucun agent : seuls les noms d'instruments et de marchés sortent.
@@ -65,10 +66,17 @@ Puis, à chaque séance :
 
 ## Étape 1 — Cadrage
 
-Ce qu'il faut savoir, en un seul message et seulement si cela manque : l'instrument (nom, ISIN ou
-symbole), les horizons voulus (les trois par défaut), les budgets (1 000, 5 000 et 10 000 € par
-défaut), l'enveloppe (PEA, compte-titres, assurance-vie), ce que Patrick détient déjà sur le même
-risque. Le reste devient une hypothèse écrite dans `meta.demande`.
+Ce qu'il faut savoir, en un seul message et seulement si cela manque :
+- l'instrument (nom, ISIN ou symbole), les horizons voulus (les trois par défaut), les budgets
+  (1 000, 5 000 et 10 000 € par défaut) ;
+- qui investit : Patrick en personne (PEA, compte-titres, assurance-vie) ou une société à l'IS
+  (enveloppe `SOCIETE` : fiscalité, supports et décision différents, à valider avec l'expert-comptable) ;
+- si l'argent peut rester investi jusqu'au bout de l'horizon sans risque d'en avoir besoin, épargne de
+  précaution déjà constituée à côté. Sinon, l'horizon réel est la date du besoin, pas celle de la
+  demande, et c'est la première chose à dire ;
+- ce que Patrick détient déjà sur le même risque.
+
+Le reste devient une hypothèse écrite dans `meta.demande`.
 
 Les frais réels du courtier et les dates d'ouverture du PEA et de l'assurance-vie vont une fois pour
 toutes dans `finance/config.local.json` (modèle : la section `courtier` et `fiscalite` de
@@ -133,8 +141,13 @@ sur un modèle qui a battu l'achat-conservation hors échantillon ; sinon, le di
 ## Étape 6 — Stratégies et prévisions (lire `references/analyse-json.md` et `references/risque.md`)
 
 Pour chaque horizon : objectif, entrée, invalidation, sortie, lignes (poids, cours de référence, stop,
-objectif), liquidités, enveloppe. Puis au moins une prévision par horizon, une thèse, au moins deux
-raisons d'échouer (`premortem`) et la recommandation. Construire et corriger jusqu'à zéro erreur :
+objectif, classe d'actif), liquidités, enveloppe ; la répartition de chaque budget entre horizons.
+Puis au moins une prévision par horizon, une thèse, au moins deux raisons d'échouer (`premortem`) et
+la recommandation.
+
+Écrire les prévisions et leur probabilité avant le premier `construire` : le script garde la première
+probabilité écrite (`previsions-initiales.json`) pour mesurer le jugement de l'agent avant qu'il ait
+vu celle du modèle. Construire et corriger jusqu'à zéro erreur :
 
 ```bash
 python3 $S/scripts/finance.py construire $A
@@ -143,6 +156,8 @@ python3 $S/scripts/finance.py construire $A
 Lire chaque alerte : une alerte fondée reste dans la note, une erreur de saisie se corrige dans
 `analyse.json`, jamais dans les livrables. Une probabilité qui s'écarte de plus de 25 points de celle
 du modèle statistique exige un argument précis et sourcé dans la thèse, sinon se rapprocher du modèle.
+Après `--final`, les prévisions sont figées : une révision devient une nouvelle prévision, avec un
+nouvel identifiant et la date du jour.
 
 Contrôle avant de présenter, à cocher dans `$A/journal.md` :
 - la référence passive est-elle battue, et pour quel surcroît de risque ?

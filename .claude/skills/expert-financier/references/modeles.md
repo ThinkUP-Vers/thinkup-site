@@ -76,6 +76,8 @@ sur cette même période ne prouve rien.
 
 Toute série de cours passée par `donnees` ou `importer` sert de terrain. Pour juger un modèle,
 plusieurs instruments et plusieurs régimes (hausse, krach, taux montants) valent mieux qu'un long
-historique d'un seul titre. L'option `--aujourdhui` rejoue une analyse complète à une date passée, sur
-les seules données connues ce jour-là : c'est le moyen d'entraîner le jugement de l'agent sur des cas
-dont l'issue est connue, à condition de ne pas lire la suite avant d'avoir conclu.
+historique d'un seul titre. L'option `--aujourdhui` rejoue une analyse à une date passée sur les seules
+données connues ce jour-là : valable pour les modèles du script, qui ne savent rien de la suite. Elle
+ne mesure pas le jugement de l'agent : le modèle de langage connaît l'issue des épisodes antérieurs à
+ses données d'entraînement (2008, 2020, 2022...) et ne peut pas l'oublier. Seules les prévisions faites
+en temps réel et notées à l'échéance mesurent ce jugement.
