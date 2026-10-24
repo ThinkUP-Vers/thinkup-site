@@ -265,3 +265,20 @@ python3 .claude/skills/improve-system/scripts/analyser.py rapport .claude/skills
 python3 .claude/skills/improve-system/scripts/analyser.py extraire --cloud .claude/skills/improve-system/exemple/cloud --aujourdhui 2026-10-21 --sortie /tmp/improve-test-cloud
 python3 .claude/skills/improve-system/scripts/analyser.py rapport .claude/skills/improve-system/exemple/propositions-cloud.json --signaux /tmp/improve-test-cloud/signaux.json --sortie /tmp/improve-test-cloud/rapports
 ```
+
+## Outil rangement-pc : inventaire du poste → plan de rangement
+
+Le skill `rangement-pc` (`.claude/skills/rangement-pc/`, invocable par `/rangement-pc`) rationalise le poste
+Windows de Patrick : un script PowerShell (`scripts/inventaire.ps1`) lancé par lui sur son poste produit un
+inventaire en lecture seule (noms, tailles, dates, empreintes ; aucun contenu), puis `scripts/analyser.py`
+détecte doublons, installeurs et téléchargements anciens, Bureau encombré, gros volumes, et produit un rapport
+DOCX, `plan.csv` et `appliquer-plan.ps1` (simulation par défaut, déplacements vers `_Quarantaine` et `_A-trier`,
+journal et retour arrière, jamais de suppression). Le conteneur cloud ne voit pas le poste : tout passe par
+l'inventaire. Le dépôt est PUBLIC : l'inventaire et les rapports contiennent des noms de fichiers (donc
+potentiellement de clients) et restent hors dépôt, le script refuse d'y écrire. `inventaire.ps1` et
+`appliquer-plan.ps1` sont volontairement sans accent (PowerShell 5.1 lit mal l'UTF-8 sans BOM). Contrôle de
+non-régression :
+
+```
+python3 .claude/skills/rangement-pc/scripts/analyser.py analyser .claude/skills/rangement-pc/exemple/inventaire.json --sortie /tmp/rangement-test --aujourdhui 2026-10-21
+```
