@@ -96,6 +96,27 @@ function render_card(array $article): string {
         . '        </article>';
 }
 
+function render_filters(array $articles): string {
+    $labels = [
+        'strategie' => 'Stratégie IA', 'gouvernance' => 'Gouvernance', 'methode' => 'Méthode',
+        'roi' => 'ROI et finance', 'productivite' => 'Productivité', 'donnees' => 'Données',
+        'reglementation' => 'Réglementation', 'management' => 'Management', 'budget' => 'Budget',
+        'newsletter' => 'Newsletter',
+    ];
+    $counts = [];
+    foreach ($articles as $article) {
+        $slug = categorie_slug($article['category']);
+        $counts[$slug] = ($counts[$slug] ?? 0) + 1;
+    }
+    $lines = ['        <button type="button" data-cat="*" aria-pressed="true">Tous <span class="count">' . count($articles) . '</span></button>'];
+    foreach ($labels as $slug => $label) {
+        if (!empty($counts[$slug])) {
+            $lines[] = '        <button type="button" data-cat="' . $slug . '" aria-pressed="false">' . html_escape($label) . ' <span class="count">' . $counts[$slug] . '</span></button>';
+        }
+    }
+    return implode("\n", $lines);
+}
+
 function render_upcoming(array $articles): string {
     if ($articles === []) {
         return '    <div class="blog-upcoming"><p>Le calendrier éditorial 2026 est intégralement publié.</p></div>';
@@ -148,6 +169,7 @@ $blogCards = array_filter($published, fn(array $article): bool => $article['slug
 $homeCards = array_slice($published, 0, 3);
 
 replace_block($root . '/blog.html', '<!-- BLOG_AUTO_START -->', '<!-- BLOG_AUTO_END -->', implode("\n", array_map('render_card', $blogCards)));
+replace_block($root . '/blog.html', '<!-- BLOG_FILTERS_START -->', '<!-- BLOG_FILTERS_END -->', render_filters($published));
 replace_block($root . '/blog.html', '<!-- BLOG_UPCOMING_START -->', '<!-- BLOG_UPCOMING_END -->', render_upcoming(array_slice($upcoming, 0, 2)));
 replace_block($root . '/index.html', '<!-- HOME_BLOG_AUTO_START -->', '<!-- HOME_BLOG_AUTO_END -->', implode("\n", array_map('render_card', $homeCards)));
 replace_block($root . '/sitemap.xml', '<!-- SCHEDULED_ARTICLES_START -->', '<!-- SCHEDULED_ARTICLES_END -->', render_sitemap($scheduledPublished));

@@ -38,7 +38,7 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 - Reponse aux appels d'offres publics: support for French public tenders - DCE review, go/no-go decision, technical memorandum written against the scoring grid. Priced per scope.
 
 Full offer page: https://think-up.fr/offres.html
-Online purchase for the two fixed-price offers: https://think-up.fr/boutique.html
+Ordering: by quote request (reply within 24 business hours) via https://think-up.fr/contact.html. Online payment is not yet available.
 
 ## Short answers
 
