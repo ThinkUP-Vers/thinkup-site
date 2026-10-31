@@ -47,6 +47,10 @@ jobs:
     steps:
       - name: Récupérer le code
         uses: actions/checkout@v6
+        with:
+          # Deux commits : l'étape IndexNow compare HEAD à son parent pour
+          # savoir quelles pages viennent de changer.
+          fetch-depth: 2
 
       - name: Vérifier les transports du formulaire (mocks uniquement)
         run: |
@@ -233,6 +237,27 @@ jobs:
                "Le transfert FTP s'est terminé sans erreur, mais la production n'est pas à jour." \
                "Vérifier l'espace disque et les droits du compte FTP dans hPanel."
           exit 1
+
+      # IndexNow prévient Bing (donc Copilot et la recherche de ChatGPT) et Yandex
+      # des pages modifiées. Google ne l'utilise pas. Étape facultative : elle ne
+      # fait jamais échouer le déploiement. La clé est publique par conception
+      # (fichier 1c30b9cf….txt à la racine du site).
+      - name: Notifier IndexNow (Bing)
+        continue-on-error: true
+        run: |
+          KEY=1c30b9cfb30b4d84b0f1e2bf0d6a04da
+          PAGES=$(git diff --name-only HEAD~1 HEAD -- '*.html' \
+                   | grep -v '/' | grep -v '^google[0-9a-f]*\.html$' | grep -v '^404\.html$' || true)
+          if [ -z "$PAGES" ]; then
+            echo "Aucune page HTML modifiée : rien à notifier."
+            exit 0
+          fi
+          LISTE=$(echo "$PAGES" | sed 's#^index\.html$#"https://think-up.fr/"#; t; s#^\(.\+\)$#"https://think-up.fr/\1"#' | paste -sd, -)
+          echo "Pages notifiées : $LISTE"
+          curl -sS -m 30 -o /dev/null -w 'IndexNow : HTTP %{http_code}\n' \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"think-up.fr\",\"key\":\"$KEY\",\"keyLocation\":\"https://think-up.fr/$KEY.txt\",\"urlList\":[$LISTE]}" \
+            https://api.indexnow.org/indexnow
 
       # Une panne de déploiement doit être visible sans avoir à consulter
       # l'onglet Actions.
