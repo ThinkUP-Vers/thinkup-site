@@ -63,6 +63,32 @@ grep -L nav-burger *.html editorial/scheduled-blog/*.html | grep -v '^google[0-9
 grep -o 'style-v2\.css?v=[0-9]*' *.html editorial/scheduled-blog/*.html | grep -v 'v=4'
 ```
 
+## Graphify : les pourcentages s'affichent en anneau, pas en SVG écrit à la main
+
+`graphify.js` + `graphify.css` (racine, chargés en `?v=1`) : plugin maison, zéro dépendance, qui
+anime un anneau SVG quand il entre dans l'écran. Pour tout visuel de pourcentage, l'utiliser — ne
+pas écrire de SVG à la main, ne pas ajouter Chart.js ni une autre bibliothèque.
+
+```html
+<div data-graphify="ring" data-value="40" data-display="−40 %" data-color="pink">−40 %</div>
+```
+
+`data-value` 0–100, `data-display` libre, `data-color` `pink|purple|cyan|grad`, `data-size` (88),
+`data-stroke` (7).
+
+Trois règles, chacune payée une fois :
+
+- **Pourcentages uniquement.** Pas de durée (`1,5 j/sem`), pas de montant (`0 €`), pas de compte.
+  Un anneau sur autre chose qu'une part de 100 ne veut rien dire.
+- **Remapper les couleurs.** Le plugin code en dur un violet et un rose qui jurent avec la palette
+  ocre du site, en thème clair comme en sombre. Le bloc `<style>` en ligne d'`index.html` les rebranche
+  sur les jetons du site (`--pink`/`--purple` → `--ember`, `--cyan` → `--accent`, `--text` → `--ink`,
+  piste → `--rule`) : recopier ces trois lignes dans toute autre page qui ajoute un anneau.
+- **Garder le texte dans le `<div>`.** Le plugin remplace le contenu ; s'il ne s'exécute pas, la
+  valeur reste lisible.
+
+Une seule page l'utilise à ce jour : l'accueil, les deux `−40 %` du bloc Références (05/11/2026).
+
 ## Méta-agent : usage restreint
 
 Le skill `meta-agent` (orchestration de plusieurs agents et challenge croisé
