@@ -1,0 +1,61 @@
+.graphify-ring {
+  --graphify-size: 88px;
+  --graphify-stroke: 7px;
+  display: inline-grid;
+  place-items: center;
+  width: var(--graphify-size);
+  height: var(--graphify-size);
+  position: relative;
+}
+
+.graphify-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.graphify-ring-track,
+.graphify-ring-value {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.graphify-ring-track {
+  stroke: rgba(136, 130, 168, .2);
+}
+
+.graphify-ring-value {
+  stroke: var(--purple, #7B46E8);
+  transition: stroke-dashoffset 950ms cubic-bezier(.25, .46, .45, .94);
+}
+
+.graphify-ring[data-color="pink"] .graphify-ring-value {
+  stroke: var(--pink, #D020CC);
+}
+
+.graphify-ring[data-color="cyan"] .graphify-ring-value {
+  stroke: var(--cyan, #0096B8);
+}
+
+.graphify-ring-label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--ff-d, Georgia, serif);
+  font-size: calc(var(--graphify-size) * .22);
+  font-weight: 600;
+  color: var(--text, #18143A);
+  line-height: 1;
+  text-align: center;
+}
+
+.graphify-ring-label small {
+  display: block;
+  margin-top: .15rem;
+  font-family: var(--ff-m, monospace);
+  font-size: .55em;
+  font-weight: 400;
+  color: var(--text-mu, #8882A8);
+}
