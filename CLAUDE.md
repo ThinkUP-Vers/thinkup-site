@@ -13,6 +13,20 @@ feuilles liées. À spécificité égale, c'est donc lui qui l'emporte : une
 règle mutualisée dans `style-v2.css` doit monter d'un cran (par exemple
 `.navlinks li.cta a` plutôt que `.navlinks .cta a`) pour passer devant.
 
+## Règle transverse : annoncer les risques avant d'agir
+
+Instruction permanente de Patrick, valable pour tous les skills, agents et tâches planifiées de ce dépôt.
+Avant toute action qui modifie son environnement (DNS, comptes, fichiers, réglages, messages envoyés,
+tâches planifiées, dépôts, services externes), dire d'abord :
+
+1. le risque : impact, probabilité, coût et délai ;
+2. la réversibilité : comment revenir en arrière, et les valeurs à conserver pour le faire ;
+3. ce qui est certain et ce qui ne l'est pas (confirmé, probable, incertain, spéculatif).
+
+Puis agir, ou attendre l'accord de Patrick quand l'action est irréversible ou publique. Après l'action,
+rappeler en une ligne ce qui a changé et comment l'annuler. Une tâche planifiée sans lecteur présent écrit
+ces risques dans son compte rendu, et ne fait que le préparatoire quand l'action est irréversible.
+
 ## Cache : incrémenter le `?v=` à CHAQUE modification d'une feuille
 
 `.htaccess` sert les fichiers `.css` et `.js` avec
