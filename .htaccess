@@ -49,6 +49,13 @@ RewriteRule ^article-9\.html$ https://think-up.fr/liberer-cinq-heures-par-semain
 RewriteRule ^article-10\.html$ https://think-up.fr/preparer-ses-donnees-ia.html [L,R=301]
 RewriteRule ^article-11\.html$ https://think-up.fr/ai-act-rgpd-checklist-pme.html [L,R=301]
 
+# 2f. Ancien chemin en sous-dossier /thinkup-site/ (URL fantomes relevees en Search Console le 09/11/2026)
+RewriteRule ^thinkup-site/?$ https://think-up.fr/ [L,R=301]
+RewriteRule ^thinkup-site/index\.html$ https://think-up.fr/ [L,R=301]
+RewriteRule ^thinkup-site/a-propos\.html$ https://think-up.fr/patrick.html [L,R=301]
+RewriteRule ^thinkup-site/cas-clients\.html$ https://think-up.fr/resultats.html [L,R=301]
+RewriteRule ^thinkup-site/(.*)$ https://think-up.fr/$1 [L,R=301]
+
 # 3. Page 404 personnalisee
 ErrorDocument 404 /404.html
 
