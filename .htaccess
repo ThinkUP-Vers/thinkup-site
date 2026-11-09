@@ -102,8 +102,13 @@ RewriteRule ^([^\.]+)$ $1.html [L]
 
 # 8. Proteger les fichiers et dossiers sensibles
 RewriteRule (^|/)\.git(/|$) - [F,L]
-RewriteRule ^editorial-content/ - [F,L]
-RewriteRule ^scheduled-blog/ - [F,L]
+# editorial-content/ et scheduled-blog/ ont ete deplaces dans editorial/ le
+# 05/11/2026 : les deux anciennes regles, ancrees sur le chemin racine, ne
+# correspondaient donc plus a rien. Un seul verrou sur le dossier parent les
+# remplace. Rien sous editorial/ n a vocation a etre servi : les brouillons
+# d articles y attendent leur date et la publication se fait depuis le depot
+# via GitHub Actions, jamais par un appel HTTP au serveur.
+RewriteRule ^editorial/ - [F,L]
 <Files "publish-blog.php">
   Require all denied
 </Files>
