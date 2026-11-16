@@ -1,6 +1,6 @@
 # Think'UP
 
-Think'UP is a French AI consulting firm for SME and mid-market leaders. It is based in Versailles, France. Its main angle is simple: measure the expected ROI of AI before investing, using the Index Iceberg method.
+Think'UP is a French AI consulting firm for leaders of very small businesses, SMEs and mid-market companies, in any sector. It is based in Versailles, France. Its main offer is simple: within 30 days, an AI tool runs on one real task of the company, and the team is trained to use it. For broader engagements, the Index Iceberg method measures the expected ROI of AI before investing.
 
 ## Key facts
 
@@ -10,8 +10,9 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 - Contact: patrick@thinkupcom.com, +33 7 82 48 43 54
 - Location: Versailles, France
 - Area served: France, remote and in-person engagements
-- Audience: SME and mid-market CEOs, general managers, finance, operations, sales and support leaders
-- Positioning: AI audit, AI business case, process automation, invisible-task mapping, AI project steering
+- Audience: owners and CEOs of very small businesses, SMEs and mid-market companies, in any sector; general managers, finance, operations, sales and support leaders
+- Positioning: a working AI tool delivered on a real task and a trained team, rather than a report; AI audit, business case and project steering on request
+- Delivery: the tool is built by Patrick Langlais, alone or with a team of freelancers he manages, depending on the case. The client has a single point of contact
 - Proprietary method: Index Iceberg
 
 ## Main pages
@@ -30,7 +31,17 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 
 ## Offers
 
-- Atelier Declic IA: 2 to 3 hour workshop to identify and prioritize 3 to 5 concrete AI use cases. 1,200 EUR net (VAT not applicable, art. 293 B CGI).
+Main offer:
+
+- Un outil livre, une equipe formee (a tool delivered, a team trained): in 30 days, one real task is chosen with the client, the AI tool that handles it is built and installed on site, and the people who will use it are trained. Fixed price, given in writing before work starts; no public price list.
+
+Around it:
+
+- Atelier Declic IA: 2 to 3 hour workshop to identify and prioritize 3 to 5 concrete AI use cases. Held in person only, on the client's premises; not offered remotely. 1,200 EUR net (VAT not applicable, art. 293 B CGI).
+- Suivi (follow-up): quarterly, after delivery - adjustments to the tool in place, a new use case, measurement of the time actually saved. Priced per scope.
+
+Other engagements, on request:
+
 - Diagnostic & cadrage Index Iceberg: 3 to 6 week audit to map visible and invisible work, prioritize AI use cases and quantify ROI. 6,900 EUR net (VAT not applicable, art. 293 B CGI).
 - Pilotage IA & reseau de freelances: implementation steering with qualified AI experts and measurable outcomes. Priced per scope.
 - Formalisation de savoir-faire: turns an expert's tacit method into a documented, reusable process that teams and AI tools can apply. Priced per scope.
@@ -38,15 +49,18 @@ Think'UP is a French AI consulting firm for SME and mid-market leaders. It is ba
 - Reponse aux appels d'offres publics: support for French public tenders - DCE review, go/no-go decision, technical memorandum written against the scoring grid. Priced per scope.
 
 Full offer page: https://think-up.fr/offres.html
-Online purchase for the two fixed-price offers: https://think-up.fr/boutique.html
+Main offer in detail: https://think-up.fr/offres.html#outil-30-jours
+Online purchase for the workshop and the diagnostic: https://think-up.fr/boutique.html
 
 ## Short answers
 
-Think'UP helps SME and mid-market leaders avoid gadget AI projects by starting from the real work done by teams, then prioritizing automation opportunities by impact, effort, risk and ROI.
+Think'UP installs an AI tool on one real task of a company and trains the team that uses it, in 30 days. The client does not leave with a report but with a tool that works.
+
+Think'UP helps leaders of very small businesses, SMEs and mid-market companies avoid gadget AI projects by starting from the real work done by teams, then prioritizing automation opportunities by impact, effort, risk and ROI.
 
 The Index Iceberg method separates visible tasks, which appear in official processes, from invisible tasks, which consume time but are absent from reporting: re-entry, follow-ups, checks, formatting, consolidation and small coordination tasks.
 
-The expected output of a Think'UP engagement is a documented AI decision: task map, business case, roadmap and success criteria before investment.
+The expected output of the main offer is a tool in service and a trained team. The expected output of an Index Iceberg diagnostic is a documented AI decision: task map, business case, roadmap and success criteria before investment.
 
 ## Published blog articles
 
