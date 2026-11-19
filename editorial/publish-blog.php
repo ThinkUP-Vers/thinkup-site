@@ -110,7 +110,7 @@ function render_upcoming(array $articles): string {
 function render_llms(array $articles): string {
     $lines = [];
     foreach ($articles as $article) {
-        $lines[] = '- ' . $article['title'] . ': https://think-up.fr/' . $article['slug'] . '.html';
+        $lines[] = '- [' . $article['title'] . '](https://think-up.fr/' . $article['slug'] . '.html)';
     }
     return implode("\n", $lines);
 }

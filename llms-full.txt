@@ -1,5 +1,7 @@
 # Think'UP - full context file for answer engines
 
+> French AI consulting for leaders of very small businesses, SMEs and mid-market companies, based in Versailles: in 30 days, one AI tool runs on a real task of the company and the team is trained to use it.
+
 ## Description
 
 Think'UP is an AI consulting firm for French very small businesses, SMEs and mid-market companies, in any sector. It helps business leaders turn artificial intelligence into measurable operational gains instead of isolated experiments. The firm is based in Versailles, France.
@@ -67,27 +69,27 @@ Public corroboration: https://www.linkedin.com/posts/raphaelmansuy_incredibly-ho
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
-- Budget IA 2027 : construire une enveloppe défendable: https://think-up.fr/budget-ia-2027.html
-- L'IA transforme les métiers : le plan manager: https://think-up.fr/ia-transforme-les-metiers-plan-manager.html
-- Quels processus automatiser en premier ?: https://think-up.fr/quels-processus-automatiser.html
-- ROI IA : le tableau de bord des 90 premiers jours: https://think-up.fr/tableau-de-bord-roi-ia-90-jours.html
-- Newsletter IA de septembre 2026 : le retour de bâton: https://think-up.fr/newsletter-2026-09.html
-- AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/ai-act-rgpd-checklist-pme.html
-- Données privées : que préparer avant de connecter une IA ?: https://think-up.fr/preparer-ses-donnees-ia.html
-- Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html
-- Validation humaine et IA : où placer le contrôle ?: https://think-up.fr/validation-humaine-ia.html
-- Comment choisir votre premier cas d'usage IA ?: https://think-up.fr/premier-cas-usage-ia.html
-- S'abonner à ChatGPT n'est pas une stratégie IA: https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html
-- IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas: https://think-up.fr/ia-pme-ce-qui-marche.html
-- Comment choisir son consultant IA ? Les 5 questions à poser: https://think-up.fr/choisir-consultant-ia.html
-- Tâches invisibles : ce que votre entreprise ne voit pas: https://think-up.fr/taches-invisibles-cout-pme.html
-- Comment calculer le ROI de l'IA avant d'investir: https://think-up.fr/calculer-roi-ia.html
-- 7 erreurs qui font échouer les projets IA en PME: https://think-up.fr/erreurs-projets-ia-pme.html
+- [Budget IA 2027 : construire une enveloppe défendable](https://think-up.fr/budget-ia-2027.html)
+- [L'IA transforme les métiers : le plan manager](https://think-up.fr/ia-transforme-les-metiers-plan-manager.html)
+- [Quels processus automatiser en premier ?](https://think-up.fr/quels-processus-automatiser.html)
+- [ROI IA : le tableau de bord des 90 premiers jours](https://think-up.fr/tableau-de-bord-roi-ia-90-jours.html)
+- [Newsletter IA de septembre 2026 : le retour de bâton](https://think-up.fr/newsletter-2026-09.html)
+- [AI Act et RGPD : la checklist utile pour une PME](https://think-up.fr/ai-act-rgpd-checklist-pme.html)
+- [Données privées : que préparer avant de connecter une IA ?](https://think-up.fr/preparer-ses-donnees-ia.html)
+- [Comment libérer cinq heures par semaine avec l'IA ?](https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html)
+- [Validation humaine et IA : où placer le contrôle ?](https://think-up.fr/validation-humaine-ia.html)
+- [Comment choisir votre premier cas d'usage IA ?](https://think-up.fr/premier-cas-usage-ia.html)
+- [S'abonner à ChatGPT n'est pas une stratégie IA](https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html)
+- [IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas](https://think-up.fr/ia-pme-ce-qui-marche.html)
+- [Comment choisir son consultant IA ? Les 5 questions à poser](https://think-up.fr/choisir-consultant-ia.html)
+- [Tâches invisibles : ce que votre entreprise ne voit pas](https://think-up.fr/taches-invisibles-cout-pme.html)
+- [Comment calculer le ROI de l'IA avant d'investir](https://think-up.fr/calculer-roi-ia.html)
+- [7 erreurs qui font échouer les projets IA en PME](https://think-up.fr/erreurs-projets-ia-pme.html)
 <!-- PUBLISHED_ARTICLES_END -->
 
 ## Reference pages
 
-- Method: https://think-up.fr/methode.html
-- Offers: https://think-up.fr/offres.html
-- Results: https://think-up.fr/resultats.html
-- Contact: https://think-up.fr/contact.html
+- [Method](https://think-up.fr/methode.html)
+- [Offers](https://think-up.fr/offres.html)
+- [Results](https://think-up.fr/resultats.html)
+- [Contact](https://think-up.fr/contact.html)

@@ -1,5 +1,7 @@
 # Think'UP
 
+> French AI consulting for leaders of very small businesses, SMEs and mid-market companies, based in Versailles: in 30 days, one AI tool runs on a real task of the company and the team is trained to use it.
+
 Think'UP is a French AI consulting firm for leaders of very small businesses, SMEs and mid-market companies, in any sector. It is based in Versailles, France. Its main offer is simple: within 30 days, an AI tool runs on one real task of the company, and the team is trained to use it. For broader engagements, the Index Iceberg method measures the expected ROI of AI before investing.
 
 ## Key facts
@@ -17,17 +19,17 @@ Think'UP is a French AI consulting firm for leaders of very small businesses, SM
 
 ## Main pages
 
-- Home: https://think-up.fr/
-- Method: https://think-up.fr/methode.html
-- Consultant IA à Versailles, missions dans toute la France: https://think-up.fr/consultant-ia-versailles.html
-- Offers: https://think-up.fr/offres.html
-- Results: https://think-up.fr/resultats.html
-- Patrick Langlais: https://think-up.fr/patrick.html
-- FAQ: https://think-up.fr/faq.html
-- Contact: https://think-up.fr/contact.html
-- Blog: https://think-up.fr/blog.html
-- EU AI Act diagnostic (free self-assessment tool, answers stay in the browser): https://think-up.fr/ai-act.html
-- GDPR diagnostic (free self-assessment tool, builds an Article 30 record): https://think-up.fr/rgpd.html
+- [Home](https://think-up.fr/)
+- [Method](https://think-up.fr/methode.html)
+- [Consultant IA à Versailles, missions dans toute la France](https://think-up.fr/consultant-ia-versailles.html)
+- [Offers](https://think-up.fr/offres.html)
+- [Results](https://think-up.fr/resultats.html)
+- [Patrick Langlais](https://think-up.fr/patrick.html)
+- [FAQ](https://think-up.fr/faq.html)
+- [Contact](https://think-up.fr/contact.html)
+- [Blog](https://think-up.fr/blog.html)
+- [EU AI Act diagnostic (free self-assessment tool, answers stay in the browser)](https://think-up.fr/ai-act.html)
+- [GDPR diagnostic (free self-assessment tool, builds an Article 30 record)](https://think-up.fr/rgpd.html)
 
 ## Offers
 
@@ -65,24 +67,24 @@ The expected output of the main offer is a tool in service and a trained team. T
 ## Published blog articles
 
 <!-- PUBLISHED_ARTICLES_START -->
-- Budget IA 2027 : construire une enveloppe défendable: https://think-up.fr/budget-ia-2027.html
-- L'IA transforme les métiers : le plan manager: https://think-up.fr/ia-transforme-les-metiers-plan-manager.html
-- Quels processus automatiser en premier ?: https://think-up.fr/quels-processus-automatiser.html
-- ROI IA : le tableau de bord des 90 premiers jours: https://think-up.fr/tableau-de-bord-roi-ia-90-jours.html
-- Newsletter IA de septembre 2026 : le retour de bâton: https://think-up.fr/newsletter-2026-09.html
-- AI Act et RGPD : la checklist utile pour une PME: https://think-up.fr/ai-act-rgpd-checklist-pme.html
-- Données privées : que préparer avant de connecter une IA ?: https://think-up.fr/preparer-ses-donnees-ia.html
-- Comment libérer cinq heures par semaine avec l'IA ?: https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html
-- Validation humaine et IA : où placer le contrôle ?: https://think-up.fr/validation-humaine-ia.html
-- Comment choisir votre premier cas d'usage IA ?: https://think-up.fr/premier-cas-usage-ia.html
-- S'abonner à ChatGPT n'est pas une stratégie IA: https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html
-- IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas: https://think-up.fr/ia-pme-ce-qui-marche.html
-- Comment choisir son consultant IA ? Les 5 questions à poser: https://think-up.fr/choisir-consultant-ia.html
-- Tâches invisibles : ce que votre entreprise ne voit pas: https://think-up.fr/taches-invisibles-cout-pme.html
-- Comment calculer le ROI de l'IA avant d'investir: https://think-up.fr/calculer-roi-ia.html
-- 7 erreurs qui font échouer les projets IA en PME: https://think-up.fr/erreurs-projets-ia-pme.html
+- [Budget IA 2027 : construire une enveloppe défendable](https://think-up.fr/budget-ia-2027.html)
+- [L'IA transforme les métiers : le plan manager](https://think-up.fr/ia-transforme-les-metiers-plan-manager.html)
+- [Quels processus automatiser en premier ?](https://think-up.fr/quels-processus-automatiser.html)
+- [ROI IA : le tableau de bord des 90 premiers jours](https://think-up.fr/tableau-de-bord-roi-ia-90-jours.html)
+- [Newsletter IA de septembre 2026 : le retour de bâton](https://think-up.fr/newsletter-2026-09.html)
+- [AI Act et RGPD : la checklist utile pour une PME](https://think-up.fr/ai-act-rgpd-checklist-pme.html)
+- [Données privées : que préparer avant de connecter une IA ?](https://think-up.fr/preparer-ses-donnees-ia.html)
+- [Comment libérer cinq heures par semaine avec l'IA ?](https://think-up.fr/liberer-cinq-heures-par-semaine-ia.html)
+- [Validation humaine et IA : où placer le contrôle ?](https://think-up.fr/validation-humaine-ia.html)
+- [Comment choisir votre premier cas d'usage IA ?](https://think-up.fr/premier-cas-usage-ia.html)
+- [S'abonner à ChatGPT n'est pas une stratégie IA](https://think-up.fr/chatgpt-nest-pas-une-strategie-ia.html)
+- [IA pour PME en 2025 : ce qui marche vraiment, ce qui ne marche pas](https://think-up.fr/ia-pme-ce-qui-marche.html)
+- [Comment choisir son consultant IA ? Les 5 questions à poser](https://think-up.fr/choisir-consultant-ia.html)
+- [Tâches invisibles : ce que votre entreprise ne voit pas](https://think-up.fr/taches-invisibles-cout-pme.html)
+- [Comment calculer le ROI de l'IA avant d'investir](https://think-up.fr/calculer-roi-ia.html)
+- [7 erreurs qui font échouer les projets IA en PME](https://think-up.fr/erreurs-projets-ia-pme.html)
 <!-- PUBLISHED_ARTICLES_END -->
 
 ## Full version
 
-- https://think-up.fr/llms-full.txt
+- [Full version](https://think-up.fr/llms-full.txt)
