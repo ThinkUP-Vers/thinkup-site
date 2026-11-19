@@ -1,0 +1,111 @@
+/* Mouvement — Think'UP.
+   Zéro dépendance. N'anime que `transform` et `opacity` (rien qui force un
+   recalcul de mise en page). Tout est sous les jetons de la charte : les
+   couleurs suivent donc le thème clair comme le thème sombre.
+
+   Principe de sécurité : le CSS ne cache jamais rien tout seul. Les éléments
+   à révéler au défilement reçoivent `data-mo` par motion.js, et seulement
+   s'ils sont encore sous la ligne de flottaison. Si le script ne s'exécute
+   pas, la page s'affiche entière et lisible. */
+
+html { scroll-padding-top: 84px }
+main [id] { scroll-margin-top: 84px }
+
+/* ── Passage d'une page à l'autre ─────────────────────────────────────────
+   Fondu natif entre deux pages du site (Chrome, Edge, Safari récents). Les
+   autres navigateurs ignorent la règle. Il faut que les DEUX pages la
+   chargent pour que l'effet joue : il sera donc visible une fois motion.css
+   déployé sur toutes les pages. */
+@view-transition { navigation: auto }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.22s }
+
+/* ── En-tête et barre de progression ─────────────────────────────────────── */
+header.site { transition: box-shadow 0.25s ease }
+header.site.is-scrolled { box-shadow: 0 10px 26px -20px var(--shadow) }
+.mo-progress { position: fixed; top: 0; left: 0; width: 100%; height: 2px; z-index: 30;
+  background: var(--ember); transform: scaleX(0); transform-origin: 0 50%; pointer-events: none }
+
+/* Soulignement qui se dessine au survol des liens du menu. */
+.nav-more-list > li:not(.cta-alt) > a {
+  background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 2px no-repeat;
+  transition: color 0.15s ease, background-size 0.28s cubic-bezier(.2,.7,.2,1) }
+.nav-more-list > li:not(.cta-alt) > a:hover { background-size: 100% 2px }
+
+/* ── Entrée de l'accueil (CSS seul, aucun script) ─────────────────────────
+   Le titre ne change pas d'opacité : il reste le plus gros élément peint et
+   ne retarde donc pas l'affichage mesuré par les moteurs de recherche. */
+@keyframes mo-rise { from { opacity: 0; transform: translateY(34px) } to { opacity: 1; transform: none } }
+@keyframes mo-slide { from { transform: translateY(28px) } to { transform: none } }
+@keyframes mo-frame { from { transform: translate(-16px, -16px); opacity: 0 } to { transform: none; opacity: 1 } }
+@keyframes mo-drift { from { transform: translate3d(0,0,0) scale(1) } to { transform: translate3d(-7%, 9%, 0) scale(1.14) } }
+
+.hero .eyebrow { animation: mo-rise 0.9s cubic-bezier(.2,.7,.2,1) both }
+.hero h1 { animation: mo-slide 1s cubic-bezier(.2,.7,.2,1) 0.05s both }
+.hero .hero-key, .hero .lede { animation: mo-rise 1s cubic-bezier(.2,.7,.2,1) 0.18s both }
+.hero .lede + .hero-key, .hero .hero-key + .lede { animation-delay: 0.28s }
+.hero .hero-ctas { animation: mo-rise 1s cubic-bezier(.2,.7,.2,1) 0.4s both }
+.hero .hero-note { animation: mo-rise 1s cubic-bezier(.2,.7,.2,1) 0.5s both }
+.portrait-frame { animation: mo-rise 1.1s cubic-bezier(.2,.7,.2,1) 0.15s both }
+.portrait-frame::after { animation: mo-frame 0.9s cubic-bezier(.2,.7,.2,1) 0.45s both }
+
+/* Portrait : balayage d'apparition, puis léger décalage de profondeur au
+   défilement (--py, posé par motion.js). La propriété `translate` s'ajoute à
+   `transform` sans l'écraser. `backwards` et non `both` : une fois fini, le
+   clip-path disparaît et l'ombre de la photo n'est pas rognée. */
+@keyframes mo-wipe { from { clip-path: inset(0 0 100% 0) } to { clip-path: inset(0 0 0 0) } }
+.portrait-frame img { animation: mo-wipe 1.2s cubic-bezier(.2,.7,.2,1) 0.3s backwards; translate: 0 var(--py, 0px) }
+.portrait-frame::after { translate: 0 calc(var(--py, 0px) * -1.5) }
+
+/* Halos lents derrière l'en-tête de page et le bloc « méthode » : la page
+   respire sans rien déplacer du contenu. */
+.hero { position: relative; isolation: isolate; overflow-x: clip }
+.hero::before, .hero::after { content: ""; position: absolute; z-index: -1; border-radius: 50%;
+  pointer-events: none; aspect-ratio: 1 }
+.hero::before { width: min(62vw, 660px); right: -10%; top: -22%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 10%, transparent), transparent);
+  animation: mo-drift 24s ease-in-out infinite alternate }
+.hero::after { width: min(48vw, 520px); left: -12%; bottom: -30%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--ember) 9%, transparent), transparent);
+  animation: mo-drift 30s ease-in-out -8s infinite alternate-reverse }
+.method { position: relative; isolation: isolate; overflow: clip }
+.method::before { content: ""; position: absolute; z-index: -1; width: min(70vw, 720px); aspect-ratio: 1;
+  right: -14%; top: -28%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent-on-deep) 14%, transparent), transparent);
+  animation: mo-drift 28s ease-in-out infinite alternate }
+
+/* ── Apparition au défilement ─────────────────────────────────────────────
+   motion.js retire `data-mo` une fois l'élément révélé, pour rendre la main
+   aux transitions de survol ci-dessous. */
+[data-mo] { opacity: 0; transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1);
+  transition-delay: var(--mo-d, 0ms) }
+[data-mo].is-in { opacity: 1; transform: none }
+
+/* ── Survols ───────────────────────────────────────────────────────────────
+   Réservés aux appareils avec pointeur : au doigt, un survol « collerait ». */
+.btn { transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.2s ease, box-shadow 0.2s ease }
+.offer, .ref, .pullquote { transition: transform 0.28s cubic-bezier(.2,.7,.2,1), box-shadow 0.28s ease, border-color 0.28s ease }
+.obs-list .bullet { transition: background 0.25s ease, transform 0.25s ease }
+@media (hover: hover) {
+  .btn:hover { transform: translateY(-2px) }
+  .btn-primary:hover { box-shadow: 0 10px 22px -12px var(--accent) }
+  .offer:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 20px 36px -24px var(--shadow) }
+  .pullquote:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -22px var(--shadow) }
+  .obs-list li:hover .bullet { background: var(--ember); transform: scale(1.25) }
+}
+
+/* Les réponses de la FAQ se déploient en douceur. */
+.faq details[open] .answer { animation: mo-rise 0.35s cubic-bezier(.2,.7,.2,1) both }
+
+/* ── Respect des préférences et impression ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none }
+  .hero *, .portrait-frame, .portrait-frame::after, .portrait-frame img { animation: none !important; translate: none !important }
+  .hero::before, .hero::after, .method::before { animation: none }
+  [data-mo] { opacity: 1 !important; transform: none !important; transition: none !important }
+  .mo-progress { display: none }
+}
+@media print {
+  [data-mo] { opacity: 1 !important; transform: none !important }
+  .hero::before, .hero::after, .method::before, .mo-progress { display: none }
+}
