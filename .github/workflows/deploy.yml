@@ -112,6 +112,16 @@ jobs:
           printf '%s\n%s\n' "$GITHUB_SHA" "$(date -u +'%Y-%m-%dT%H:%M:%SZ')" > version.txt
           echo "version.txt -> $GITHUB_SHA"
 
+      # Version Markdown de chaque page, pour les agents et les moteurs de
+      # réponse qui demandent `Accept: text/markdown` (voir .htaccess § 9).
+      # Générées ici et jamais versionnées : elles sont donc toujours tirées du
+      # HTML réellement déployé et ne peuvent pas en dériver — c'est la panne
+      # qu'ont connue deux fois les gabarits du blog et le bloc de llms.txt.
+      # Le script échoue si une page produit un fichier quasi vide, ce qui
+      # interrompt le déploiement plutôt que de mettre en ligne des pages creuses.
+      - name: Générer les versions Markdown des pages
+        run: python3 -I editorial/generer-markdown.py
+
       - name: Déployer sur Hostinger (tentative 1)
         id: ftp1
         continue-on-error: true

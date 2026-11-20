@@ -1,42 +1,76 @@
 # robots.txt Think'UP
-User-agent: *
-Allow: /
+#
+# ── Signaux de contenu (Content Signals) ────────────────────────────────────
+# La ligne « Content-Signal » declare a quoi les robots ont le droit d'employer
+# le contenu du site. Trois usages, chacun a « yes » ou « no » :
+#   search    indexation et resultats de recherche (liens et courts extraits) ;
+#             n'inclut pas les resumes generes par IA.
+#   ai-input  contenu verse a un modele au moment de repondre : RAG, ancrage,
+#             reponses generatives des moteurs de recherche.
+#   ai-train  entrainement ou reglage fin de modeles.
+#
+# Les trois sont a « yes » sur l'ensemble du site : Think'UP cherche a etre cite
+# dans les reponses des IA, pas a s'en proteger. Aucun droit n'est donc reserve
+# au titre de l'article 4 de la directive (UE) 2019/790. Pour reserver un usage,
+# passer le signal correspondant a « no ».
+#
+# Un signal absent ne vaut ni autorisation ni interdiction. Un robot ne lisant
+# que le groupe le plus specifique qui le concerne, la ligne est repetee dans
+# chaque groupe : placee dans le seul « User-agent: * », elle serait invisible
+# pour GPTBot, ClaudeBot et les autres robots nommes ci-dessous.
+#
+# Ces lignes expriment une preference. Elles n'empechent techniquement personne
+# de passer outre. Reference : https://contentsignals.org/
+#
+# Contexte pour les agents et les moteurs de reponse : https://think-up.fr/llms.txt
+# Chaque page existe aussi en Markdown : meme adresse en .md, ou en demandant
+# l'en-tete « Accept: text/markdown ».
 
-# Google verification file: not useful for search results
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+# Fichier de verification Google : aucun interet dans les resultats de recherche
 Disallow: /google217a303d00dc6ffb.html
 
-# Explicitly allow AI and answer-engine crawlers
+# Robots d'IA et de moteurs de reponse, autorises explicitement
 User-agent: GPTBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: OAI-SearchBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: ChatGPT-User
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: PerplexityBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Perplexity-User
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: ClaudeBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Claude-SearchBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Google-Extended
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: Applebot-Extended
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 User-agent: CCBot
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://think-up.fr/sitemap.xml
-
-# Context file for answer engines and AI agents
-# https://think-up.fr/llms.txt

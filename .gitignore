@@ -22,3 +22,11 @@ voyages/
 
 # Anciennes listes de prospects (noms de dirigeants, dépôt PUBLIC, ne jamais versionner)
 prospection/
+
+# Versions Markdown des pages (offres.md, faq.md…) : generees par
+# editorial/generer-markdown.py pendant le deploiement, jamais versionnees.
+# Non versionnees = jamais desynchronisees du HTML qu'elles traduisent.
+/*.md
+!/CLAUDE.md
+!/DEPLOIEMENT-BOUTIQUE.md
+!/MENTIONS-TIERCES-GEO.md

@@ -5,7 +5,12 @@ RewriteEngine On
 
 # Charset UTF-8
 AddDefaultCharset UTF-8
-AddCharset UTF-8 .html .css .js .xml .txt
+AddCharset UTF-8 .html .css .js .xml .txt .md
+
+# Type des versions Markdown des pages (generees au deploiement par
+# editorial/generer-markdown.py). Sans cette ligne, Apache les servirait en
+# application/octet-stream, donc en telechargement.
+AddType text/markdown .md
 
 # 1. Forcer le non-www (canonique = https://think-up.fr), en http comme en https.
 # Placé AVANT la règle HTTPS : http://www passe ainsi par une seule redirection
@@ -112,6 +117,14 @@ RewriteRule ^editorial/ - [F,L]
 <Files "publish-blog.php">
   Require all denied
 </Files>
-<FilesMatch "\.(htaccess|md|json|gitignore)$">
+<FilesMatch "\.(htaccess|json|gitignore)$">
+  Require all denied
+</FilesMatch>
+
+# Les .md etaient tous bloques ici. Depuis le 20/11/2026, chaque page du site
+# a une version Markdown (offres.md, faq.md…) generee au deploiement et servie
+# aux agents : le verrou ne porte donc plus que sur la documentation interne du
+# depot, qui est de surcroit deja exclue du transfert FTP.
+<FilesMatch "^(CLAUDE|DEPLOIEMENT-BOUTIQUE|MENTIONS-TIERCES-GEO)\.md$">
   Require all denied
 </FilesMatch>
