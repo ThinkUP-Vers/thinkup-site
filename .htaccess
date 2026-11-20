@@ -86,18 +86,27 @@ RewriteRule ^([^/.]+)$ $1.md [L]
 # La page HTML annonce elle-meme sa version Markdown dans un en-tete Link
 # (RFC 8288, rel="alternate"). MD_SLUG est pose par mod_rewrite sans reecrire
 # l'URL — substitution « - » — puis relu par mod_headers juste apres.
+# « ^(index\.html)?$ » couvre d'un coup la racine et sa page d'index : pour une
+# requete sur /, Apache sert index.html par une sous-requete, et c'est selon le
+# cas l'une ou l'autre qui porte les en-tetes de la reponse.
 RewriteCond %{DOCUMENT_ROOT}/index.md -f
-RewriteRule ^$ - [E=MD_SLUG:index]
+RewriteRule ^(index\.html)?$ - [E=MD_SLUG:index]
 
 RewriteCond %{DOCUMENT_ROOT}/$1.md -f
 RewriteRule ^([^/.]+)\.html$ - [E=MD_SLUG:$1]
 
 <IfModule mod_headers.c>
-  Header set Link "<https://think-up.fr/%{MD_SLUG}e.md>; rel=\"alternate\"; type=\"text/markdown\"" env=MD_SLUG
+  # Valeur entre apostrophes, pas entre guillemets avec des \" a l'interieur :
+  # constate en ligne le 20/11/2026, l'Apache de Hostinger ne deshabille pas
+  # les \" et servait « rel=\"alternate\" », que la RFC 8288 rejette.
+  Header set Link '<https://think-up.fr/%{MD_SLUG}e.md>; rel="alternate"; type="text/markdown"' env=MD_SLUG
 
-  # La reponse depend de l'en-tete Accept. Sans Vary, un cache ou un
+  # La reponse depend desormais de l'en-tete Accept. Sans Vary, un cache ou un
   # intermediaire pourrait servir le Markdown a un navigateur, ou l'inverse.
-  <FilesMatch "\.(html|md)$">
+  # Conditionne au meme MD_SLUG que Link, pour que les deux aillent toujours
+  # ensemble — un <FilesMatch> sur .html laissait la racine sans Vary.
+  Header append Vary Accept env=MD_SLUG
+  <FilesMatch "\.md$">
     Header append Vary Accept
   </FilesMatch>
 </IfModule>
