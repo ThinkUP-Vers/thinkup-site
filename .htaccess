@@ -64,6 +64,44 @@ RewriteRule ^thinkup-site/(.*)$ https://think-up.fr/$1 [L,R=301]
 # 3. Page 404 personnalisee
 ErrorDocument 404 /404.html
 
+# 3b. Version Markdown des pages, pour les agents et les moteurs de reponse.
+# Chaque page a un .md genere au deploiement (editorial/generer-markdown.py) :
+# le contenu de <main>, sans navigation, scripts ni habillage. Deux facons de
+# l'obtenir : l'adresse en .md, ou la meme adresse avec « Accept: text/markdown ».
+#
+# Ces regles passent AVANT la regle 4 : sinon /offres serait reecrit en
+# /offres.html avant que la negociation ait pu jouer.
+RewriteCond %{HTTP_ACCEPT} text/markdown
+RewriteCond %{DOCUMENT_ROOT}/index.md -f
+RewriteRule ^$ index.md [L]
+
+RewriteCond %{HTTP_ACCEPT} text/markdown
+RewriteCond %{DOCUMENT_ROOT}/$1.md -f
+RewriteRule ^([^/.]+)\.html$ $1.md [L]
+
+RewriteCond %{HTTP_ACCEPT} text/markdown
+RewriteCond %{DOCUMENT_ROOT}/$1.md -f
+RewriteRule ^([^/.]+)$ $1.md [L]
+
+# La page HTML annonce elle-meme sa version Markdown dans un en-tete Link
+# (RFC 8288, rel="alternate"). MD_SLUG est pose par mod_rewrite sans reecrire
+# l'URL — substitution « - » — puis relu par mod_headers juste apres.
+RewriteCond %{DOCUMENT_ROOT}/index.md -f
+RewriteRule ^$ - [E=MD_SLUG:index]
+
+RewriteCond %{DOCUMENT_ROOT}/$1.md -f
+RewriteRule ^([^/.]+)\.html$ - [E=MD_SLUG:$1]
+
+<IfModule mod_headers.c>
+  Header set Link "<https://think-up.fr/%{MD_SLUG}e.md>; rel=\"alternate\"; type=\"text/markdown\"" env=MD_SLUG
+
+  # La reponse depend de l'en-tete Accept. Sans Vary, un cache ou un
+  # intermediaire pourrait servir le Markdown a un navigateur, ou l'inverse.
+  <FilesMatch "\.(html|md)$">
+    Header append Vary Accept
+  </FilesMatch>
+</IfModule>
+
 # 4. Acces sans .html : /offres sert /offres.html
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
