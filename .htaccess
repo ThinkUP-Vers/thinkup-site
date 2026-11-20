@@ -86,9 +86,16 @@ RewriteRule ^([^/.]+)$ $1.md [L]
 # La page HTML annonce elle-meme sa version Markdown dans un en-tete Link
 # (RFC 8288, rel="alternate"). MD_SLUG est pose par mod_rewrite sans reecrire
 # l'URL — substitution « - » — puis relu par mod_headers juste apres.
-# « ^(index\.html)?$ » couvre d'un coup la racine et sa page d'index : pour une
-# requete sur /, Apache sert index.html par une sous-requete, et c'est selon le
-# cas l'une ou l'autre qui porte les en-tetes de la reponse.
+# La racine est servie par une reecriture interne explicite vers index.html.
+# Sans elle, le nom de fichier d'une requete sur / est le repertoire : ni le
+# <FilesMatch> ni la regle d'environnement ci-dessous ne s'y appliquaient, et
+# la page d'accueil repartait sans Link ni Vary alors que la negociation y
+# fonctionne — avec un CDN en frontal, de quoi y mettre en cache le Markdown
+# et le servir a un visiteur. L'URL affichee ne change pas.
+RewriteCond %{HTTP_ACCEPT} !text/markdown
+RewriteCond %{DOCUMENT_ROOT}/index.html -f
+RewriteRule ^$ index.html [L]
+
 RewriteCond %{DOCUMENT_ROOT}/index.md -f
 RewriteRule ^(index\.html)?$ - [E=MD_SLUG:index]
 
@@ -96,10 +103,15 @@ RewriteCond %{DOCUMENT_ROOT}/$1.md -f
 RewriteRule ^([^/.]+)\.html$ - [E=MD_SLUG:$1]
 
 <IfModule mod_headers.c>
-  # Valeur entre apostrophes, pas entre guillemets avec des \" a l'interieur :
-  # constate en ligne le 20/11/2026, l'Apache de Hostinger ne deshabille pas
-  # les \" et servait « rel=\"alternate\" », que la RFC 8288 rejette.
-  Header set Link '<https://think-up.fr/%{MD_SLUG}e.md>; rel="alternate"; type="text/markdown"' env=MD_SLUG
+  # Aucun guillemet dans la valeur : constate en ligne le 20/11/2026, le CDN
+  # de Hostinger (« Server: hcdn ») echappe les guillemets d'une valeur
+  # d'en-tete et servait « rel=\"alternate\" », antislashs compris, que la
+  # RFC 8288 rejette — avec des apostrophes autour comme avec des guillemets.
+  # « alternate » est un jeton valide, qui n'a pas besoin d'etre entoure. Le
+  # parametre « type », lui, l'exigerait (« / » est interdit dans un jeton) :
+  # il est donc retire plutot que servi sous une forme invalide. Le type reel
+  # arrive de toute facon avec le .md : text/markdown; charset=UTF-8.
+  Header set Link '<https://think-up.fr/%{MD_SLUG}e.md>; rel=alternate' env=MD_SLUG
 
   # La reponse depend desormais de l'en-tete Accept. Sans Vary, un cache ou un
   # intermediaire pourrait servir le Markdown a un navigateur, ou l'inverse.
