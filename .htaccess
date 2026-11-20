@@ -117,9 +117,9 @@ RewriteRule ^([^/.]+)\.html$ - [E=MD_SLUG:$1]
   # intermediaire pourrait servir le Markdown a un navigateur, ou l'inverse.
   # Conditionne au meme MD_SLUG que Link, pour que les deux aillent toujours
   # ensemble — un <FilesMatch> sur .html laissait la racine sans Vary.
-  Header append Vary Accept env=MD_SLUG
+  Header merge Vary Accept env=MD_SLUG
   <FilesMatch "\.md$">
-    Header append Vary Accept
+    Header merge Vary Accept
   </FilesMatch>
 </IfModule>
 
