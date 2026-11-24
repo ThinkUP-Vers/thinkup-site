@@ -26,10 +26,10 @@
     },
     {
       "a_compter_du": "2026-11-24",
-      "_source": "Sirene/RNE (API Recherche d'entreprises) et Qonto, 24/11/2026 ; greffe déduit du siège",
+      "_source": "Kbis (donné par Patrick le 16/11/2026), Sirene/RNE, VIES et Qonto, 24/11/2026",
       "denomination": "PL Holding",
       "nom_commercial": "Think'UP",
-      "forme": "SAS",
+      "forme": "SASU",
       "capital": 1000,
       "adresse": "22 rue Victor Hugo, 78000 Versailles",
       "siren": "934 615 196",
