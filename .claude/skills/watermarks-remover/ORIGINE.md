@@ -1,5 +1,5 @@
 Source : https://github.com/guillaumemeyer/watermarks-remover (licence MIT, voir LICENSE)
-Commit : 5c18093 (21/10/2026). Copie des dossiers skills/clean-user-facing-text et skills/remove-ai-marks.
+Commit : 5c18093 (21/10/2026).
 
-- clean-user-facing-text : autonome (scripts Python locaux, sans réseau).
-- remove-ai-marks : client d'un service HTTP local (Docker) absent de cet environnement ; inutilisable tel quel.
+Conservé : scripts/ (Python local, sans réseau) et deux notes de references/ du skill clean-user-facing-text.
+Retiré le 24/11/2026 : le skill remove-ai-marks (efface C2PA et métadonnées de provenance, exige un service Docker absent), la couche de réécriture anti-détection et ses références.
