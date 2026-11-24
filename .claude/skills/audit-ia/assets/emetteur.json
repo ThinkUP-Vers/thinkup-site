@@ -4,7 +4,7 @@
   "telephone": "07 82 48 43 54",
   "site": "https://think-up.fr",
   "cgv_url": "https://think-up.fr/cgv.html",
-  "cgv_version": "20 novembre 2026",
+  "cgv_version": "24 novembre 2026",
   "validite_jours": 30,
   "acompte_pct": 30,
   "delai_paiement_jours": 30,
@@ -21,26 +21,28 @@
       "tva": {
         "regime": "franchise",
         "mention": "TVA non applicable, art. 293 B du CGI"
-      }
+      },
+      "cgv_version": "20 novembre 2026"
     },
     {
-      "a_compter_du": null,
-      "_source": "à compléter depuis le Kbis de la société",
+      "a_compter_du": "2026-11-24",
+      "_source": "Sirene/RNE (API Recherche d'entreprises) et Qonto, 24/11/2026 ; greffe déduit du siège",
       "denomination": "PL Holding",
       "nom_commercial": "Think'UP",
-      "forme": "SASU",
-      "capital": null,
-      "adresse": null,
-      "siren": null,
-      "greffe": null,
-      "tva_intracom": null,
+      "forme": "SAS",
+      "capital": 1000,
+      "adresse": "22 rue Victor Hugo, 78000 Versailles",
+      "siren": "934 615 196",
+      "greffe": "Versailles",
+      "tva_intracom": "FR72 934 615 196",
       "representant": "Patrick Langlais",
       "qualite": "Président",
-      "cgv_version": null,
+      "cgv_version": "24 novembre 2026",
       "tva": {
         "regime": "assujetti",
         "taux": 20
-      }
+      },
+      "siret": "934 615 196 00011"
     }
   ]
 }
